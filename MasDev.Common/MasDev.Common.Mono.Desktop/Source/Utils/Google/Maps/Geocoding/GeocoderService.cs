@@ -65,8 +65,16 @@ namespace MasDev.Common.Utils.GoogleServices.Maps
 				return ServiceResponseStatus.Ok;
 			case "zero_results":
 				return ServiceResponseStatus.ZeroResults;
+			case "invalid_request":
+				return ServiceResponseStatus.InvalidRequest;
+			case "over_query_limit":
+				return ServiceResponseStatus.OverQueryLimit;
+			case "request_denied":
+				return ServiceResponseStatus.RequestDenied;
+			case "unknown":
+				return ServiceResponseStatus.Unknown;
 
-			//TODO
+		
 			default:
 				throw new ArgumentException ("Unrecognized value" + str);
 			}
