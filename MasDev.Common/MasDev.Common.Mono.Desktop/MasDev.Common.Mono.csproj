@@ -34,22 +34,22 @@
     <Reference Include="System.Dynamic" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +76,7 @@
     <Compile Include="Source\Utils\IpLookup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\..\..\PizzApp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzApp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <Folder Include="Source\" />
     <Folder Include="Source\Security\" />
@@ -86,10 +86,10 @@
     <Folder Include="Source\IO\" />
     <Folder Include="Source\Extensions\" />
     <Folder Include="Source\Utils\Google\CloudMessaging\" />
-    <Folder Include="..\MasDev.Common.Desktop\Source\ExtensionMethods\" />
+    <Folder Include="Source\ExtensionMethods\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\MasDev.Common\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Common.Portable</Name>
     </ProjectReference>

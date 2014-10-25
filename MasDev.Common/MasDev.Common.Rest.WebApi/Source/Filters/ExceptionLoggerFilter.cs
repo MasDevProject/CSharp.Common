@@ -9,7 +9,6 @@ using System.Net.Http.Formatting;
 using System;
 using System.Web.Http.Controllers;
 using Newtonsoft.Json;
-using MasDev.Common.Rest.Auth;
 
 
 namespace MasDev.Common.Rest.WebApi

@@ -32,23 +32,23 @@
     <Reference Include="Mono.Posix" />
     <Reference Include="System.Data" />
     <Reference Include="Iesi.Collections">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +71,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\MasDev.Common\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Common.Portable</Name>
     </ProjectReference>
