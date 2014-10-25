@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MasDev.Common.Rest</RootNamespace>
+    <AssemblyName>MasDev.Common.Rest</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Utils\BadRequestException.cs" />
+    <Compile Include="Source\Utils\BaseApiException.cs" />
+    <Compile Include="Source\Utils\ForbiddenException.cs" />
+    <Compile Include="Source\Utils\MultipartContent.cs" />
+    <Compile Include="Source\Utils\NotFoundException.cs" />
+    <Compile Include="Source\Utils\Redirect.cs" />
+    <Compile Include="Source\Utils\UnauthorizedException.cs" />
+    <Compile Include="Source\Auth\ICredentials.cs" />
+    <Compile Include="Source\Auth\IAuthManager.cs" />
+    <Compile Include="Source\Auth\AuthManagerOptions\ITokenSerializer.cs" />
+    <Compile Include="Source\Auth\AuthManagerOptions\ITokenProtector.cs" />
+    <Compile Include="Source\Auth\AuthManagerOptions\ITokenCompressor.cs" />
+    <Compile Include="Source\Auth\AuthManagerOptions\AuthManagerOptions.cs" />
+    <Compile Include="Source\Auth\Token.cs" />
+    <Compile Include="Source\Auth\AuthOptions.cs" />
+    <Compile Include="Source\Module.cs" />
+    <Compile Include="Source\IRepositories.cs" />
+    <Compile Include="Source\RestConfiguration.cs" />
+    <Compile Include="Source\IController.cs" />
+    <Compile Include="Source\IHttpContext.cs" />
+    <Compile Include="Source\Auth\AuthManagerOptions\IExpiration.cs" />
+    <Compile Include="Source\Auth\AuthorizeAttribute.cs" />
+    <Compile Include="Source\Auth\AllowAnonymousAttribute.cs" />
+    <Compile Include="Source\Auth\IAuthorizable.cs" />
+    <Compile Include="Source\Auth\Base\AesTokenProtector.cs" />
+    <Compile Include="Source\Auth\Base\BaseAuthManager.cs" />
+    <Compile Include="Source\Auth\Base\DefaultAuthOptions.cs" />
+    <Compile Include="Source\Auth\Base\GZipTokenCompressor.cs" />
+    <Compile Include="Source\Auth\Base\JSonTokenSerializer.cs" />
+    <Compile Include="Source\Auth\Proxy\AuthorizableProxy.cs" />
+    <Compile Include="Source\Auth\Proxy\MethodCallExtensions.cs" />
+    <Compile Include="Source\Push\PushManager.cs" />
+    <Compile Include="Source\Push\PushContext.cs" />
+    <Compile Include="Source\Push\IPushContextAdapter.cs" />
+    <Compile Include="Source\Push\IPushHttpContext.cs" />
+    <Compile Include="Source\Push\IConnectionManager.cs" />
+    <Compile Include="Source\Utils\Require.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Source\" />
+    <Folder Include="Source\Auth\" />
+    <Folder Include="Source\Auth\AuthManagerOptions\" />
+    <Folder Include="Source\Push\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Common.Mono.csproj">
+      <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
+      <Name>MasDev.Common.Mono</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\common\MasDev.Common\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
+      <Name>MasDev.Common.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

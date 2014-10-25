@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasDev.Common.Data.NHibernate", "MasDev.Common.Data.NHibernate.csproj", "{481798A7-D1A2-4984-83D1-B82F93C91469}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{481798A7-D1A2-4984-83D1-B82F93C91469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481798A7-D1A2-4984-83D1-B82F93C91469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481798A7-D1A2-4984-83D1-B82F93C91469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481798A7-D1A2-4984-83D1-B82F93C91469}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MasDev.Common.Data.NHibernate.csproj
+	EndGlobalSection
+EndGlobal

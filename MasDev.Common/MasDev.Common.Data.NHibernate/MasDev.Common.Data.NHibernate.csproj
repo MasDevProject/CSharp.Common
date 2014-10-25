@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{481798A7-D1A2-4984-83D1-B82F93C91469}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MasDev.Common.Data.NHibernate</RootNamespace>
+    <AssemblyName>MasDev.Common.Data.NHibernate</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="System.Data" />
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\MySql.Data.6.9.3\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\..\..\PizzApp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\ISessionFactoryProvider.cs" />
+    <Compile Include="Source\NHibernateUtils.cs" />
+    <Compile Include="Source\NHibernateBaseRepository.cs" />
+    <Compile Include="Source\Specialized\NHibernateSqlServerSessionFactoryProvider.cs" />
+    <Compile Include="Source\Visitor.cs" />
+    <Compile Include="Source\NHibernateUnitOfWork.cs" />
+    <Compile Include="Source\NHibernatePropertyNameResolver.cs" />
+    <Compile Include="Source\Specialized\NHibernateMySqlSessionFactoryProvider.cs" />
+    <Compile Include="Source\PersistenceMapperAutoMapConfiguration.cs" />
+    <Compile Include="Source\PersistenceMapperConvention.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\MasDev.Common\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
+      <Name>MasDev.Common.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Common.Mono.csproj">
+      <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
+      <Name>MasDev.Common.Mono</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
