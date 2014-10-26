@@ -116,6 +116,8 @@
     <Compile Include="Source\Spatial\TaggedGeoPoint.cs" />
     <Compile Include="Source\Spatial\LayerCache.cs" />
     <Compile Include="Source\Utils\MathUtils.cs" />
+    <Compile Include="Source\Utils\SerializationUtils.cs" />
+    <Compile Include="Source\Reflection\Types.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

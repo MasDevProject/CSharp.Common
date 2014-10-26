@@ -8,6 +8,8 @@ using System.Net.Http.Headers;
 using System.Net;
 using MasDev.Common.Extensions;
 using System.Text;
+using MasDev.Common.Utils;
+using MasDev.Common.Reflection;
 
 
 namespace MasDev.Common.Http
@@ -275,9 +277,8 @@ namespace MasDev.Common.Http
 
 		public HttpParameter (string key, object value, ParameterType paramType)
 		{
-			throw new NotImplementedException ("Serializza intelligentemente il valore");
 			Key = key;
-			//Value = value;
+			Value = SerializationUtils.Serialize (value);
 			ParameterType = paramType;
 		}
 	}
@@ -301,6 +302,8 @@ namespace MasDev.Common.Http
 	{
 		public QueryHttpParameter (string key, object value) : base (key, value, ParameterType.Query)
 		{
+			if (!Types.IsNativeType (value))
+				throw new ArgumentException ("Only native types are allowed for this kind of parameter");
 		}
 	}
 
@@ -312,6 +315,8 @@ namespace MasDev.Common.Http
 	{
 		public UrlHttpParameter (string key, object value) : base (key, value, ParameterType.Url)
 		{
+			if (!Types.IsNativeType (value))
+				throw new ArgumentException ("Only native types are allowed for this kind of parameter");
 		}
 	}
 		
