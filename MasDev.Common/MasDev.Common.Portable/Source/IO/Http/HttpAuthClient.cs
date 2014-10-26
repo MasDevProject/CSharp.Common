@@ -155,7 +155,7 @@ namespace MasDev.Common.Http
 		#region Private methods
 		void BuildHeader (HttpRequestMessage request)
 		{
-			request.Headers.TryAddWithoutValidation (AuthorizationHeader.HeaderName, TokenType + " " + Token);
+			request.Headers.TryAddWithoutValidation (AuthorizationHeader.Name, TokenType + " " + Token);
 		}
 
 

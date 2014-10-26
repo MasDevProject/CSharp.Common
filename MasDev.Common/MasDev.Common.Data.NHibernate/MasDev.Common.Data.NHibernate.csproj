@@ -45,10 +45,10 @@
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

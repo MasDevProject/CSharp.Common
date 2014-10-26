@@ -49,12 +49,6 @@
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.0\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
@@ -63,6 +57,12 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ namespace MasDev.Common.Http
 {
 	public static class AuthorizationHeader
 	{
-		public const string HeaderName = Headers.Authorization;
+		public const string Name = Headers.Authorization;
 		public const string BearerScheme = "Bearer";
 	}
 
