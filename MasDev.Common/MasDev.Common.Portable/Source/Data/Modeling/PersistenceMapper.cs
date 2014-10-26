@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using MasDev.Common.Modeling;
-using AutoMapper;
 
 
 namespace MasDev.Common.Data

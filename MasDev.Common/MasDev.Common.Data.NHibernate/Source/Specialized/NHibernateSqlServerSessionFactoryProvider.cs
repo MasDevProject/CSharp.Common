@@ -11,36 +11,24 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-        public NHibernateSqlServerSessionFactoryProvider(string modelsNamespace, string host, string database, string schema, string username, string password, string context)
-        {
-            _lazyFactory = new Lazy<ISessionFactory>(() =>
-            {
-                var model = NHibernateUtils.CreateMappings<TMappingProvider>(modelsNamespace);
-                var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(host, database, schema, username, password, model, context);
-                return factory;
-            });
-        }
-
-
-        public NHibernateSqlServerSessionFactoryProvider(string modelsNamespace, string host, string database, string schema, string context)
-        {
-            _lazyFactory = new Lazy<ISessionFactory>(() =>
-            {
-                var model = NHibernateUtils.CreateMappings<TMappingProvider>(modelsNamespace);
-                var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(host, database, schema, model, context);
-                return factory;
-            });
-        }
+		public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, string host, string database, string schema, string username, string password, string context)
+		{
+			_lazyFactory = new Lazy<ISessionFactory> (() =>
+			{
+				var model = NHibernateUtils.CreateMappings<TMappingProvider> (modelsNamespace);
+				var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider> (host, database, schema, username, password, model, context);
+				return factory;
+			});
+		}
 
 
 
-	    public ISessionFactory Factory
-	    {
-	        get
-	        {
-	            return _lazyFactory.Value;
-	        }
-	    }
+		public ISessionFactory Factory
+		{
+			get {
+				return _lazyFactory.Value;
+			}
+		}
 	}
 }
 
