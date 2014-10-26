@@ -10,6 +10,7 @@ using MasDev.Common.Extensions;
 using System.Text;
 using MasDev.Common.Utils;
 using MasDev.Common.Reflection;
+using MasDev.Common.Http;
 
 
 namespace MasDev.Common.Http
@@ -152,7 +153,6 @@ namespace MasDev.Common.Http
 		}
 
 		#region Private methods
-
 		void BuildHeader (HttpRequestMessage request)
 		{
 			request.Headers.TryAddWithoutValidation (AuthorizationHeader.HeaderName, TokenType + " " + Token);
@@ -209,6 +209,12 @@ namespace MasDev.Common.Http
 			if (requiresAuthorization)
 				BuildHeader (request);
 
+			#region HeaderParametersHandling
+			var headers = content.Where (p => p.ParameterType == ParameterType.Header);
+			foreach (var header in headers)
+				request.Headers.TryAddWithoutValidation (header.Key, header.Value);
+			#endregion
+
 			#region FormParametersHandling
 			if (formParameters.Any ())
 			{
@@ -245,7 +251,8 @@ namespace MasDev.Common.Http
 	{
 		Query,
 		Url,
-		Form
+		Form,
+		Header
 	}
 
 
@@ -319,12 +326,17 @@ namespace MasDev.Common.Http
 				throw new ArgumentException ("Only native types are allowed for this kind of parameter");
 		}
 	}
-		
 
 
 
 
 
+	public class HeaderHttpParameter : HttpParameter
+	{
+		public HeaderHttpParameter (string key, string value) : base (key, value, ParameterType.Header)
+		{
 
+		}
+	}
 }
 

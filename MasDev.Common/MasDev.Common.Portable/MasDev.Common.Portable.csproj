@@ -118,7 +118,7 @@
     <Compile Include="Source\Utils\MathUtils.cs" />
     <Compile Include="Source\Utils\SerializationUtils.cs" />
     <Compile Include="Source\Reflection\Types.cs" />
-    <Compile Include="Source\IO\Http\AcceptsLanguageHeader.cs" />
+    <Compile Include="Source\IO\Http\AcceptLanguageHeader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

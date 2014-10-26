@@ -4,7 +4,7 @@ using System;
 
 namespace MasDev.Common.Http
 {
-	public class AcceptsLanguageHeader
+	public class AcceptLanguageHeader
 	{
 		public const string Name = "Accept-Language";
 
@@ -18,7 +18,17 @@ namespace MasDev.Common.Http
 
 
 
-		public static IEnumerable<AcceptsLanguageHeader> Parse (string headerValue)
+		public override string ToString ()
+		{
+
+			return EstimatePreference.HasValue ?
+				string.Format ("{0};q={1},", Locale, EstimatePreference.Value) :
+				string.Format ("{0},", Locale);
+		}
+
+
+
+		public static IEnumerable<AcceptLanguageHeader> Parse (string headerValue)
 		{
 			var values = headerValue.Split (',');
 			foreach (var value in values)
@@ -27,7 +37,7 @@ namespace MasDev.Common.Http
 				if (parts.Length == 0)
 					throw new ArgumentException ("Parse error");
 
-				var header = new AcceptsLanguageHeader ();
+				var header = new AcceptLanguageHeader ();
 				if (parts.Length == 1)
 				{
 					header.Locale = parts [0].Trim ();
@@ -36,7 +46,7 @@ namespace MasDev.Common.Http
 
 
 				header.Locale = parts [0];
-				header.EstimatePreference = decimal.Parse (parts [1].Replace ("q="));
+				header.EstimatePreference = decimal.Parse (parts [1].Replace ("q=", string.Empty));
 			}
 		}
 	}
