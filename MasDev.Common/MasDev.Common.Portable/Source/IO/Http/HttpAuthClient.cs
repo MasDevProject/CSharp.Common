@@ -5,15 +5,23 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasDev.Common.IO;
 using System.Net.Http.Headers;
+using System.Net;
+using MasDev.Common.Extensions;
+using System.Text;
 
 
 namespace MasDev.Common.Http
 {
 	public abstract class HttpAuthClient : IDisposable
 	{
+		const string WILDCARD_FORMAT = "{{0}}";
 		readonly HttpClient _client;
 		readonly string _baseUrl;
+
+
+
 		public Dictionary<string, IEnumerable<string>> Headers { get; private set; }
+
 
 
 		public abstract string Token { get; set; }
@@ -48,16 +56,17 @@ namespace MasDev.Common.Http
 		}
 
 
-        protected HttpAuthClient (string protocol, string address, int? port, HttpMessageHandler handler) : this(protocol, address, port)
-        {
-            _client.Dispose();
-            _client = new HttpClient(handler);
-        }
+
+		protected HttpAuthClient (string protocol, string address, int? port, HttpMessageHandler handler) : this (protocol, address, port)
+		{
+			_client.Dispose ();
+			_client = new HttpClient (handler);
+		}
 
 
 
 
-		public async Task<HttpResponseMessage> GetAsync (string relativeUrl, bool requiresAuthorization = false, params ParamKeyPair[] args)
+		public async Task<HttpResponseMessage> GetAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Get, relativeUrl, requiresAuthorization, args);
 			return await _client.SendAsync (request);
@@ -65,7 +74,7 @@ namespace MasDev.Common.Http
 
 
 
-		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, params ParamKeyPair[] args)
+		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Post, relativeUrl, requiresAuthorization, args);
 			return await _client.SendAsync (request);
@@ -92,7 +101,7 @@ namespace MasDev.Common.Http
 
 
 
-		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, params ParamKeyPair[] args)
+		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, args);
 			return await _client.SendAsync (request);
@@ -119,7 +128,7 @@ namespace MasDev.Common.Http
 
 
 
-		public async Task<HttpResponseMessage> DeleteAsync (string relativeUrl, bool requiresAuthorization = false, params ParamKeyPair[] args)
+		public async Task<HttpResponseMessage> DeleteAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Delete, relativeUrl, requiresAuthorization, args);
 			return await _client.SendAsync (request);
@@ -127,7 +136,7 @@ namespace MasDev.Common.Http
 
 
 
-		public async Task<HttpResponseMessage> HeadAsync (string relativeUrl, bool requiresAuthorization = false, params ParamKeyPair[] args)
+		public async Task<HttpResponseMessage> HeadAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Head, relativeUrl, requiresAuthorization, args);
 			return await _client.SendAsync (request);
@@ -149,31 +158,70 @@ namespace MasDev.Common.Http
 
 
 
-		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, ParamKeyPair[] content)
+		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, HttpParameter[] content)
 		{
-			var request = new HttpRequestMessage (method, _baseUrl + url);
+			if (content == null)
+				content = new HttpParameter[0];
+
+			#region ParametersValidation
+			var formParameters = content.Where (p => p.ParameterType == ParameterType.Form).ToList ();
+			if (!(method == HttpMethod.Post || method == HttpMethod.Put) && formParameters.Any ())
+				throw new ArgumentException ("Form parameters are allowed only in Post or Put requests");
+			#endregion
+
+			#region HandlingUrlParameters
+			var actualUrl = url;
+			var urlParameters = content.Where (p => p.ParameterType == ParameterType.Url);
+			foreach (var urlParameter in urlParameters)
+			{
+				var parameterWildcard = string.Format (WILDCARD_FORMAT, urlParameter.Key);
+
+				var occurrences = actualUrl.Occurrences (parameterWildcard);
+				if (occurrences != 1)
+					throw new ArgumentException ("Invalid parameter " + parameterWildcard + " for relative url " + url + ". Only a single instance of " + parameterWildcard + " is allowed");
+
+				actualUrl = actualUrl.Replace (parameterWildcard, WebUtility.UrlEncode (urlParameter.Value));
+			}
+			#endregion
+
+			#region HandlingQueryParameters
+			var queryParameters = content.Where (p => p.ParameterType == ParameterType.Query).ToArray ();
+			var builder = new StringBuilder (actualUrl);
+			for (var i = 0; i < queryParameters.Length; i++)
+			{
+				if (i == 0)
+					builder.Append ('?');
+
+				var queryParameter = queryParameters [i];
+				builder.Append (queryParameter.Key);
+				builder.Append ('=');
+				builder.Append (WebUtility.UrlEncode (queryParameter.Value));
+
+				if (i != queryParameters.Length - 1)
+					builder.Append ('&');
+			}
+			actualUrl = builder.ToString ();
+			#endregion
+
+			var request = new HttpRequestMessage (method, _baseUrl + actualUrl);
 			if (requiresAuthorization)
 				BuildHeader (request);
 
-			if (content != null && content.Any ())
+			#region FormParametersHandling
+			if (formParameters.Any ())
 			{
-				if (method == HttpMethod.Post || method == HttpMethod.Put || method == HttpMethod.Head)
-				{
-					var formContent = new FormUrlEncodedContent (content.Select (p => new KeyValuePair<string, string> (p.Key, p.Value)));
-					request.Content = formContent;
-				} else
-				{
-					var uri = request.RequestUri + "?";
-					foreach (var param in content)
-						uri = string.Format ("{0}&{1}={2}", uri, param.Key, Uri.EscapeDataString (param.Value));
-					request.RequestUri = new Uri (uri);
-				}
-			}
+				var formContent = new FormUrlEncodedContent (formParameters.Select (p => new KeyValuePair<string, string> (p.Key, p.Value)));
+				request.Content = formContent;
+			}			
+			#endregion
+
 
 			AddRequestHeaders (request);
 
 			return request;
 		}
+
+
 
 		void AddRequestHeaders (HttpRequestMessage request)
 		{
@@ -191,7 +239,18 @@ namespace MasDev.Common.Http
 
 
 
-	public class ParamKeyPair
+	public enum ParameterType
+	{
+		Query,
+		Url,
+		Form
+	}
+
+
+
+
+
+	public class HttpParameter
 	{
 		public string Key { get; private set; }
 
@@ -201,11 +260,56 @@ namespace MasDev.Common.Http
 
 
 
-		public ParamKeyPair (string key, string value)
+		public ParameterType ParameterType { get; private set; }
+
+
+
+		public HttpParameter (string key, string value, ParameterType paramType)
 		{
 			Key = key;
 			Value = value;
+			ParameterType = paramType;
 		}
 	}
+
+
+
+
+
+	public class FormHttpParameter : HttpParameter
+	{
+		public FormHttpParameter (string key, string value) : base (key, value, ParameterType.Form)
+		{
+		}
+	}
+
+
+
+
+
+	public class QueryHttpParameter : HttpParameter
+	{
+		public QueryHttpParameter (string key, string value) : base (key, value, ParameterType.Query)
+		{
+		}
+	}
+
+
+
+
+
+	public class UrlHttpParameter : HttpParameter
+	{
+		public UrlHttpParameter (string key, string value) : base (key, value, ParameterType.Url)
+		{
+		}
+	}
+		
+
+
+
+
+
+
 }
 
