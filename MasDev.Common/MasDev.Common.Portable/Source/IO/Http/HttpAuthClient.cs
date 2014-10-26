@@ -270,6 +270,16 @@ namespace MasDev.Common.Http
 			Value = value;
 			ParameterType = paramType;
 		}
+
+
+
+		public HttpParameter (string key, object value, ParameterType paramType)
+		{
+			throw new NotImplementedException ("Serializza intelligentemente il valore");
+			Key = key;
+			//Value = value;
+			ParameterType = paramType;
+		}
 	}
 
 
@@ -278,7 +288,7 @@ namespace MasDev.Common.Http
 
 	public class FormHttpParameter : HttpParameter
 	{
-		public FormHttpParameter (string key, string value) : base (key, value, ParameterType.Form)
+		public FormHttpParameter (string key, object value) : base (key, value, ParameterType.Form)
 		{
 		}
 	}
@@ -289,7 +299,7 @@ namespace MasDev.Common.Http
 
 	public class QueryHttpParameter : HttpParameter
 	{
-		public QueryHttpParameter (string key, string value) : base (key, value, ParameterType.Query)
+		public QueryHttpParameter (string key, object value) : base (key, value, ParameterType.Query)
 		{
 		}
 	}
@@ -300,7 +310,7 @@ namespace MasDev.Common.Http
 
 	public class UrlHttpParameter : HttpParameter
 	{
-		public UrlHttpParameter (string key, string value) : base (key, value, ParameterType.Url)
+		public UrlHttpParameter (string key, object value) : base (key, value, ParameterType.Url)
 		{
 		}
 	}
