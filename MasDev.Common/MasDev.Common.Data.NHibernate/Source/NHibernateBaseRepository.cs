@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Linq;
 using System.Linq;
+using NHibernate.Persister.Entity;
 
 
 namespace MasDev.Common.Data.NHibernate
@@ -214,6 +215,25 @@ namespace MasDev.Common.Data.NHibernate
 			updater (model);
 			await UpdateAsync (model, saveChanges);
 			return model;
+		}
+
+
+
+		public void Clear ()
+		{
+			var metadata = Session.SessionFactory.GetClassMetadata (typeof(T)) as AbstractEntityPersister;
+			string table = metadata.TableName;
+			string deleteAll = string.Format ("DELETE FROM \"{0}\"", table);
+
+			Session.Delete (deleteAll);
+			SaveChanges (true);
+		}
+
+
+
+		public async Task ClearAsync ()
+		{
+			await Task.Factory.StartNew (Clear);
 		}
 
 

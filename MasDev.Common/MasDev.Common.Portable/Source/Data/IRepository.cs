@@ -90,6 +90,14 @@ namespace MasDev.Common.Data
 
 
 
+		void Clear ();
+
+
+
+		Task ClearAsync ();
+
+
+
 		IQueryable<T> Query { get; }
 
 
