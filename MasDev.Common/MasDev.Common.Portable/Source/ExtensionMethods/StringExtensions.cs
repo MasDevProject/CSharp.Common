@@ -126,9 +126,24 @@ namespace MasDev.Common.Extensions
 			}
 		}
 
-		public static string CollapseMultipleSpaces (this string s) 
+
+
+		public static string CollapseMultipleSpaces (this string s)
 		{
 			return Regex.Replace (s, @"\s+", StringUtils.Space);
+		}
+
+
+
+		public static int Occurrences (this string s, string value)
+		{                  
+			int count = 0, minIndex = s.IndexOf (value, 0, StringComparison.Ordinal);
+			while (minIndex != -1)
+			{
+				minIndex = s.IndexOf (value, minIndex + value.Length, StringComparison.Ordinal);
+				count++;
+			}
+			return count;
 		}
 	}
 }
