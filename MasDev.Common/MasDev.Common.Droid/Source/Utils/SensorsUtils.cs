@@ -38,7 +38,7 @@ namespace MasDev.Common.Droid
 			return lm.IsProviderEnabled (LocationManager.NetworkProvider);
 		}
 
-		public static void GetCurrentPositionUsingSingleRequest (Context ctx, Action<LatLng> onPositionRetrived, Action onTimeOut, Action onLocalizationDisabled, Accuracy accuracy = Accuracy.Medium, int timeOutInMillis = 15000, LocationManager manager = null)
+		public static void GetCurrentPositionUsingSingleRequest (Context ctx, Action<LatLng> onPositionRetrived, Action onTimeOut, Action onLocalizationDisabled, Accuracy accuracy = Accuracy.Medium, int timeOutInMillis = 10000, LocationManager manager = null)
 		{
 			if (manager == null)
 				manager = (LocationManager)ctx.GetSystemService (Context.LocationService);
