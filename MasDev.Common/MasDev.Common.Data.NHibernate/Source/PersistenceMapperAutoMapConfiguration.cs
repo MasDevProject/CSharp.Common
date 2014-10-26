@@ -23,7 +23,8 @@ namespace MasDev.Common.Data.NHibernate
 
 		public override bool ShouldMap (Type type)
 		{
-			return base.ShouldMap (type) && typeof(IModel).IsAssignableFrom (type) && type.Namespace == _namespace;
+			var result = base.ShouldMap (type) && typeof(IModel).IsAssignableFrom (type) && type.Namespace == _namespace;
+			return result;
 		}
 
 

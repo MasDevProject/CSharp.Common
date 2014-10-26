@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using FluentNHibernate.Automapping;
+﻿using FluentNHibernate.Automapping;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
-using NHibernate.SqlCommand;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate;
 using FluentNHibernate.Cfg;
@@ -37,7 +35,7 @@ namespace MasDev.Common.Data.NHibernate
 				.LoadRefrencedAssemblies ()
 				.Where (a => a.ContainsNamespace (modelsNamespace, false))
 				.ForEach (a => assemblies.Add (a));
-			return assemblies.ToArray ();
+			return assemblies.Distinct ().ToArray ();
 		}
 
 
@@ -90,19 +88,6 @@ namespace MasDev.Common.Data.NHibernate
                 .BuildSessionFactory ();
 		}
 
-
-
-		public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper> (string host, string database, string schema, AutoPersistenceModel model, string context) where TPersistenceMapper : PersistenceMapper, new()
-		{
-			return Fluently.Configure ()
-                .Database (MsSqlConfiguration.MsSql2012
-                        .ConnectionString ("Server=(localdb)\\testinstance;Integrated Security=True")
-                        .DefaultSchema (schema))
-                .CurrentSessionContext (context)
-                .Mappings (config => config.AutoMappings.Add (model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>> ()))
-                .ExposeConfiguration (BuildSchema)
-                .BuildSessionFactory ();
-		}
 
 
 

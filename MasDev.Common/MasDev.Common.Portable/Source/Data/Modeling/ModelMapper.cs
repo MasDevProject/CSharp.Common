@@ -130,12 +130,10 @@ namespace MasDev.Common.Modeling
 
 
 
-		public PropertyMapper Unique
+		public PropertyMapper Unique ()
 		{ 
-			get { 
-				_uniques.Add (new UniqueProperty (_propertyName));
-				return this;
-			} 
+			_uniques.Add (new UniqueProperty (_propertyName));
+			return this;
 		}
 
 
