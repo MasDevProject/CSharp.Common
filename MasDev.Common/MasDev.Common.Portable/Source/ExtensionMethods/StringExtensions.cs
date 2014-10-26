@@ -136,17 +136,14 @@ namespace MasDev.Common.Extensions
 
 
 		public static int Occurrences (this string s, string value)
-		{
-			int occurrences = -1;
-			int index = 0;
-			do
+		{                  
+			int count = 0, minIndex = s.IndexOf (value, 0, StringComparison.Ordinal);
+			while (minIndex != -1)
 			{
-				occurrences++;
-				index = s.IndexOf (value, index, StringComparison.Ordinal);
-
-			} while(index >= 0);
-
-			return occurrences;
+				minIndex = s.IndexOf (value, minIndex + value.Length, StringComparison.Ordinal);
+				count++;
+			}
+			return count;
 		}
 	}
 }

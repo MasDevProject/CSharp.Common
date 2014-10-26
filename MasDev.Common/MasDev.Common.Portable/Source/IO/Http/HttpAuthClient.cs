@@ -16,7 +16,7 @@ namespace MasDev.Common.Http
 {
 	public abstract class HttpAuthClient : IDisposable
 	{
-		const string WILDCARD_FORMAT = "{{0}}";
+		const string WILDCARD_FORMAT = "{{{0}}}";
 		readonly HttpClient _client;
 		readonly string _baseUrl;
 
