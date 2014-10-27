@@ -9,3 +9,4 @@ _ReSharper.*/
 Components/
 MasDev.PizzaUp\UpgradeLog.htm
 *.designer.cs
+*/csx/*
