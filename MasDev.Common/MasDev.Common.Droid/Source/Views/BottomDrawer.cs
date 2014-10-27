@@ -181,7 +181,7 @@ namespace MasDev.Common.Droid.Views
 				return;
 			}
 
-			var mon = new ContentViewHeightCalculator (this, this);
+			var mon = new ContentViewHeightCalculator (this);
 			mon.OnViewTreeObserverFinished += HandleOnViewTreeObserverFinished; 
 			if (ViewTreeObserver.IsAlive)
 				ViewTreeObserver.AddOnGlobalLayoutListener (mon);
@@ -249,14 +249,12 @@ namespace MasDev.Common.Droid.Views
 	class ContentViewHeightCalculator : Java.Lang.Object, ViewTreeObserver.IOnGlobalLayoutListener
 	{
 		View _view;
-		View _drawer;
 
 		public event Action<int> OnViewTreeObserverFinished;
 
-		public ContentViewHeightCalculator (View view, View drawer)
+		public ContentViewHeightCalculator (View view)
 		{
 			_view = view;
-			_drawer = drawer;
 		}
 
 		public void OnGlobalLayout ()
@@ -264,7 +262,6 @@ namespace MasDev.Common.Droid.Views
 			_view.ViewTreeObserver.RemoveGlobalOnLayoutListener (this);
 			OnViewTreeObserverFinished.Invoke (_view.Height);
 			_view = null;
-			_drawer = null;
 			OnViewTreeObserverFinished = null;
 		}
 	}

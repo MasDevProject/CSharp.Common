@@ -94,7 +94,7 @@ namespace MasDev.Common.Http
 			using (var content = new MultipartFormDataContent ())
 			using (var imageContent = new StreamContent (stream.Stream))
 			{
-				content.Add (imageContent, paramName, stream.FileName.Replace (" ", string.Empty));
+				content.Add (imageContent, paramName, stream.FileName.Replace (StringUtils.Space, string.Empty));
 				imageContent.Headers.ContentType = new MediaTypeHeaderValue (stream.Mime);
 				req.Content = content;
 
@@ -121,7 +121,7 @@ namespace MasDev.Common.Http
 			using (var content = new MultipartFormDataContent ())
 			using (var imageContent = new StreamContent (stream.Stream))
 			{
-				content.Add (imageContent, paramName, stream.FileName.Replace (" ", string.Empty));
+				content.Add (imageContent, paramName, stream.FileName.Replace (StringUtils.Space, string.Empty));
 				imageContent.Headers.ContentType = new MediaTypeHeaderValue (stream.Mime);
 				req.Content = content;
 
@@ -153,6 +153,7 @@ namespace MasDev.Common.Http
 		}
 
 		#region Private methods
+
 		void BuildHeader (HttpRequestMessage request)
 		{
 			request.Headers.TryAddWithoutValidation (AuthorizationHeader.Name, TokenType + " " + Token);
@@ -222,7 +223,6 @@ namespace MasDev.Common.Http
 				request.Content = formContent;
 			}			
 			#endregion
-
 
 			AddRequestHeaders (request);
 

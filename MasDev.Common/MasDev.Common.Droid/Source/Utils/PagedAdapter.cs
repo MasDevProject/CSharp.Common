@@ -74,7 +74,7 @@ namespace MasDev.Common.Droid.Utils
 			}
 		}
 
-		public async void Reset ()
+		public void Reset ()
 		{
 			_paged.Reset ();
 			_firstLoad = true;
