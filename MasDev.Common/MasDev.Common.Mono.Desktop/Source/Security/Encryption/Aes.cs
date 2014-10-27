@@ -11,7 +11,7 @@ namespace MasDev.Common.Security.Encryption
 		const string HashAlgorithm = "SHA1";
 		const string InitialVector = "BLRta73m*aze01xQ";
 		const string Salt = "MasDev";
-		const int PasswordIterations = 2;
+		const int PasswordIterations = 3000;
 		const int KeySize = 256;
 
 
