@@ -18,6 +18,21 @@ namespace MasDev.Common.Rest.WebApi
 		volatile MediaTypeFormatter _formatter;
 		JsonSerializerSettings _settings;
 		const string _header = "==============================================================";
+		Action<Exception> _exceptionInterceptor;
+
+
+
+		public ExceptionLoggerFilter ()
+		{
+
+		}
+
+
+
+		public ExceptionLoggerFilter (Action<Exception> exceptionInterceptor)
+		{
+			_exceptionInterceptor = exceptionInterceptor;
+		}
 
 
 
@@ -28,12 +43,12 @@ namespace MasDev.Common.Rest.WebApi
 				_formatter = actionExecutedContext.ActionContext.ControllerContext.Configuration.Formatters.First ();
 				_settings = actionExecutedContext.ActionContext.ControllerContext.Configuration.Formatters.JsonFormatter.SerializerSettings;
 			}
-
-			WriteLoggingHeader (actionExecutedContext.ActionContext);
-
 			var e = actionExecutedContext.Exception;
 
 			var baseEx = e as BaseApiException;
+			if (baseEx == null && _exceptionInterceptor != null)
+				_exceptionInterceptor (e);
+
 			var exContent = baseEx != null ? 
 				baseEx.Content : 
 				new ApiExceptionContent (HttpStatusCode.InternalServerError, null, e.ToString ());
