@@ -75,7 +75,7 @@ namespace MasDev.Common.Data.NHibernate
 		public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper> (string host, string database, string schema, string username, string password, AutoPersistenceModel model, string context) where TPersistenceMapper : PersistenceMapper, new()
 		{
 			return Fluently.Configure ()
-                .Database (MsSqlConfiguration.MsSql7
+                .Database (MsSqlConfiguration.MsSql2008
                         .ConnectionString (c => c
                             .Server (host)
                             .Database (database)
