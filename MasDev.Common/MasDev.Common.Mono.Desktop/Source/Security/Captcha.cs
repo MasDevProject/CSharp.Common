@@ -14,7 +14,7 @@ namespace MasDev.Common.Security
 
 		public static RandomImage Generate ()
 		{
-			var random = _random.Next (100000, 999999).ToString ();
+			var random = _random.Next (1000, 9999).ToString ();
 			return Generate (random);
 		}
 
@@ -132,7 +132,7 @@ namespace MasDev.Common.Security
 				fontSize--;
 				font = new Font (FontFamily.GenericMonospace, fontSize, FontStyle.Bold);
 				size = g.MeasureString (_text, font);
-			} while (size.Width > rect.Width);
+			} while (size.Width > rect.Width - rect.Width * 0.2f);
 
 			WriteText (g, font, rect);
 		
@@ -158,9 +158,9 @@ namespace MasDev.Common.Security
 		{
 			var rand = new Random ();
 			var textBrush = new SolidBrush (Color.DarkGray);
-			const float tik = 3;
+			const float tik = 1;
 			var xSoFar = tik;
-			int i = 0;
+			var i = 0;
 			foreach (var character in _text)
 			{
 				var letter = character.ToString ();
