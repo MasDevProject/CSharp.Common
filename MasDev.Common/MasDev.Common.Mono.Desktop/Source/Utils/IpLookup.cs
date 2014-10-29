@@ -26,14 +26,20 @@ namespace MasDev.Common.Utils
 				var rawJson = await response.Content.ReadAsStringAsync ();
 				var json = JObject.Parse (rawJson);
 
+			    double latitude = 0;
+			    double longitude = 0;
+
+			    double.TryParse(json["lat"].Value<string>(), out latitude);
+			    double.TryParse(json["lng"].Value<string>(), out longitude);
+
 				return new IpLookupResult {
 					City = json ["city"].Value<string> (),
 					CountryCode = json ["country_code"].Value<string> (),
 					CountryName = json ["country_name"].Value<string> (),
 					Ip = json ["ip"].Value<string> (),
 					Position = new GeoPoint (
-						double.Parse (json ["lat"].Value<string> ()),
-						double.Parse (json ["lng"].Value<string> ())
+                        latitude,
+                        longitude
 					) 
 				};
 			}
