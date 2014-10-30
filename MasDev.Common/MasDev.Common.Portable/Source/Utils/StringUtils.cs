@@ -45,6 +45,12 @@ namespace MasDev.Common
 				builder.Append (s).Append (',');
 			return builder.ToString ();
 		}
-	}
+
+        public static object Length(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return 0;
+            return s.Length;
+        }
+    }
 }
 
