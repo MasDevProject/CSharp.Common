@@ -10,3 +10,4 @@ Components/
 MasDev.PizzaUp\UpgradeLog.htm
 *.designer.cs
 */csx/*
+MasDev.Common/UpgradeLog.htm
