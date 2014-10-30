@@ -13,8 +13,7 @@ namespace MasDev.Common.Utils
 		public TimeZoneInfo FromTzdbId (string tzdbId)
 		{
 			try {
-				var a = TimeZoneInfo.FindSystemTimeZoneById (tzdbId);
-				return a ?? Windows (tzdbId);
+				return TimeZoneInfo.FindSystemTimeZoneById (tzdbId) ?? Windows (tzdbId);
 			}
 			catch {
 				return Windows (tzdbId);
@@ -31,7 +30,6 @@ namespace MasDev.Common.Utils
 
 		static string IanaToWindows(string ianaZoneId)
 		{
-
 			if (_utcZones.Contains (ianaZoneId, StringComparer.OrdinalIgnoreCase))
 				return UTC;
 
