@@ -7,6 +7,7 @@ using MasDev.Common.Droid.IO;
 using Android.Content;
 using MasDev.Common.Injection;
 using MasDev.Common.Droid.Utils;
+using MasDev.Common.Utils;
 
 namespace MasDev.Common.Droid
 {
@@ -26,6 +27,7 @@ namespace MasDev.Common.Droid
 			container.AddDependency<IFileIO, FileIO> (LifeStyles.Singleton);
 			container.AddDependency<IRegistryProvider> (() => new RegistryProvider (_context), LifeStyles.Singleton);
 			container.AddDependency<ILogger, Logger> (LifeStyles.Singleton);
+			container.AddDependency<ITimeZoneConverter, TimeZoneConverter> (LifeStyles.Singleton);
 		}
 	}
 }
