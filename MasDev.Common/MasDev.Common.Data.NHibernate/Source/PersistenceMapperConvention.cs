@@ -7,6 +7,7 @@ using MasDev.Common.Modeling;
 using System;
 using System.Linq;
 using MasDev.Common.Exceptions;
+using NHibernate.SqlTypes;
 
 
 namespace MasDev.Common.Data.NHibernate
@@ -45,13 +46,20 @@ namespace MasDev.Common.Data.NHibernate
 			var uniques = modelMapper.UniqueProperties;
 			var uniqueKeys = modelMapper.UniqueKeyProperties;
 
-			var typeProperty = typeOverloads.Where (p => p.PropertyName == instance.Name).ToList ();
-			if (typeProperty.Any ())
+			var typeProperties = typeOverloads.Where (p => p.PropertyName == instance.Name).ToList ();
+			if (typeProperties.Any ())
 			{
-				if (typeProperty.Count > 1)
+				if (typeProperties.Count > 1)
 					throw new Exception ("Multiple type mapping is unsupported");
 
-				instance.CustomSqlType (GetSqlType (typeProperty.Single ().AlterType));
+			    var typeProperty = typeProperties.Single();
+
+			    if (typeProperty.AlterType == PersistenceType.Text)
+			    {
+                    //instance.CustomType<AnsiStringFixedLengthSqlType>();
+                    //instance.Length(5000);
+			        instance.CustomSqlType("TEXT");
+			    }
 				hasApplied = true;
 			}
 

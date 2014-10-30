@@ -1,6 +1,7 @@
 ﻿using FluentNHibernate.Automapping;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
+using NHibernate.SqlCommand;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate;
 using FluentNHibernate.Cfg;
@@ -42,14 +43,11 @@ namespace MasDev.Common.Data.NHibernate
 
 		static void BuildSchema (Configuration config)
 		{
-			#if SQLTRACE
-			config.SetInterceptor (new SqlStatementInterceptor ());
-			var update = new SchemaUpdate (config);
-			update.Execute (true, true);
-			#else
-			var update = new SchemaUpdate (config);
-			update.Execute (false, true);
-			#endif
+            //config.SetInterceptor (new SqlStatementInterceptor ());
+            //var update = new SchemaUpdate (config);
+            //update.Execute (true, true);
+            var update = new SchemaUpdate(config);
+            update.Execute(false, true);
 		}
 
 
@@ -76,7 +74,7 @@ namespace MasDev.Common.Data.NHibernate
 		{
 			return Fluently.Configure ()
                 .Database (MsSqlConfiguration.MsSql2008
-                        .ConnectionString (c => c
+                            .ConnectionString (c => c
                             .Server (host)
                             .Database (database)
                             .Username (username)
@@ -110,7 +108,6 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-	#if SQLTRACE
 	class SqlStatementInterceptor : EmptyInterceptor
 	{
 		public override SqlString OnPrepareStatement (SqlString sql)
@@ -119,7 +116,6 @@ namespace MasDev.Common.Data.NHibernate
 			return sql;
 		}
 	}
-	#endif
 
 }
 
