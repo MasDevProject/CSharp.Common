@@ -156,7 +156,7 @@ namespace MasDev.Common.Http
 
 		void BuildHeader (HttpRequestMessage request)
 		{
-			request.Headers.TryAddWithoutValidation (AuthorizationHeader.Name, TokenType + " " + Token);
+			request.Headers.TryAddWithoutValidation (AuthorizationHeader.Name, TokenType + StringUtils.Space + Token);
 		}
 
 

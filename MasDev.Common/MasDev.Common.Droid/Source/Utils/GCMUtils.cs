@@ -13,7 +13,7 @@ namespace MasDev.Common.Droid.Utils
 		const string PROPERTY_APP_VERSION = "appVersion";
 		const string SHARED_PREFERENCES_NAME = "pqowwo";
 
-		public static async Task PerformRegistration (Activity ctx, int playServicesResolutionRequest, string senderId, Action<string> onRegistrationIdRetrived, Action onDeviceNotSupported)
+		public static async Task PerformRegistration (Activity ctx, int playServicesResolutionRequest, string senderId, Func<string, Task> onRegistrationIdRetrived, Action onDeviceNotSupported)
 		{
 			string regid;
 			if (CheckPlayServices (ctx, onDeviceNotSupported, playServicesResolutionRequest)) 
@@ -27,7 +27,7 @@ namespace MasDev.Common.Droid.Utils
 						GetGCMPreferences (ctx).Edit ().PutString (PROPERTY_REG_ID, regid).Commit ();
 					});
 				}
-				onRegistrationIdRetrived.Invoke (regid);
+				await onRegistrationIdRetrived.Invoke (regid);
 			} 
 		}
 
