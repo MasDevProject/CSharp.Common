@@ -19,14 +19,17 @@ namespace MasDev.Common.Utils.GoogleServices.CloudMessaging
 		const string _url = "https://android.googleapis.com/gcm/send";
 		const string _contentType = "application/json";
 		const string _authorization = "key=";
-
+        static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        };
 
 
 		public async Task<GcmResult> SendPushAsync (string serverApiKey, GcmPush push)
 		{
 			using (var client = new HttpClient ())
 			{
-				var json = JsonConvert.SerializeObject (new GcmPushCCased (push));
+				var json = JsonConvert.SerializeObject (new GcmPushCCased (push), _settings);
 
 				var httpContent = new StringContent (json);
 				httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse (_contentType);
@@ -35,10 +38,12 @@ namespace MasDev.Common.Utils.GoogleServices.CloudMessaging
 				request.Content = httpContent;
 
 				var response = await client.SendAsync (request);
+                json = await response.Content.ReadAsStringAsync();
+
 				if (response.StatusCode != HttpStatusCode.OK)
 					throw new HttpException (response.StatusCode);
 
-				return JsonConvert.DeserializeObject<GcmResult> (await response.Content.ReadAsStringAsync ());
+				return JsonConvert.DeserializeObject<GcmResult> (json);
 			}
 		}
 	}
@@ -54,17 +59,27 @@ namespace MasDev.Common.Utils.GoogleServices.CloudMessaging
 	{
 		public GcmPushCCased (GcmPush push)
 		{
-			var ids = Assert.NotNull (push).ClientIds.ToList ();
-			registration_ids = Assert.NotNullOrEmpty (ids).ToArray ();
-			data = push.Data;
+            Assert.NotNull(push);
+
+            if(push.ClientIds != null)
+            {
+                if (push.ClientId != null) throw new ArgumentException("Message cannot be both multicast and singlecast");
+                registration_ids = push.ClientIds.ToArray();
+                if (!registration_ids.Any()) throw new ArgumentException("At least a clientid is required");
+            }
+            else
+            {
+                if (push.ClientId == null) throw new ArgumentException("At least a clientid is required");
+                registration_ids = new[] { push.ClientId };
+            }
+
+            data = push.Data;
 			collapse_key = push.CollapseKey;
 			delay_while_idle = push.DelayWhileIdle ? (bool?)push.DelayWhileIdle : null;
 			time_to_live = push.TimeToLive != null ? (long?)push.TimeToLive.Value.TotalSeconds : null;
 			restricted_package_name = push.RestrictedPackageName;
 
 		}
-
-
 
 		public string[] registration_ids { get; private set; }
 
@@ -122,7 +137,7 @@ namespace MasDev.Common.Utils.GoogleServices.CloudMessaging
 	{
 		public IEnumerable<string> ClientIds { get; set; }
 
-
+        public string ClientId { get; set; }
 
 		public string CollapseKey { get; set; }
 
