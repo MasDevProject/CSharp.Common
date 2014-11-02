@@ -77,7 +77,6 @@ namespace MasDev.Common.Droid.Views
 		}
 
 		bool _doIt = true;
-
 		protected override void OnLayout (bool changed, int left, int top, int right, int bottom)
 		{
 			base.OnLayout (changed, left, top, right, bottom);
