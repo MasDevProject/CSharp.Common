@@ -15,12 +15,12 @@ namespace MasDev.Common.Droid.Views
 		public event Action OnDrawerOpen;
 		public event Action OnDrawerClose;
 
-		View _contentLayout;
-		View _drawerLayout;
-		View _shadowLayout;
 		int _drawerClosedY;
 		int _drawerOpenY;
 		int _originalDrawerHeight;
+		View _contentLayout;
+		View _drawerLayout;
+		View _shadowLayout;
 		ObjectAnimator _slideUpAniamtion;
 		ObjectAnimator _slideDownAniamtion;
 		ObjectAnimator _fadeInAniamtion;
@@ -114,6 +114,7 @@ namespace MasDev.Common.Droid.Views
 				return;
 
 			IsOpen = true;
+			_shadowLayout.Clickable = true;
 
 			if (_slideUpAniamtion == null) {
 				var a = ObjectAnimator.OfFloat (_drawerLayout, TRANSLATION_ANIMATION, 0);
@@ -143,6 +144,7 @@ namespace MasDev.Common.Droid.Views
 				return;
 
 			IsOpen = false;
+			_shadowLayout.Clickable = false;
 
 			if (_slideDownAniamtion == null) {
 				var a = ObjectAnimator.OfFloat (_drawerLayout, TRANSLATION_ANIMATION, 0);
@@ -153,6 +155,7 @@ namespace MasDev.Common.Droid.Views
 				a.SetDuration (_animationDuration);
 				_slideDownAniamtion = a;
 			}
+
 			_slideDownAniamtion.SetFloatValues (_drawerLayout.GetY (), _drawerClosedY);
 			_slideDownAniamtion.Start ();
 
@@ -217,6 +220,8 @@ namespace MasDev.Common.Droid.Views
 		View GetShadowLayout ()
 		{
 			var result = new View (Context);
+			result.Click += delegate { Close (); };
+			result.Clickable = false;
 			var para = new ViewGroup.LayoutParams (ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 			result.SetBackgroundColor (Color.Black);
 			result.LayoutParameters = para;
