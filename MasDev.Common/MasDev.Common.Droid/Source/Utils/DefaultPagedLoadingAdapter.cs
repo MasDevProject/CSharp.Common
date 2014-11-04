@@ -6,6 +6,7 @@ using Android.Content;
 using MasDev.Common.Collections;
 using System.Linq;
 using MasDev.Common.Extensions;
+using MasDev.Common.Droid.ExtensionMethods;
 
 namespace MasDev.Common.Droid.Utils
 {
@@ -15,29 +16,36 @@ namespace MasDev.Common.Droid.Utils
 		Action _loadedUi;
 		Action _noResultUi;
 		Action _errorUi;
+		ViewGroup _footerLayout;
 
-		protected abstract ProgressBar ListViewLoading {get;}
 		protected abstract View ListViewError { get;}
+		protected abstract ProgressBar ListViewLoading {get;}
 
-		protected ListView ListView;
+		protected ListView MainListView;
 		protected Context Context { get; private set; }
 
 		protected DefaultPagedLoadingAdapter (Context ctx, IPagedEnumerable<T> paged, ListView listView, Action<object, AdapterView.ItemClickEventArgs> onItemClick, Action loadingUi, Action loadedUi, Action noResultUi, Action errorUi) : base(ctx, paged)
 		{
-			Context = listView.Context;
+			Context = ctx;
 
 			_loadingUi = loadingUi;
 			_loadedUi = loadedUi;
 			_noResultUi = noResultUi;
 			_errorUi = errorUi;
-			ListView = listView;
+			MainListView = listView;
 
 			OnLoading += HandleOnLoading;
 			OnLoaded += HandleOnLoaded;
 			OnError += HandleOnError;
 
-			ListView.ItemClick += onItemClick.Invoke;
-			ListView.Adapter = this;
+			_footerLayout = new FrameLayout(ctx);
+     
+			_footerLayout.AddView (ListViewError);
+			_footerLayout.AddView (ListViewLoading);
+
+			MainListView.AddFooterView (_footerLayout);
+			MainListView.ItemClick += onItemClick.Invoke;
+			MainListView.Adapter = this;
 		}
 
 		void HandleOnLoading (bool firstLoad)
@@ -45,8 +53,9 @@ namespace MasDev.Common.Droid.Utils
 			if (firstLoad || !Items.Any())
 				_loadingUi.Invoke ();
 			else {
-				ListView.AddFooterView (ListViewLoading);
-				ListView.RemoveFooterView (ListViewError);
+				_footerLayout.SetVisible ();
+				ListViewLoading.SetVisible ();
+				ListViewError.SetGone ();
 			}
 		}
 
@@ -56,18 +65,18 @@ namespace MasDev.Common.Droid.Utils
 				_loadedUi.Invoke ();
 			else 
 				_noResultUi.Invoke ();
-			ListView.RemoveFooterView (ListViewLoading);
-			ListView.RemoveFooterView (ListViewError);
+			_footerLayout.SetGone ();
 		}
 
 		void HandleOnError (Exception obj)
 		{
-			if (!Items.Any())
+			if (!Items.Any ())
 				_errorUi.Invoke ();
-			else
-				ListView.AddFooterView (ListViewError);
-
-			ListView.RemoveFooterView (ListViewLoading);
+			else {
+				_footerLayout.SetVisible ();
+				ListViewError.SetVisible ();
+				ListViewLoading.SetGone ();
+			}
 		}
 
 		protected void HandleRetryButtonClick (object sender, EventArgs e)
@@ -81,9 +90,10 @@ namespace MasDev.Common.Droid.Utils
 			_loadedUi = null;
 			_noResultUi = null;
 			_errorUi = null;
-
-			ListView.DisposeIfNotNull();
-			ListView = null;
+			_footerLayout.DisposeIfNotNull ();
+			_footerLayout = null;
+			MainListView.DisposeIfNotNull();
+			MainListView = null;
 			Context = null;
 			base.Dispose (disposing);
 		}

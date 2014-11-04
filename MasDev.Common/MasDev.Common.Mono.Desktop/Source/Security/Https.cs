@@ -15,16 +15,14 @@ namespace MasDev.Common.Http
 		public static void AcceptSelfSignedCertificate (byte[] selfSignedCertificateHash)
 		{
 			SelfSignedCertificateHash = selfSignedCertificateHash;
-			ServicePointManager.ServerCertificateValidationCallback =
-				ValidateServerCertficate;
+			ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
 		}
 
 
 
 		public static void AcceptAnyCertificates ()
 		{
-			ServicePointManager.ServerCertificateValidationCallback =
-				ValidateAnyServerCertficate;
+			ServicePointManager.ServerCertificateValidationCallback = ValidateAnyServerCertficate;
 		}
 
 
