@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace MasDev.Common.Rest.WebApi
 {
-	class FileResult : IHttpActionResult
+	public class FileResult : IHttpActionResult
 	{
 		readonly string _filePath;
 		readonly string _contentType;
