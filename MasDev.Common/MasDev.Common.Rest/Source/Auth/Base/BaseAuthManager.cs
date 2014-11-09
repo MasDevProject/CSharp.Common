@@ -14,13 +14,11 @@ namespace MasDev.Common.Rest.Auth
 
 		public Token Deserialize (string headerValue)
 		{
-			try
-			{
+			try {
 				var decompressed = TokenCompressor.Decompress (headerValue);
 				var unprotected = TokenProtector.Unprotect (decompressed);
 				return TokenSerializer.Deserialize (unprotected);
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				Console.WriteLine (e);
 				return null;
 			}
@@ -61,7 +59,7 @@ namespace MasDev.Common.Rest.Auth
 			if (roles == null)
 				return token.Scope;
 				
-			if ((roles | issuedCredentials.Roles) != roles)
+			if ((roles & issuedCredentials.Roles) == 0)
 				throw new UnauthorizedException ("Invald authorization level");
 
 			return token.Scope;
@@ -71,8 +69,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public LoginResult LogIn (ICredentials credentials, int? scope, ICredentialsRepository repository)
 		{
-			using (new MutexEx (credentials.Id))
-			{
+			using (new MutexEx (credentials.Id)) {
 				Save (credentials, repository);
 
 				var token = new Token {
@@ -93,8 +90,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public void LogOut (ICredentials credentials, ICredentialsRepository repository)
 		{
-			using (new MutexEx (credentials.Id))
-			{
+			using (new MutexEx (credentials.Id)) {
 				credentials.LastIssuedUTC = DateTime.UtcNow;
 				_issued.AddOrUpdate (
 					credentials.Id,
@@ -110,8 +106,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public ICredentials Find (int credentialsId, ICredentialsRepository repository)
 		{
-			using (new MutexEx (credentialsId))
-			{
+			using (new MutexEx (credentialsId)) {
 				if (_issued.ContainsKey (credentialsId))
 					return _issued [credentialsId];
 
