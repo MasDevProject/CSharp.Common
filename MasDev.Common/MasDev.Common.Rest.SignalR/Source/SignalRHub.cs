@@ -12,7 +12,7 @@ namespace MasDev.Common.Rest.SignalR
 
 		public SignalRHub ()
 		{
-			Manager = AuthorizableProxy<TPushManager>.Create (new TPushManager ());
+			Manager = RestModuleProxy<TPushManager>.Create (new TPushManager ());
 			Manager.HttpContext = this;
 		}
 

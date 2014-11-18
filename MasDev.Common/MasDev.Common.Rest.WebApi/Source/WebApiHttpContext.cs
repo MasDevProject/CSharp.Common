@@ -129,7 +129,7 @@ namespace MasDev.Common.Rest.WebApi
 
 		public WebApiController ()
 		{
-			_module = AuthorizableProxy<TModule>.Create (new TModule ());
+			_module = RestModuleProxy<TModule>.Create (new TModule ());
 			_module.HttpContext = this;
 		}
 

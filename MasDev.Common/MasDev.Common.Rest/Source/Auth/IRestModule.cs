@@ -4,7 +4,7 @@ using System;
 
 namespace MasDev.Common.Rest
 {
-	public interface IAuthorizable : IDisposable
+	public interface IRestModule : IDisposable
 	{
 		ICredentials CurrentCredentials { get; set; }
 

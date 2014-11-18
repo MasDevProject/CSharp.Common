@@ -10,19 +10,19 @@ namespace MasDev.Common.Data
 {
 	public interface IRepository<T> : IDisposable, IModelQueryFactory where T : class, IModel, new()
 	{
-		int Create (T model, bool saveChanges = false);
+		int Create (T model);
 
 
 
-		Task<int> CreateAsync (T model, bool saveChanges = false);
+		Task<int> CreateAsync (T model);
 
 
 
-		Task<int> CreateOrUpdateAsync (IModel model, bool saveChanges);
+		Task<int> CreateOrUpdateAsync (IModel model);
 
 
 
-		int CreateOrUpdate (IModel model, bool saveChanges);
+		int CreateOrUpdate (IModel model);
 
 
 
@@ -34,59 +34,59 @@ namespace MasDev.Common.Data
 
 
 
-		int Update (T model, bool saveChanges = false);
+		int Update (T model);
 
 
 
-		Task<int> UpdateAsync (T model, bool saveChanges = false);
+		Task<int> UpdateAsync (T model);
 
 
 
-		T Update (int id, Action<T> updater, bool updateChanges = false);
+		T Update (int id, Action<T> updater);
 
 
 
-		Task<T> UpdateAsync (int id, Action<T> updater, bool updateChanges = false);
+		Task<T> UpdateAsync (int id, Action<T> updater);
 
 
 
-		int Delete (T model, bool saveChanges = false);
+		int Delete (T model);
 
 
 
-		Task<int> DeleteAsync (T model, bool saveChanges = false);
+		Task<int> DeleteAsync (T model);
 
 
 
-		void Create (IEnumerable<T> models, bool saveChanges = false);
+		void Create (IEnumerable<T> models);
 
 
 
-		Task CreateAsync (IEnumerable<T> models, bool saveChanges = false);
+		Task CreateAsync (IEnumerable<T> models);
 
 
 
-		IEnumerable<T> Read (IEnumerable<int> ids, bool saveChanges = false);
+		IEnumerable<T> Read (IEnumerable<int> ids);
 
 
 
-		Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids, bool saveChanges = false);
+		Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids);
 
 
 
-		void Update (IEnumerable<T> models, bool saveChanges = false);
+		void Update (IEnumerable<T> models);
 
 
 
-		Task UpdateAsync (IEnumerable<T> models, bool saveChanges = false);
+		Task UpdateAsync (IEnumerable<T> models);
 
 
 
-		void Delete (IEnumerable<T> models, bool saveChanges = false);
+		void Delete (IEnumerable<T> models);
 
 
 
-		Task DeleteAsync (IEnumerable<T> models, bool saveChanges = false);
+		Task DeleteAsync (IEnumerable<T> models);
 
 
 
@@ -100,6 +100,8 @@ namespace MasDev.Common.Data
 
 		IQueryable<T> Query { get; }
 
+
+		IUnitOfWork UnitOfWork { get; }
 
 
 		void BeginWork ();
@@ -146,11 +148,11 @@ namespace MasDev.Common.Data
 
 
 
-		int UpdateVersioned (TVersionedModel model, bool saveChanges = false);
+		int UpdateVersioned (TVersionedModel model);
 
 
 
-		Task<int> UpdateVersionedAsync (TVersionedModel model, bool saveChanges = false);
+		Task<int> UpdateVersionedAsync (TVersionedModel model);
 	}
 }
 	

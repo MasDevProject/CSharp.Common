@@ -10,7 +10,7 @@ using MasDev.Common.Http;
 
 namespace MasDev.Common.Rest.Proxy
 {
-	public class AuthorizableProxy<T> : RealProxy where T : class, IAuthorizable, new()
+	public class RestModuleProxy<T> : RealProxy where T : class, IRestModule, new()
 	{
 		readonly T _instance;
 
@@ -18,13 +18,12 @@ namespace MasDev.Common.Rest.Proxy
 
 
 
-		AuthorizableProxy (T instance) : base (typeof(T))
+		RestModuleProxy (T instance) : base (typeof(T))
 		{
 			_instance = instance;
 
 			var l = new HashSet<string> ();
-			foreach (var p in typeof(T).GetRuntimeProperties ())
-			{
+			foreach (var p in typeof(T).GetRuntimeProperties ()) {
 				if (p.SetMethod != null)
 					l.Add (p.SetMethod.Name);
 				if (p.GetMethod != null)
@@ -37,7 +36,7 @@ namespace MasDev.Common.Rest.Proxy
 
 		public static T Create (T instance)
 		{
-			return (T)new AuthorizableProxy<T> (instance).GetTransparentProxy ();
+			return (T)new RestModuleProxy<T> (instance).GetTransparentProxy ();
 		}
 
 
@@ -50,23 +49,34 @@ namespace MasDev.Common.Rest.Proxy
 				return methodCall.UnProxedCall (_instance);
 
 			var method = (MethodInfo)methodCall.MethodBase;
+			var handleTransactions = method.GetCustomAttribute<HandleTransactionsAttribute> ();
 			var authorize = method.GetCustomAttribute<AuthorizeAttribute> ();
 			var anonymous = method.GetCustomAttribute<AllowAnonymousAttribute> ();
 
 			var shouldAuthorize = authorize != null || (RestConfiguration.AuthOptions.AuthorizeByDefault && anonymous == null);
-			if (shouldAuthorize)
-			{
+			var uow = _instance.Repositories.SharedUnitOfWork;
+			if (shouldAuthorize) {
 				var authorizedRoles = authorize == null ? null : authorize.Roles;
-				try
-				{
+				try {
 					Authorize (authorizedRoles);
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
+					if (uow.IsStarted)
+						uow.Rollback ();
 					return new ReturnMessage (e, msg as IMethodCallMessage);
 				}
 			}
 				
-			return methodCall.UnProxedCall (_instance);
+			var result = methodCall.UnProxedCall (_instance);
+			if (handleTransactions == null || !uow.IsStarted)
+				return result;
+
+			try {
+				uow.Commit ();
+			} catch (Exception e) {
+				return new ReturnMessage (e, msg as IMethodCallMessage);
+			}
+
+			return result;
 		}
 
 

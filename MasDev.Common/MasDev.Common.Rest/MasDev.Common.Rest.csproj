@@ -59,20 +59,21 @@
     <Compile Include="Source\Auth\AuthManagerOptions\IExpiration.cs" />
     <Compile Include="Source\Auth\AuthorizeAttribute.cs" />
     <Compile Include="Source\Auth\AllowAnonymousAttribute.cs" />
-    <Compile Include="Source\Auth\IAuthorizable.cs" />
     <Compile Include="Source\Auth\Base\AesTokenProtector.cs" />
     <Compile Include="Source\Auth\Base\BaseAuthManager.cs" />
     <Compile Include="Source\Auth\Base\DefaultAuthOptions.cs" />
     <Compile Include="Source\Auth\Base\GZipTokenCompressor.cs" />
     <Compile Include="Source\Auth\Base\JSonTokenSerializer.cs" />
-    <Compile Include="Source\Auth\Proxy\AuthorizableProxy.cs" />
-    <Compile Include="Source\Auth\Proxy\MethodCallExtensions.cs" />
     <Compile Include="Source\Push\PushManager.cs" />
     <Compile Include="Source\Push\PushContext.cs" />
     <Compile Include="Source\Push\IPushContextAdapter.cs" />
     <Compile Include="Source\Push\IPushHttpContext.cs" />
     <Compile Include="Source\Push\IConnectionManager.cs" />
     <Compile Include="Source\Utils\Require.cs" />
+    <Compile Include="Source\HandleTransactionsAttribute.cs" />
+    <Compile Include="Source\Auth\IRestModule.cs" />
+    <Compile Include="Source\Proxy\MethodCallExtensions.cs" />
+    <Compile Include="Source\Proxy\RestModuleProxy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

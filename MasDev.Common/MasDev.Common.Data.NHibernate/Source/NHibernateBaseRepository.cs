@@ -32,31 +32,20 @@ namespace MasDev.Common.Data.NHibernate
 		ISession Session { get { return _uow.Session; } }
 
 
+		public virtual IUnitOfWork UnitOfWork { get { return _uow; } }
 
-		public virtual int Create (T model, bool saveChanges = false)
+
+		public virtual int Create (T model)
 		{
 			ThrowIfVersionedModel ();
 			var id = (int)Session.Save (model);
-			SaveChanges (saveChanges);
 			return id;
 		}
 
 
-
-		internal void SaveChanges (bool saveChanges)
+		public virtual async Task<int> CreateAsync (T model)
 		{
-			if (!saveChanges)
-				return;
-			if (!IsInTransaction)
-				BeginWork ();
-			_uow.Commit (true);
-		}
-
-
-
-		public virtual async Task<int> CreateAsync (T model, bool saveChanges = false)
-		{
-			return await Task.Factory.StartNew (() => Create (model, saveChanges));
+			return await Task.Factory.StartNew (() => Create (model));
 		}
 
 
@@ -76,144 +65,138 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-		public virtual int Update (T model, bool saveChanges = false)
+		public virtual int Update (T model)
 		{
 			Session.Update (model);
-			SaveChanges (saveChanges);
+			
 			return model.Id;
 		}
 
 
 
-		public virtual async Task<int> UpdateAsync (T model, bool saveChanges = false)
+		public virtual async Task<int> UpdateAsync (T model)
 		{
-			return await Task.Factory.StartNew (() => Update (model, saveChanges));
+			return await Task.Factory.StartNew (() => Update (model));
 		}
 
 
 
-		public virtual int Delete (T model, bool saveChanges = false)
+		public virtual int Delete (T model)
 		{
 			var undeletable = model as IUndeletableModel;
 			if (undeletable == null)
 				Session.Delete (model);
-			else
-			{
+			else {
 				undeletable.IsEnabled = false;
 				Session.Update (undeletable);
 			}
-			SaveChanges (saveChanges);
 			return model.Id;
 		}
 
 
 
-		public virtual async Task<int> DeleteAsync (T model, bool saveChanges = false)
+		public virtual async Task<int> DeleteAsync (T model)
 		{
-			return await Task.Factory.StartNew (() => Delete (model, saveChanges));
+			return await Task.Factory.StartNew (() => Delete (model));
 		}
 
 
 
-		public virtual void Create (IEnumerable<T> models, bool saveChanges = false)
+		public virtual void Create (IEnumerable<T> models)
 		{
 			ThrowIfVersionedModel ();
-			foreach (var t in models)
-			{
+			foreach (var t in models) {
 				Session.Save (t);
 			}
-			SaveChanges (saveChanges);
+			
 		}
 
 
 
-		public virtual async Task CreateAsync (IEnumerable<T> models, bool saveChanges = false)
+		public virtual async Task CreateAsync (IEnumerable<T> models)
 		{
-			await Task.Factory.StartNew (() => Create (models, saveChanges));
+			await Task.Factory.StartNew (() => Create (models));
 		}
 
 
 
-		public virtual IEnumerable<T> Read (IEnumerable<int> ids, bool saveChanges = false)
+		public virtual IEnumerable<T> Read (IEnumerable<int> ids)
 		{
 			var result = new List<T> ();
-			foreach (var id in ids)
-			{
+			foreach (var id in ids) {
 				var t = Session.Get<T> (id);
 				if (t == null)
 					continue;
 				result.Add (t);
 			}
-			SaveChanges (saveChanges);
+			
 			return result;
 		}
 
 
 
-		public virtual async Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids, bool saveChanges = false)
+		public virtual async Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids)
 		{
-			return await Task.Factory.StartNew (() => Read (ids, saveChanges));
+			return await Task.Factory.StartNew (() => Read (ids));
 		}
 
 
 
-		public virtual void Update (IEnumerable<T> models, bool saveChanges = false)
+		public virtual void Update (IEnumerable<T> models)
 		{
-			foreach (var m in models)
-			{
+			foreach (var m in models) {
 				Session.Update (m);
 			}
-			SaveChanges (saveChanges);
+			
 		}
 
 
 
-		public virtual async Task UpdateAsync (IEnumerable<T> models, bool saveChanges = false)
+		public virtual async Task UpdateAsync (IEnumerable<T> models)
 		{
-			await Task.Factory.StartNew (() => Update (models, saveChanges));
+			await Task.Factory.StartNew (() => Update (models));
 		}
 
 
 
-		public virtual void Delete (IEnumerable<T> models, bool saveChanges = false)
+		public virtual void Delete (IEnumerable<T> models)
 		{
-			foreach (var m in models)
-			{
+			foreach (var m in models) {
 				Session.Delete (m);
 			}
-			SaveChanges (saveChanges);
+			
 		}
 
 
 
-		public virtual async Task DeleteAsync (IEnumerable<T> models, bool saveChanges = false)
+		public virtual async Task DeleteAsync (IEnumerable<T> models)
 		{
-			await Task.Factory.StartNew (() => Delete (models, saveChanges));
+			await Task.Factory.StartNew (() => Delete (models));
 		}
 
 
 
-		public T Update (int id, Action<T> updater, bool saveChanges = false)
+		public T Update (int id, Action<T> updater)
 		{
 			var model = Read (id);
 			if (model == null)
 				return null;
 
 			updater (model);
-			Update (model, saveChanges);
+			Update (model);
 			return model;
 		}
 
 
 
-		public async Task<T> UpdateAsync (int id, Action<T> updater, bool saveChanges = false)
+		public async Task<T> UpdateAsync (int id, Action<T> updater)
 		{
 			var model = await ReadAsync (id);
 			if (model == null)
 				return null;
 
 			updater (model);
-			await UpdateAsync (model, saveChanges);
+			await UpdateAsync (model);
 			return model;
 		}
 
@@ -226,7 +209,6 @@ namespace MasDev.Common.Data.NHibernate
 			string deleteAll = string.Format ("DELETE FROM \"{0}\"", table);
 
 			Session.Delete (deleteAll);
-			SaveChanges (true);
 		}
 
 
@@ -278,13 +260,13 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-		public bool IsInTransaction { get { return _uow.IsStarted (); } }
+		public bool IsInTransaction { get { return _uow.IsStarted; } }
 
 
 
 		public void Lock (T model, LockMode lockMode)
 		{
-			if (!_uow.IsStarted ())
+			if (!_uow.IsStarted)
 				throw new Exception ("Cannot lock an unstarted job");
 
 			_uow.Session.Lock (model, ConvertLockMode (lockMode));
@@ -294,8 +276,7 @@ namespace MasDev.Common.Data.NHibernate
 
 		static global::NHibernate.LockMode ConvertLockMode (LockMode lockMode)
 		{
-			switch (lockMode)
-			{
+			switch (lockMode) {
 			case LockMode.None:
 				return global::NHibernate.LockMode.None;
 			case LockMode.Read:
@@ -313,22 +294,21 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-		public async Task<int> CreateOrUpdateAsync (IModel model, bool saveChanges)
+		public async Task<int> CreateOrUpdateAsync (IModel model)
 		{
-			return await Task.Factory.StartNew (() => CreateOrUpdate (model, saveChanges));
+			return await Task.Factory.StartNew (() => CreateOrUpdate (model));
 		}
 
 
 
-		public int CreateOrUpdate (IModel model, bool saveChanges)
+		public int CreateOrUpdate (IModel model)
 		{
 			int id = model.Id;
 			if (model.Id == 0)
 				id = (int)Session.Save (model);
 			else
 				Session.Update (model);
-
-			SaveChanges (saveChanges);
+				
 			return id;
 		}
 
@@ -364,76 +344,74 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-		public override async Task<int> CreateAsync (TVersionedModel model, bool saveChanges = false)
+		public override async Task<int> CreateAsync (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
-			await CreateOrUpdateAsync (version, true);
+			await CreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
-			await CreateOrUpdateAsync (model, saveChanges);
+			await CreateOrUpdateAsync (model);
 
 			version.Parent = model;
-			await CreateOrUpdateAsync (version, saveChanges);
+			await CreateOrUpdateAsync (version);
 
 			return model.Id;
 		}
 
 
 
-		public override async Task CreateAsync (IEnumerable<TVersionedModel> m, bool saveChanges = false)
+		public override async Task CreateAsync (IEnumerable<TVersionedModel> m)
 		{
 			var models = m.ToArray ();
 			var versions = new TModelVersioning[models.Length];
 
-			for (var i = 0; i < models.Length; i++)
-			{
+			for (var i = 0; i < models.Length; i++) {
 				var model = models [i];
 				var version = CreateVersion (model);
-				await CreateOrUpdateAsync (version, false);
+				await CreateOrUpdateAsync (version);
 				versions [i] = version;
 			}
-			SaveChanges (true);
+			//SaveChanges (true);
 
-			for (var i = 0; i < models.Length; i++)
-			{
+			for (var i = 0; i < models.Length; i++) {
 				var model = models [i];
 				var version = versions [i];
 				model.CurrentVersion = version;
-				await CreateOrUpdateAsync (model, false);
+				await CreateOrUpdateAsync (model);
 
 				version.Parent = model;
-				await CreateOrUpdateAsync (version, false);
+				await CreateOrUpdateAsync (version);
 			}
-			SaveChanges (saveChanges);
+			
 		}
 
 
 
 
-		public virtual int UpdateVersioned (TVersionedModel model, bool saveChanges = false)
+		public virtual int UpdateVersioned (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
 			version.Parent = model;
-			CreateOrUpdate (version, true);
+			CreateOrUpdate (version);
 
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
-			CreateOrUpdate (model, saveChanges);
+			CreateOrUpdate (model);
 
 			return model.Id;
 		}
 
 
 
-		public virtual async Task<int> UpdateVersionedAsync (TVersionedModel model, bool saveChanges = false)
+		public virtual async Task<int> UpdateVersionedAsync (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
 			version.Parent = model;
-			await CreateOrUpdateAsync (version, true);
+			await CreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
-			await CreateOrUpdateAsync (model, saveChanges);
+			await CreateOrUpdateAsync (model);
 
 			return model.Id;
 		}

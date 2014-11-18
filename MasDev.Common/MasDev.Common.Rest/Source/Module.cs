@@ -4,7 +4,7 @@ using System;
 
 namespace MasDev.Common.Rest
 {
-	public class Module :  MarshalByRefObject, IAuthorizable
+	public class Module :  MarshalByRefObject, IRestModule
 	{
 		readonly IRepositories _repositories;
 		readonly IAuthManager _authManager = RestConfiguration.AuthOptions.Manager;

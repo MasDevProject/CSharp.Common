@@ -7,7 +7,7 @@ using System;
 
 namespace MasDev.Common.Rest
 {
-	public abstract class PushManager : MarshalByRefObject, IAuthorizable
+	public abstract class PushManager : MarshalByRefObject, IRestModule
 	{
 		readonly IRepositories _repositories;
 		readonly IAuthManager _authManager = RestConfiguration.AuthOptions.Manager;
@@ -28,7 +28,7 @@ namespace MasDev.Common.Rest
 
 
 
-		IHttpContext IAuthorizable.HttpContext
+		IHttpContext IRestModule.HttpContext
 		{
 			get { return HttpContext; }
 			set { HttpContext = Assert.As<IPushHttpContext> (value); }

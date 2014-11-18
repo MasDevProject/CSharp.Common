@@ -41,10 +41,7 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-		public bool IsStarted ()
-		{
-			return _transaction != null;
-		}
+		public bool IsStarted { get { return _transaction != null; } }
 
 
 
@@ -58,8 +55,7 @@ namespace MasDev.Common.Data.NHibernate
 		public void Rollback (bool startNew)
 		{
 
-			if (_transaction != null)
-			{
+			if (_transaction != null) {
 				if (_transaction.IsActive && !_transaction.WasRolledBack)
 					_transaction.Rollback ();
 
@@ -82,8 +78,7 @@ namespace MasDev.Common.Data.NHibernate
 
 		public void Commit (bool startNew)
 		{
-			if (_transaction != null)
-			{
+			if (_transaction != null) {
 				if (_transaction.IsActive && !_transaction.WasRolledBack)
 					_transaction.Commit ();
 					

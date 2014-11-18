@@ -21,7 +21,7 @@ namespace MasDev.Common.Data
 
 
 
-		bool IsStarted ();
+		bool IsStarted { get; }
 	}
 }
 
