@@ -243,7 +243,7 @@ namespace MasDev.Common.Data.NHibernate
 		public virtual void CommitWork ()
 		{
 			if (IsInTransaction)
-				_uow.Commit ();
+				_uow.Commit (true);
 			else
 				throw new Exception ("Work not has not started");
 		}
@@ -253,7 +253,7 @@ namespace MasDev.Common.Data.NHibernate
 		public virtual void RollbackWork ()
 		{
 			if (IsInTransaction)
-				_uow.Rollback ();
+				_uow.Rollback (true);
 			else
 				throw new Exception ("Work not has not started");
 		}
