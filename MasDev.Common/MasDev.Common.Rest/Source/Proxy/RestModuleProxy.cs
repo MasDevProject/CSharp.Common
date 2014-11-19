@@ -6,6 +6,7 @@ using MasDev.Common.Rest.Auth;
 using System.Linq;
 using System.Collections.Generic;
 using MasDev.Common.Http;
+using System.Threading.Tasks;
 
 
 namespace MasDev.Common.Rest.Proxy
@@ -47,8 +48,10 @@ namespace MasDev.Common.Rest.Proxy
 			var methodCall = msg as IMethodCallMessage;
 			if (methodCall == null || IsProperty (methodCall))
 				return methodCall.UnProxedCall (_instance);
-
+				
 			var method = (MethodInfo)methodCall.MethodBase;
+			var debug = string.Format ("******************************** {0}.{1}: ", method.DeclaringType.Name, method.Name);
+
 			var handleTransactions = method.GetCustomAttribute<HandleTransactionsAttribute> ();
 			var authorize = method.GetCustomAttribute<AuthorizeAttribute> ();
 			var anonymous = method.GetCustomAttribute<AllowAnonymousAttribute> ();
@@ -60,18 +63,51 @@ namespace MasDev.Common.Rest.Proxy
 				try {
 					Authorize (authorizedRoles);
 				} catch (Exception e) {
-					if (uow.IsStarted)
+					if (uow.IsStarted) {
 						uow.Rollback ();
-					return new ReturnMessage (e, msg as IMethodCallMessage);
+						Console.WriteLine (debug + "uow rollbacked after auth exception");
+					}
+					return new ReturnMessage (e, methodCall);
 				}
 			}
-				
-			var result = methodCall.UnProxedCall (_instance);
-			if (handleTransactions == null || !uow.IsStarted)
-				return result;
 
+			var result = methodCall.UnProxedCall (_instance);
+			if (handleTransactions == null || !uow.IsStarted) {
+				Console.WriteLine (debug + "not marked as [HandleTransactions] or !uow.IsStarted");
+				return result;
+			}
+				
+			var methodResult = result as ReturnMessage;
+
+			if (methodResult == null) {
+				Console.WriteLine (debug + " result is not a ReturnMessage");
+				return result;
+			}
+				
 			try {
-				uow.Commit ();
+				if (methodResult.Exception == null) {
+					var actualResult = methodResult.ReturnValue as Task;
+
+					if (actualResult == null) {
+						uow.Commit ();
+						Console.WriteLine (debug + "committed uow (sync)");
+					} else {
+						actualResult.GetAwaiter ().UnsafeOnCompleted (() => {
+							if (actualResult.Exception == null) {
+								uow.Commit ();
+								Console.WriteLine (debug + "committed uow (async)");
+								return;
+							}
+
+							uow.Rollback ();
+							Console.WriteLine (debug + "uow rollbacked after generic exception (async)");
+						});
+					}
+
+				} else {
+					uow.Rollback ();
+					Console.WriteLine (debug + "uow rollbacked after generic exception (sync)");
+				}
 			} catch (Exception e) {
 				return new ReturnMessage (e, msg as IMethodCallMessage);
 			}
