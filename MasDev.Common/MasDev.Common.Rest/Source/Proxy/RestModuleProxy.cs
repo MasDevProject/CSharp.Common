@@ -50,7 +50,7 @@ namespace MasDev.Common.Rest.Proxy
 				return methodCall.UnProxedCall (_instance);
 				
 			var method = (MethodInfo)methodCall.MethodBase;
-			var debug = string.Format ("******************************** {0}.{1}: ", method.DeclaringType.Name, method.Name);
+			//var debug = string.Format ("******************************** {0}.{1}: ", method.DeclaringType.Name, method.Name);
 
 			var handleTransactions = method.GetCustomAttribute<HandleTransactionsAttribute> ();
 			var authorize = method.GetCustomAttribute<AuthorizeAttribute> ();
@@ -65,7 +65,7 @@ namespace MasDev.Common.Rest.Proxy
 				} catch (Exception e) {
 					if (uow.IsStarted) {
 						uow.Rollback ();
-						Console.WriteLine (debug + "uow rollbacked after auth exception");
+						//Console.WriteLine (debug + "uow rollbacked after auth exception");
 					}
 					return new ReturnMessage (e, methodCall);
 				}
@@ -73,14 +73,14 @@ namespace MasDev.Common.Rest.Proxy
 
 			var result = methodCall.UnProxedCall (_instance);
 			if (handleTransactions == null || !uow.IsStarted) {
-				Console.WriteLine (debug + "not marked as [HandleTransactions] or !uow.IsStarted");
+				//Console.WriteLine (debug + "not marked as [HandleTransactions] or !uow.IsStarted");
 				return result;
 			}
 				
 			var methodResult = result as ReturnMessage;
 
 			if (methodResult == null) {
-				Console.WriteLine (debug + " result is not a ReturnMessage");
+				//Console.WriteLine (debug + " result is not a ReturnMessage");
 				return result;
 			}
 				
@@ -90,23 +90,23 @@ namespace MasDev.Common.Rest.Proxy
 
 					if (actualResult == null) {
 						uow.Commit ();
-						Console.WriteLine (debug + "committed uow (sync)");
+						//Console.WriteLine (debug + "committed uow (sync)");
 					} else {
 						actualResult.GetAwaiter ().UnsafeOnCompleted (() => {
 							if (actualResult.Exception == null) {
 								uow.Commit ();
-								Console.WriteLine (debug + "committed uow (async)");
+								//Console.WriteLine (debug + "committed uow (async)");
 								return;
 							}
 
 							uow.Rollback ();
-							Console.WriteLine (debug + "uow rollbacked after generic exception (async)");
+							//Console.WriteLine (debug + "uow rollbacked after generic exception (async)");
 						});
 					}
 
 				} else {
 					uow.Rollback ();
-					Console.WriteLine (debug + "uow rollbacked after generic exception (sync)");
+					//Console.WriteLine (debug + "uow rollbacked after generic exception (sync)");
 				}
 			} catch (Exception e) {
 				return new ReturnMessage (e, msg as IMethodCallMessage);
