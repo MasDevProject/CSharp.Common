@@ -23,17 +23,15 @@ namespace MasDev.Common.Rest.WebApi
 				return result;
 
 			var value = objectContent.Value;
-
+				
 			var redirect = value as Redirect;
-			if (redirect != null)
-			{
+			if (redirect != null) {
 				result = new HttpResponseMessage (HttpStatusCode.Redirect);
 				result.Headers.Location = new Uri (redirect.To);
 			}
 
 			var mimed = value as MimedStream;
-			if (mimed != null)
-			{
+			if (mimed != null) {
 				result = new HttpResponseMessage (HttpStatusCode.OK);
 				var content = new StreamContent (mimed.Stream);
 				content.Headers.ContentType = new MediaTypeHeaderValue (mimed.Mime);
