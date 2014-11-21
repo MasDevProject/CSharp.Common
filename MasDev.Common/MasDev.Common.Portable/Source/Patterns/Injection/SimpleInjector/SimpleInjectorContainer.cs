@@ -1,7 +1,6 @@
 ﻿using System;
 using MasDev.Common.Injection;
 using SimpleInjector;
-using System.Collections.Generic;
 
 
 namespace MasDev.Common.Injection.SimpleInjector
