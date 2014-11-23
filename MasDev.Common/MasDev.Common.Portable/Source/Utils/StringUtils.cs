@@ -47,10 +47,11 @@ namespace MasDev.Common
 			return builder.ToString ();
 		}
 
-		public static string AddCommaSeparatedValue (out string s, string value)
+		public static void AddCommaSeparatedValue (ref string s, string value)
 		{
 			if (s == null)
 				return;
+
 			var values = s.ReadAsCommaSeparatedValues ();
 			if (values.Any (v => v == value))
 				return;

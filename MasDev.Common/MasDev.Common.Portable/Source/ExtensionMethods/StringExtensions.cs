@@ -146,7 +146,7 @@ namespace MasDev.Common.Extensions
 		public static IEnumerable<string> ReadAsCommaSeparatedValues (this string s)
 		{
 			if (string.IsNullOrEmpty (s))
-				return null;
+				yield break;
 
 			var builder = new StringBuilder ();
 			for (int i = 0; i < s.Length; i++) {
