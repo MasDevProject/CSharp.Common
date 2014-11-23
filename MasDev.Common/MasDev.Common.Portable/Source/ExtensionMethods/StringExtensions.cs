@@ -74,14 +74,12 @@ namespace MasDev.Common.Extensions
 
 		public static bool IsLocalPath (this string path)
 		{
-			try
-			{
+			try {
 				if (path.StartsWith (Http, StringComparison.Ordinal) || path.StartsWith (Https, StringComparison.Ordinal))
 					return false;
 
 				return new Uri (path).IsFile;
-			} catch (Exception)
-			{
+			} catch (Exception) {
 				return true;
 			}
 		}
@@ -118,8 +116,7 @@ namespace MasDev.Common.Extensions
 
 		static IEnumerable<char> StripPunctuationInt (string s)
 		{
-			for (int i = 0; i < s.Length; i++)
-			{
+			for (int i = 0; i < s.Length; i++) {
 				var c = s [i];
 				if (!char.IsPunctuation (c))
 					yield return c;
@@ -138,12 +135,31 @@ namespace MasDev.Common.Extensions
 		public static int Occurrences (this string s, string value)
 		{                  
 			int count = 0, minIndex = s.IndexOf (value, 0, StringComparison.Ordinal);
-			while (minIndex != -1)
-			{
+			while (minIndex != -1) {
 				minIndex = s.IndexOf (value, minIndex + value.Length, StringComparison.Ordinal);
 				count++;
 			}
 			return count;
+		}
+
+
+		public static IEnumerable<string> ReadAsCommaSeparatedValues (this string s)
+		{
+			if (string.IsNullOrEmpty (s))
+				return null;
+
+			var builder = new StringBuilder ();
+			for (int i = 0; i < s.Length; i++) {
+				var current = s [i];
+
+				if (current != ',') {
+					builder.Append (current);
+					continue;
+				}
+
+				yield return builder.ToString ();
+				builder = new StringBuilder ();
+			}
 		}
 	}
 }
