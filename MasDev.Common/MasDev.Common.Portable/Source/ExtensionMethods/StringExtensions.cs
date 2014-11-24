@@ -88,13 +88,14 @@ namespace MasDev.Common.Extensions
 
 		public static string BetweenExclusive (this string s, string lowerBound, string upperBound)
 		{
-			var groups = Regex.Match (s, lowerBound + @"(.+?)" + upperBound).Groups;
-			if (groups == null || groups.Count == 0)
-				return null;
+			var startIndex = s.IndexOf (lowerBound);
+			var actualStart = startIndex + lowerBound.Length;
+			var endIndex = s.LastIndexOf (upperBound);
 
+			if (startIndex < 0 || endIndex < 0 || endIndex < actualStart)
+				return s;
 
-			var match = groups [1];
-			return match == null ? null : match.Value;
+			return s.Substring (actualStart, endIndex + actualStart);
 		}
 
 
