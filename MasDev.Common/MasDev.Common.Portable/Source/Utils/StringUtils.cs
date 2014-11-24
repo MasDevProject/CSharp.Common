@@ -56,7 +56,7 @@ namespace MasDev.Common
 			if (values.Any (v => v == value))
 				return;
 
-			s = s + ',' + value;
+			s = s + value + ',';
 		}
 
 		public static int Length (string s)
