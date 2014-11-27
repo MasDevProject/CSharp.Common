@@ -127,11 +127,77 @@ namespace MasDev.Common.Utils
 		}
 
 
+		public static bool NullSafeEquals<T> (T o1, T o2)
+		{
+			if (BothNotNull (o1, o2))
+				return o1.Equals (o2);
+
+			if (BothNotNull (o1, o2))
+				return true;
+
+			return false;
+		}
+
+		public static bool NullSafeEquals<T> (T o1, T o2, Func<T, T, bool> comparer)
+		{
+			if (BothNotNull (o1, o2))
+				return comparer (o1, o2);
+
+			if (BothNotNull (o1, o2))
+				return true;
+
+			return false;
+		}
+
 
 		public static bool BoxedEquls (params object[] items)
 		{
 			var bools = Assert.NotNullOrEmpty (items).Select (i => i == null).ToList ();
 			return bools.All (b => b) || bools.All (b => !b);
+		}
+
+
+		public static bool NullSafeAllCollectionsEquals<T> (ICollection<T>[] collections)
+		{
+			return NullSafeAllCollectionsEquals ((a, b) => a.Equals (b), collections);
+		}
+
+		public static bool NullSafeAllCollectionsEquals<T> (Func<T,T,bool> comparer, ICollection<T>[] collections)
+		{
+			return NullSafeAllCollectionsEquals (EqualityComparer.Create<T> (comparer), collections);
+		}
+
+
+		public static bool NullSafeAllCollectionsEquals<T> (IEqualityComparer<T> comparer, ICollection<T>[] collections)
+		{
+			var areCollectionsNull = Assert.NotNullOrEmpty (collections).Select (i => i == null).ToList ();
+
+			// All null
+			if (areCollectionsNull.All (isNull => isNull))
+				return true;
+
+			// Some null, some others not null
+			if (areCollectionsNull.Any (isNull => isNull))
+				return false;
+
+			var collectionSize = collections [0].Count;
+			if (!collections.All (item => item.Count == collectionSize))
+				return false;
+
+			var testCollection = collections [0];
+
+			for (var i = 1; i < collections.Length; i++) {
+				var collection = collections [i];
+				var inTestButNotInCurrent = testCollection.Except (collection, comparer).Count ();
+				if (inTestButNotInCurrent > 0)
+					return false;
+
+				var inCollectionButNotInTest = collection.Except (testCollection, comparer).Count ();
+				if (inCollectionButNotInTest > 0)
+					return false;
+			}
+
+			return true;
 		}
 	}
 }

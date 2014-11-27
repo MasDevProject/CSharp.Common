@@ -4,6 +4,7 @@ using AutoMapper;
 using MasDev.Common.Data;
 using System.Linq.Expressions;
 using System.Linq;
+using MasDev.Common.Utils;
 
 
 namespace MasDev.Common.Modeling
@@ -90,6 +91,30 @@ namespace MasDev.Common.Modeling
 			    join version in versionQuery on model.CurrentVersion.Id equals version.Id
 			    select version
 			);
+		}
+
+
+		public static TKey VersionedAssign<TModel, TKey> (TModel source, TModel destination, Func<TModel, TKey> property, ref bool shouldDoVersioning)
+		{
+			return VersionedAssign (source, destination, property, (a, b) => a.Equals (b), ref shouldDoVersioning);
+		}
+
+
+		public static TKey VersionedAssign<TModel, TKey> (TModel source, TModel destination, Func<TModel, TKey> property, Func<TKey,TKey, bool> comparer, ref bool shouldDoVersioning)
+		{
+			var sourcePropertyValue = property (source);
+			var destinationPropertyValue = property (source);
+
+			if (Check.BothNull (sourcePropertyValue, destinationPropertyValue))
+				return sourcePropertyValue;
+
+			if (!Check.BothNotNull (sourcePropertyValue, destinationPropertyValue)) {
+				shouldDoVersioning = true;
+				return sourcePropertyValue;
+			}
+
+			shouldDoVersioning = shouldDoVersioning || comparer (sourcePropertyValue, destinationPropertyValue);
+			return sourcePropertyValue;
 		}
 	}
 }
