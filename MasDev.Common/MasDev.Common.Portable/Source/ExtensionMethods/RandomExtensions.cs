@@ -12,9 +12,9 @@ namespace MasDev.Common.Extensions
 
 
 
-		public static bool NextBool (this Random r, float weight)
+		public static bool NextBool (this Random r, float successProbability)
 		{
-			return r.NextDouble () < weight;
+			return r.NextDouble () < successProbability;
 		}
 
 
