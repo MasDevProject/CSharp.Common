@@ -88,14 +88,16 @@ namespace MasDev.Common.Extensions
 
 		public static string BetweenExclusive (this string s, string lowerBound, string upperBound)
 		{
-			var startIndex = s.IndexOf (lowerBound);
+			var startIndex = s.IndexOf (lowerBound, StringComparison.OrdinalIgnoreCase);
 			var actualStart = startIndex + lowerBound.Length;
-			var endIndex = s.LastIndexOf (upperBound);
+            var endIndex = s.LastIndexOf(upperBound, StringComparison.OrdinalIgnoreCase);
+
+		    if (startIndex == endIndex) return string.Empty;
 
 			if (startIndex < 0 || endIndex < 0 || endIndex < actualStart)
 				return s;
 
-			return s.Substring (actualStart, endIndex + actualStart);
+			return s.Substring (actualStart, endIndex - actualStart);
 		}
 
 
