@@ -44,8 +44,8 @@ namespace MasDev.Common.Utils.GoogleServices.Maps
 					var location = result ["geometry"] ["location"];
 					var geoResult = new GeocodingQueryResult {
 						Coordinates = new GeoPoint (
-							double.Parse (location ["lat"].Value<string> ()),
-							double.Parse (location ["lng"].Value<string> ())
+							location ["lat"].Value<double> (),
+							location ["lng"].Value<double> ()
 						),
 						FormattedAddress = formattedAddr
 					};
