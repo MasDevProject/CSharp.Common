@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections.Generic;
+using MasDev.Common.Utils;
 
 
 namespace MasDev.Common.Extensions
@@ -32,7 +33,17 @@ namespace MasDev.Common.Extensions
 
 		public static bool EqualsIgnoreCase (this string s, string what)
 		{
-			return string.CompareOrdinal (s, what) == 0;
+			if (Check.BothNull (s, what))
+				return true;
+
+			if (!Check.BothNotNull (s, what))
+				return false;
+
+			if (s.Length != what.Length)
+				return false;
+
+
+			return s.ToLowerInvariant () == what.ToLowerInvariant ();
 		}
 
 
