@@ -24,6 +24,11 @@ namespace MasDev.Common.Rest.Push
 
 
 
+		Task RemoveConnection (string connectionId);
+
+
+
+
 		Task AddConnectionIfNotStored (int modelId, string connectionId);
 	}
 
