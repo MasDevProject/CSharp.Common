@@ -1,23 +1,24 @@
 ﻿using System.Threading;
 
-namespace MasDev.Common
+namespace MasDev.Common.Tasks
 {
 	public class CancellationTokenEx
 	{
 		CancellationTokenSource _source;
-		public CancellationToken CancellationToken { get { return _source.Token; }}
+
+		public CancellationToken CancellationToken { get { return _source.Token; } }
 
 		public CancellationTokenEx ()
 		{
 			_source = new CancellationTokenSource ();
 		}
 
-		public void RequestCancellation()
+		public void RequestCancellation ()
 		{
 			_source.Cancel ();
 		}
 
-		public void ThrowIfCancellationRequested()
+		public void ThrowIfCancellationRequested ()
 		{
 			CancellationToken.ThrowIfCancellationRequested ();
 		}
@@ -28,7 +29,7 @@ namespace MasDev.Common
 			}
 		}
 
-		public void Reset()
+		public void Reset ()
 		{
 			_source = new CancellationTokenSource ();
 		}

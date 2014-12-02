@@ -54,11 +54,9 @@
     <Compile Include="Source\Utils\ConnectionUtils.cs" />
     <Compile Include="Source\Utils\Tag.cs" />
     <Compile Include="Source\Utils\ValidationUtils.cs" />
-    <Compile Include="Source\Utils\TaskUtils.cs" />
     <Compile Include="Source\ExtensionMethods\IQueryableExtensions.cs" />
     <Compile Include="Source\Data\IUnitOfWork.cs" />
     <Compile Include="Source\Utils\Assert.cs" />
-    <Compile Include="Source\Utils\CancellationTokenEx.cs" />
     <Compile Include="Source\Patterns\Singleton.cs" />
     <Compile Include="Source\Utils\DelegateUtils.cs" />
     <Compile Include="Source\Security\ISymmetricCrypto.cs" />
@@ -121,6 +119,10 @@
     <Compile Include="Source\Reflection\Types.cs" />
     <Compile Include="Source\IO\Http\AcceptLanguageHeader.cs" />
     <Compile Include="Source\Utils\ITimeZoneConverter.cs" />
+    <Compile Include="Source\Tasks\TaskLauncher.cs" />
+    <Compile Include="Source\Tasks\CancellationTokenExtensions.cs" />
+    <Compile Include="Source\Tasks\CancellationTokenEx.cs" />
+    <Compile Include="Source\Tasks\TaskUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -152,4 +154,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\Tasks\" />
+  </ItemGroup>
 </Project>
