@@ -3,6 +3,7 @@ using MasDev.Common.IO;
 using Android.Content;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using MasDev.Common.Tasks;
 
 namespace MasDev.Common.Droid.IO
 {
