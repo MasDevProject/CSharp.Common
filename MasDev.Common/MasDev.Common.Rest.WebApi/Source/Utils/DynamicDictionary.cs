@@ -16,19 +16,20 @@ namespace MasDev.Common.Rest.WebApi
 			var json = this [key];
 			if (json == null)
 				return default(T);
-			return JsonConvert.DeserializeObject<T> (json);
+			try {
+				return JsonConvert.DeserializeObject<T> (json);
+			} catch (Exception e) {
+				return default(T);
+			}
 		}
 
 
 
-		public string this [string i]
-		{
+		public string this [string i] {
 			get { 
-				try
-				{
+				try {
 					return _innerDictionary [i];
-				} catch (Exception)
-				{
+				} catch (Exception) {
 					return null;
 				}
 			}
