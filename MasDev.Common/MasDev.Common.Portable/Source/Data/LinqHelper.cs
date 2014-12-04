@@ -25,13 +25,11 @@ namespace MasDev.Common.Data
 
 
 			Expression or = null;
-			for (int i = 0; i < values.Length; i++)
-			{
+			for (int i = 0; i < values.Length; i++) {
 				if (i == 1)
 					continue;
 
-				if (i != 0)
-				{
+				if (i != 0) {
 					or = Expression.OrElse (or, builder.BuildAtomicExpression (values [i]));
 					continue;
 				}
@@ -48,6 +46,7 @@ namespace MasDev.Common.Data
 		}
 
 		#region OrId
+
 		public static Expression<Func<TModel, bool>> BuildOrIdExpression<TModel> (params int[] ids) where TModel : IModel
 		{
 			return BuildOrChainExpression (
@@ -78,6 +77,7 @@ namespace MasDev.Common.Data
 			}
 
 		}
+
 		#endregion
 	}
 

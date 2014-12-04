@@ -132,7 +132,7 @@ namespace MasDev.Common.Utils
 			if (BothNotNull (o1, o2))
 				return o1.Equals (o2);
 
-			if (BothNotNull (o1, o2))
+			if (BothNull (o1, o2))
 				return true;
 
 			return false;
@@ -143,7 +143,7 @@ namespace MasDev.Common.Utils
 			if (BothNotNull (o1, o2))
 				return comparer (o1, o2);
 
-			if (BothNotNull (o1, o2))
+			if (BothNull (o1, o2))
 				return true;
 
 			return false;
@@ -162,13 +162,9 @@ namespace MasDev.Common.Utils
 			return NullSafeAllCollectionsEquals ((a, b) => a.Equals (b), collections);
 		}
 
-		public static bool NullSafeAllCollectionsEquals<T> (Func<T,T,bool> comparer, ICollection<T>[] collections)
-		{
-			return NullSafeAllCollectionsEquals (EqualityComparer.Create<T> (comparer), collections);
-		}
 
 
-		public static bool NullSafeAllCollectionsEquals<T> (IEqualityComparer<T> comparer, ICollection<T>[] collections)
+		public static bool NullSafeAllCollectionsEquals<T> (Comparer<T> comparer, ICollection<T>[] collections)
 		{
 			var areCollectionsNull = Assert.NotNullOrEmpty (collections).Select (i => i == null).ToList ();
 
@@ -188,11 +184,11 @@ namespace MasDev.Common.Utils
 
 			for (var i = 1; i < collections.Length; i++) {
 				var collection = collections [i];
-				var inTestButNotInCurrent = testCollection.Except (collection, comparer).Count ();
+				var inTestButNotInCurrent = testCollection.Minus (collection, comparer).Count ();
 				if (inTestButNotInCurrent > 0)
 					return false;
 
-				var inCollectionButNotInTest = collection.Except (testCollection, comparer).Count ();
+				var inCollectionButNotInTest = collection.Minus (testCollection, comparer).Count ();
 				if (inCollectionButNotInTest > 0)
 					return false;
 			}
