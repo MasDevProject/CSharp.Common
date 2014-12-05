@@ -68,7 +68,7 @@ namespace MasDev.Common
 
 		public static bool ContainsSomethingReadable (string s)
 		{
-			return string.IsNullOrEmpty (s) || s.ContainsOnlyWhiteSpaces ();
+			return !(string.IsNullOrEmpty (s) || s.ContainsOnlyWhiteSpaces ());
 		}
 	}
 }
