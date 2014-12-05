@@ -65,6 +65,11 @@ namespace MasDev.Common
 				return 0;
 			return s.Length;
 		}
+
+		public static bool ContainsSomethingReadable (string s)
+		{
+			return string.IsNullOrEmpty (s) || s.ContainsOnlyWhiteSpaces ();
+		}
 	}
 }
 
