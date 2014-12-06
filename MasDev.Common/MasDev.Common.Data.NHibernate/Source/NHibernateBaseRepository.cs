@@ -38,6 +38,10 @@ namespace MasDev.Common.Data.NHibernate
 		public virtual int Create (T model)
 		{
 			ThrowIfVersionedModel ();
+			var undeletable = model as IUndeletableModel;
+			if (undeletable != null)
+				undeletable.IsEnabled = true;
+
 			var id = (int)Session.Save (model);
 			return id;
 		}
@@ -106,6 +110,9 @@ namespace MasDev.Common.Data.NHibernate
 		{
 			ThrowIfVersionedModel ();
 			foreach (var t in models) {
+				var undeletable = t as IUndeletableModel;
+				if (undeletable != null)
+					undeletable.IsEnabled = true;
 				Session.Save (t);
 			}
 			
@@ -350,6 +357,7 @@ namespace MasDev.Common.Data.NHibernate
 			await CreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
+			model.IsEnabled = true;
 			await CreateOrUpdateAsync (model);
 
 			version.Parent = model;
@@ -367,6 +375,7 @@ namespace MasDev.Common.Data.NHibernate
 
 			for (var i = 0; i < models.Length; i++) {
 				var model = models [i];
+				model.IsEnabled = true;
 				var version = CreateVersion (model);
 				await CreateOrUpdateAsync (version);
 				versions [i] = version;
