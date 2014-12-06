@@ -3,13 +3,23 @@
 
 namespace MasDev.Common.Exceptions
 {
-	public class ObjectException<T> : Exception
+	public class ObjectException : Exception
 	{
-		public T Object { get; private set; }
+		public virtual dynamic Object { get; private set; }
+
+		public ObjectException (dynamic obj)
+		{
+			Object = obj;
+		}
+	}
+
+	public class ObjectException<T> : ObjectException
+	{
+		public new T Object { get; private set; }
 
 
 
-		public ObjectException (T obj)
+		public ObjectException (T obj) : base (obj)
 		{
 			Object = obj;
 		}

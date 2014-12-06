@@ -145,7 +145,7 @@ namespace MasDev.Common.Data.NHibernate
 		public virtual void Update (IEnumerable<T> models)
 		{
 			foreach (var m in models) {
-				Session.Update (m);
+				Update (m);
 			}
 			
 		}
@@ -162,7 +162,7 @@ namespace MasDev.Common.Data.NHibernate
 		public virtual void Delete (IEnumerable<T> models)
 		{
 			foreach (var m in models) {
-				Session.Delete (m);
+				Delete (m);
 			}
 			
 		}
