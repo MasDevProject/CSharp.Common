@@ -49,7 +49,6 @@
     <Compile Include="Source\Reflection\ExpressionsParser.cs" />
     <Compile Include="Source\Security\IHashedPassword.cs" />
     <Compile Include="Source\Security\IPasswordHasher.cs" />
-    <Compile Include="Source\Utils\FlagUtils.cs" />
     <Compile Include="Source\Utils\StringUtils.cs" />
     <Compile Include="Source\Utils\ConnectionUtils.cs" />
     <Compile Include="Source\Utils\Tag.cs" />
@@ -123,6 +122,8 @@
     <Compile Include="Source\Tasks\CancellationTokenExtensions.cs" />
     <Compile Include="Source\Tasks\CancellationTokenEx.cs" />
     <Compile Include="Source\Tasks\TaskUtils.cs" />
+    <Compile Include="Source\ExtensionMethods\NumberExtensions.cs" />
+    <Compile Include="Source\Utils\BitwiseUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

@@ -66,7 +66,7 @@ namespace MasDev.Common.Utils
 
 		public static void HasFlag (int sourceFlag, int destFlag)
 		{
-			if (!FlagUtils.Has (sourceFlag, destFlag))
+			if (!BitwiseUtils.Has (sourceFlag, destFlag))
 				throw new AssertionViolatedException ("Source flag does not contain destination flag");
 		}
 	}
