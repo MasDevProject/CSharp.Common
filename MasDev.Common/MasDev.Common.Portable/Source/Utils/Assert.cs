@@ -89,6 +89,24 @@ namespace MasDev.Common.Utils
 
 	public static class Check
 	{
+		public static bool NullityEquals<T> (T o1, T o2)
+		{
+			EnsureIsNullable<T> ();
+			if (BothNull (o1, o2))
+				return false;
+
+			return BothNotNull (o1, o2);
+		}
+
+		public static bool LeftNullityEquals<T> (T o1, T o2)
+		{
+			EnsureIsNullable<T> ();
+			if (o1 != null)
+				return true;
+
+			return o2 == null;
+		}
+
 		public static bool IsNull<T> (T what) where T : class
 		{
 			return what == null;
@@ -194,6 +212,19 @@ namespace MasDev.Common.Utils
 			}
 
 			return true;
+		}
+
+		private static void EnsureIsNullable<T> ()
+		{
+			var type = typeof(T);
+
+			if (Nullable.GetUnderlyingType (type) != null)
+				return;
+
+			if (type.IsByRef)
+				return;
+
+			throw new InvalidOperationException ("Type is not nullable or reference type.");
 		}
 	}
 }
