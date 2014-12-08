@@ -107,6 +107,21 @@ namespace MasDev.Common.Utils
 			return o2 == null;
 		}
 
+
+		public static bool IsPositiveOrNull<T> (T nullableNumber)
+		{
+			EnsureIsNullable<T> ();
+			if (nullableNumber == null)
+				return true;
+
+			try {
+				return MasDev.Common.Extensions.ReflectionExtensions.Cast<double> (nullableNumber) >= 0;
+			} catch (InvalidCastException) {
+				throw new ArgumentException ("Argument must be a number");
+			}
+		}
+
+
 		public static bool IsNull<T> (T what) where T : class
 		{
 			return what == null;
