@@ -50,6 +50,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\NHibernate.4.0.2.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="Source\Specialized\NHibernateMySqlSessionFactoryProvider.cs" />
     <Compile Include="Source\PersistenceMapperAutoMapConfiguration.cs" />
     <Compile Include="Source\PersistenceMapperConvention.cs" />
+    <Compile Include="Source\NHibernateIngoreNullValueContractResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -73,7 +73,6 @@
     <Compile Include="Source\Filters\ExceptionLoggerFilter.cs" />
     <Compile Include="Source\Filters\ResponseMarshallerDelegatingHandler.cs" />
     <Compile Include="Source\Filters\ActionFilter.cs" />
-    <Compile Include="Source\Utils\IgnoreEmptyContractResolver.cs" />
     <Compile Include="Source\WebApiHttpContext.cs" />
     <Compile Include="Source\WebApiInfrastructure.cs" />
     <Compile Include="Source\Utils\RequestExtensions.cs" />
