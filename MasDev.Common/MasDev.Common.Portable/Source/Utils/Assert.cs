@@ -115,8 +115,10 @@ namespace MasDev.Common.Utils
 				return true;
 
 			try {
-				return MasDev.Common.Extensions.ReflectionExtensions.Cast<double> (nullableNumber) >= 0;
-			} catch (InvalidCastException) {
+				var stringlyNumber = nullableNumber.ToString ();
+				var number = double.Parse (stringlyNumber);
+				return number >= 0;
+			} catch (Exception) {
 				throw new ArgumentException ("Argument must be a number");
 			}
 		}

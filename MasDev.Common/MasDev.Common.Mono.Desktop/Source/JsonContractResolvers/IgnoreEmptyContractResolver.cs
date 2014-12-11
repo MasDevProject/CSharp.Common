@@ -5,14 +5,13 @@ using Newtonsoft.Json;
 using System.Collections;
 
 
-namespace MasDev.Common.Rest.WebApi
+namespace MasDev.Common.Newtonsoft.ContractResolvers
 {
 	public class IgnoreEmptyContractResolver : DefaultContractResolver
 	{
 		public IgnoreEmptyContractResolver (bool shareCache = false) : base (shareCache)
 		{
 		}
-
 
 
 		protected override JsonProperty CreateProperty (MemberInfo member,
@@ -25,10 +24,8 @@ namespace MasDev.Common.Rest.WebApi
 
 			if (isDefaultValueIgnored
 			    && !typeof(string).IsAssignableFrom (property.PropertyType)
-			    && typeof(IEnumerable).IsAssignableFrom (property.PropertyType))
-			{
-				Predicate<object> shouldSerialize = obj =>
-				{
+			    && typeof(IEnumerable).IsAssignableFrom (property.PropertyType)) {
+				Predicate<object> shouldSerialize = obj => {
 					var collection = property.ValueProvider.GetValue (obj) as ICollection;
 					return collection == null || collection.Count != 0;
 				};

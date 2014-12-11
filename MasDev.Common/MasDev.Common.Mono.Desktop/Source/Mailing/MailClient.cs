@@ -9,26 +9,24 @@ namespace MasDev.Common.Mono
 	public static class MailClient
 	{
 	
-		public static void Send (string to, string subject, string body, string username, string password, string alias)
+		public static void SendViaGmail (string to, string subject, string body, string username, string password, string senderEmail, string senderAlias)
 		{
 			var mail = new MailMessage ();
-
-			mail.From = new MailAddress (username, alias);
+			mail.From = new MailAddress (senderEmail, senderAlias);
 			mail.To.Add (to);
 			mail.Subject = subject;
 			mail.Body = body;
 
-			var smtpServer = new SmtpClient ("smtp.mandrillapp.com");
-			smtpServer.Port = 587;
-			smtpServer.Credentials = new NetworkCredential (username, password);
-			smtpServer.EnableSsl = true;
-			ServicePointManager.ServerCertificateValidationCallback = 
-				(object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => true;
+			var client = new SmtpClient ("smtp.gmail.com");
+			client.Port = 587;
+			client.Credentials = new NetworkCredential (username, password);
+			client.EnableSsl = true;
 
-
-			smtpServer.Send (mail);
+			ServicePointManager.ServerCertificateValidationCallback = delegate {
+				return true;
+			};
+			client.Send (mail);
 		}
-			
 	}
 }
 

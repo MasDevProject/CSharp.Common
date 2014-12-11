@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using MasDev.Common.Utils;
+using MasDev.Common.Newtonsoft.ContractResolvers;
+using Newtonsoft.Json.Serialization;
 
 
 namespace MasDev.Common.Rest.WebApi
@@ -11,8 +13,7 @@ namespace MasDev.Common.Rest.WebApi
 		public static Action<HttpConfiguration> GetRegistration (WebApiInfrastructureConfiguration config)
 		{
 			Assert.NotNull (config);
-			return configuration =>
-			{
+			return configuration => {
 				config.AttributeRoutesMapper (configuration);
 				configuration.Filters.Add (config.ExceptionInterceptor == null ?
 					new ExceptionLoggerFilter () :
@@ -23,8 +24,9 @@ namespace MasDev.Common.Rest.WebApi
 
 				configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 				var jsonSettings = configuration.Formatters.JsonFormatter.SerializerSettings;
-				jsonSettings.ContractResolver = new IgnoreEmptyContractResolver ();
+				jsonSettings.ContractResolver = config.ContractResolver;
 				jsonSettings.NullValueHandling = NullValueHandling.Ignore;
+				jsonSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 			};
 		}
 	}
@@ -38,19 +40,22 @@ namespace MasDev.Common.Rest.WebApi
 		public Action<HttpConfiguration> AttributeRoutesMapper { get; private set; }
 
 
-
 		public Action<Exception> ExceptionInterceptor { get; private set; }
 
 
+		public IContractResolver ContractResolver { get; private set; }
 
-		public WebApiInfrastructureConfiguration (Action<HttpConfiguration> attributeRoutesMapper)
+
+
+		public WebApiInfrastructureConfiguration (IContractResolver contractResolver, Action<HttpConfiguration> attributeRoutesMapper)
 		{
 			AttributeRoutesMapper = attributeRoutesMapper;
+			ContractResolver = contractResolver;
 		}
 
 
 
-		public WebApiInfrastructureConfiguration (Action<HttpConfiguration> attributeRoutesMapper, Action<Exception> exceptionInterceptor) : this (attributeRoutesMapper)
+		public WebApiInfrastructureConfiguration (IContractResolver contractResolver, Action<HttpConfiguration> attributeRoutesMapper, Action<Exception> exceptionInterceptor) : this (contractResolver, attributeRoutesMapper)
 		{
 			ExceptionInterceptor = exceptionInterceptor;
 		}
