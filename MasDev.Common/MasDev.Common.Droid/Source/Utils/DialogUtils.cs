@@ -13,63 +13,6 @@ namespace MasDev.Common.Droid
 {
 	public static class DialogUtils
 	{
-		public sealed class LayoutDialog : DialogFragment
-		{
-			public Action<DialogFragment> OnDismissEx { get; private set; }
-			public event Action<View> OnRootViewReady = delegate {};
-			public event Action OnDismissDialog = delegate {};
-			const string LAYOUT_ID_KEY = "1";
-
-			public static LayoutDialog NewInstance (int layoutId, Action<DialogFragment> onClick)
-			{
-				var frag = new LayoutDialog ();
-				frag.OnDismissEx = onClick;
-				var bundle = new Bundle ();
-				bundle.PutInt (LAYOUT_ID_KEY, layoutId);
-				frag.Arguments = bundle;
-				return frag;
-			}
-				
-			public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-			{
-				var view = inflater.Inflate(Arguments.GetInt (LAYOUT_ID_KEY), container, false);
-				view.Click += delegate { OnDismissEx.Invoke (this); };
-				return view;
-			}
-
-			public override void OnViewCreated (View view, Bundle savedInstanceState)
-			{
-				base.OnViewCreated (view, savedInstanceState);
-				OnRootViewReady.Invoke (view);
-			}
-
-			public override Android.App.Dialog OnCreateDialog (Bundle savedInstanceState)
-			{
-				var dialog = base.OnCreateDialog (savedInstanceState);
-				dialog.RequestWindowFeature ((int)WindowFeatures.NoTitle);
-				dialog.Window.SetBackgroundDrawable (new ColorDrawable(Color.Transparent));
-				return dialog;
-			}
-
-			public override void OnCreate (Bundle savedInstanceState)
-			{
-				base.OnCreate (savedInstanceState);
-				SetStyle ((int)Android.App.DialogFragmentStyle.NoTitle, Android.Resource.Style.Theme);
-			}
-				
-			public override void OnStop ()
-			{
-				base.OnStop ();
-				if (OnDismissDialog != null)
-					OnDismissDialog.Invoke ();
-			}
-
-			public new void Dispose()
-			{
-				OnDismissEx = null;
-			}
-		}
-
 		public static void ShowDialog(Context ctx, string message, string title, bool isModal, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
 			var builder = new Android.App.AlertDialog.Builder (ctx);
@@ -85,11 +28,10 @@ namespace MasDev.Common.Droid
 
 		public static void ShowDialog(Context ctx, int? messageResourceId, int? titleRourceId, bool isModal, int? positiveButtonTextResId, int? negativeButtonTextResId, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
-			var message = messageResourceId == null ? null : ctx.GetString (messageResourceId.Value);
 			var title = titleRourceId == null ? null : ctx.GetString (titleRourceId.Value);
+			var message = messageResourceId == null ? null : ctx.GetString (messageResourceId.Value);
 			var pos = positiveButtonTextResId == null ? null : ctx.GetString (positiveButtonTextResId.Value);
 			var neg = negativeButtonTextResId == null ? null : ctx.GetString (negativeButtonTextResId.Value);
-
 
 			ShowDialog (ctx, message, title, isModal, pos, neg, onPositiveButtonListener, onNegativeButtonListener);
 		}
@@ -120,9 +62,6 @@ namespace MasDev.Common.Droid
 
 		public static PopupMenu ShowPopupMenu(Context ctx, View anchor, ICollection<string> content, Action<string> onItemClick)
 		{
-			if (content == null || anchor == null)
-				throw new ArgumentException ("Content and anchor must be not null");
-
 			var popUpMenu = new PopupMenu (ctx, anchor);
 			foreach(var item in content)
 				popUpMenu.Menu.Add(item);
@@ -138,9 +77,6 @@ namespace MasDev.Common.Droid
 
 		public static PopupMenu ShowPopupMenu(Context ctx, View anchor, ICollection<string> content, Action<int> onItemClick)
 		{
-			if (content == null || anchor == null)
-				throw new ArgumentException ("Content and anchor must be not null");
-
 			var popUpMenu = new PopupMenu (ctx, anchor);
 			int i = 0;
 			const int noSense = 0;

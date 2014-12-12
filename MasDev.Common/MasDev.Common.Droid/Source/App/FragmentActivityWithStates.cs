@@ -1,5 +1,4 @@
-﻿using Android.Support.V4.App;
-
+﻿using Android.Support.V7.App;
 
 namespace MasDev.Common.Droid.App
 {
@@ -9,7 +8,7 @@ namespace MasDev.Common.Droid.App
 		Pause,
 	}
 
-	public class FragmentActivityWithStates : FragmentActivity
+	public class FragmentActivityWithStates : ActionBarActivity
 	{
 		public ActivityStates State { get; private set; }
 

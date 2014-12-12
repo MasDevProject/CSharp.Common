@@ -15,64 +15,36 @@ namespace MasDev.Common.Droid.App
 		NoResults
 	}
 
-
-
-
-
 	public abstract class TitledFragment : DialogFragment, View.IOnTouchListener
 	{
 		public string Title { get; set; }
 
-
-
 		public bool IsRootFragment { get; set; }
-
-
-
-		bool _actionBarIsLocked;
-
-
-
-		public void LockActionBar ()
-		{
-			_actionBarIsLocked = true;
-		}
-
-
-
-		public void UnLockActionBar ()
-		{
-			_actionBarIsLocked = false;
-		}
-
-
-
-		public override bool OnOptionsItemSelected (IMenuItem item)
-		{
-			return _actionBarIsLocked ? base.OnOptionsItemSelected (item) : OnOptionsItemSelectedEx (item);
-		}
-
-
 
 		public virtual bool OnKeyUp (Keycode keyCode, KeyEvent e)
 		{
 			return false;
 		}
 
-
-
-		/// <summary>
-		/// Pay attenction! Do not return "base.OnOptionsItemSelected (item);" in this function to avoid a infinite loop!
-		/// Always return true if you catch the event or false if you doesn't (if you use a witch-case paradigm, return false in "default:".
-		/// </summary>
-		/// <param name="item">Item.</param>
-		protected abstract bool OnOptionsItemSelectedEx (IMenuItem item);
-
-
-
 		bool View.IOnTouchListener.OnTouch (View v, MotionEvent e)
 		{
 			return true;
+		}
+
+		protected class NavigationOnClickListener : Java.Lang.Object, View.IOnClickListener
+		{
+			readonly Action _onClick;
+
+			public NavigationOnClickListener(Action onclick)
+			{
+				_onClick = onclick;
+			}
+
+			public void OnClick (View v)
+			{
+				if (_onClick != null)
+					_onClick.Invoke ();
+			}
 		}
 
 		#region View states managment

@@ -12,7 +12,8 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AssemblyName>MasDev.Common.Android</AssemblyName>
-    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,21 +41,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="Xamarin.Android.Support.v13">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v13.20.0.0.4\lib\MonoAndroid32\Xamarin.Android.Support.v13.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v4.20.0.0.4\lib\MonoAndroid32\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
-    <Reference Include="GooglePlayServicesLib">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.GooglePlayServices.19.0.0.1\lib\MonoAndroid23\GooglePlayServicesLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v7.MediaRouter.20.0.0.1\lib\MonoAndroid10\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v7.AppCompat.20.0.0.2\lib\MonoAndroid10\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
-    </Reference>
     <Reference Include="SQLite.Net.Platform.XamarinAndroid">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SQLite.Net.Platform.XamarinAndroid.2.4.1\lib\MonoAndroid\SQLite.Net.Platform.XamarinAndroid.dll</HintPath>
     </Reference>
@@ -69,6 +55,18 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.V8">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\Components\xamandroidsupportv8-20.0.0\lib\android\Xamarin.Android.Support.V8.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v4.21.0.0.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v7.AppCompat.21.0.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v7.MediaRouter.21.0.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
+    </Reference>
+    <Reference Include="GooglePlayServicesLib">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.GooglePlayServices.21.0.0.1\lib\MonoAndroid41\GooglePlayServicesLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

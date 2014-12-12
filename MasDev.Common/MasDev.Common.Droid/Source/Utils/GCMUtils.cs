@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Gms.Gcm;
 using Android.Gms.Common;
 using Android.Content;
+using MasDev.Common.Exceptions;
 
 namespace MasDev.Common.Droid.Utils
 {
@@ -13,7 +13,7 @@ namespace MasDev.Common.Droid.Utils
 		const string PROPERTY_APP_VERSION = "appVersion";
 		const string SHARED_PREFERENCES_NAME = "pqowwo";
 
-		public static async Task PerformRegistration (Activity ctx, int playServicesResolutionRequest, string senderId, Func<string, Task> onRegistrationIdRetrived, Action onDeviceNotSupported)
+		public static async System.Threading.Tasks.Task PerformRegistration (Activity ctx, int playServicesResolutionRequest, string senderId, Func<string, System.Threading.Tasks.Task> onRegistrationIdRetrived, Action onDeviceNotSupported)
 		{
 			string regid;
 			if (CheckPlayServices (ctx, onDeviceNotSupported, playServicesResolutionRequest)) 
@@ -22,7 +22,7 @@ namespace MasDev.Common.Droid.Utils
 				regid = GetRegistrationIdLocally (ctx);
 
 				if (string.IsNullOrEmpty (regid)) {
-					await Task.Run (() => {
+					await System.Threading.Tasks.Task.Run (() => {
 						regid = gcm.Register (senderId);
 						GetGCMPreferences (ctx).Edit ().PutString (PROPERTY_REG_ID, regid).Commit ();
 					});
@@ -68,7 +68,7 @@ namespace MasDev.Common.Droid.Utils
 				return packageInfo.VersionCode;
 			} 
 			catch (Exception e) {
-				throw new Exception ("[Should never happen] Could not get package name: " + e);
+				throw new ShouldNeverHappenException ("Could not get package name: " + e);
 			}
 		}
 	}
