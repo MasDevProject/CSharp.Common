@@ -17,17 +17,17 @@ namespace MasDev.Common.Droid.Views
 			int GetDividerColor (int position);
 		}
 
+		readonly int mTitleOffset;
 		const int TITLE_OFFSET_DIPS = 24;
 		const int TAB_VIEW_PADDING_DIPS = 16;
 		const int TAB_VIEW_TEXT_SIZE_SP = 12;
-		readonly int mTitleOffset;
 
 		int mTabViewLayoutId;
 		int mTabViewTextViewId;
 
 		ViewPager mViewPager;
-		ViewPager.IOnPageChangeListener mViewPagerPageChangeListener;
 		readonly SlidingTabStrip mTabStrip;
+		ViewPager.IOnPageChangeListener mViewPagerPageChangeListener;
 
 		public SlidingTabLayout(Context context) : this (context, null, 0)  {}
 
@@ -47,14 +47,14 @@ namespace MasDev.Common.Droid.Views
 			mTabStrip.SetCustomTabColorizer(tabColorizer);
 		}
 
-		public void SetSelectedIndicatorColors(params int[] colors) 
+		public void SetSelectedIndicatorColors(Color color) 
 		{
-			mTabStrip.SetSelectedIndicatorColors(colors);
+			mTabStrip.SetSelectedIndicatorColors(color);
 		}
 
-		public void SetDividerColors(params int[] colors) 
+		public void SetDividerColors(Color color) 
 		{
-			mTabStrip.SetDividerColors(colors);
+			mTabStrip.SetDividerColors(color);
 		}
 
 		public void SetOnPageChangeListener(ViewPager.IOnPageChangeListener listener) 
@@ -121,7 +121,7 @@ namespace MasDev.Common.Droid.Views
 				if (tabTitleView == null &&  tabView.GetType () == typeof(TextView))
 					tabTitleView = (TextView) tabView;
 
-				tabTitleView.Text = (adapter.GetPageTitle(i));
+				tabTitleView.Text = adapter.GetPageTitle(i);
 				tabView.SetOnClickListener(tabClickListener);
 
 				mTabStrip.AddView(tabView);
@@ -131,7 +131,7 @@ namespace MasDev.Common.Droid.Views
 		protected override void OnAttachedToWindow ()
 		{
 			base.OnAttachedToWindow ();
-			if (mViewPager != null)  ScrollToTab(mViewPager.CurrentItem, 0);
+			if (mViewPager != null) ScrollToTab(mViewPager.CurrentItem, 0);
 		}
 
 		void ScrollToTab (int tabIndex, int positionOffset) 
