@@ -2,6 +2,7 @@
 using FluentNHibernate.Automapping;
 using MasDev.Common.Modeling;
 using FluentNHibernate;
+using System.Linq;
 
 
 namespace MasDev.Common.Data.NHibernate
@@ -34,6 +35,22 @@ namespace MasDev.Common.Data.NHibernate
 			if (!base.ShouldMap (member))
 				return false;
 
+			var type = member.DeclaringType;
+			var notVirtualProperties = type
+				.GetProperties ()
+				.Where (p => {
+				var getMethod = p.GetMethod;
+				if (getMethod != null && !getMethod.IsVirtual)
+					return true;
+				var setMethod = p.SetMethod;
+				if (setMethod != null && !setMethod.IsVirtual)
+					return true;
+				return false;
+			});
+
+			if (notVirtualProperties.Any (p => p.Name == member.Name))
+				return false;
+				
 			var metadata = _metadata.Get (member.DeclaringType);
 			if (metadata == null)
 				return true;
