@@ -120,6 +120,8 @@
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Utils\TimeZoneConverter.cs">
       <Link>Source\Utils\TimeZoneConverter.cs</Link>
     </Compile>
+    <Compile Include="Source\Views\SlidingTabLayout.cs" />
+    <Compile Include="Source\Views\SlidingTabStrip.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
