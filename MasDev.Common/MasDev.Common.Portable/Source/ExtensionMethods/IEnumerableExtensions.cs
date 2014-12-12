@@ -40,11 +40,9 @@ namespace MasDev.Common.Extensions
 			yield return element;
 		}
 
-
-
-		public static IEnumerable<TResult> Select<TSource, TFunc, TResult> (this IEnumerable<TSource> ienum, Func<TSource, TFunc> func) where TFunc : TResult
+		public static IEnumerable<T> FoldLeft<T> (this IEnumerable<IEnumerable<T>> ienum)
 		{
-			return ienum.Select (func).OfType<TResult> ();
+			return ienum.Aggregate ((acc, curr) => acc == null ? curr : acc.Concat (curr));
 		}
 	}
 }

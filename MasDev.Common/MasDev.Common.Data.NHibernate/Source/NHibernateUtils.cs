@@ -43,11 +43,12 @@ namespace MasDev.Common.Data.NHibernate
 
 		static void BuildSchema (Configuration config)
 		{
-            //config.SetInterceptor (new SqlStatementInterceptor ());
-            //var update = new SchemaUpdate (config);
-            //update.Execute (true, true);
-            var update = new SchemaUpdate(config);
-            update.Execute(false, true);
+			//config.SetInterceptor (new SqlStatementInterceptor ());
+			//var update = new SchemaUpdate (config);
+			//update.Execute (true, true);
+			config.Properties.Add ("use_proxy_validator", "false");
+			var update = new SchemaUpdate (config);
+			update.Execute (false, true);
 		}
 
 
