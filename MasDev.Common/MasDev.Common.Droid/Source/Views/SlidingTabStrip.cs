@@ -54,14 +54,14 @@ namespace MasDev.Common.Droid.Views
 
 			mBottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
 			mBottomBorderPaint = new Paint();
-			mBottomBorderPaint.Color = new Color(mDefaultBottomBorderColor); //TODO
+			mBottomBorderPaint.Color = new Color (156, 39, 176); //new Color(mDefaultBottomBorderColor); //TODO
 
 			mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
 			mSelectedIndicatorPaint = new Paint();
 
 			mDividerHeight = DEFAULT_DIVIDER_HEIGHT;
 			mDividerPaint = new Paint();
-			mDividerPaint.StrokeWidth = ((int) (DEFAULT_DIVIDER_THICKNESS_DIPS * density));
+			mDividerPaint.StrokeWidth = DEFAULT_DIVIDER_THICKNESS_DIPS * density;
 		}
 
 		public void SetCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) 
@@ -115,7 +115,7 @@ namespace MasDev.Common.Droid.Views
 					right = (int) (mSelectionOffset * nextTitle.Right + (1.0f - mSelectionOffset) * right);
 				}
 
-				mSelectedIndicatorPaint.Color = new Color(color); //TODO
+				mSelectedIndicatorPaint.Color = new Color (156, 39, 176); //TODO
 				canvas.DrawRect(left, height - mSelectedIndicatorThickness, right, height, mSelectedIndicatorPaint);
 			}
 
@@ -125,7 +125,7 @@ namespace MasDev.Common.Droid.Views
 			int separatorTop = (height - dividerHeightPx) / 2;
 			for (int i = 0; i < childCount - 1; i++) {
 				View child = GetChildAt(i);
-				mDividerPaint.Color = new Color(tabColorizer.GetDividerColor(i)); //TODO
+				mDividerPaint.Color = new Color (156, 39, 176); //TODO
 				canvas.DrawLine(child.Right, separatorTop, child.Right, separatorTop + dividerHeightPx, mDividerPaint);
 			}
 		}

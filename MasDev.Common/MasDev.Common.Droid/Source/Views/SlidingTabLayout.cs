@@ -36,6 +36,7 @@ namespace MasDev.Common.Droid.Views
 		public SlidingTabLayout(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle) 
 		{
 			HorizontalScrollBarEnabled = false;
+			SetForegroundGravity (GravityFlags.Center);
 			FillViewport = true;
 			mTitleOffset = (int) (TITLE_OFFSET_DIPS * Resources.DisplayMetrics.Density);
 			mTabStrip = new SlidingTabStrip (context);
@@ -84,6 +85,7 @@ namespace MasDev.Common.Droid.Views
 			textView.Gravity = GravityFlags.Center;
 			textView.SetTextSize(ComplexUnitType.Sp, TAB_VIEW_TEXT_SIZE_SP);
 			textView.Typeface = Typeface.DefaultBold;
+			textView.SetTextColor (Color.White);
 
 			if (Build.VERSION.SdkInt >= Build.VERSION_CODES.Honeycomb) {
 				var outValue = new TypedValue();
