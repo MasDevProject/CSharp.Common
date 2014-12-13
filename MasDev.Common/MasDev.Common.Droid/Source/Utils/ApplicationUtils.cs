@@ -59,6 +59,15 @@ namespace MasDev.Common.Droid.Utils
 				Task.Run (() => {
 					((InputMethodManager)context.GetSystemService (Context.InputMethodService)).HideSoftInputFromWindow (context.Window.DecorView.WindowToken, HideSoftInputFlags.NotAlways);
 				});
+			} catch {}
+		}
+
+		public static void ShowKeyboard (Activity context)
+		{
+			try {
+				Task.Run (() => {
+					((InputMethodManager)context.GetSystemService (Context.InputMethodService)).ToggleSoftInput (ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
+				});
 			} catch (Exception) {
 			}
 		}
