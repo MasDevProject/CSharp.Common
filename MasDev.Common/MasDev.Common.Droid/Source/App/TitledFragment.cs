@@ -31,22 +31,6 @@ namespace MasDev.Common.Droid.App
 			return true;
 		}
 
-		protected class NavigationOnClickListener : Java.Lang.Object, View.IOnClickListener
-		{
-			readonly Action _onClick;
-
-			public NavigationOnClickListener(Action onclick)
-			{
-				_onClick = onclick;
-			}
-
-			public void OnClick (View v)
-			{
-				if (_onClick != null)
-					_onClick.Invoke ();
-			}
-		}
-
 		#region View states managment
 
 		protected View LoadingLayout { set; get; }

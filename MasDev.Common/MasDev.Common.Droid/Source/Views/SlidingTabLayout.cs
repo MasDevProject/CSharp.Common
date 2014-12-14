@@ -87,13 +87,13 @@ namespace MasDev.Common.Droid.Views
 			textView.Typeface = Typeface.DefaultBold;
 			textView.SetTextColor (Color.White);
 
-			if (Build.VERSION.SdkInt >= Build.VERSION_CODES.Honeycomb) {
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
 				var outValue = new TypedValue();
 				Context.Theme.ResolveAttribute(Android.Resource.Attribute.SelectableItemBackground, outValue, true);
 				textView.SetBackgroundResource(outValue.ResourceId);
 			}
 
-			if (Build.VERSION.SdkInt >= Build.VERSION_CODES.IceCreamSandwich)
+			if (Build.VERSION.SdkInt >= BuildVersionCodes.IceCreamSandwich)
 				textView.SetAllCaps(true);
 
 			int padding = (int) (TAB_VIEW_PADDING_DIPS * Resources.DisplayMetrics.Density);
