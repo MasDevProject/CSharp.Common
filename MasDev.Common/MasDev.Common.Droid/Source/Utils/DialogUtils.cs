@@ -47,12 +47,12 @@ namespace MasDev.Common.Droid
 			return ShowProgressDialog (context, context.GetString (stringResId), cancellable);
 		}
 
-		public static void ShowToast(Context ctx, string what, ToastLength lenght)
+		public static void ShowToast(Context ctx, string what, ToastLength lenght = ToastLength.Short)
 		{
 			Toast.MakeText (ctx, what, lenght).Show ();
 		}
 
-		public static void ShowToast(Context ctx, int stringId, ToastLength lenght)
+		public static void ShowToast(Context ctx, int stringId, ToastLength lenght = ToastLength.Short)
 		{
 			Toast.MakeText (ctx, stringId, lenght).Show ();
 		}
