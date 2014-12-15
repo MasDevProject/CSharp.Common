@@ -91,7 +91,7 @@ namespace MasDev.Common.Utils
 	{
 		public static bool NullityEquals<T> (T o1, T o2)
 		{
-			EnsureIsNullable<T> ();
+			//EnsureIsNullable<T> ();
 			if (BothNull (o1, o2))
 				return false;
 
@@ -100,7 +100,7 @@ namespace MasDev.Common.Utils
 
 		public static bool LeftNullityEquals<T> (T o1, T o2)
 		{
-			EnsureIsNullable<T> ();
+			//EnsureIsNullable<T> ();
 			if (o1 != null)
 				return true;
 
@@ -234,6 +234,9 @@ namespace MasDev.Common.Utils
 		private static void EnsureIsNullable<T> ()
 		{
 			var type = typeof(T);
+
+			if (type.IsPointer)
+				return;
 
 			if (Nullable.GetUnderlyingType (type) != null)
 				return;
