@@ -1,13 +1,10 @@
 ﻿using System;
 using Android.Content;
 using Android.Views;
-using Android.OS;
 using Android.Widget;
 using System.Collections.Generic;
-using Android.Support.V4.App;
 using Android.Graphics;
 using MasDev.Common.Droid.Utils;
-using Android.Graphics.Drawables;
 
 namespace MasDev.Common.Droid
 {

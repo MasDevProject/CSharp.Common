@@ -122,6 +122,8 @@
     </Compile>
     <Compile Include="Source\Views\SlidingTabLayout.cs" />
     <Compile Include="Source\Views\SlidingTabStrip.cs" />
+    <Compile Include="Source\Views\ToolbarSearchView.cs" />
+    <Compile Include="Source\Utils\NavigationOnClickListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
