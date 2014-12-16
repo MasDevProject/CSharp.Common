@@ -13,6 +13,8 @@ namespace MasDev.Common.Rest.Auth
 		DateTime LastIssuedUTC { get; set; }
 
 
+		int Flag { get; set; }
+
 
 		bool IsEnabled { get; set; }
 	}

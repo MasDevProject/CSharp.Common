@@ -19,7 +19,7 @@ namespace MasDev.Common.Rest
 
 	public interface ICredentialsRepository
 	{
-		ICredentials Read (int id);
+		ICredentials Read (int id, int flag);
 
 
 

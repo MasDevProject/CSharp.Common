@@ -28,7 +28,7 @@ namespace MasDev.Common.Rest.Auth
 
 
 
-		ICredentials Find (int credentialsId, ICredentialsRepository repository);
+		ICredentials Find (int credentialsId, int flag, ICredentialsRepository repository);
 
 
 

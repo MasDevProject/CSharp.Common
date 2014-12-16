@@ -8,7 +8,8 @@ namespace MasDev.Common.Rest.Auth
 {
 	public class BaseAuthManager : IAuthManager
 	{
-		readonly ConcurrentDictionary<int, ICredentials> _issued = new ConcurrentDictionary<int, ICredentials> ();
+		// Tuple<id, flag>
+		readonly ConcurrentDictionary<Tuple<int, int>, ICredentials> _issued = new ConcurrentDictionary<Tuple<int, int>, ICredentials> ();
 
 
 
@@ -18,7 +19,7 @@ namespace MasDev.Common.Rest.Auth
 				var decompressed = TokenCompressor.Decompress (headerValue);
 				var unprotected = TokenProtector.Unprotect (decompressed);
 				return TokenSerializer.Deserialize (unprotected);
-			} catch (Exception e) {
+			} catch {
 				return null;
 			}
 		}
@@ -44,7 +45,7 @@ namespace MasDev.Common.Rest.Auth
 				throw new UnauthorizedException ("Token expired");
 				
 			var tokenCredentials = token.Credentials;
-			var issuedCredentials = Find (tokenCredentials.Id, repository);
+			var issuedCredentials = Find (tokenCredentials.Id, tokenCredentials.Flag, repository);
 
 			if (issuedCredentials == null)
 				throw new UnauthorizedException ("Credentials have been revoked");
@@ -91,10 +92,11 @@ namespace MasDev.Common.Rest.Auth
 		{
 			using (new MutexEx (credentials.Id)) {
 				credentials.LastIssuedUTC = DateTime.UtcNow;
+				var credentialsKey = Tuple.Create (credentials.Id, credentials.Flag);
 				_issued.AddOrUpdate (
-					credentials.Id,
-					id => credentials,
-					(id, old) => credentials
+					credentialsKey,
+					credentials,
+					(key, old) => credentials
 				);
 				repository.Update (credentials);
 			}
@@ -103,18 +105,19 @@ namespace MasDev.Common.Rest.Auth
 
 
 
-		public ICredentials Find (int credentialsId, ICredentialsRepository repository)
+		public ICredentials Find (int credentialsId, int flag, ICredentialsRepository repository)
 		{
 			using (new MutexEx (credentialsId)) {
-				if (_issued.ContainsKey (credentialsId))
-					return _issued [credentialsId];
+				var credentialsKey = Tuple.Create (credentialsId, flag);
+				if (_issued.ContainsKey (credentialsKey))
+					return _issued [credentialsKey];
 
-				var credentials = repository.Read (credentialsId);
+				var credentials = repository.Read (credentialsId, flag);
 				if (credentials != null)
 					_issued.AddOrUpdate (
-						credentialsId,
-						id => credentials,
-						(id, old) => credentials
+						credentialsKey,
+						credentials,
+						(key, old) => credentials
 					);
 				return credentials;
 			}
@@ -125,10 +128,11 @@ namespace MasDev.Common.Rest.Auth
 		public void Save (ICredentials credentials, ICredentialsRepository repository)
 		{
 			credentials.LastIssuedUTC = DateTime.UtcNow;
+			var credentialsKey = Tuple.Create (credentials.Id, credentials.Flag);
 			_issued.AddOrUpdate (
-				credentials.Id,
-				id => credentials,
-				(id, old) => credentials
+				credentialsKey,
+				credentials,
+				(key, old) => credentials
 			);
 			repository.Update (credentials);
 		}
@@ -184,6 +188,9 @@ namespace MasDev.Common.Rest.Auth
 		public int Id { get; set; }
 
 
+		public int Flag { get; set; }
+
+
 
 		public static TokenCredentials Import (ICredentials credentials)
 		{
@@ -191,7 +198,8 @@ namespace MasDev.Common.Rest.Auth
 				Roles = credentials.Roles,
 				LastIssuedUTC = credentials.LastIssuedUTC,
 				IsEnabled = credentials.IsEnabled,
-				Id = credentials.Id
+				Id = credentials.Id,
+				Flag = credentials.Flag,
 			};
 		}
 	}
