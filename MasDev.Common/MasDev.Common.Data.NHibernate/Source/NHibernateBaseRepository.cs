@@ -242,8 +242,8 @@ namespace MasDev.Common.Data.NHibernate
 				if (!typeof(IUndeletableModel).IsAssignableFrom (typeof(T)))
 					return UnfilteredQuery;
 
-				var queryable = (IQueryable<IUndeletableModel>)_uow.Session.Query<T> ();
-				return queryable.Where (model => !model.IsDeleted).Cast<T> ();
+				var queryable = _uow.Session.Query<T> ();
+				return queryable.Where (m => !((IUndeletableModel)m).IsDeleted);
 			} 
 		}
 
