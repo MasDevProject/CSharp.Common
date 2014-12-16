@@ -6,9 +6,9 @@ namespace MasDev.Common.Extensions
 {
 	public static class ModelExtensions
 	{
-		public static void ThrowIfNotEnabled (this IUndeletableModel model)
+		public static void ThrowIfDeleted (this IUndeletableModel model)
 		{
-			if (!model.IsEnabled)
+			if (model.IsDeleted)
 				throw new SecurityException ("Model no longer enabled");
 		}
 	}

@@ -40,7 +40,7 @@ namespace MasDev.Common.Data.NHibernate
 			ThrowIfVersionedModel ();
 			var undeletable = model as IUndeletableModel;
 			if (undeletable != null)
-				undeletable.IsEnabled = true;
+				undeletable.IsDeleted = false;
 
 			var id = (int)Session.Save (model);
 			return id;
@@ -91,7 +91,7 @@ namespace MasDev.Common.Data.NHibernate
 			if (undeletable == null)
 				Session.Delete (model);
 			else {
-				undeletable.IsEnabled = false;
+				undeletable.IsDeleted = true;
 				Session.Update (undeletable);
 			}
 			return model.Id;
@@ -112,7 +112,7 @@ namespace MasDev.Common.Data.NHibernate
 			foreach (var t in models) {
 				var undeletable = t as IUndeletableModel;
 				if (undeletable != null)
-					undeletable.IsEnabled = true;
+					undeletable.IsDeleted = false;
 				Session.Save (t);
 			}
 			
@@ -233,8 +233,22 @@ namespace MasDev.Common.Data.NHibernate
 		}
 
 
+		/// <summary>
+		/// Gets a IQueryable<T> element to perform queries over de underlying dataset. If T implements IUndeletableMode, it returns a filtered dataset that allows to
+		/// queries over the elements which are not deleted
+		/// </summary>
+		public virtual IQueryable<T> Query { 
+			get { 
+				if (!typeof(IUndeletableModel).IsAssignableFrom (typeof(T)))
+					return UnfilteredQuery;
 
-		public IQueryable<T> Query { get { return _uow.Session.Query<T> (); } }
+				var queryable = (IQueryable<IUndeletableModel>)_uow.Session.Query<T> ();
+				return queryable.Where (model => !model.IsDeleted).Cast<T> ();
+			} 
+		}
+
+
+		public virtual IQueryable<T> UnfilteredQuery { get { return _uow.Session.Query<T> (); } }
 
 
 
@@ -320,7 +334,6 @@ namespace MasDev.Common.Data.NHibernate
 		}
 
 
-
 		public IQueryable<TModel> QueryForModel<TModel> () where TModel : IModel
 		{
 			return _uow.Session.Query<TModel> ();
@@ -334,9 +347,6 @@ namespace MasDev.Common.Data.NHibernate
 				throw new NotSupportedException ("Must reimplement for versioning purposes");
 		}
 	}
-
-
-
 
 
 	public abstract class NHibernateBaseRepository<TVersionedModel, TModelVersioning> : NHibernateBaseRepository<TVersionedModel>,  IRepository<TVersionedModel, TModelVersioning>
@@ -357,7 +367,7 @@ namespace MasDev.Common.Data.NHibernate
 			await CreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
-			model.IsEnabled = true;
+			model.IsDeleted = false;
 			await CreateOrUpdateAsync (model);
 
 			version.Parent = model;
@@ -375,7 +385,7 @@ namespace MasDev.Common.Data.NHibernate
 
 			for (var i = 0; i < models.Length; i++) {
 				var model = models [i];
-				model.IsEnabled = true;
+				model.IsDeleted = false;
 				var version = CreateVersion (model);
 				await CreateOrUpdateAsync (version);
 				versions [i] = version;
