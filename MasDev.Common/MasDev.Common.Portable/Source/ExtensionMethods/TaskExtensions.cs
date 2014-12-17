@@ -22,6 +22,12 @@ namespace MasDev.Common.Extensions
 
 	public static class TaskExtensions
 	{
+		public static async Task<E> Concat<T,E> (this Task<T> task, Func<T, E> operation)
+		{
+			var result = await task;
+			return operation (result);
+		}
+
 		public static bool IsFinishedSomeHow<T> (this Task<T> task)
 		{
 			return task.IsCanceled || task.IsCompleted || task.IsFaulted;
@@ -40,16 +46,14 @@ namespace MasDev.Common.Extensions
 
 		public static void Then<T> (this Task<T> task, Action<TaskResult<T>> continuation)
 		{
-			task.GetAwaiter ().UnsafeOnCompleted (() =>
-			{
+			task.GetAwaiter ().UnsafeOnCompleted (() => {
 				continuation (task.ToResult ());
 			});
 		}
 
 		public static void Then (this Task task, Action<TaskResult> continuation)
 		{
-			task.GetAwaiter ().UnsafeOnCompleted (() =>
-			{
+			task.GetAwaiter ().UnsafeOnCompleted (() => {
 				var result = new TaskResult () {
 					Exception = task.IsFaulted ? task.Exception : null,
 				};

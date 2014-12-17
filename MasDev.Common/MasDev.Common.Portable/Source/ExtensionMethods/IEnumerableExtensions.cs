@@ -13,8 +13,18 @@ namespace MasDev.Common.Extensions
 
 		public static void ForEach<T> (this IEnumerable<T> enumerable, Action<T> action)
 		{
-			foreach (var t in enumerable)
+			foreach (var t in enumerable) {
 				action (t);
+			}
+		}
+
+
+		public static IEnumerable<T> Map<T> (this IEnumerable<T> enumerable, Action<T> action)
+		{
+			foreach (var t in enumerable) {
+				action (t);
+				yield return t;
+			}
 		}
 
 
