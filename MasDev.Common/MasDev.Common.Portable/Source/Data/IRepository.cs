@@ -101,6 +101,7 @@ namespace MasDev.Common.Data
 		IQueryable<T> Query { get; }
 
 
+
 		IUnitOfWork UnitOfWork { get; }
 
 
@@ -153,6 +154,10 @@ namespace MasDev.Common.Data
 
 
 		Task<int> UpdateVersionedAsync (TVersionedModel model);
+
+
+
+		IQueryable<TVersionedModel> UnfilteredQuery { get; }
 	}
 }
 	

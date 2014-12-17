@@ -233,22 +233,7 @@ namespace MasDev.Common.Data.NHibernate
 		}
 
 
-		/// <summary>
-		/// Gets a IQueryable<T> element to perform queries over de underlying dataset. If T implements IUndeletableMode, it returns a filtered dataset that allows to
-		/// queries over the elements which are not deleted
-		/// </summary>
-		public virtual IQueryable<T> Query { 
-			get { 
-				if (!typeof(IUndeletableModel).IsAssignableFrom (typeof(T)))
-					return UnfilteredQuery;
-
-				var queryable = _uow.Session.Query<T> ();
-				return queryable.Where (m => !((IUndeletableModel)m).IsDeleted);
-			} 
-		}
-
-
-		public virtual IQueryable<T> UnfilteredQuery { get { return _uow.Session.Query<T> (); } }
+		public virtual IQueryable<T> Query { get { return _uow.Session.Query<T> (); } }
 
 
 
@@ -435,6 +420,11 @@ namespace MasDev.Common.Data.NHibernate
 			return model.Id;
 		}
 
+
+		public new IQueryable<TVersionedModel> Query { get { return UnfilteredQuery.Where (m => !m.IsDeleted); } }
+
+
+		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return QueryForModel<TVersionedModel> (); } }
 
 
 		public abstract TModelVersioning CreateVersion (TVersionedModel model);
