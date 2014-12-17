@@ -144,6 +144,21 @@ namespace MasDev.Common.Utils
 		}
 
 
+		public static bool BlindEquals<T> (ICollection<T> c1, ICollection<T> c2)
+		{
+			if (IsNullOrEmpty (c1) && IsNullOrEmpty (c2))
+				return true;
+
+			if (IsNullOrEmpty (c1) && !IsNullOrEmpty (c2))
+				return false;
+
+			if (IsNullOrEmpty (c2) && !IsNullOrEmpty (c1))
+				return false;
+
+			return c1.Count == c2.Count;
+		}
+
+
 
 		public static bool BothNotNull (object o1, object o2)
 		{
