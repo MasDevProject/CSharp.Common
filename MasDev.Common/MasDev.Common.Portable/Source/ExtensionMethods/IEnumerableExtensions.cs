@@ -52,12 +52,13 @@ namespace MasDev.Common.Extensions
 
 		public static IEnumerable<T> FoldLeft<T> (this IEnumerable<IEnumerable<T>> ienum)
 		{
-			var l = ienum.ToList ();
-			if (!ienum.Any ())
+			try {
+				return ienum.Aggregate ((acc, curr) => acc == null ? curr : acc.Concat (curr));
+			} catch (InvalidOperationException) {
 				return Enumerable.Empty<T> ();
-
-			return ienum.Aggregate ((acc, curr) => acc == null ? curr : acc.Concat (curr));
+			}
 		}
 	}
 }
+
 
