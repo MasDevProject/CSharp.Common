@@ -233,7 +233,7 @@ namespace MasDev.Common.Data.NHibernate
 		}
 
 
-		public virtual IQueryable<T> Query { get { return _uow.Session.Query<T> (); } }
+		public virtual IQueryable<T> Query { get { return UnfilteredQueryForModel<T> (); } }
 
 
 
@@ -300,28 +300,50 @@ namespace MasDev.Common.Data.NHibernate
 
 
 
-		public async Task<int> CreateOrUpdateAsync (IModel model)
+		public async Task<int> UncheckedCreateOrUpdateAsync (IModel model)
 		{
-			return await Task.Factory.StartNew (() => CreateOrUpdate (model));
+			return await Task.Factory.StartNew (() => UncheckedCreateOrUpdate (model));
 		}
 
 
 
-		public int CreateOrUpdate (IModel model)
+		public int UncheckedCreateOrUpdate (IModel model)
 		{
 			int id = model.Id;
 			if (model.Id == 0)
 				id = (int)Session.Save (model);
 			else
 				Session.Update (model);
-				
+
 			return id;
 		}
 
 
-		public IQueryable<TModel> QueryForModel<TModel> () where TModel : IModel
+		public async Task<IEnumerable<int>> UncheckedCreateOrUpdateAsync (IEnumerable<IModel> models)
+		{
+			return await Task.Factory.StartNew (() => UncheckedCreateOrUpdate (models));
+		}
+
+
+
+		public IEnumerable<int> UncheckedCreateOrUpdate (IEnumerable<IModel> models)
+		{
+			var ids = new List<int> ();
+			foreach (var model in models)
+				ids.Add (UncheckedCreateOrUpdate (model));
+			return ids;
+		}
+
+
+		public virtual IQueryable<TModel> UnfilteredQueryForModel<TModel> () where TModel : IModel
 		{
 			return _uow.Session.Query<TModel> ();
+		}
+
+
+		public virtual IQueryable<TModel> QueryForModel<TModel> () where TModel : IUndeletableModel
+		{
+			return UnfilteredQueryForModel<TModel> ().Where (m => !m.IsDeleted);
 		}
 
 
@@ -349,14 +371,14 @@ namespace MasDev.Common.Data.NHibernate
 		public override async Task<int> CreateAsync (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
-			await CreateOrUpdateAsync (version);
+			await UncheckedCreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
 			model.IsDeleted = false;
-			await CreateOrUpdateAsync (model);
+			await UncheckedCreateOrUpdateAsync (model);
 
 			version.Parent = model;
-			await CreateOrUpdateAsync (version);
+			await UncheckedCreateOrUpdateAsync (version);
 
 			return model.Id;
 		}
@@ -372,7 +394,7 @@ namespace MasDev.Common.Data.NHibernate
 				var model = models [i];
 				model.IsDeleted = false;
 				var version = CreateVersion (model);
-				await CreateOrUpdateAsync (version);
+				await UncheckedCreateOrUpdateAsync (version);
 				versions [i] = version;
 			}
 			//SaveChanges (true);
@@ -381,10 +403,10 @@ namespace MasDev.Common.Data.NHibernate
 				var model = models [i];
 				var version = versions [i];
 				model.CurrentVersion = version;
-				await CreateOrUpdateAsync (model);
+				await UncheckedCreateOrUpdateAsync (model);
 
 				version.Parent = model;
-				await CreateOrUpdateAsync (version);
+				await UncheckedCreateOrUpdateAsync (version);
 			}
 			
 		}
@@ -396,11 +418,11 @@ namespace MasDev.Common.Data.NHibernate
 		{
 			var version = CreateVersion (model);
 			version.Parent = model;
-			CreateOrUpdate (version);
+			UncheckedCreateOrUpdate (version);
 
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
-			CreateOrUpdate (model);
+			UncheckedCreateOrUpdate (model);
 
 			return model.Id;
 		}
@@ -411,20 +433,20 @@ namespace MasDev.Common.Data.NHibernate
 		{
 			var version = CreateVersion (model);
 			version.Parent = model;
-			await CreateOrUpdateAsync (version);
+			await UncheckedCreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
-			await CreateOrUpdateAsync (model);
+			await UncheckedCreateOrUpdateAsync (model);
 
 			return model.Id;
 		}
 
 
-		public new IQueryable<TVersionedModel> Query { get { return UnfilteredQuery.Where (m => !m.IsDeleted); } }
+		public new IQueryable<TVersionedModel> Query { get { return QueryForModel<TVersionedModel> (); } }
 
 
-		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return QueryForModel<TVersionedModel> (); } }
+		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return UnfilteredQueryForModel<TVersionedModel> (); } }
 
 
 		public abstract TModelVersioning CreateVersion (TVersionedModel model);

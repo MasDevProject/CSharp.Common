@@ -52,7 +52,7 @@ namespace MasDev.Common.Modeling
 		{
 			var ids = models.Select (m => m.CurrentVersion.Id).ToArray ();
 			var lambda = LinqHelper.BuildOrIdExpression<TModelVersioning> (ids);
-			return factory.QueryForModel<TModelVersioning> ().Where (lambda);
+			return factory.UnfilteredQueryForModel<TModelVersioning> ().Where (lambda);
 		}
 
 
@@ -84,7 +84,7 @@ namespace MasDev.Common.Modeling
 			where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 		{
 			var modelQuery = repository.Query.Where (selector);
-			var versionQuery = repository.QueryForModel<TModelVersioning> ();
+			var versionQuery = repository.UnfilteredQueryForModel<TModelVersioning> ();
 
 			return (
 			    from model in modelQuery

@@ -18,11 +18,18 @@ namespace MasDev.Common.Data
 
 
 
-		Task<int> CreateOrUpdateAsync (IModel model);
+		Task<int> UncheckedCreateOrUpdateAsync (IModel model);
 
 
 
-		int CreateOrUpdate (IModel model);
+		int UncheckedCreateOrUpdate (IModel model);
+
+
+		Task<IEnumerable<int>> UncheckedCreateOrUpdateAsync (IEnumerable<IModel> models);
+
+
+
+		IEnumerable<int> UncheckedCreateOrUpdate (IEnumerable<IModel> models);
 
 
 

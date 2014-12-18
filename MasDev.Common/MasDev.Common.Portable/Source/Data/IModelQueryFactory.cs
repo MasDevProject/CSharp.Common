@@ -6,7 +6,9 @@ namespace MasDev.Common.Data
 {
 	public interface IModelQueryFactory
 	{
-		IQueryable<TModel> QueryForModel<TModel> () where TModel : IModel;
+		IQueryable<TModel> QueryForModel<TModel> () where TModel : IUndeletableModel;
+
+		IQueryable<TModel> UnfilteredQueryForModel<TModel> () where TModel : IModel;
 	}
 }
 
