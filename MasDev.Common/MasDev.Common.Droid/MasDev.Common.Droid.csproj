@@ -53,9 +53,6 @@
     <Reference Include="NodaTime">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\NodaTime.1.3.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\NodaTime.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.V8">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\Components\xamandroidsupportv8-20.0.0\lib\android\Xamarin.Android.Support.V8.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v4.21.0.3.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
@@ -67,6 +64,9 @@
     </Reference>
     <Reference Include="GooglePlayServicesLib">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.GooglePlayServices.22.0.0.0\lib\MonoAndroid41\GooglePlayServicesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.V8">
+      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\Components\xamandroidsupportv8-20.0.0\lib\android\Xamarin.Android.Support.V8.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
