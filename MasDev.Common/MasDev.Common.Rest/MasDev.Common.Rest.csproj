@@ -74,6 +74,7 @@
     <Compile Include="Source\Auth\IRestModule.cs" />
     <Compile Include="Source\Proxy\MethodCallExtensions.cs" />
     <Compile Include="Source\Proxy\RestModuleProxy.cs" />
+    <Compile Include="Source\HttpContextExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

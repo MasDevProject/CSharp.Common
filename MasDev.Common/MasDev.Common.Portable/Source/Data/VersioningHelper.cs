@@ -5,6 +5,7 @@ using MasDev.Common.Data;
 using System.Linq.Expressions;
 using System.Linq;
 using MasDev.Common.Utils;
+using MasDev.Common.Data.Expressions;
 
 
 namespace MasDev.Common.Modeling
@@ -51,7 +52,7 @@ namespace MasDev.Common.Modeling
 			where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 		{
 			var ids = models.Select (m => m.CurrentVersion.Id).ToArray ();
-			var lambda = LinqHelper.BuildOrIdExpression<TModelVersioning> (ids);
+			var lambda = ExpressionBuilder.OrId<TModelVersioning> (ids);
 			return factory.UnfilteredQueryForModel<TModelVersioning> ().Where (lambda);
 		}
 

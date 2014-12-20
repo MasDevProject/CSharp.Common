@@ -1,5 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Linq.Expressions;
+using System;
+using MasDev.Common.Reflection;
 
 
 namespace MasDev.Common.Extensions
@@ -16,6 +19,13 @@ namespace MasDev.Common.Extensions
 		public static T Cast<T> (this object o)
 		{
 			return (T)o;
+		}
+
+
+
+		public static string ResolvePropertyName<TSource, TKey> (this Expression<Func<TSource, TKey>> propertyExpression)
+		{
+			return ExpressionsParser.ParsePropertyName (propertyExpression);
 		}
 	}
 }

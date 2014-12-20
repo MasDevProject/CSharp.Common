@@ -87,7 +87,6 @@
     <Compile Include="Source\Data\IModelQueryFactory.cs" />
     <Compile Include="Source\Enums\OS.cs" />
     <Compile Include="Source\Enums\Currencies.cs" />
-    <Compile Include="Source\Data\LinqHelper.cs" />
     <Compile Include="Source\Utils\IAwaitableEvent.cs" />
     <Compile Include="Source\Data\Modeling\IModel.cs" />
     <Compile Include="Source\Data\Modeling\IUndeletableModel.cs" />
@@ -124,6 +123,9 @@
     <Compile Include="Source\Tasks\TaskUtils.cs" />
     <Compile Include="Source\ExtensionMethods\NumberExtensions.cs" />
     <Compile Include="Source\Utils\BitwiseUtils.cs" />
+    <Compile Include="Source\Data\Expressions\ExpressionBuilder.cs" />
+    <Compile Include="Source\Data\Expressions\AtomicExpression.cs" />
+    <Compile Include="Source\Data\Expressions\ModelIdExpressionBuilder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -157,5 +159,6 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Source\Tasks\" />
+    <Folder Include="Source\Data\Expressions\" />
   </ItemGroup>
 </Project>

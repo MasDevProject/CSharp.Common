@@ -79,11 +79,15 @@
     <Compile Include="Source\Utils\IpLookup.cs" />
     <Compile Include="Source\Utils\TimeZoneConverter.cs" />
     <Compile Include="Source\JsonContractResolvers\IgnoreEmptyContractResolver.cs" />
+    <Compile Include="Source\Data\StringContainsAtomicExpressionBuilder.cs" />
+    <Compile Include="Source\Data\FullExpressionBulder.cs" />
+    <Compile Include="Source\Data\IQueryableExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <Folder Include="Source\ExtensionMethods\" />
+    <Folder Include="Source\Data\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
