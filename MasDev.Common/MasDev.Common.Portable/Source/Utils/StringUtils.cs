@@ -70,6 +70,19 @@ namespace MasDev.Common
 		{
 			return !(string.IsNullOrEmpty (s) || s.ContainsOnlyWhiteSpaces ());
 		}
+
+		public static string[] PoorManStem (this string s, IEnumerable<string> stopWords)
+		{
+			var lowerString = s.ToLowerInvariant ();
+			lowerString = stopWords.Aggregate (lowerString, (current, stopWord) => current.Replace (stopWord, string.Empty));
+
+			lowerString = lowerString.StripPunctuation ();
+			var words = lowerString.Trim ().Split (' ');
+			for (var i = 0; i < words.Length; i++)
+				words [i] = words [i].Trim ();
+
+			return words;
+		}
 	}
 }
 

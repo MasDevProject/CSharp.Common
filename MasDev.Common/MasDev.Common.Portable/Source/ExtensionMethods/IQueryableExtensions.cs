@@ -208,8 +208,7 @@ namespace MasDev.Common.Extensions
 		public static int FindFirstIndex<T> (this IEnumerable<T> enumerable, Predicate<T> predicate)
 		{
 			int i = 0;
-			foreach (var t in enumerable)
-			{
+			foreach (var t in enumerable) {
 				if (predicate (t))
 					return i;
 				i++;
