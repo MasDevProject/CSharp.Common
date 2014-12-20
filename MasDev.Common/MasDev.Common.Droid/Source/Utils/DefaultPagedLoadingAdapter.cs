@@ -39,7 +39,6 @@ namespace MasDev.Common.Droid.Utils
 			OnError += HandleOnError;
 
 			_footerLayout = new FrameLayout(ctx);
-     
 			_footerLayout.AddView (ListViewError);
 			_footerLayout.AddView (ListViewLoading);
 
