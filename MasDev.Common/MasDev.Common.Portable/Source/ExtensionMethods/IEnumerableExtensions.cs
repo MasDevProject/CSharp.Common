@@ -64,6 +64,15 @@ namespace MasDev.Common.Extensions
 				return Enumerable.Empty<T> ();
 			}
 		}
+
+		public static T SafeAggregate<T> (this IEnumerable<T> ienum, Func<T,T,T> aggregator)
+		{
+			try {
+				return ienum.Aggregate (aggregator);
+			} catch (InvalidOperationException) {
+				return default(T);
+			}
+		}
 	}
 }
 
