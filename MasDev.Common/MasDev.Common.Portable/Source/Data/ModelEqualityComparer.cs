@@ -1,5 +1,6 @@
 ﻿using MasDev.Common.Modeling;
 using System.Collections.Generic;
+using MasDev.Common.Utils;
 
 
 namespace MasDev.Common.Data
@@ -8,13 +9,10 @@ namespace MasDev.Common.Data
 	{
 		public bool Equals (TModel x, TModel y)
 		{
-			if (x == null && y == null)
+			if (Check.BothNull (x, y))
 				return true;
 
-			if (x == null && y != null)
-				return false;
-
-			if (y == null && x != null)
+			if (!Check.BothNotNull (x, y))
 				return false;
 
 			return x.Id == y.Id;

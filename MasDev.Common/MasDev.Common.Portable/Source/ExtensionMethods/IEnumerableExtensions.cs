@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MasDev.Common.Utils;
 
 
 namespace MasDev.Common.Extensions
@@ -9,6 +10,11 @@ namespace MasDev.Common.Extensions
 	{
 		static readonly Random _random = new Random ();
 
+
+		public static IEnumerable<T> Distinct<T,TKey> (this IEnumerable<T> enumerable, Func<T, TKey> property)
+		{
+			return enumerable.Distinct (EqualityComparer.Create ((T t1, T t2) => Check.NullSafeEquals (property (t1), property (t2))));
+		}
 
 
 		public static void ForEach<T> (this IEnumerable<T> enumerable, Action<T> action)
