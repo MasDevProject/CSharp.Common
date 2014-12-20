@@ -161,7 +161,7 @@ namespace MasDev.Common.Http
 
 
 
-		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, HttpParameter[] content)
+		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, IEnumerable<HttpParameter> content)
 		{
 			if (content == null)
 				content = new HttpParameter[0];
@@ -309,8 +309,21 @@ namespace MasDev.Common.Http
 	{
 		public QueryHttpParameter (string key, object value) : base (key, value, ParameterType.Query)
 		{
-			if (!Types.IsNativeType (value))
-				throw new ArgumentException ("Only native types are allowed for this kind of parameter");
+			Assert.NotNull (value);
+
+			if (Types.IsNativeType (value))
+				return;
+
+			try {
+				var values = Enum.GetValues (value.GetType ());
+				if (values != null)
+					return;
+			}
+			catch (ArgumentException) {
+
+			}
+
+			throw new ArgumentException ("Only native types are allowed for this kind of parameter");
 		}
 	}
 

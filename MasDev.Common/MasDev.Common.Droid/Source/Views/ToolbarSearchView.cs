@@ -53,13 +53,13 @@ namespace MasDev.Common.Droid.Views
 			
 		public bool CloseSearchView ()
 		{
+			ApplicationUtils.HideKeyboard (Activity);
 			if (Visibility != ViewStates.Visible)
 				return false;
 
 			var anim = ObjectAnimator.OfFloat (this, ANIMATION_NAME, ALFA_MAX, ALFA_MIN).SetDuration (ANIMATION_DURATION);
 			anim.AnimationEnd += (sender, e) => this.SetGone ();
 			anim.Start ();
-			ApplicationUtils.HideKeyboard (Activity);
 			return true;
 		}
 
