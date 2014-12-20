@@ -77,6 +77,7 @@ namespace MasDev.Common.Droid.Utils
 		public void Reset ()
 		{
 			_paged.Reset ();
+			Items.Clear ();
 			_firstLoad = true;
 		}
 
