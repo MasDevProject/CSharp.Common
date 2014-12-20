@@ -124,6 +124,7 @@
     <Compile Include="Source\Views\SlidingTabStrip.cs" />
     <Compile Include="Source\Views\ToolbarSearchView.cs" />
     <Compile Include="Source\Utils\NavigationOnClickListener.cs" />
+    <Compile Include="Source\Utils\PocoWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

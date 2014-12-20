@@ -126,6 +126,7 @@
     <Compile Include="Source\Data\Expressions\ExpressionBuilder.cs" />
     <Compile Include="Source\Data\Expressions\AtomicExpression.cs" />
     <Compile Include="Source\Data\Expressions\ModelIdExpressionBuilder.cs" />
+    <Compile Include="Source\Collections\BasePagedEnumerable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
