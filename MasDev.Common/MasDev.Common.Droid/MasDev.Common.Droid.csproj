@@ -125,6 +125,8 @@
     <Compile Include="Source\Views\ToolbarSearchView.cs" />
     <Compile Include="Source\Utils\NavigationOnClickListener.cs" />
     <Compile Include="Source\Utils\PocoWrapper.cs" />
+    <Compile Include="Source\ParallaxScroll\ParallaxedView.cs" />
+    <Compile Include="Source\ParallaxScroll\ParallaxScrollView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -137,6 +139,7 @@
     <AndroidResource Include="Resources\anim\slide_out_right.xml" />
     <AndroidResource Include="Resources\values\Integers.xml" />
     <AndroidResource Include="Resources\drawable\Ic_textview_error.png" />
+    <AndroidResource Include="Resources\values\Attrs.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -149,6 +152,7 @@
     <Folder Include="Source\IO\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Source\Security\" />
+    <Folder Include="Source\ParallaxScroll\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
