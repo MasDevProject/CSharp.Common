@@ -175,6 +175,19 @@ namespace MasDev.Common.Extensions
 				builder = new StringBuilder ();
 			}
 		}
+
+		public static ICollection<T> AddIfNotPresent<T> (this ICollection<T> c, T element, Func<T, T, bool> containsPreticate)
+		{
+			var collection = c ?? new List<T> ();
+			if (collection.All (p => !containsPreticate (p, element)))
+				collection.Add (element);
+			return collection;
+		}
+
+		public static ICollection<T> AddIfNotPresent<T> (this ICollection<T> c, T element)
+		{
+			return c.AddIfNotPresent (element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
+		}
 	}
 }
 

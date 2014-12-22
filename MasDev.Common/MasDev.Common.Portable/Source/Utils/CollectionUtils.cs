@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 
 namespace MasDev.Common.Utils
@@ -65,6 +66,11 @@ namespace MasDev.Common.Utils
 		}
 
 
+		public static bool AllNullOrEmpty (params IEnumerable<object>[] ienumerables)
+		{
+			return Assert.NotNullOrEmpty (ienumerables).All (IsNullOrEmpty);
+		}
+
 
 		public static bool BoxedEquals<T> (params IEnumerable<T>[] ienumerables)
 		{
@@ -87,6 +93,20 @@ namespace MasDev.Common.Utils
 
 			var count = first.Count ();
 			return lists.All (i => i.Count () == count);
+		}
+
+
+
+		public static void AddIfNotPresent<T> (ref ICollection<T> collection, T element, Func<T, T, bool> containsPreticate)
+		{
+			collection = collection ?? new List<T> ();
+			if (collection.All (p => !containsPreticate (p, element)))
+				collection.Add (element);
+		}
+
+		public static void AddIfNotPresent<T> (ref ICollection<T> collection, T element)
+		{
+			AddIfNotPresent (ref collection, element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
 		}
 	}
 }

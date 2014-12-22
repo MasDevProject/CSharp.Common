@@ -13,8 +13,8 @@ namespace MasDev.Common
 
 		public static byte[] GetBytes (string str)
 		{
-			byte[] bytes = new byte[str.Length * sizeof(char)];
-			System.Buffer.BlockCopy (str.ToCharArray (), 0, bytes, 0, bytes.Length);
+			var bytes = new byte[str.Length * sizeof(char)];
+			Buffer.BlockCopy (str.ToCharArray (), 0, bytes, 0, bytes.Length);
 			return bytes;
 		}
 
@@ -22,8 +22,8 @@ namespace MasDev.Common
 
 		public static string GetString (byte[] bytes)
 		{
-			char[] chars = new char[bytes.Length / sizeof(char)];
-			System.Buffer.BlockCopy (bytes, 0, chars, 0, bytes.Length);
+			var chars = new char[bytes.Length / sizeof(char)];
+			Buffer.BlockCopy (bytes, 0, chars, 0, bytes.Length);
 			return new string (chars);
 		}
 
@@ -47,6 +47,16 @@ namespace MasDev.Common
 			return builder.ToString ();
 		}
 
+		public static string CommaSeparate (IEnumerable<object> strings)
+		{
+			return CommaSeparate (strings.Select (o => o.ToString ()));
+		}
+
+		public static string CommaSeparate<T> (IEnumerable<T> strings, Func<T, string> toString)
+		{
+			return CommaSeparate (strings.Select (o => toString(o)));
+		}
+
 		public static void AddCommaSeparatedValue (ref string s, string value)
 		{
 			if (s == null)
@@ -61,9 +71,7 @@ namespace MasDev.Common
 
 		public static int Length (string s)
 		{
-			if (string.IsNullOrEmpty (s))
-				return 0;
-			return s.Length;
+			return string.IsNullOrEmpty (s) ? 0 : s.Length;
 		}
 
 		public static bool ContainsSomethingReadable (string s)

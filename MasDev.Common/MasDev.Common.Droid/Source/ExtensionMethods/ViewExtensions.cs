@@ -1,5 +1,6 @@
 ﻿using Android.Views;
 using Android.Views.Animations;
+using System.Collections.Generic;
 
 namespace MasDev.Common.Droid.ExtensionMethods
 {
@@ -7,17 +8,20 @@ namespace MasDev.Common.Droid.ExtensionMethods
 	{
 		public static void SetGone (this View view)
 		{
-			view.Visibility = ViewStates.Gone;
+			if (view.Visibility != ViewStates.Gone)
+				view.Visibility = ViewStates.Gone;
 		}
 
 		public static void SetInvisible (this View view)
 		{
-			view.Visibility = ViewStates.Invisible;
+			if (view.Visibility != ViewStates.Invisible)
+				view.Visibility = ViewStates.Invisible;
 		}
 
 		public static void SetVisible (this View view)
 		{
-			view.Visibility = ViewStates.Visible;
+			if (view.Visibility != ViewStates.Visible)
+				view.Visibility = ViewStates.Visible;
 		}
 
 		public static ScaleAnimation Expand (this View v, int durationInMillis = 400)
@@ -36,6 +40,12 @@ namespace MasDev.Common.Droid.ExtensionMethods
 			anim.AnimationEnd += (s, e) => v.Visibility = ViewStates.Gone;
 			v.StartAnimation (anim);
 			return anim;
+		}
+
+		public static IEnumerable<View> Children (this ViewGroup v)
+		{
+			for (var i = 0; i < v.ChildCount; i++)
+				yield return v.GetChildAt (i);
 		}
 	}
 }
