@@ -11,6 +11,7 @@ namespace MasDev.Common.Localization
 
 		public static TLocalizationInterface Get<TLocalizationInterface> (string locale) where TLocalizationInterface : ILocalization
 		{
+
 			var localizationInterface = typeof(TLocalizationInterface);
 			if (!_localizations.ContainsKey (localizationInterface))
 				throw new InvalidOperationException (localizationInterface + " localization interface is not subscribed");
@@ -22,6 +23,7 @@ namespace MasDev.Common.Localization
 			if (!StringUtils.ContainsSomethingReadable (locale))
 				return instances.Single (i => i.IsDefault).Localization;
 				
+			locale = locale.Trim ().ToLowerInvariant ();
 			var instance = instances.SingleOrDefault (wrapper => wrapper.Localization.Locale.Trim ().ToLowerInvariant () == locale);
 			if (instance == null)
 				instance = instances.FirstOrDefault (wrapper => AreSameLanguage (wrapper.Localization.Locale, locale));
@@ -62,8 +64,8 @@ namespace MasDev.Common.Localization
 		{
 			locale1 = locale1.Trim ().ToLowerInvariant ();
 			locale2 = locale2.Trim ().ToLowerInvariant ();
-			var underscore1 = locale1.IndexOf ('_');
-			var underscore2 = locale2.IndexOf ('_');
+			var underscore1 = locale1.IndexOf ('-');
+			var underscore2 = locale2.IndexOf ('-');
 			if (underscore1 < 0 || underscore2 < 0)
 				return false;
 
