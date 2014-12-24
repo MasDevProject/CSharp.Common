@@ -73,6 +73,15 @@ namespace MasDev.Common.Extensions
 				return default(T);
 			}
 		}
+
+		public static IEnumerable<E> SafeSelect<T,E> (this IEnumerable<T> ienum, Func<T,E> selector)
+		{
+			try {
+				return ienum.Select (selector);
+			} catch (InvalidOperationException) {
+				return Enumerable.Empty<E> ();
+			}
+		}
 	}
 }
 
