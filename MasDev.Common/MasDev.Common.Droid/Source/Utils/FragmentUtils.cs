@@ -8,15 +8,20 @@ namespace MasDev.Common.Droid.Utils
 	{
 		public static TInterface EnsureImplements<TInterface>(Context ctx, Fragment fragment = null) where TInterface : class
 		{
-			var parent = ctx as TInterface;
-			if (parent == null) {
-				if (fragment == null)
-					throw new NotSupportedException ("The parent activity/fragment must implement " + typeof(TInterface).FullName);
+			var parent = GetParent<TInterface> (ctx, fragment);
+			if (parent == null)
+				throw new NotSupportedException ("The parent activity/fragment must implement " + typeof(TInterface).FullName);
 
-				parent = fragment.ParentFragment as TInterface;
-				if (parent == null)
-					throw new NotSupportedException ("The parent activity/fragment must implement " + typeof(TInterface).FullName);
-			}
+			return parent;
+		}
+
+		public static TInterface GetParent<TInterface>(Context ctx, Fragment fragment = null) where TInterface : class
+		{
+			var parent = ctx as TInterface;
+			if (parent != null)
+				return parent;
+
+			parent = fragment.ParentFragment as TInterface;
 			return parent;
 		}
 	}
