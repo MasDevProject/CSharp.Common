@@ -22,7 +22,7 @@ namespace MasDev.Common.Extensions
 
 	public static class TaskExtensions
 	{
-		public static async Task<E> Concat<T,E> (this Task<T> task, Func<T, E> operation)
+		public static async Task<E> AndThen<T,E> (this Task<T> task, Func<T, E> operation)
 		{
 			var result = await task;
 			return operation (result);
