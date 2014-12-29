@@ -101,9 +101,10 @@ namespace MasDev.Common.Extensions
 		{
 			var startIndex = s.IndexOf (lowerBound, StringComparison.OrdinalIgnoreCase);
 			var actualStart = startIndex + lowerBound.Length;
-            var endIndex = s.LastIndexOf(upperBound, StringComparison.OrdinalIgnoreCase);
+			var endIndex = s.LastIndexOf (upperBound, StringComparison.OrdinalIgnoreCase);
 
-		    if (startIndex == endIndex) return string.Empty;
+			if (startIndex == endIndex)
+				return string.Empty;
 
 			if (startIndex < 0 || endIndex < 0 || endIndex < actualStart)
 				return s;
@@ -174,19 +175,6 @@ namespace MasDev.Common.Extensions
 				yield return builder.ToString ();
 				builder = new StringBuilder ();
 			}
-		}
-
-		public static ICollection<T> AddIfNotPresent<T> (this ICollection<T> c, T element, Func<T, T, bool> containsPreticate)
-		{
-			var collection = c ?? new List<T> ();
-			if (collection.All (p => !containsPreticate (p, element)))
-				collection.Add (element);
-			return collection;
-		}
-
-		public static ICollection<T> AddIfNotPresent<T> (this ICollection<T> c, T element)
-		{
-			return c.AddIfNotPresent (element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
 		}
 	}
 }

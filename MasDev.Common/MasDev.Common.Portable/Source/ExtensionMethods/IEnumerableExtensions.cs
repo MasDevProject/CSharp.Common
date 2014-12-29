@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MasDev.Common.Utils;using System.Text;
+using MasDev.Common.Utils;
 
 
 namespace MasDev.Common.Extensions
@@ -83,13 +83,18 @@ namespace MasDev.Common.Extensions
 			}
 		}
 
-		public static string ForEachAppend<T> (this IEnumerable<T> ienum, Func<T, string> toString, string separator)
+
+		public static ICollection<T> AddIfNotContains<T> (this ICollection<T> c, T element, Func<T, T, bool> containsPreticate)
 		{
-			var sb = new StringBuilder ();
-			foreach (var t in ienum)
-				sb.Append (toString (t)).Append (separator);
-			var str = sb.ToString ();
-			return str.Substring (0, str.Length - separator.Length);
+			var collection = c ?? new List<T> ();
+			if (collection.All (p => !containsPreticate (p, element)))
+				collection.Add (element);
+			return collection;
+		}
+
+		public static ICollection<T> AddIfNotContains<T> (this ICollection<T> c, T element)
+		{
+			return c.AddIfNotContains (element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
 		}
 	}
 }
