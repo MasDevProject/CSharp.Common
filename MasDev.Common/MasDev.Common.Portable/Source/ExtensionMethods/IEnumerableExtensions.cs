@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MasDev.Common.Utils;
+using MasDev.Common.Utils;using System.Text;
 
 
 namespace MasDev.Common.Extensions
@@ -81,6 +81,15 @@ namespace MasDev.Common.Extensions
 			} catch (InvalidOperationException) {
 				return Enumerable.Empty<E> ();
 			}
+		}
+
+		public static string ForEachAppend<T> (this IEnumerable<T> ienum, Func<T, string> toString, string separator)
+		{
+			var sb = new StringBuilder ();
+			foreach (var t in ienum)
+				sb.Append (toString (t)).Append (separator);
+			var str = sb.ToString ();
+			return str.Substring (0, str.Length - separator.Length);
 		}
 	}
 }
