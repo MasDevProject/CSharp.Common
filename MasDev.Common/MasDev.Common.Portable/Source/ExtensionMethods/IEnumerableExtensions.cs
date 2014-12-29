@@ -82,6 +82,20 @@ namespace MasDev.Common.Extensions
 				return Enumerable.Empty<E> ();
 			}
 		}
+
+
+		public static ICollection<T> AddIfNotContains<T> (this ICollection<T> c, T element, Func<T, T, bool> containsPreticate)
+		{
+			var collection = c ?? new List<T> ();
+			if (collection.All (p => !containsPreticate (p, element)))
+				collection.Add (element);
+			return collection;
+		}
+
+		public static ICollection<T> AddIfNotContains<T> (this ICollection<T> c, T element)
+		{
+			return c.AddIfNotContains (element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
+		}
 	}
 }
 
