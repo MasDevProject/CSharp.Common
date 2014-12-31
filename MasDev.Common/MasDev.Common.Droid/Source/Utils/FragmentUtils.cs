@@ -1,23 +1,22 @@
 ﻿using System;
-using Android.Content;
 using Android.Support.V4.App;
 
 namespace MasDev.Common.Droid.Utils
 {
 	public static class FragmentUtils
 	{
-		public static TInterface EnsureImplements<TInterface>(Context ctx, Fragment fragment = null) where TInterface : class
+		public static TInterface EnsureImplements<TInterface>(Fragment fragment) where TInterface : class
 		{
-			var parent = GetParent<TInterface> (ctx, fragment);
+			var parent = GetParent<TInterface> (fragment);
 			if (parent == null)
 				throw new NotSupportedException ("The parent activity/fragment must implement " + typeof(TInterface).FullName);
 
 			return parent;
 		}
 
-		public static TInterface GetParent<TInterface>(Context ctx, Fragment fragment = null) where TInterface : class
+		public static TInterface GetParent<TInterface>(Fragment fragment) where TInterface : class
 		{
-			var parent = ctx as TInterface;
+			var parent = fragment.Activity as TInterface;
 			if (parent != null)
 				return parent;
 
