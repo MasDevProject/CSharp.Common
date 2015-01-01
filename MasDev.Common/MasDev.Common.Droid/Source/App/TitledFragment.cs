@@ -33,19 +33,18 @@ namespace MasDev.Common.Droid.App
 
 		#region View states managment
 
-		protected View LoadingLayout { set; get; }
+		protected View LoadingLayout { get; private set; }
 
-		protected View ErrorLayout { get; set; }
+		protected View ErrorLayout { get; private set; }
 
-		protected View ContentLayout { set; get; }
+		protected View ContentLayout { get; private set; }
 
-		protected View NoResultsLayout { set; get; }
+		protected View NoResultsLayout { get; private set; }
 
 		UiState? _uiState;
 		const int ANIMATION_DURATION = 400;
 		const string ALPHA = "alpha";
 		bool _useAnimation;
-
 
 		protected void InitStates (View rootView, int? loadingViewId, int? failureViewId, int? successFulViewId, int? noResultsViewId, bool useAnimation = true)
 		{
@@ -64,8 +63,6 @@ namespace MasDev.Common.Droid.App
 			if (NoResultsLayout != null)
 				NoResultsLayout.SetInvisible ();
 		}
-
-
 
 		protected UiState UiState {
 			get { return _uiState.Value; }
@@ -90,7 +87,6 @@ namespace MasDev.Common.Droid.App
 				}
 			}
 		}
-
 
 		void ShowLoadingUi ()
 		{
@@ -135,14 +131,13 @@ namespace MasDev.Common.Droid.App
 			FadeOut (ContentLayout);
 			FadeOut (ErrorLayout);
 		}
-
-
+			
 		void FadeIn (View layoutToShow)
 		{
 			if (layoutToShow.Visibility == ViewStates.Visible && !(layoutToShow.Tag != null && (bool)layoutToShow.Tag))
 				return;
 
-			layoutToShow.Tag = false; //isHiding = false
+			layoutToShow.Tag = false; // isHiding = false
 			if (_useAnimation)
 				ObjectAnimator.OfFloat (layoutToShow, ALPHA, 0f, 1f).SetDuration (ANIMATION_DURATION).Start ();
 
@@ -155,10 +150,10 @@ namespace MasDev.Common.Droid.App
 				return;
 				
 			if (_useAnimation) {
-				layoutToHide.Tag = true; //isHiding = true
+				layoutToHide.Tag = true; // isHiding = true
 				var an = ObjectAnimator.OfFloat (layoutToHide, ALPHA, 1f, 0f).SetDuration (ANIMATION_DURATION);
 				an.AnimationEnd += delegate {
-					if ((bool)layoutToHide.Tag) {
+					if ((bool)layoutToHide.Tag) { // if the layout is set to Visible during the animation, I don't want to set it as Invisible when the animation ends.
 						layoutToHide.SetInvisible ();
 					}
 				};
