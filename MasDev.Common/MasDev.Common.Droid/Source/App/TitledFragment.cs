@@ -142,30 +142,29 @@ namespace MasDev.Common.Droid.App
 			if (layoutToShow.Visibility == ViewStates.Visible && !(layoutToShow.Tag != null && (bool)layoutToShow.Tag))
 				return;
 
-			layoutToShow.Tag = false;
-			if (_useAnimation) {
-				var an = ObjectAnimator.OfFloat (layoutToShow, ALPHA, 0f, 1f).SetDuration (ANIMATION_DURATION);
-				an.Start ();
-			}
+			layoutToShow.Tag = false; //isHiding = false
+			if (_useAnimation)
+				ObjectAnimator.OfFloat (layoutToShow, ALPHA, 0f, 1f).SetDuration (ANIMATION_DURATION).Start ();
+
 			layoutToShow.SetVisible ();
 		}
 
-		void FadeOut (View layoutToHie)
+		void FadeOut (View layoutToHide)
 		{
-			if (layoutToHie == null || layoutToHie.Visibility != ViewStates.Visible)
+			if (layoutToHide == null || layoutToHide.Visibility != ViewStates.Visible)
 				return;
 				
 			if (_useAnimation) {
-				layoutToHie.Tag = true;
-				var an = ObjectAnimator.OfFloat (layoutToHie, ALPHA, 1f, 0f).SetDuration (ANIMATION_DURATION);
+				layoutToHide.Tag = true; //isHiding = true
+				var an = ObjectAnimator.OfFloat (layoutToHide, ALPHA, 1f, 0f).SetDuration (ANIMATION_DURATION);
 				an.AnimationEnd += delegate {
-					if ((bool)layoutToHie.Tag) {
-						layoutToHie.SetInvisible ();
+					if ((bool)layoutToHide.Tag) {
+						layoutToHide.SetInvisible ();
 					}
 				};
 				an.Start ();
 			} else
-				layoutToHie.SetGone ();
+				layoutToHide.SetGone ();
 		}
 
 		#endregion
