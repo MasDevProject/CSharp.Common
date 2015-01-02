@@ -1,9 +1,9 @@
 ﻿using System;
-using MasDev.Common.Reflection;
+using MasDev.Reflection;
 using Newtonsoft.Json;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class SerializationUtils
 	{

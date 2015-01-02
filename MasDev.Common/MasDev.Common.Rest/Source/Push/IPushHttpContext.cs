@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace MasDev.Common.Rest.Push
+namespace MasDev.Rest.Push
 {
 	public interface IPushHttpContext : IHttpContext
 	{

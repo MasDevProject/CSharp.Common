@@ -1,7 +1,7 @@
-﻿using MasDev.Common.Spatial;
+﻿using MasDev.Spatial;
 
 
-namespace MasDev.Common.Spatial
+namespace MasDev.Spatial
 {
 	public class TaggedGeoPoint<T> : GeoPoint
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace MasDev.Common.Tasks
+namespace MasDev.Threading.Tasks
 {
 	public class CancellationTokenEx
 	{

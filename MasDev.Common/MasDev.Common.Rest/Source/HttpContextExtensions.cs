@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Linq;
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public static class HttpContextExtensions
 	{
 		public static string AcceptLanguageHeader (this IHttpContext context)
 		{
 			var headers = context.RequestHeaders;
-			if (headers == null || !headers.ContainsKey (Http.AcceptLanguageHeader.Name))
+			if (headers == null || !headers.ContainsKey (MasDev.IO.Http.AcceptLanguageHeader.Name))
 				return null;
 
 
-			var acceptLanguageHeader = headers [Http.AcceptLanguageHeader.Name];
+			var acceptLanguageHeader = headers [MasDev.IO.Http.AcceptLanguageHeader.Name];
 			return acceptLanguageHeader == null ? null : acceptLanguageHeader.FirstOrDefault ();
 		}
 	}

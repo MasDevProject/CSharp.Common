@@ -2,14 +2,14 @@
 using System.Runtime.Remoting.Messaging;
 using System.Reflection;
 using System;
-using MasDev.Common.Rest.Auth;
+using MasDev.Rest.Auth;
 using System.Linq;
 using System.Collections.Generic;
-using MasDev.Common.Http;
+using MasDev.IO.Http;
 using System.Threading.Tasks;
 
 
-namespace MasDev.Common.Rest.Proxy
+namespace MasDev.Rest.Proxy
 {
 	public class RestModuleProxy<T> : RealProxy where T : class, IRestModule, new()
 	{

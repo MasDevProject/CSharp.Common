@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using MasDev.Common.Security.Encryption;
+using MasDev.Security;
 using System;
 using System.Threading.Tasks;
-using MasDev.Common.Extensions;
-using MasDev.Common.IO;
+using MasDev.Extensions;
+using MasDev.IO;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using MasDev.Data;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public class RegistryProvider : IRegistryProvider
 	{
@@ -49,13 +50,11 @@ namespace MasDev.Common.IO
 
 		public void Prepare ()
 		{
-			try
-			{
+			try {
 				var rawContent = _file.ReadString (_registryLocation);
 				ReadPersistentEntries (rawContent);
 				_clear = false;
-			} catch (FileNotFoundException)
-			{
+			} catch (FileNotFoundException) {
 				_persistentEntries = new List<RegistryEntry> ();
 			}
 		}
@@ -64,13 +63,11 @@ namespace MasDev.Common.IO
 
 		public async Task PrepareAsync ()
 		{
-			try
-			{
+			try {
 				var rawContent = await _file.ReadStringAsync (_registryLocation);
 				ReadPersistentEntries (rawContent);
 				_clear = false;
-			} catch (Exception)
-			{
+			} catch (Exception) {
 				_persistentEntries = new List<RegistryEntry> ();
 			}
 		}
@@ -104,8 +101,7 @@ namespace MasDev.Common.IO
 
 		public void Commit ()
 		{
-			if (_clear)
-			{
+			if (_clear) {
 				if (_file.Exists (_registryLocation))
 					_file.Delete (_registryLocation);
 				return;
@@ -119,8 +115,7 @@ namespace MasDev.Common.IO
 
 		public async Task CommitAsync ()
 		{
-			if (_clear)
-			{
+			if (_clear) {
 				if (_file.Exists (_registryLocation))
 					_file.Delete (_registryLocation);
 				return;
@@ -156,10 +151,8 @@ namespace MasDev.Common.IO
 
 		void ReadPersistentEntries (string rawContent)
 		{
-			if (_configuration != null)
-			{
-				if (_configuration.Encrypt)
-				{
+			if (_configuration != null) {
+				if (_configuration.Encrypt) {
 					EnsureEncryptionKey ();
 					rawContent = Aes.StaticDecrypt (rawContent, _configuration.EncryptionKey);
 				}
@@ -189,8 +182,7 @@ namespace MasDev.Common.IO
 		string PrepareCommit ()
 		{
 			EnsurePrepareCalled ();
-			foreach (var entry in _uncommittedChanges)
-			{
+			foreach (var entry in _uncommittedChanges) {
 				var index = _persistentEntries.FindFirstIndex (e => e.Key == entry.Key);
 				if (index >= 0)
 					_persistentEntries [index] = entry;
@@ -198,8 +190,7 @@ namespace MasDev.Common.IO
 					_persistentEntries.Add (entry);
 			}
 
-			foreach (var key in _removedChanges)
-			{
+			foreach (var key in _removedChanges) {
 				var index = _persistentEntries.FindFirstIndex (e => e.Key == key);
 				if (index >= 0)
 					_persistentEntries.RemoveAt (index);
@@ -208,10 +199,8 @@ namespace MasDev.Common.IO
 
 			string text = JsonConvert.SerializeObject (_persistentEntries.ToArray ());
 
-			if (_configuration != null)
-			{
-				if (_configuration.Encrypt)
-				{
+			if (_configuration != null) {
+				if (_configuration.Encrypt) {
 					EnsureEncryptionKey ();
 					text = Aes.StaticEncrypt (text, _configuration.EncryptionKey);
 				}
@@ -222,8 +211,7 @@ namespace MasDev.Common.IO
 
 
 
-		public IEnumerable<string> Keys
-		{
+		public IEnumerable<string> Keys {
 			get {
 				var i1 = _persistentEntries.Select (entry => entry.Key);
 				var i2 = _uncommittedChanges.Select (entry => entry.Key);

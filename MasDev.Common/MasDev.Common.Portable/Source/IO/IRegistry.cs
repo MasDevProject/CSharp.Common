@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public interface IRegistryProvider
 	{

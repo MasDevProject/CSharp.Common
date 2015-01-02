@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using MasDev.Common.Utils;
+using MasDev.Utils;
 using System.Linq;
 
-namespace MasDev.Common.Localization
+namespace MasDev.Localization
 {
 	public static class Localizator
 	{

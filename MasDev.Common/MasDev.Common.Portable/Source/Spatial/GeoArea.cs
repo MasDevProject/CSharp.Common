@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Spatial
+namespace MasDev.Spatial
 {
 	public sealed class GeoArea
 	{

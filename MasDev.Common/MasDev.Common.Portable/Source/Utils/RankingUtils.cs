@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class RankingUtils
 	{

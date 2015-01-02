@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	class EqualityComparer<T> : IEqualityComparer<T>
 	{

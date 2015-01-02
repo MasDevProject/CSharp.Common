@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using MasDev.Common.Modeling;
+using MasDev.Data;
 
 
-namespace MasDev.Common.Data
+namespace MasDev.Data
 {
 	public class PersistenceMapper
 	{

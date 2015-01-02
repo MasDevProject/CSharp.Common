@@ -5,7 +5,7 @@ using Android.Graphics;
 using Android.Animation;
 using Android.Content;
 using Android.Util;
-using MasDev.Common.Extensions;
+using MasDev.Extensions;
 
 
 namespace MasDev.Common.Droid.Views

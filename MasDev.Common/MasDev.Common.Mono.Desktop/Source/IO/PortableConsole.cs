@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public class PortableConsole : IPortableConsole
 	{

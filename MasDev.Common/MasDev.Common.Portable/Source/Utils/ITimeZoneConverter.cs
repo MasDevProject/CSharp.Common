@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public interface ITimeZoneConverter
 	{

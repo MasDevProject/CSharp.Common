@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using MasDev.Common.Modeling;
+using MasDev.Data;
 using System.Collections.Generic;
 using System;
 
 
-namespace MasDev.Common.AutoMapper
+namespace MasDev.AutoMapper
 {
 	public class AutoMapperConfiguration
 	{

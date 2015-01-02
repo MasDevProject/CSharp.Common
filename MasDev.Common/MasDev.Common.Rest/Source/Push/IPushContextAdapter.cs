@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.Rest.Push
+namespace MasDev.Rest.Push
 {
 	public interface IPushContextAdapter
 	{

@@ -2,7 +2,7 @@
 using System.Net;
 
 
-namespace MasDev.Common.Exceptions
+namespace MasDev.Exceptions
 {
 	public sealed class HttpException : Exception
 	{

@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 
 
-namespace MasDev.Common.Collections
+namespace MasDev.Collections
 {
 	public class ConcurrentHashSet<T> : IDisposable
 	{

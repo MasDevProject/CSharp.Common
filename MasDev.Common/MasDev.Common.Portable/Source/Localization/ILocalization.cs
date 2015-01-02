@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MasDev.Common.Localization
+namespace MasDev.Localization
 {
 	public interface ILocalization
 	{

@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Security;
 
 
-namespace MasDev.Common.Mono
+namespace MasDev.Mono
 {
 	public static class MailClient
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common
+namespace MasDev
 {
 	[Flags]
 	public enum  Currencies

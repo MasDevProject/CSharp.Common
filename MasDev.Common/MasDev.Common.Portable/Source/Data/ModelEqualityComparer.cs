@@ -1,9 +1,9 @@
-﻿using MasDev.Common.Modeling;
+﻿using MasDev.Data;
 using System.Collections.Generic;
-using MasDev.Common.Utils;
+using MasDev.Utils;
 
 
-namespace MasDev.Common.Data
+namespace MasDev.Data
 {
 	public class ModelEqualityComparer<TModel> : IEqualityComparer<TModel> where TModel : class, IModel, new()
 	{

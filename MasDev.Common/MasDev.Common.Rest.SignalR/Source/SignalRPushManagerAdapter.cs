@@ -1,15 +1,15 @@
-﻿using MasDev.Common.Rest.Push;
+﻿using MasDev.Rest.Push;
 using Microsoft.AspNet.SignalR;
 using System.Collections.Generic;
 using System;
 using Microsoft.AspNet.SignalR.Hubs;
 using System.Linq;
-using MasDev.Common.Utils;
-using MasDev.Common.Extensions;
+using MasDev.Utils;
+using MasDev.Extensions;
 using System.Reflection;
 
 
-namespace MasDev.Common.Rest.SignalR
+namespace MasDev.Rest
 {
 	public class SignalRPushContextAdapter : IPushContextAdapter
 	{

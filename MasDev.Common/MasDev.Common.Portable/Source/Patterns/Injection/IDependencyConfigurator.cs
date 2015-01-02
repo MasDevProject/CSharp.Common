@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.Injection
+namespace MasDev.Patterns.Injection
 {
 	public interface IDependencyConfigurator
 	{

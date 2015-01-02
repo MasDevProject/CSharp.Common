@@ -3,7 +3,7 @@ using Android.App;
 using Android.Gms.Gcm;
 using Android.Gms.Common;
 using Android.Content;
-using MasDev.Common.Exceptions;
+using MasDev.Exceptions;
 
 namespace MasDev.Common.Droid.Utils
 {

@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.Modeling
+namespace MasDev.Data
 {
 	public static class Model
 	{

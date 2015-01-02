@@ -1,8 +1,8 @@
-﻿using MasDev.Common.Rest.Proxy;
+﻿using MasDev.Rest.Proxy;
 using System.Threading.Tasks;
 
 
-namespace MasDev.Common.Rest.SignalR
+namespace MasDev.Rest
 {
 	public class SignalRHub<TPushManager> : HubPushHttpContext where TPushManager : PushManager, new()
 	{

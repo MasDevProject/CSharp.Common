@@ -3,17 +3,17 @@ using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using MasDev.Common.IO;
+using MasDev.IO;
 using System.Net.Http.Headers;
 using System.Net;
-using MasDev.Common.Extensions;
+using MasDev.Extensions;
 using System.Text;
-using MasDev.Common.Utils;
-using MasDev.Common.Reflection;
-using MasDev.Common.Http;
+using MasDev.Utils;
+using MasDev.Reflection;
+using MasDev.IO.Http;
 
 
-namespace MasDev.Common.Http
+namespace MasDev.IO.Http
 {
 	public abstract class HttpAuthClient : IDisposable
 	{

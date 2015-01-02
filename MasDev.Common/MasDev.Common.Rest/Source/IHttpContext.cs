@@ -2,7 +2,7 @@
 using System;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public interface IHttpContext : IDisposable
 	{

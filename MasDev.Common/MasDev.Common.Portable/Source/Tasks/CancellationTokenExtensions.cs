@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace MasDev.Common.Tasks
+namespace MasDev.Threading.Tasks
 {
 	public static class CancellationTokenExtensions
 	{

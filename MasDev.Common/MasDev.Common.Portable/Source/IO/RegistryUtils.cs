@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using MasDev.Common.Injection;
+using MasDev.Patterns.Injection;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public static class RegistryUtils
 	{

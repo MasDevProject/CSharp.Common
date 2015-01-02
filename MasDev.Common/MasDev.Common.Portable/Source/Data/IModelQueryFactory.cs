@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using MasDev.Common.Modeling;
+using MasDev.Data;
 
 
-namespace MasDev.Common.Data
+namespace MasDev.Data
 {
 	public interface IModelQueryFactory
 	{

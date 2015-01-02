@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 
-namespace MasDev.Common.Security.Encryption
+namespace MasDev.Security
 {
 	public class Aes : ISymmetricCrypto
 	{

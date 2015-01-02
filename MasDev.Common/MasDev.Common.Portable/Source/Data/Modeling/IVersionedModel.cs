@@ -1,8 +1,8 @@
-﻿using MasDev.Common.Modeling;
+﻿using MasDev.Data;
 using System;
 
 
-namespace MasDev.Common.Modeling
+namespace MasDev.Data
 {
 	public interface IVersionedModel : IUndeletableModel
 	{

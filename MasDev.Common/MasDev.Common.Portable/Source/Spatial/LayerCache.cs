@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using MasDev.Common.Spatial;
+using MasDev.Spatial;
 using System.Linq;
 
 
-namespace MasDev.Common.Spatial
+namespace MasDev.Spatial
 {
 	public class LayerCache<T>
 	{

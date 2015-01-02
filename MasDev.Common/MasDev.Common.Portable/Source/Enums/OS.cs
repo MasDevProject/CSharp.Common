@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common
+namespace MasDev
 {
 	public enum OS
 	{

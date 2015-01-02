@@ -1,10 +1,10 @@
 ﻿using System;
-using MasDev.Common.Rest.Auth;
+using MasDev.Rest.Auth;
 using System.IO;
 using System.IO.Compression;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public class GZipTokenCompressor : ITokenCompressor
 	{

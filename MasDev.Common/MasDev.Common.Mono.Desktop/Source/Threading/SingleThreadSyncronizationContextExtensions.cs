@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace MasDev.Common.Threading
+namespace MasDev.Threading
 {
 	public static class SingleThreadSyncronizationContextExtensions
 	{

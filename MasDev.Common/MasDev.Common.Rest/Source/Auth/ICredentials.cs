@@ -1,8 +1,8 @@
 ﻿using System;
-using MasDev.Common.Modeling;
+using MasDev.Data;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public interface ICredentials : IModel
 	{

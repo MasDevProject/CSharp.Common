@@ -1,9 +1,9 @@
-﻿using MasDev.Common.Rest.Push;
+﻿using MasDev.Rest.Push;
 using System;
 using System.Collections.Generic;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public static class PushContext
 	{

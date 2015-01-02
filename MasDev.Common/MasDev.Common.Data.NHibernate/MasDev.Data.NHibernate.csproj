@@ -56,17 +56,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\ISessionFactoryProvider.cs" />
-    <Compile Include="Source\NHibernateUtils.cs" />
     <Compile Include="Source\NHibernateBaseRepository.cs" />
-    <Compile Include="Source\Specialized\NHibernateSqlServerSessionFactoryProvider.cs" />
-    <Compile Include="Source\Visitor.cs" />
     <Compile Include="Source\NHibernateUnitOfWork.cs" />
     <Compile Include="Source\NHibernatePropertyNameResolver.cs" />
-    <Compile Include="Source\Specialized\NHibernateMySqlSessionFactoryProvider.cs" />
-    <Compile Include="Source\PersistenceMapperAutoMapConfiguration.cs" />
-    <Compile Include="Source\PersistenceMapperConvention.cs" />
-    <Compile Include="Source\NHibernateIngoreNullValueContractResolver.cs" />
+    <Compile Include="Source\NHibernate\NHibernateUtils.cs" />
+    <Compile Include="Source\NHibernate\PersistenceMapperAutoMapConfiguration.cs" />
+    <Compile Include="Source\NHibernate\PersistenceMapperConvention.cs" />
+    <Compile Include="Source\ContractResolvers\NHibernateIngoreNullValueContractResolver.cs" />
+    <Compile Include="Source\NHibernate\ISessionFactoryProvider.cs" />
+    <Compile Include="Source\NHibernate\Providers\NHibernateMySqlSessionFactoryProvider.cs" />
+    <Compile Include="Source\NHibernate\Providers\NHibernateSqlServerSessionFactoryProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -83,5 +82,9 @@
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Mono</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\NHibernate\" />
+    <Folder Include="Source\ContractResolvers\" />
   </ItemGroup>
 </Project>

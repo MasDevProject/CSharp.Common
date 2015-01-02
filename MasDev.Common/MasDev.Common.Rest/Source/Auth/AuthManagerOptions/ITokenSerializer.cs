@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public interface ITokenSerializer
 	{

@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using System.Net.Http;
-using MasDev.Common.Exceptions;
+using MasDev.Exceptions;
 using System.Net;
 using Newtonsoft.Json.Linq;
-using MasDev.Common.Spatial;
+using MasDev.Spatial;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class IpLookup
 	{

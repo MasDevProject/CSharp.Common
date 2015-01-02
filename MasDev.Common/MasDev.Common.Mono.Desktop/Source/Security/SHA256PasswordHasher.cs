@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography;
-using MasDev.Common.Extensions;
+using MasDev.Extensions;
+using MasDev.Utils;
 
 
-namespace MasDev.Common.Security
+namespace MasDev.Security
 {
 	public class SHA256PasswordHasher : IPasswordHasher
 	{
@@ -40,8 +41,7 @@ namespace MasDev.Common.Security
 
 		static byte[] GenerateSalt ()
 		{
-			using (var generator = RandomNumberGenerator.Create ())
-			{
+			using (var generator = RandomNumberGenerator.Create ()) {
 				var bytes = new byte[_saltSize];
 				generator.GetNonZeroBytes (bytes);
 				return bytes;
@@ -73,8 +73,7 @@ namespace MasDev.Common.Security
 			if (array1.Length != array2.Length)
 				return false;
 
-			for (int i = 0; i < array1.Length; i++)
-			{
+			for (int i = 0; i < array1.Length; i++) {
 				if (array1 [i] != array2 [i])
 					return false;
 			}

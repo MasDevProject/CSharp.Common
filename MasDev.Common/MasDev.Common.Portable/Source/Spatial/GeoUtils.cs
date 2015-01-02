@@ -1,10 +1,10 @@
 ﻿using System;
-using MasDev.Common.Spatial;
+using MasDev.Spatial;
 using System.Collections.Generic;
 using System.Linq;
 
 
-namespace MasDev.Common.Spatial
+namespace MasDev.Spatial
 {
 	public static class GeoUtils
 	{

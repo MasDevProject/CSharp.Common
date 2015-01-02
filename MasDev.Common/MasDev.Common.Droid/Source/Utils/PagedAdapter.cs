@@ -1,10 +1,10 @@
 ﻿using System;
 using Android.Widget;
 using Android.Content;
-using MasDev.Common.Collections;
+using MasDev.Collections;
 using System.Collections.Generic;
 using Android.Views;
-using MasDev.Common.Injection;
+using MasDev.Patterns.Injection;
 
 namespace MasDev.Common.Droid.Utils
 {

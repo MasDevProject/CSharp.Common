@@ -1,9 +1,9 @@
 ﻿using System;
-using MasDev.Common.IO;
+using MasDev.IO;
 using Android.Content;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using MasDev.Common.Tasks;
+using MasDev.Threading.Tasks;
 
 namespace MasDev.Common.Droid.IO
 {

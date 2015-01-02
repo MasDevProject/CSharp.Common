@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.Spatial
+namespace MasDev.Spatial
 {
 	public class Cluster<T>
 	{

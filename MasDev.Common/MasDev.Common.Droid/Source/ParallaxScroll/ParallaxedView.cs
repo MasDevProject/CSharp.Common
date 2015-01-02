@@ -3,7 +3,7 @@ using System;
 using Android.Views;
 using System.Collections.Generic;
 using Android.Views.Animations;
-using MasDev.Common.Utils;
+using MasDev.Utils;
 
 namespace Nirhart.ParallaxScroll.Views
 {

@@ -1,7 +1,7 @@
-﻿using MasDev.Common.Rest.Auth;
+﻿using MasDev.Rest.Auth;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public class AuthOptions
 	{

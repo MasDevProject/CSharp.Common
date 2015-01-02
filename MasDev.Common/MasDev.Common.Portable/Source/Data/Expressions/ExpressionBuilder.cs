@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq.Expressions;
-using MasDev.Common.Modeling;
+using MasDev.Data;
 using System.Reflection;
 using System.Linq;
 
 
-namespace MasDev.Common.Data.Expressions
+namespace MasDev.Data.Expressions
 {
 	public static class ExpressionBuilder
 	{

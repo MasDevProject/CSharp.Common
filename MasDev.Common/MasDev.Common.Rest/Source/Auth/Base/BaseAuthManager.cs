@@ -1,10 +1,11 @@
 ﻿using System;
-using MasDev.Common.Rest.Auth;
+using MasDev.Rest.Auth;
 using System.Collections.Concurrent;
-using MasDev.Common.Mono;
+using MasDev.Mono;
+using MasDev.Utils;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public class BaseAuthManager : IAuthManager
 	{
@@ -69,7 +70,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public LoginResult LogIn (ICredentials credentials, int? scope, ICredentialsRepository repository)
 		{
-			using (new MutexEx (credentials.Id)) {
+			using (new LockByIdMutex (credentials.Id)) {
 				Save (credentials, repository);
 
 				var token = new Token {
@@ -90,7 +91,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public void LogOut (ICredentials credentials, ICredentialsRepository repository)
 		{
-			using (new MutexEx (credentials.Id)) {
+			using (new LockByIdMutex (credentials.Id)) {
 				credentials.LastIssuedUTC = DateTime.UtcNow;
 				var credentialsKey = Tuple.Create (credentials.Id, credentials.Flag);
 				_issued.AddOrUpdate (
@@ -107,7 +108,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public ICredentials Find (int credentialsId, int flag, ICredentialsRepository repository)
 		{
-			using (new MutexEx (credentialsId)) {
+			using (new LockByIdMutex (credentialsId)) {
 				var credentialsKey = Tuple.Create (credentialsId, flag);
 				if (_issued.ContainsKey (credentialsKey))
 					return _issued [credentialsKey];

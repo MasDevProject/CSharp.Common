@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MasDev.Common.Tasks
+namespace MasDev.Threading.Tasks
 {
 	public static class TaskUtils
 	{

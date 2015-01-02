@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Exceptions
+namespace MasDev.Exceptions
 {
 	public class ShouldNeverHappenException : Exception
 	{

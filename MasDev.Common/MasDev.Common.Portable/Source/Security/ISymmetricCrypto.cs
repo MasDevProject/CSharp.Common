@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common.Security
+namespace MasDev.Security
 {
 	public interface ISymmetricCrypto
 	{

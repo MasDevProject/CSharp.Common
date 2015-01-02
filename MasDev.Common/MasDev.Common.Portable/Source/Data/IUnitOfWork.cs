@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Data
+namespace MasDev.Data
 {
 	public interface IUnitOfWork : IDisposable
 	{

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using MasDev.Common.Utils;
+using MasDev.Utils;
 
 
-namespace MasDev.Common.Extensions
+namespace MasDev.Extensions
 {
 	public static class AssemblyExtensions
 	{

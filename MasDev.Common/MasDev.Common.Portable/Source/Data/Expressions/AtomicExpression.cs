@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace MasDev.Common.Data.Expressions
+namespace MasDev.Data.Expressions
 {
 	public abstract class AtomicExpressionBuilder<T, TKey>
 	{

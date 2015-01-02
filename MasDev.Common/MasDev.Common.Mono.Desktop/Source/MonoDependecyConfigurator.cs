@@ -1,8 +1,8 @@
-﻿using MasDev.Common.IO;
-using MasDev.Common.Injection;
+﻿using MasDev.IO;
+using MasDev.Patterns.Injection;
 
 
-namespace MasDev.Common.Mono
+namespace MasDev.Mono
 {
 	public class MonoDependecyConfigurator : IDependencyConfigurator
 	{

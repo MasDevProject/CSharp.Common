@@ -1,8 +1,8 @@
-﻿using MasDev.Common.Rest.Auth;
+﻿using MasDev.Rest.Auth;
 using System;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public interface IRestModule : IDisposable
 	{

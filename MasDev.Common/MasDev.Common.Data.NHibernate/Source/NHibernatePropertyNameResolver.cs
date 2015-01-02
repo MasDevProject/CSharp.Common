@@ -1,10 +1,10 @@
-﻿using MasDev.Common.Modeling;
+﻿using MasDev.Data;
 using System;
 using System.Linq.Expressions;
-using MasDev.Common.Data.NHibernate;
+using MasDev.Data.NHibernate;
 
 
-namespace MasDev.Common.Data.NHibernate
+namespace MasDev.Data
 {
 	public class NHibernatePropertyNameResolver : IPropertyNameResolver
 	{

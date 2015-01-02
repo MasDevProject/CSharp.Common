@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class Assert
 	{

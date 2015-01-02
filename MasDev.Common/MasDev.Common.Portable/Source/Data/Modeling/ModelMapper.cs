@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
-using MasDev.Common.Modeling;
-using MasDev.Common.Injection;
+using MasDev.Data;
+using MasDev.Patterns.Injection;
 using System.Linq;
 
 
-namespace MasDev.Common.Modeling
+namespace MasDev.Data
 {
 	public class ModelMapper
 	{

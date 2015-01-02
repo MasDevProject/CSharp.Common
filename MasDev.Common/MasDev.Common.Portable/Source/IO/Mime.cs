@@ -2,7 +2,7 @@
 using System.IO;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public static class Mime
 	{

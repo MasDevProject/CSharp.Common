@@ -1,12 +1,11 @@
-﻿using MasDev.Common.Modeling;
+﻿using MasDev.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using MasDev.Common.Data;
 
 
-namespace MasDev.Common.Data
+namespace MasDev.Data
 {
 	public interface IRepository<T> : IDisposable, IModelQueryFactory where T : class, IModel, new()
 	{

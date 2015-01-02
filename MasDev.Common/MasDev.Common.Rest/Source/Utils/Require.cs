@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public static class Require
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MasDev.Common.IO;
+using MasDev.IO;
 using System.IO;
 using Android.Graphics;
 using MasDev.Common.Droid.ExtensionMethods;

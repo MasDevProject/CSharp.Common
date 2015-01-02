@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MasDev.Common.Security
+namespace MasDev.Security
 {
 	public interface IPasswordHasher
 	{

@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public interface IController<TModule> : IHttpContext where TModule : Module
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Reflection
+namespace MasDev.Reflection
 {
 	public static class Types
 	{

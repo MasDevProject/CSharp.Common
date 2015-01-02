@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Collections;
 
 
-namespace MasDev.Common.Newtonsoft.ContractResolvers
+namespace MasDev.Newtonsoft.ContractResolvers
 {
 	public class IgnoreEmptyContractResolver : DefaultContractResolver
 	{

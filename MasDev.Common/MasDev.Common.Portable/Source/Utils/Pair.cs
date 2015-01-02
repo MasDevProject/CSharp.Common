@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public class Pair<TFirst, TSecond>
 	{

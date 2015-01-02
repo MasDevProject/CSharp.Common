@@ -3,7 +3,7 @@ using System.Data;
 using System;
 
 
-namespace MasDev.Common.Data.NHibernate
+namespace MasDev.Data
 {
 	public class NHibernateUnitOfWork : IUnitOfWork
 	{

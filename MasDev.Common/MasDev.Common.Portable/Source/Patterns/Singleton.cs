@@ -1,10 +1,10 @@
 ﻿
 
-namespace MasDev.Common.Patterns
+namespace MasDev.Patterns
 {
 	public interface ISingleton<T> where T : class, new()
 	{
-		T Instance { get;}
+		T Instance { get; }
 	}
 
 	public class LazySingleton<T> : ISingleton<T> where T : class, new()
@@ -15,11 +15,9 @@ namespace MasDev.Common.Patterns
 
 
 
-		public T Instance
-		{
+		public T Instance {
 			get {
-				lock (_lock)
-				{
+				lock (_lock) {
 					if (_instance == null)
 						_instance = new T ();
 				}
@@ -34,17 +32,15 @@ namespace MasDev.Common.Patterns
 
 		static T _instance;
 
-		public Singleton()
+		public Singleton ()
 		{
-			lock (_lock)
-			{
+			lock (_lock) {
 				if (_instance == null)
 					_instance = new T ();
 			}
 		}
 
-		public T Instance
-		{
+		public T Instance {
 			get {
 				return _instance;
 			}

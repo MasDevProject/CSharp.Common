@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public interface IFileIO
 	{

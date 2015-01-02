@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public class JSonTokenSerializer : ITokenSerializer
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	[AttributeUsage (
 		System.AttributeTargets.Method,

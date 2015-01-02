@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.Http
+namespace MasDev.IO.Http
 {
 	public static class Headers
 	{

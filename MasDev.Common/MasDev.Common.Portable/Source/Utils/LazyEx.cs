@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class LazyEx
 	{

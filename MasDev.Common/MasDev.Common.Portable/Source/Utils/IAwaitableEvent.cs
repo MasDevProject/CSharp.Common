@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public interface ISimpleAwaitableEvent<T>
 	{

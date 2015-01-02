@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
-using MasDev.Common.Spatial;
+using MasDev.Spatial;
 
 
-namespace MasDev.Common.Spatial
+namespace MasDev.Spatial
 {
 	public class Clusterizer<T>
 	{

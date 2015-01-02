@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public sealed class WeakReferenceEx<T> : System.WeakReference
 	{

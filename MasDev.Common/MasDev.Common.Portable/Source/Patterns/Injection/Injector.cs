@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Common.Injection
+namespace MasDev.Patterns.Injection
 {
 	public static class Injector
 	{

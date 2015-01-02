@@ -1,8 +1,8 @@
-﻿using MasDev.Common.Rest.Auth;
-using MasDev.Common.Utils;
+﻿using MasDev.Rest.Auth;
+using MasDev.Utils;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public static class RestConfiguration
 	{

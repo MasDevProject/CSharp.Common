@@ -1,7 +1,7 @@
 ﻿using SQLite.Net.Interop;
 using SQLite.Net.Platform.XamarinIOS;
-using MasDev.Common.Injection;
-using MasDev.Common.Utils;
+using MasDev.Patterns.Injection;
+using MasDev.Utils;
 
 namespace MasDev.Common.iOS
 {

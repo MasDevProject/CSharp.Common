@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using MasDev.Common.Rest.Auth;
-using MasDev.Common.Rest.Push;
-using MasDev.Common.Utils;
+using MasDev.Rest.Auth;
+using MasDev.Rest.Push;
+using MasDev.Utils;
 using System;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public abstract class PushManager : MarshalByRefObject, IRestModule
 	{

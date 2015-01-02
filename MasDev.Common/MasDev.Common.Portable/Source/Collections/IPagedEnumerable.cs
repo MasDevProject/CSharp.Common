@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MasDev.Common.Collections
+namespace MasDev.Collections
 {
 	public interface IPagedEnumerable<T>
 	{

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using MasDev.Common.Rest.Push;
+using MasDev.Rest.Push;
 using System.Threading.Tasks;
 
 
-namespace MasDev.Common.Rest.Push
+namespace MasDev.Rest.Push
 {
 	public interface IReadonlyConnectionManager
 	{

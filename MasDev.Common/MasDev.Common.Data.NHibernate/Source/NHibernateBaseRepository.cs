@@ -1,6 +1,6 @@
 ﻿using System;
-using MasDev.Common.Data;
-using MasDev.Common.Modeling;
+using MasDev.Data;
+using MasDev.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using NHibernate;
@@ -9,7 +9,7 @@ using System.Linq;
 using NHibernate.Persister.Entity;
 
 
-namespace MasDev.Common.Data.NHibernate
+namespace MasDev.Data
 {
 	public class NHibernateBaseRepository<T> : IRepository<T> where T : class, IModel, new()
 	{

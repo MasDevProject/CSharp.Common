@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 
-namespace MasDev.Common.Security
+namespace MasDev.Security
 {
 	public static class Captcha
 	{

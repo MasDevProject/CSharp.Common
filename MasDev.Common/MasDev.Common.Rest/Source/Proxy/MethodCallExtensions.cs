@@ -3,7 +3,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Reflection;
 
 
-namespace MasDev.Common.Rest.Proxy
+namespace MasDev.Rest.Proxy
 {
 	public static class MethodCallExtensions
 	{

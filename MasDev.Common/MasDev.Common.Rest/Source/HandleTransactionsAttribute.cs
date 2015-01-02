@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	[AttributeUsage (
 		System.AttributeTargets.Method,

@@ -1,10 +1,10 @@
 ﻿
 using System;
-using MasDev.Common.Rest.Auth;
-using MasDev.Common.Data;
+using MasDev.Rest.Auth;
+using MasDev.Data;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public interface IRepositories : IDisposable
 	{

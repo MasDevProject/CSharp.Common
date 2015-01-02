@@ -2,7 +2,7 @@
 using System.Linq;
 
 
-namespace MasDev.Common
+namespace MasDev.Utils
 {
 	public static class EnumUtils
 	{

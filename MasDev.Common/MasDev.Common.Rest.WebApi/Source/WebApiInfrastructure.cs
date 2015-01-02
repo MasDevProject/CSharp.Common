@@ -1,12 +1,12 @@
 ﻿using System.Web.Http;
 using Newtonsoft.Json;
 using System;
-using MasDev.Common.Utils;
-using MasDev.Common.Newtonsoft.ContractResolvers;
+using MasDev.Utils;
+using MasDev.Newtonsoft.ContractResolvers;
 using Newtonsoft.Json.Serialization;
 
 
-namespace MasDev.Common.Rest.WebApi
+namespace MasDev.Rest.WebApi
 {
 	public static class WebApiInfrastructure
 	{

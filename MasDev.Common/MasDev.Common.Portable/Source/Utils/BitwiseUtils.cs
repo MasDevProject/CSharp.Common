@@ -1,7 +1,7 @@
-﻿using MasDev.Common.Extensions;
+﻿using MasDev.Extensions;
 using System;
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class BitwiseUtils
 	{

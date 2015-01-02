@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using MasDev.Common.Utils;
+using MasDev.Utils;
 
-namespace MasDev.Common.Collections
+namespace MasDev.Collections
 {
-	public static class BasePagedEnumerable 
+	public static class BasePagedEnumerable
 	{
 		public static IPagedEnumerable<T> Create<T> (int pageSize, Func<int, int, Task<IEnumerable<T>>> retrivePageDelegate)
 		{
@@ -21,7 +21,7 @@ namespace MasDev.Common.Collections
 		{
 			_retrivePageDelegate = retrivePageDelegate;
 		}
-			
+
 		public override async Task<IEnumerable<T>> RetrivePageAsync (int currentPage)
 		{
 			return await _retrivePageDelegate.Invoke (currentPage, PageSize);
@@ -31,7 +31,9 @@ namespace MasDev.Common.Collections
 	public abstract class BasePagedEnumerable<T> : IPagedEnumerable<T>
 	{
 		bool _finished;
+
 		public int PageSize { get; set; }
+
 		public int CurrentPage { get; set; }
 
 		public void Reset ()
@@ -57,8 +59,7 @@ namespace MasDev.Common.Collections
 				var page = await RetrivePageAsync (CurrentPage++);
 				_finished |= CollectionUtils.IsNullOrEmpty<T> (page);
 				return page;
-			} 
-			catch (Exception) {
+			} catch (Exception) {
 				CurrentPage--;
 				throw;
 			}

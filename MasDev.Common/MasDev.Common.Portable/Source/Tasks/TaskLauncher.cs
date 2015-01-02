@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace MasDev.Common.Tasks
+namespace MasDev.Threading.Tasks
 {
 	public static class TaskLauncher
 	{

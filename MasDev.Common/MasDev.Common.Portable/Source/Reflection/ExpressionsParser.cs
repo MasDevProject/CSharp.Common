@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 
 
-namespace MasDev.Common.Reflection
+namespace MasDev.Reflection
 {
 	public static class ExpressionsParser
 	{

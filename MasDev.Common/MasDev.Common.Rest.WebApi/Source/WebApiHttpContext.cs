@@ -2,13 +2,14 @@
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using MasDev.Common.Rest;
+using MasDev.Rest;
 using HttpMultipartParser;
 using System.Web;
-using MasDev.Common.Rest.Proxy;
+using MasDev.Rest.Proxy;
+using MasDev.Rest.WebApi;
 
 
-namespace MasDev.Common.Rest.WebApi
+namespace MasDev.Rest
 {
 	public class WebApiHttpContext : ApiController, IHttpContext
 	{
@@ -27,30 +28,25 @@ namespace MasDev.Common.Rest.WebApi
 
 
 
-		public string RemoteIpAddress
-		{
+		public string RemoteIpAddress {
 			get {
 				// Web-hosting
-				if (Request.Properties.ContainsKey (HttpContext))
-				{
+				if (Request.Properties.ContainsKey (HttpContext)) {
 					var ctx = (HttpContextWrapper)Request.Properties [HttpContext];
-					if (ctx != null)
-					{
+					if (ctx != null) {
 						return ctx.Request.UserHostAddress;
 					}
 				}
 
 				// Self-hosting
-				if (Request.Properties.ContainsKey (RemoteEndpointMessage))
-				{
+				if (Request.Properties.ContainsKey (RemoteEndpointMessage)) {
 					dynamic remoteEndpoint = Request.Properties [RemoteEndpointMessage];
 					if (remoteEndpoint != null)
 						return remoteEndpoint.Address;
 				}
 
 				// Self-hosting using Owin
-				if (Request.Properties.ContainsKey (OwinContext))
-				{
+				if (Request.Properties.ContainsKey (OwinContext)) {
 					dynamic owinContext = Request.Properties [OwinContext];
 					if (owinContext != null)
 						return owinContext.Request.RemoteIpAddress;
@@ -62,8 +58,7 @@ namespace MasDev.Common.Rest.WebApi
 
 
 
-		public Dictionary<string, IEnumerable<string>> RequestHeaders
-		{
+		public Dictionary<string, IEnumerable<string>> RequestHeaders {
 			get {
 				var dict = new Dictionary<string, IEnumerable<string>> ();
 				foreach (var entry in Request.Headers)
@@ -74,8 +69,7 @@ namespace MasDev.Common.Rest.WebApi
 
 
 
-		public Dictionary<string, IEnumerable<string>> ResponseHeaders
-		{
+		public Dictionary<string, IEnumerable<string>> ResponseHeaders {
 			set {
 				_responseHeaders = value;
 			}
@@ -97,16 +91,14 @@ namespace MasDev.Common.Rest.WebApi
 
 			var parsedParameters = parser.Parameters;
 			var parameters = new Dictionary<string, string> ();
-			if (parsedParameters != null)
-			{
+			if (parsedParameters != null) {
 				foreach (var param in parsedParameters)
 					parameters.Add (param.Key, param.Value.Data);
 			}
 
 			var parsedFiles = parser.Files;
 			var files = new List<MultipartFile> ();
-			if (parsedFiles != null)
-			{
+			if (parsedFiles != null) {
 				foreach (var file in parsedFiles)
 					files.Add (new MultipartFile (file.Data, file.Name, file.FileName, file.ContentType));
 			}

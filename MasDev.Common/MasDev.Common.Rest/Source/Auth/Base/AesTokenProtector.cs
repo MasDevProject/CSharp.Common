@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security;
 
 
-namespace MasDev.Common.Rest.Auth
+namespace MasDev.Rest.Auth
 {
 	public class AesTokenProtector : ITokenProtector
 	{
@@ -16,8 +16,7 @@ namespace MasDev.Common.Rest.Auth
 
 		public AesTokenProtector (string key)
 		{
-			using (var sha1 = new SHA256Managed ())
-			{
+			using (var sha1 = new SHA256Managed ()) {
 				_key = sha1.ComputeHash (Encoding.UTF8.GetBytes (key));
 			}
 		}
@@ -27,24 +26,20 @@ namespace MasDev.Common.Rest.Auth
 		public byte[] Protect (byte[] data)
 		{
 			byte[] dataHash;
-			using (var sha = new SHA256Managed ())
-			{
+			using (var sha = new SHA256Managed ()) {
 				dataHash = sha.ComputeHash (data);
 			}
 
-			using (var aesAlg = new AesManaged ())
-			{
+			using (var aesAlg = new AesManaged ()) {
 				aesAlg.Key = _key;
 				aesAlg.GenerateIV ();
 
 				using (var encryptor = aesAlg.CreateEncryptor (aesAlg.Key, aesAlg.IV))
-				using (var msEncrypt = new MemoryStream ())
-				{
+				using (var msEncrypt = new MemoryStream ()) {
 					msEncrypt.Write (aesAlg.IV, 0, 16);
 
 					using (var csEncrypt = new CryptoStream (msEncrypt, encryptor, CryptoStreamMode.Write))
-					using (var bwEncrypt = new BinaryWriter (csEncrypt))
-					{
+					using (var bwEncrypt = new BinaryWriter (csEncrypt)) {
 						bwEncrypt.Write (dataHash);
 						bwEncrypt.Write (data.Length);
 						bwEncrypt.Write (data);
@@ -59,12 +54,10 @@ namespace MasDev.Common.Rest.Auth
 
 		public byte[] Unprotect (byte[] protectedData)
 		{
-			using (var aesAlg = new AesManaged ())
-			{
+			using (var aesAlg = new AesManaged ()) {
 				aesAlg.Key = this._key;
 
-				using (var msDecrypt = new MemoryStream (protectedData))
-				{
+				using (var msDecrypt = new MemoryStream (protectedData)) {
 					byte[] iv = new byte[16];
 					msDecrypt.Read (iv, 0, 16);
 
@@ -72,15 +65,13 @@ namespace MasDev.Common.Rest.Auth
 
 					using (var decryptor = aesAlg.CreateDecryptor (aesAlg.Key, aesAlg.IV))
 					using (var csDecrypt = new CryptoStream (msDecrypt, decryptor, CryptoStreamMode.Read))
-					using (var brDecrypt = new BinaryReader (csDecrypt))
-					{
+					using (var brDecrypt = new BinaryReader (csDecrypt)) {
 						var signature = brDecrypt.ReadBytes (32);
 						var len = brDecrypt.ReadInt32 ();
 						var data = brDecrypt.ReadBytes (len);
 
 						byte[] dataHash;
-						using (var sha = new SHA256Managed ())
-						{
+						using (var sha = new SHA256Managed ()) {
 							dataHash = sha.ComputeHash (data);
 						}
 

@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using MasDev.Common.Extensions;
+using MasDev.Extensions;
 using System.Text;
 using System.Collections.Generic;
+using MasDev.Utils;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public class FileIO : IFileIO
 	{
@@ -68,8 +69,7 @@ namespace MasDev.Common.IO
 
 		public async Task WriteAllAsync (string text, string path)
 		{
-			using (var stream = new FileStream (path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
-			{
+			using (var stream = new FileStream (path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite)) {
 				var bytes = text.AsByteArray ();
 				await stream.WriteAsync (bytes, 0, bytes.Length);
 			}
@@ -79,8 +79,7 @@ namespace MasDev.Common.IO
 
 		public async Task WriteAllAsync (byte[] bytes, string path)
 		{
-			using (var stream = new FileStream (path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
-			{
+			using (var stream = new FileStream (path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite)) {
 				await stream.WriteAsync (bytes, 0, bytes.Length);
 			}
 		}
@@ -97,13 +96,11 @@ namespace MasDev.Common.IO
 
 		public async Task<string> ReadStringAsync (string path)
 		{
-			using (var stream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-			{
+			using (var stream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
 				var builder = new StringBuilder ();
 				var buffer = new byte[0x1000];
 				int numRead;
-				while ((numRead = await stream.ReadAsync (buffer, 0, buffer.Length)) != 0)
-				{
+				while ((numRead = await stream.ReadAsync (buffer, 0, buffer.Length)) != 0) {
 					string text = StringUtils.GetString (buffer.CopyUntil<byte> (numRead));
 					builder.Append (text);
 				}
@@ -115,13 +112,11 @@ namespace MasDev.Common.IO
 
 		public async Task<byte[]> ReadBytesAsync (string path)
 		{
-			using (var stream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-			{
+			using (var stream = new FileStream (path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
 				var buffer = new byte[0x1000];
 				int numRead;
 				var ret = new List<byte> ();
-				while ((numRead = await stream.ReadAsync (buffer, 0, buffer.Length)) != 0)
-				{
+				while ((numRead = await stream.ReadAsync (buffer, 0, buffer.Length)) != 0) {
 					ret.AddRange (buffer.CopyUntil<byte> (numRead));
 				}
 				return ret.ToArray ();

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public class UnauthorizedException : BaseApiException
 	{

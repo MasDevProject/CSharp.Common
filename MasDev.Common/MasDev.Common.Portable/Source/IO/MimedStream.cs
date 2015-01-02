@@ -1,7 +1,7 @@
 ﻿using System.IO;
 
 
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public class MimedStream
 	{

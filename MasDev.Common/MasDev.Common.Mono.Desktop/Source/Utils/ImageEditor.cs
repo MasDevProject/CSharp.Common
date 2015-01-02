@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public static class ImageEditor
 	{

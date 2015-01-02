@@ -1,7 +1,7 @@
 ﻿using SimpleInjector;
 
 
-namespace MasDev.Common.Injection
+namespace MasDev.Patterns.Injection
 {
 	public static class LifeStyles
 	{

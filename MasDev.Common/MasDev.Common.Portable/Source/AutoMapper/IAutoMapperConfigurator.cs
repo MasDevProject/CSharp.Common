@@ -1,6 +1,6 @@
 ﻿
 
-namespace MasDev.Common.AutoMapper
+namespace MasDev.AutoMapper
 {
 	public interface IAutoMapperConfigurator
 	{

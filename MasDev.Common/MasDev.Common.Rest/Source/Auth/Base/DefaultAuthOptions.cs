@@ -1,8 +1,8 @@
 ﻿using System;
-using MasDev.Common.Rest.Auth;
+using MasDev.Rest.Auth;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public class DefaultAuthOptions : AuthOptions
 	{

@@ -3,9 +3,9 @@ using Android.Widget;
 using System;
 using Android.Views;
 using Android.Content;
-using MasDev.Common.Collections;
+using MasDev.Collections;
 using System.Linq;
-using MasDev.Common.Extensions;
+using MasDev.Extensions;
 using MasDev.Common.Droid.ExtensionMethods;
 
 namespace MasDev.Common.Droid.Utils

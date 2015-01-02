@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PizzApp.Server.Utils
+namespace MasDev.Utils
 {
 	public static class GuidGenerator
 	{

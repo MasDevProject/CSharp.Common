@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common.IO
+namespace MasDev.IO
 {
 	public interface IPortableConsole
 	{

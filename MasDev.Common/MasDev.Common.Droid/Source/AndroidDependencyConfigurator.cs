@@ -1,13 +1,13 @@
 ﻿using SQLite.Net.Interop;
 using SQLite.Net.Platform.XamarinAndroid;
-using MasDev.Common.Security;
-using MasDev.Common.Security.Encryption;
-using MasDev.Common.IO;
+using MasDev.Security;
+using MasDev.Security.Encryption;
+using MasDev.IO;
 using MasDev.Common.Droid.IO;
 using Android.Content;
-using MasDev.Common.Injection;
+using MasDev.Patterns.Injection;
 using MasDev.Common.Droid.Utils;
-using MasDev.Common.Utils;
+using MasDev.Utils;
 
 namespace MasDev.Common.Droid
 {

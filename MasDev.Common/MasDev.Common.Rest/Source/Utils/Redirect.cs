@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	/// <summary>
 	/// Which type of redirect

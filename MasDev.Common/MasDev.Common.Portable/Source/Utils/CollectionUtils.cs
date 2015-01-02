@@ -3,7 +3,7 @@ using System.Linq;
 using System;
 
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 	public delegate bool Comparer<T> (T o1, T o2);
 	public delegate T Cloner<T> (T t);

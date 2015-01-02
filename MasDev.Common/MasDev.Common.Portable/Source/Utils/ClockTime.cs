@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MasDev.Common.Utils
+namespace MasDev.Utils
 {
 
 	public struct ClockTime

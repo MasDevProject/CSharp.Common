@@ -2,7 +2,7 @@
 using System;
 
 
-namespace MasDev.Common.Http
+namespace MasDev.IO.Http
 {
 	public class AcceptLanguageHeader
 	{
@@ -31,15 +31,13 @@ namespace MasDev.Common.Http
 		public static IEnumerable<AcceptLanguageHeader> Parse (string headerValue)
 		{
 			var values = headerValue.Split (',');
-			foreach (var value in values)
-			{
+			foreach (var value in values) {
 				var parts = value.Trim ().Split (';');
 				if (parts.Length == 0)
 					throw new ArgumentException ("Parse error");
 
 				var header = new AcceptLanguageHeader ();
-				if (parts.Length == 1)
-				{
+				if (parts.Length == 1) {
 					header.Locale = parts [0].Trim ();
 					yield return header;
 				}

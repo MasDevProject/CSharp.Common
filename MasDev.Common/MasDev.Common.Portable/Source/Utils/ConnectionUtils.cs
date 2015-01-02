@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using System;
 
-namespace MasDev.Common
+namespace MasDev.Utils
 {
 	public static class ConnectionUtils
 	{
-		public static async Task<bool> CheckConnection(string url)
+		public static async Task<bool> CheckConnection (string url)
 		{
 			try {
 				using (var client = new HttpClient ()) {
@@ -14,9 +14,7 @@ namespace MasDev.Common
 					await client.GetStringAsync (url);
 					return true;
 				}
-			}
-			catch(Exception) 
-			{
+			} catch (Exception) {
 				return false;
 			}
 		}

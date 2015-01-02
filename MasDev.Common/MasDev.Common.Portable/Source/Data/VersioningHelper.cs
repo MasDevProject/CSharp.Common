@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
-using MasDev.Common.Data;
+using MasDev.Data;
 using System.Linq.Expressions;
 using System.Linq;
-using MasDev.Common.Utils;
-using MasDev.Common.Data.Expressions;
+using MasDev.Utils;
+using MasDev.Data.Expressions;
 
 
-namespace MasDev.Common.Modeling
+namespace MasDev.Data
 {
 	public static class VersioningHelper
 	{

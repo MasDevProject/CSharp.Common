@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MasDev.Common.Extensions;
+using MasDev.Extensions;
 using System.Linq;
 
 
-namespace MasDev.Common
+namespace MasDev.Utils
 {
 	public static class StringUtils
 	{
@@ -54,7 +54,7 @@ namespace MasDev.Common
 
 		public static string CommaSeparate<T> (IEnumerable<T> strings, Func<T, string> toString)
 		{
-			return CommaSeparate (strings.Select (o => toString(o)));
+			return CommaSeparate (strings.Select (o => toString (o)));
 		}
 
 		public static void AddCommaSeparatedValue (ref string s, string value)

@@ -1,4 +1,4 @@
-﻿namespace MasDev.Common.Utils
+﻿namespace MasDev.Utils
 {
 	public static class MathUtils
 	{

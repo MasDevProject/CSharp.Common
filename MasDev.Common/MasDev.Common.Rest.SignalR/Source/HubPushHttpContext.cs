@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
-using MasDev.Common.Rest.Push;
+using MasDev.Rest.Push;
 using System.Collections.Generic;
 using Microsoft.AspNet.SignalR.Hubs;
 
 
-namespace MasDev.Common.Rest.SignalR
+namespace MasDev.Rest
 {
 	public abstract class HubPushHttpContext : Hub, IPushHttpContext
 	{

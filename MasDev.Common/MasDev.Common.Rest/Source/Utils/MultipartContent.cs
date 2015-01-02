@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
-using MasDev.Common.Rest;
+using MasDev.Rest;
 using System.Linq;
-using MasDev.Common.IO;
+using MasDev.IO;
 
 
-namespace MasDev.Common.Rest
+namespace MasDev.Rest
 {
 	public class MultipartContent
 	{

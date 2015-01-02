@@ -1,10 +1,10 @@
 ﻿using System;
-using MasDev.Common.Modeling;
+using MasDev.Data;
 using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace MasDev.Common.Data.Expressions
+namespace MasDev.Data.Expressions
 {
 	class IdEqualsExpressionBuilder<TModel> : AtomicExpressionBuilder<TModel, int> where TModel: IModel
 	{
