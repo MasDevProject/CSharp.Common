@@ -6,8 +6,8 @@
     <ProjectGuid>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</ProjectGuid>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>MasDev.Common</RootNamespace>
-    <AssemblyName>MasDev.Common.Portable</AssemblyName>
+    <RootNamespace>MasDev</RootNamespace>
+    <AssemblyName>MasDev.Portable</AssemblyName>
     <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -53,7 +53,6 @@
     <Compile Include="Source\Utils\ConnectionUtils.cs" />
     <Compile Include="Source\Utils\Tag.cs" />
     <Compile Include="Source\Utils\ValidationUtils.cs" />
-    <Compile Include="Source\ExtensionMethods\IQueryableExtensions.cs" />
     <Compile Include="Source\Data\IUnitOfWork.cs" />
     <Compile Include="Source\Utils\Assert.cs" />
     <Compile Include="Source\Patterns\Singleton.cs" />

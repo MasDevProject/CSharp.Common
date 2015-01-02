@@ -11,7 +11,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AssemblyName>MasDev.Common.Android</AssemblyName>
+    <AssemblyName>MasDev.Droid</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
@@ -155,9 +155,9 @@
     <Folder Include="Source\ParallaxScroll\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Portable</Name>
+      <Name>MasDev.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MasDev.Common.Rest</RootNamespace>
-    <AssemblyName>MasDev.Common.Rest</AssemblyName>
+    <RootNamespace>MasDev.Rest</RootNamespace>
+    <AssemblyName>MasDev.Rest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -84,13 +84,13 @@
     <Folder Include="Source\Push\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Portable</Name>
+      <Name>MasDev.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Common.Mono.csproj">
+    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
-      <Name>MasDev.Common.Mono</Name>
+      <Name>MasDev.Mono</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

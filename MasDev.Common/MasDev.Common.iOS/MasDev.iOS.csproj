@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MasDev.Common.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>MasDev.Common.iOS</AssemblyName>
+    <AssemblyName>MasDev.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -110,9 +110,9 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Portable</Name>
+      <Name>MasDev.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

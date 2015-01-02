@@ -6,7 +6,7 @@
     <ProjectGuid>{481798A7-D1A2-4984-83D1-B82F93C91469}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MasDev.Common.Data.NHibernate</RootNamespace>
-    <AssemblyName>MasDev.Common.Data.NHibernate</AssemblyName>
+    <AssemblyName>MasDev.Data.NHibernate</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -75,13 +75,13 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Common.Portable.csproj">
+    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Portable</Name>
+      <Name>MasDev.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Common.Mono.csproj">
+    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
-      <Name>MasDev.Common.Mono</Name>
+      <Name>MasDev.Mono</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
