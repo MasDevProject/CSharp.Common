@@ -1,14 +1,13 @@
-﻿using MasDev.Common.Droid.Utils;
-using Android.Widget;
+﻿using Android.Widget;
 using System;
 using Android.Views;
 using Android.Content;
 using MasDev.Collections;
 using System.Linq;
 using MasDev.Extensions;
-using MasDev.Common.Droid.ExtensionMethods;
+using MasDev.Droid.ExtensionMethods;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public abstract class DefaultPagedLoadingAdapter<T> : PagedAdapter<T>
 	{

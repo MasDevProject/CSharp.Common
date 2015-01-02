@@ -1,7 +1,7 @@
 ﻿using System;
 using MonoTouch.UIKit;
 
-namespace MasDev.Common.iOS.Utils
+namespace MasDev.iOS.Utils
 {
 	public static class ApplicationUtils
 	{

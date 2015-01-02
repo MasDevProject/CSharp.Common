@@ -1,6 +1,7 @@
 ﻿using System;
+using MasDev.Droid.Utils;
 
-namespace MasDev.Common.Droid.ExtensionMethods
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class JavaObjectExtensions
 	{

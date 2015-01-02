@@ -3,7 +3,7 @@ using Android.Widget;
 using Android.Graphics.Drawables;
 
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class ImageViewExtensions
 	{

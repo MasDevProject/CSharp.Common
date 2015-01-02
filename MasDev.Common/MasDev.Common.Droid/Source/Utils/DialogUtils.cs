@@ -4,9 +4,9 @@ using Android.Views;
 using Android.Widget;
 using System.Collections.Generic;
 using Android.Graphics;
-using MasDev.Common.Droid.Utils;
+using MasDev.Droid.Utils;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public static class DialogUtils
 	{

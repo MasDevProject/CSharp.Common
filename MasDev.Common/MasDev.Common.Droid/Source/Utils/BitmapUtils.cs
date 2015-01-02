@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using MasDev.IO;
 using System.IO;
 using Android.Graphics;
-using MasDev.Common.Droid.ExtensionMethods;
+using MasDev.Droid.ExtensionMethods;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public static class BitmapUtils
 	{

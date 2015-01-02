@@ -2,23 +2,23 @@ using Android.Widget;
 using System.Collections.Generic;
 using Android.Content;
 using Android.Util;
-using MasDev.Common.Droid;
 using Android.Views;
 using System;
+using MasDev.Droid;
 
 namespace Nirhart.ParallaxScroll.Views
 {
 	public class ParallaxScrollView : ScrollView
 	{
-		private const int DEFAULT_PARALLAX_VIEWS = 1;
-		private const float DEFAULT_INNER_PARALLAX_FACTOR = 1.9f;
-		private const float DEFAULT_PARALLAX_FACTOR = 1.9f;
-		private const float DEFAULT_ALPHA_FACTOR = -1f;
-		private int _numOfParallaxViews = DEFAULT_PARALLAX_VIEWS;
-		private float _innerParallaxFactor = DEFAULT_PARALLAX_FACTOR;
-		private float _parallaxFactor = DEFAULT_PARALLAX_FACTOR;
-		private float _alphaFactor = DEFAULT_ALPHA_FACTOR;
-		private List<ParallaxedView> parallaxedViews = new List<ParallaxedView> ();
+		const int DEFAULT_PARALLAX_VIEWS = 1;
+		const float DEFAULT_INNER_PARALLAX_FACTOR = 1.9f;
+		const float DEFAULT_PARALLAX_FACTOR = 1.9f;
+		const float DEFAULT_ALPHA_FACTOR = -1f;
+		int _numOfParallaxViews = DEFAULT_PARALLAX_VIEWS;
+		float _innerParallaxFactor = DEFAULT_PARALLAX_FACTOR;
+		float _parallaxFactor = DEFAULT_PARALLAX_FACTOR;
+		float _alphaFactor = DEFAULT_ALPHA_FACTOR;
+		readonly List<ParallaxedView> parallaxedViews = new List<ParallaxedView> ();
 
 		public ParallaxScrollView (Context context, IAttributeSet attrs, int defStyle) : base (context, attrs, defStyle)
 		{
@@ -37,10 +37,10 @@ namespace Nirhart.ParallaxScroll.Views
 		protected void Init (Context context, IAttributeSet attrs)
 		{
 			var typeArray = context.ObtainStyledAttributes (attrs, Resource.Styleable.ParallaxScroll);
-			this._parallaxFactor = typeArray.GetFloat (Resource.Styleable.ParallaxScroll_parallax_factor, DEFAULT_PARALLAX_FACTOR);
-			this._alphaFactor = typeArray.GetFloat (Resource.Styleable.ParallaxScroll_alpha_factor, DEFAULT_ALPHA_FACTOR);
-			this._innerParallaxFactor = typeArray.GetFloat (Resource.Styleable.ParallaxScroll_inner_parallax_factor, DEFAULT_INNER_PARALLAX_FACTOR);
-			this._numOfParallaxViews = typeArray.GetInt (Resource.Styleable.ParallaxScroll_parallax_views_num, DEFAULT_PARALLAX_VIEWS);
+			_parallaxFactor = typeArray.GetFloat (Resource.Styleable.ParallaxScroll_parallax_factor, DEFAULT_PARALLAX_FACTOR);
+			_alphaFactor = typeArray.GetFloat (Resource.Styleable.ParallaxScroll_alpha_factor, DEFAULT_ALPHA_FACTOR);
+			_innerParallaxFactor = typeArray.GetFloat (Resource.Styleable.ParallaxScroll_inner_parallax_factor, DEFAULT_INNER_PARALLAX_FACTOR);
+			_numOfParallaxViews = typeArray.GetInt (Resource.Styleable.ParallaxScroll_parallax_views_num, DEFAULT_PARALLAX_VIEWS);
 			typeArray.Recycle ();
 		}
 
@@ -50,12 +50,12 @@ namespace Nirhart.ParallaxScroll.Views
 			MakeViewsParallax ();
 		}
 
-		private void MakeViewsParallax ()
+		void MakeViewsParallax ()
 		{
 			if (!(ChildCount > 0 && GetChildAt (0) is ViewGroup))
 				return;
 			var viewsHolder = (ViewGroup)GetChildAt (0);
-			int numOfParallaxViews = Math.Min (this._numOfParallaxViews, viewsHolder.ChildCount);
+			int numOfParallaxViews = Math.Min (_numOfParallaxViews, viewsHolder.ChildCount);
 			for (int i = 0; i < numOfParallaxViews; i++) {
 				var parallaxedView = new ScrollViewParallaxedItem (viewsHolder.GetChildAt (i));
 				parallaxedViews.Add (parallaxedView);
@@ -70,7 +70,7 @@ namespace Nirhart.ParallaxScroll.Views
 			foreach (var parallaxedView in parallaxedViews) {
 				parallaxedView.Offset = (float)t / parallax;
 				parallax *= _innerParallaxFactor;
-				if (alpha != DEFAULT_ALPHA_FACTOR) {
+				if (Math.Abs (alpha - DEFAULT_ALPHA_FACTOR) > 0.0000001) {
 					float fixedAlpha = (t <= 0) ? 1 : (100 / ((float)t * alpha));
 					parallaxedView.Alpha = fixedAlpha;
 					alpha /= _alphaFactor;

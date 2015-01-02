@@ -7,7 +7,7 @@ using Android.Graphics;
 using Android.OS;
 using System;
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	public sealed class SlidingTabLayout : HorizontalScrollView
 	{

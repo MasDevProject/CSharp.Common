@@ -3,7 +3,7 @@ using SQLite.Net.Platform.XamarinIOS;
 using MasDev.Patterns.Injection;
 using MasDev.Utils;
 
-namespace MasDev.Common.iOS
+namespace MasDev.iOS
 {
 	public class iOSDependencyConfigurator : IDependencyConfigurator
 	{

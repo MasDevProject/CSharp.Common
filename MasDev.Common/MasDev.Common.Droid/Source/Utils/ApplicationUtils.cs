@@ -9,7 +9,7 @@ using Android.Provider;
 using Android.Graphics;
 using Android.Views;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public delegate void IntentStartFailedDelegate(Context ctx, Exception e);
 
@@ -68,8 +68,7 @@ namespace MasDev.Common.Droid.Utils
 				Task.Run (() => {
 					((InputMethodManager)context.GetSystemService (Context.InputMethodService)).ToggleSoftInput (ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
 				});
-			} catch (Exception) {
-			}
+			} catch {}
 		}
 
 		public static void CopyStringToClipBoard (string value)

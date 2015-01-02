@@ -5,7 +5,7 @@ using Android.Gms.Common;
 using Android.Content;
 using MasDev.Exceptions;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public static class GCMUtils
 	{

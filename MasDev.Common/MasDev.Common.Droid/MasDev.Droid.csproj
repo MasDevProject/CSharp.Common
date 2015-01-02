@@ -6,7 +6,7 @@
     <ProjectGuid>{3464274E-A31C-413B-ADAE-EC6F2AA58FE7}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>MasDev.Common.Droid</RootNamespace>
+    <RootNamespace>MasDev.Droid</RootNamespace>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
@@ -76,16 +76,12 @@
     <Compile Include="Source\Utils\ApplicationUtils.cs" />
     <Compile Include="Source\Utils\DrawerLayoutUtils.cs" />
     <Compile Include="Source\App\TitledFragment.cs" />
-    <Compile Include="Source\App\DrawerLayoutActivityConfiguration.cs" />
     <Compile Include="Source\Utils\DialogUtils.cs" />
     <Compile Include="Source\Utils\SharedPreferencesUtils.cs" />
     <Compile Include="Source\ExtensionMethods\ViewExtensions.cs" />
     <Compile Include="Source\Views\PagerPositionIndicator.cs" />
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Security\BaseHashedPassword.cs">
       <Link>Source\Security\BaseHashedPassword.cs</Link>
-    </Compile>
-    <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Security\Https.cs">
-      <Link>Source\Security\Https.cs</Link>
     </Compile>
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Security\SHA256PasswordHasher.cs">
       <Link>Source\Security\SHA256PasswordHasher.cs</Link>
@@ -96,7 +92,6 @@
     <Compile Include="Source\ExtensionMethods\DialogFragmentExtensions.cs" />
     <Compile Include="Source\ExtensionMethods\BitmapExtensions.cs" />
     <Compile Include="Source\ExtensionMethods\ImageViewExtensions.cs" />
-    <Compile Include="Source\App\ActionBarDrawerToggleEx.cs" />
     <Compile Include="Source\Utils\FragmentUtils.cs" />
     <Compile Include="Source\ExtensionMethods\DialogExtensions.cs" />
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\IO\FileIO.cs">
@@ -112,7 +107,6 @@
     <Compile Include="Source\ExtensionMethods\JavaObjectExtensions.cs" />
     <Compile Include="Source\Utils\DefaultPagedLoadingAdapter.cs" />
     <Compile Include="Source\Utils\Logger.cs" />
-    <Compile Include="Source\App\FragmentActivityWithStates.cs" />
     <Compile Include="Source\Utils\GCMUtils.cs" />
     <Compile Include="Source\Views\BottomDrawer.cs" />
     <Compile Include="Source\Utils\GeoUtils.cs" />
@@ -125,8 +119,12 @@
     <Compile Include="Source\Views\ToolbarSearchView.cs" />
     <Compile Include="Source\Utils\NavigationOnClickListener.cs" />
     <Compile Include="Source\Utils\PocoWrapper.cs" />
-    <Compile Include="Source\ParallaxScroll\ParallaxedView.cs" />
-    <Compile Include="Source\ParallaxScroll\ParallaxScrollView.cs" />
+    <Compile Include="..\MasDev.Common.Mono.Desktop\Source\IO\Http\Https.cs">
+      <Link>Source\Security\Https.cs</Link>
+    </Compile>
+    <Compile Include="Source\Views\ParallaxScroll\ParallaxedView.cs" />
+    <Compile Include="Source\Views\ParallaxScroll\ParallaxScrollView.cs" />
+    <Compile Include="Source\App\ActionBarActivityWithStates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -152,7 +150,6 @@
     <Folder Include="Source\IO\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Source\Security\" />
-    <Folder Include="Source\ParallaxScroll\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">

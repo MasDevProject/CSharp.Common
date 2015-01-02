@@ -5,7 +5,7 @@ using Android.Util;
 using Android.Graphics;
 using Android.Views;
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	sealed class SlidingTabStrip : LinearLayout 
 	{

@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{AE393314-48CA-469B-9E4E-159EAE7F56D3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MasDev.Common.iOS</RootNamespace>
+    <RootNamespace>MasDev.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>MasDev.iOS</AssemblyName>
   </PropertyGroup>
@@ -66,9 +66,6 @@
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Security\BaseHashedPassword.cs">
       <Link>Source\Security\BaseHashedPassword.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Security\Https.cs">
-      <Link>Source\Security\Https.cs</Link>
-    </Compile>
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Security\SHA256PasswordHasher.cs">
       <Link>Source\Security\SHA256PasswordHasher.cs</Link>
     </Compile>
@@ -77,6 +74,9 @@
     </Compile>
     <Compile Include="..\MasDev.Common.Mono.Desktop\Source\Utils\TimeZoneConverter.cs">
       <Link>Source\Utils\TimeZoneConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\MasDev.Common.Mono.Desktop\Source\IO\Http\Https.cs">
+      <Link>Source\Net\Https.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -117,5 +117,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Net\" />
   </ItemGroup>
 </Project>

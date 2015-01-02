@@ -5,7 +5,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using System;
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	public class RoundedImageView : ImageView 
 	{

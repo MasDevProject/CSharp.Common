@@ -1,15 +1,14 @@
 ﻿using SQLite.Net.Interop;
 using SQLite.Net.Platform.XamarinAndroid;
 using MasDev.Security;
-using MasDev.Security.Encryption;
 using MasDev.IO;
-using MasDev.Common.Droid.IO;
 using Android.Content;
 using MasDev.Patterns.Injection;
-using MasDev.Common.Droid.Utils;
 using MasDev.Utils;
+using MasDev.Droid.IO;
+using MasDev.Droid.Utils;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid
 {
 	public class AndroidDependencyConfigurator : IDependencyConfigurator
 	{

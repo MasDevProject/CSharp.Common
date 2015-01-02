@@ -4,7 +4,7 @@ using Android.Content;
 using Android.Gms.Maps.Model;
 using Android.OS;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public static class SensorsUtils
 	{
@@ -16,11 +16,11 @@ namespace MasDev.Common.Droid
 			manager = manager ?? (LocationManager)ctx.GetSystemService (Context.LocationService);
 			try {
 				gpsEnabled = manager.IsProviderEnabled (LocationManager.GpsProvider);
-			} catch (Exception) {
+			} catch {
 			}
 			try {
 				networkEnabled = manager.IsProviderEnabled (LocationManager.NetworkProvider);
-			} catch (Exception) {
+			} catch {
 			}
 
 			return gpsEnabled || networkEnabled;

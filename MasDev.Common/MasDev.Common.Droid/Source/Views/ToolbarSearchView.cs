@@ -3,13 +3,13 @@ using Android.Content;
 using Android.Util;
 using Android.Views;
 using Android.Animation;
-using MasDev.Common.Droid.ExtensionMethods;
-using MasDev.Common.Droid.Utils;
 using Android.App;
 using System;
 using Android.Support.V4.Widget;
+using MasDev.Droid.ExtensionMethods;
+using MasDev.Droid.Utils;
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	public class ToolbarSearchView : Toolbar
 	{

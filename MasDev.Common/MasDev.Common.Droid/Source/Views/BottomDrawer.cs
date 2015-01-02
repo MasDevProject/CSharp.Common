@@ -8,7 +8,7 @@ using Android.Util;
 using MasDev.Extensions;
 
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	public class BottomDrawer : FrameLayout
 	{

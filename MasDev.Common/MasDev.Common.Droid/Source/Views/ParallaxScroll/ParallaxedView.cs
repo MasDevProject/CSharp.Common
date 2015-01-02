@@ -1,5 +1,4 @@
 using Android.OS;
-using System;
 using Android.Views;
 using System.Collections.Generic;
 using Android.Views.Animations;
@@ -9,28 +8,28 @@ namespace Nirhart.ParallaxScroll.Views
 {
 	public abstract class ParallaxedView
 	{
-		readonly public static bool IsAPI11 = Build.VERSION.SdkInt >= Build.VERSION_CODES.Honeycomb;
+		readonly public static bool IsAPI11 = Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb;
 		protected WeakReferenceEx<View> _view;
 		protected int _lastOffset;
 		protected List<Animation> _animations;
 
 		protected abstract void TranslatePreICS (View view, float offset);
 
-		public ParallaxedView (View view)
+		protected ParallaxedView (View view)
 		{
-			this._lastOffset = 0;
-			this._animations = new List<Animation> ();
-			this._view = new WeakReferenceEx<View> (view);
+			_lastOffset = 0;
+			_animations = new List<Animation> ();
+			_view = new WeakReferenceEx<View> (view);
 		}
 
 		#region Offset
 
-		private float _offset;
+		float _offset;
 
 		public float Offset {
 			set {
 				_offset = value;
-				View view = this._view.Target;
+				View view = _view.Target;
 				if (view != null)
 				if (IsAPI11) {
 					view.TranslationY = value;
@@ -48,19 +47,19 @@ namespace Nirhart.ParallaxScroll.Views
 
 		#region Alpha
 
-		private float _alpha;
+		float _alpha;
 
 		public float Alpha {
 			set {
 				_alpha = value;
-				View view = this._view.Target;
+				View view = _view.Target;
 				if (view == null)
 					return;
 
 				if (IsAPI11) {
 					view.Alpha = value;
 				} else {
-					AlphaPreICS (view, value);
+					AlphaPreICS (value);
 				}
 			}
 
@@ -73,7 +72,7 @@ namespace Nirhart.ParallaxScroll.Views
 
 		public View View {
 			set {
-				this._view = new WeakReferenceEx<View> (value);
+				_view = new WeakReferenceEx<View> (value);
 			}
 		}
 
@@ -82,22 +81,23 @@ namespace Nirhart.ParallaxScroll.Views
 			return (v != null && _view != null && _view.Target != null && _view.Target.Equals (v));
 		}
 
+		readonly object _locker = new object ();
 		internal void AddAnimation (Animation animation)
 		{
-			lock (this) {
+			lock (_locker) {
 				_animations.Add (animation);
 			}
 		}
 
-		internal void AlphaPreICS (View view, float alpha)
+		internal void AlphaPreICS (float alpha)
 		{
 			AddAnimation (new AlphaAnimation (alpha, alpha));
 		}
 
 		internal void AnimateNow ()
 		{
-			lock (this) {
-				View view = this._view.Target;
+			lock (_locker) {
+				View view = _view.Target;
 				if (view == null)
 					return;
 

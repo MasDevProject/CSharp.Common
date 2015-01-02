@@ -5,7 +5,7 @@ using Android.Content;
 using System.Linq;
 using Android.Gms.Maps.Model;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public static class GeoUtils
 	{

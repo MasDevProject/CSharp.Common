@@ -1,7 +1,7 @@
 ﻿using System;
 using Android.Support.V4.App;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public static class FragmentUtils
 	{

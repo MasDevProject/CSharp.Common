@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public sealed class AlphabetSectionsIndexer<T>
 	{

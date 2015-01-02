@@ -5,8 +5,9 @@ using MasDev.Collections;
 using System.Collections.Generic;
 using Android.Views;
 using MasDev.Patterns.Injection;
+using MasDev.Utils;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public abstract class PagedAdapter<T> : BaseAdapter, IFilterable
 	{

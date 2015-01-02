@@ -1,7 +1,6 @@
 ﻿using Android.Support.V4.Widget;
-using Android.Support.V4.App;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public static class DrawerLayoutUtils
 	{
@@ -28,19 +27,7 @@ namespace MasDev.Common.Droid.Utils
 			else
 				drawerLayout.CloseDrawer (gravity);
 		}
-
-		public static void LockSideMenuAndHideIndicator (DrawerLayout drawerLayout, ActionBarDrawerToggle drawerToggle)
-		{
-			drawerToggle.DrawerIndicatorEnabled = false;
-			drawerLayout.SetDrawerLockMode (DrawerLayout.LockModeLockedClosed);
-		}
-
-		public static void UnLockSideMenuAndShowIndicator (DrawerLayout drawerLayout, ActionBarDrawerToggle drawerToggle)
-		{
-			drawerToggle.DrawerIndicatorEnabled = true;
-			drawerLayout.SetDrawerLockMode (DrawerLayout.LockModeUnlocked);
-		}
-
+			
 		public static void Lock (DrawerLayout drawerLayout)
 		{
 			drawerLayout.SetDrawerLockMode (DrawerLayout.LockModeLockedClosed);

@@ -5,9 +5,9 @@ using Android.Widget;
 using Android.Graphics;
 using Android.Support.V4.View;
 using Android.Views;
-using MasDev.Common.Droid.Utils;
+using MasDev.Droid.Utils;
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	/// <summary>
 	/// Usage: you have to crate an intance of this object (by code, not in the xml file) and then assign that instance

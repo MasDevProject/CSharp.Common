@@ -1,6 +1,6 @@
 ﻿using Android.Support.V7.App;
 
-namespace MasDev.Common.Droid.App
+namespace MasDev.Droid.App
 {
 	public enum ActivityStates {
 		Running,
@@ -8,7 +8,7 @@ namespace MasDev.Common.Droid.App
 		Pause,
 	}
 
-	public class FragmentActivityWithStates : ActionBarActivity
+	public class ActionBarActivityWithStates : ActionBarActivity
 	{
 		public ActivityStates State { get; private set; }
 

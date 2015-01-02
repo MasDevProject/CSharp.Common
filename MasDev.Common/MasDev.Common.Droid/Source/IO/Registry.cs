@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using MasDev.Threading.Tasks;
 
-namespace MasDev.Common.Droid.IO
+namespace MasDev.Droid.IO
 {
 	public class RegistryProvider : IRegistryProvider 
 	{

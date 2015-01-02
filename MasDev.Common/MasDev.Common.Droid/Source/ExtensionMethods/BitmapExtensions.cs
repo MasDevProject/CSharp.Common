@@ -5,7 +5,7 @@ using System;
 using Android.Content;
 using Android.Support.V8.Renderscript;
 
-namespace MasDev.Common.Droid.ExtensionMethods
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class BitmapExtensions
 	{

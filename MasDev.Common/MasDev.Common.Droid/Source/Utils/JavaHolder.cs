@@ -1,5 +1,5 @@
 ﻿
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public class JavaHolder : Java.Lang.Object
 	{

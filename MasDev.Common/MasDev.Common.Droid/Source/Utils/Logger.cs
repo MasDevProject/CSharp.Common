@@ -1,5 +1,7 @@
-﻿
-namespace MasDev.Common.Droid.Utils
+﻿using MasDev.Utils;
+
+
+namespace MasDev.Droid.Utils
 {
 	public class Logger : ILogger
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using Android.App;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class DialogExtensions
 	{

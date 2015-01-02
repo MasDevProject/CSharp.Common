@@ -1,8 +1,7 @@
-﻿using MasDev.Common.Droid.Utils;
-using Android.Content;
+﻿using Android.Content;
 using System.Collections.Generic;
 
-namespace MasDev.Common.Droid.Utils
+namespace MasDev.Droid.Utils
 {
 	public static class SharedPreferencesUtils
 	{

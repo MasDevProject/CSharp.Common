@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public static class PocoWrapper 
 	{

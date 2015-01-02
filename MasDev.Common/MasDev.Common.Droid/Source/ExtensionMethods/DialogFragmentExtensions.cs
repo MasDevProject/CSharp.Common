@@ -1,7 +1,7 @@
 ﻿using Android.Support.V4.App;
 using System;
 
-namespace MasDev.Common.Droid.ExtensionMethods
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class DialogFragmentExtensions
 	{

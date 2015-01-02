@@ -2,7 +2,7 @@
 using Android.Graphics;
 using Android.Graphics.Drawables;
 
-namespace MasDev.Common.Droid.Views
+namespace MasDev.Droid.Views
 {
 	/// <summary>
 	/// 

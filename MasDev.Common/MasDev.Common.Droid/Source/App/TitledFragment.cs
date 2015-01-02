@@ -2,10 +2,10 @@
 using System;
 using Android.Support.V4.App;
 using Android.Animation;
-using MasDev.Common.Droid.ExtensionMethods;
+using MasDev.Droid.ExtensionMethods;
 
 
-namespace MasDev.Common.Droid.App
+namespace MasDev.Droid.App
 {
 	public enum UiState
 	{

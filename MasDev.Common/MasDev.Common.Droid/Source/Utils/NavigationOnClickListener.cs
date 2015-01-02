@@ -1,7 +1,7 @@
 ﻿using System;
 using Android.Views;
 
-namespace MasDev.Common.Droid
+namespace MasDev.Droid.Utils
 {
 	public class NavigationOnClickListener : Java.Lang.Object, View.IOnClickListener
 	{

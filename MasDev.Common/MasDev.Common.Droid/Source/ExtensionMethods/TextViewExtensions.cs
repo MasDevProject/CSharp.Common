@@ -1,8 +1,9 @@
 ﻿using Android.Widget;
 using Android.Graphics.Drawables;
+using MasDev.Droid;
 
 
-namespace MasDev.Common.Droid.ExtensionMethods
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class TextViewExtensions
 	{
