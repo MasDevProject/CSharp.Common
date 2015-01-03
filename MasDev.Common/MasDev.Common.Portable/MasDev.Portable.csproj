@@ -123,12 +123,12 @@
     <Compile Include="Source\Extension\ArraysExtensions.cs" />
     <Compile Include="Source\Extension\WebExtensions.cs" />
     <Compile Include="Source\Extension\RegistryExtensions.cs" />
-    <Compile Include="Source\Extension\HttpResponseMessageExtensions.cs" />
     <Compile Include="Source\Extension\IDisposableExtensions.cs" />
     <Compile Include="Source\Extension\RandomExtensions.cs" />
     <Compile Include="Source\Extension\ModelExtensions.cs" />
     <Compile Include="Source\Extension\CurrenciesExtensions.cs" />
     <Compile Include="Source\Extension\NumberExtensions.cs" />
+    <Compile Include="Source\Extension\HttpExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

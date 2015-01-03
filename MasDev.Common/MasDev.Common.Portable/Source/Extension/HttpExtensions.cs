@@ -8,7 +8,7 @@ using MasDev.Exceptions;
 
 namespace MasDev.Extensions
 {
-	public static class HttpResponseMessageExtensions
+	public static class HttpExtensions
 	{
 		public static async Task<T> AsAsync<T> (this HttpResponseMessage msg)
 		{
@@ -22,6 +22,13 @@ namespace MasDev.Extensions
 		{
 			if (msg.StatusCode != HttpStatusCode.OK)
 				throw new HttpException (msg.StatusCode);
+		}
+
+		public static string GetHost (this HttpRequestMessage msg)
+		{
+			var uri = msg.RequestUri;
+			var host = uri.Host;
+			return host + ":" + uri.Port + "/";
 		}
 	}
 }
