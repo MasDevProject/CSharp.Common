@@ -179,13 +179,15 @@ namespace MasDev.Utils
 
 		public static bool NullSafeEquals<T> (T o1, T o2)
 		{
+			return BothNotNull (o1, o2) ? o1.Equals (o2) : BothNull (o1, o2);
+		}
+
+		public static bool NullSafeEquals<T, E> (T o1, T o2, Func<T, E> property)
+		{
 			if (BothNotNull (o1, o2))
-				return o1.Equals (o2);
+				return NullSafeEquals (property(o1), property(o2));
 
-			if (BothNull (o1, o2))
-				return true;
-
-			return false;
+			return BothNull (o1, o2);
 		}
 
 		public static bool NullSafeEquals<T> (T o1, T o2, Func<T, T, bool> comparer)
