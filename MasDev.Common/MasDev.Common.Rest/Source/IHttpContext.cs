@@ -15,6 +15,9 @@ namespace MasDev.Rest
 
 
 		Dictionary<string, IEnumerable<string>> ResponseHeaders { get; set; }
+
+
+		string RequestHost { get; }
 	}
 }
 

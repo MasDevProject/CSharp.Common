@@ -29,8 +29,7 @@ namespace MasDev.Rest
 
 
 
-		public string RemoteIpAddress
-		{
+		public string RemoteIpAddress {
 			get {
 				var environment = Context.Request.Environment;
 				if (environment == null)
@@ -41,12 +40,10 @@ namespace MasDev.Rest
 
 
 
-		public Dictionary<string, IEnumerable<string>> RequestHeaders
-		{
+		public Dictionary<string, IEnumerable<string>> RequestHeaders {
 			get {
 				var dict = new Dictionary<string, IEnumerable<string>> ();
-				foreach (var name in Context.Request.Headers)
-				{
+				foreach (var name in Context.Request.Headers) {
 					var key = name.Key;
 					if (dict.ContainsKey (key))
 						((List<string>)dict [key]).Add (name.Value);
@@ -59,8 +56,7 @@ namespace MasDev.Rest
 
 
 
-		public Dictionary<string, IEnumerable<string>> ResponseHeaders
-		{
+		public Dictionary<string, IEnumerable<string>> ResponseHeaders {
 			get {
 				throw new NotSupportedException ("Not supported with SignalR");
 			}
@@ -75,6 +71,12 @@ namespace MasDev.Rest
 		{
 			object value;
 			return env.TryGetValue (key, out value) ? (T)value : default(T);
+		}
+
+		public string RequestHost {
+			get {
+				throw new NotSupportedException ("Not supported with SignalR");
+			}
 		}
 	}
 

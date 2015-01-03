@@ -105,6 +105,14 @@ namespace MasDev.Rest
 
 			return new MultipartContent (new MultipartFormDataCollection (parameters), files);
 		}
+
+		public string RequestHost {
+			get {
+				var uri = Request.RequestUri;
+				var host = uri.Host;
+				return uri.Scheme + "://" + host + ":" + uri.Port + "/";
+			}
+		}
 	}
 
 
