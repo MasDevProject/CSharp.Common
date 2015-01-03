@@ -25,6 +25,13 @@ namespace MasDev.Extensions
 			}
 		}
 
+		public static void ForEach<T> (this IEnumerable<T> enumerable, Action<int, T> action)
+		{
+			var pos = 0;
+			foreach (var t in enumerable) {
+				action (pos++, t);
+			}
+		}
 
 		public static IEnumerable<T> Map<T> (this IEnumerable<T> enumerable, Action<T> action)
 		{
@@ -98,13 +105,11 @@ namespace MasDev.Extensions
 			return c.AddIfNotContains (element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
 		}
 
-		public static string ForEachAppend<T> (this IEnumerable<T> ienum, Func<T, string> toString, string separator)
+		public static string AggregateStrings<T> (this ICollection<T> items, Func<T, string> toString, string separator)
 		{
 			var sb = new StringBuilder ();
-			foreach (var t in ienum)
-				sb.Append (toString (t)).Append (separator);
-			var str = sb.ToString ();
-			return str.Substring (0, str.Length - separator.Length);
+			sb.AppendForEach (items, toString, separator);
+			return sb.ToString ();
 		}
 
 		public static int FindFirstIndex<T> (this IEnumerable<T> enumerable, Predicate<T> predicate)
