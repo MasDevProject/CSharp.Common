@@ -16,6 +16,7 @@ namespace MasDev.Rest.WebApi
 	{
 		readonly string _filePath;
 		readonly string _contentType;
+		readonly HttpStatusCode _statusCode;
 
 
 
@@ -26,6 +27,12 @@ namespace MasDev.Rest.WebApi
 
 			_filePath = filePath;
 			_contentType = contentType;
+			_statusCode = HttpStatusCode.OK;
+		}
+
+		public FileResult (string filePath, HttpStatusCode statusCode, string contentType = null) : this (filePath, contentType)
+		{
+			_statusCode = statusCode;
 		}
 
 
@@ -36,6 +43,7 @@ namespace MasDev.Rest.WebApi
 				Content = new StreamContent (File.OpenRead (_filePath))
 			};
 
+			response.StatusCode = _statusCode;
 			var contentType = _contentType ?? MimeMapping.GetMimeMapping (Path.GetExtension (_filePath));
 			response.Content.Headers.ContentType = new MediaTypeHeaderValue (contentType);
 
