@@ -3,7 +3,6 @@ using Android.Content;
 using Android.Content.Res;
 using Android.App;
 using Android.Views.InputMethods;
-using System.Threading.Tasks;
 using Android.Util;
 using Android.Provider;
 using Android.Graphics;
@@ -56,19 +55,23 @@ namespace MasDev.Droid.Utils
 		public static void HideKeyboard (Activity context)
 		{
 			try {
-				Task.Run (() => {
-					((InputMethodManager)context.GetSystemService (Context.InputMethodService)).HideSoftInputFromWindow (context.Window.DecorView.WindowToken, HideSoftInputFlags.NotAlways);
-				});
-			} catch {}
+				((InputMethodManager)context.GetSystemService (Context.InputMethodService)).HideSoftInputFromWindow (context.Window.DecorView.WindowToken, HideSoftInputFlags.NotAlways);
+			}
+			catch (Exception e) 
+			{
+				Log.Debug ("ApplicationUtils", "showkeyboard: " + e); 
+			}
 		}
 
 		public static void ShowKeyboard (Activity context)
 		{
 			try {
-				Task.Run (() => {
-					((InputMethodManager)context.GetSystemService (Context.InputMethodService)).ToggleSoftInput (ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
-				});
-			} catch {}
+				((InputMethodManager)context.GetSystemService (Context.InputMethodService)).ToggleSoftInput (ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
+			} 
+			catch (Exception e) 
+			{
+				Log.Debug ("ApplicationUtils", "showkeyboard: " + e); 
+			}
 		}
 
 		public static void CopyStringToClipBoard (string value)

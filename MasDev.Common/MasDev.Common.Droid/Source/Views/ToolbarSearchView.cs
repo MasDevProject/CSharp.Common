@@ -1,26 +1,26 @@
-﻿using Android.Support.V7.Widget;
-using Android.Content;
+﻿using Android.Content;
 using Android.Util;
 using Android.Views;
 using Android.Animation;
 using Android.App;
 using System;
-using Android.Support.V4.Widget;
 using MasDev.Droid.ExtensionMethods;
 using MasDev.Droid.Utils;
+using Android.Widget;
 
 namespace MasDev.Droid.Views
 {
-	public class ToolbarSearchView : Toolbar
+	public class ToolbarSearchView : Android.Support.V7.Widget.Toolbar
 	{
-		SearchView _searchView;
+		ProgressBar _pb;
+		Android.Support.V7.Widget.SearchView _searchView;
 		public Activity Activity { get; set; }
 		const int ANIMATION_DURATION = 260;
 		const string ANIMATION_NAME = "alpha";
 		const int ALFA_MIN = 0;
 		const int ALFA_MAX = 1;
 
-		public CursorAdapter SuggestionsAdapter { 
+		public Android.Support.V4.Widget.CursorAdapter SuggestionsAdapter { 
 			get { return _searchView.SuggestionsAdapter; } 
 			set { _searchView.SuggestionsAdapter = value; } 
 		}
@@ -37,7 +37,15 @@ namespace MasDev.Droid.Views
 		void Init ()
 		{
 			SetNavigationOnClickListener (new NavigationOnClickListener (() => CloseSearchView()));
-			_searchView = new SearchView (Context);
+
+			_pb = new ProgressBar (Context);
+			_pb.Indeterminate = true;
+			_pb.SetInvisible ();
+			var pad = ApplicationUtils.ConvertDpToPixel (Context, 5);
+			//_pb.SetPadding (pad, pad, pad, pad);
+			AddView (_pb);
+
+			_searchView = new Android.Support.V7.Widget.SearchView (Context);
 			AddView (_searchView);
 		}
 
@@ -63,18 +71,36 @@ namespace MasDev.Droid.Views
 			return true;
 		}
 
-		public void SubscribeToQueryTextSubmit (EventHandler<SearchView.QueryTextSubmitEventArgs> evt)
+		public bool IsLoading {
+			get {
+				return _pb.Visibility == ViewStates.Visible;
+			}
+			set { 
+				if (value)
+					_pb.SetVisible ();
+				else
+					_pb.SetInvisible ();
+			}
+		}
+
+		public void SubscribeToQueryTextSubmit (EventHandler<Android.Support.V7.Widget.SearchView.QueryTextSubmitEventArgs> evt)
 		{
 			_searchView.QueryTextSubmit += evt;
 		}
 
-		public void SubscribeToQueryTextChange(EventHandler<SearchView.QueryTextChangeEventArgs> evt)
+		public void SubscribeToQueryTextChange(EventHandler<Android.Support.V7.Widget.SearchView.QueryTextChangeEventArgs> evt)
 		{
 			_searchView.QueryTextChange += evt;
 		}
-		public void SubscribeToSuggestionClick (EventHandler<SearchView.SuggestionClickEventArgs> evt)
+		public void SubscribeToSuggestionClick (EventHandler<Android.Support.V7.Widget.SearchView.SuggestionClickEventArgs> evt)
 		{
 			_searchView.SuggestionClick += evt;
+		}
+
+		protected override void OnDetachedFromWindow ()
+		{
+			base.OnDetachedFromWindow ();
+			CloseSearchView ();
 		}
 	}
 }
