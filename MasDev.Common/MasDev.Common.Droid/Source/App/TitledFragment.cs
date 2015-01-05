@@ -1,8 +1,9 @@
 ﻿using Android.Views;
 using System;
-using Android.Support.V4.App;
 using Android.Animation;
 using MasDev.Droid.ExtensionMethods;
+using Android.App;
+using MasDev.Droid.Utils;
 
 
 namespace MasDev.Droid.App
@@ -15,7 +16,7 @@ namespace MasDev.Droid.App
 		NoResults
 	}
 
-	public abstract class TitledFragment : DialogFragment, View.IOnTouchListener
+	public abstract class TitledFragment : Android.Support.V4.App.DialogFragment, View.IOnTouchListener
 	{
 		public string Title { get; set; }
 
@@ -131,7 +132,7 @@ namespace MasDev.Droid.App
 			FadeOut (ContentLayout);
 			FadeOut (ErrorLayout);
 		}
-			
+
 		void FadeIn (View layoutToShow)
 		{
 			if (layoutToShow.Visibility == ViewStates.Visible && !(layoutToShow.Tag != null && (bool)layoutToShow.Tag))
@@ -148,7 +149,7 @@ namespace MasDev.Droid.App
 		{
 			if (layoutToHide == null || layoutToHide.Visibility != ViewStates.Visible)
 				return;
-				
+
 			if (_useAnimation) {
 				layoutToHide.Tag = true; // isHiding = true
 				var an = ObjectAnimator.OfFloat (layoutToHide, ALPHA, 1f, 0f).SetDuration (ANIMATION_DURATION);
@@ -163,6 +164,17 @@ namespace MasDev.Droid.App
 		}
 
 		#endregion
+	}
+		
+	public abstract class TitledFragment<TParent> : TitledFragment where TParent : class
+	{
+		protected TParent Parent { get; set; }
+
+		public override void OnAttach (Activity activity)
+		{
+			base.OnAttach (activity);
+			Parent = FragmentUtils.EnsureImplements<TParent> (this);
+		}
 	}
 }
 
