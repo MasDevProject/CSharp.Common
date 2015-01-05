@@ -6,7 +6,7 @@ namespace MasDev.Threading.Tasks
 {
 	public static class TaskLauncher
 	{
-		public static Task Every (TimeSpan interval, Action action, CancellationToken token)
+		public static Task Periodicaly (TimeSpan interval, Action action, CancellationToken token)
 		{
 			return Task.Factory.StartNew (
 				() => {
@@ -19,7 +19,7 @@ namespace MasDev.Threading.Tasks
 				}, token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 		}
 
-		public static Task EveryAsync (TimeSpan interval, Func<Task> asyncAction, CancellationToken token)
+		public static Task PeriodicalyAsync (TimeSpan interval, Func<Task> asyncAction, CancellationToken token)
 		{
 			return Task.Factory.StartNew (
 				async () => {

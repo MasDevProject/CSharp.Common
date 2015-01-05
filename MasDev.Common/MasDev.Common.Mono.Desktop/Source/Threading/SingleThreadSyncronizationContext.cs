@@ -210,6 +210,11 @@ namespace MasDev.Threading
 			return tcs.Task.Result;
 		}
 
+		public static async Task RunAsync (Func<Task> func)
+		{
+			await Task.Run (() => Run (func, LateArrivalBehavior.Throw, null));
+		}
+
 		public static void Run (Func<Task> func)
 		{
 			Run (func, LateArrivalBehavior.Throw, null);
