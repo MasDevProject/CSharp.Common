@@ -16,11 +16,11 @@ namespace MasDev.Droid.Utils
 
 		public static TInterface GetParent<TInterface>(Fragment fragment) where TInterface : class
 		{
-			var parent = fragment.Activity as TInterface;
+			var parent = fragment.ParentFragment as TInterface;
 			if (parent != null)
 				return parent;
 
-			parent = fragment.ParentFragment as TInterface;
+			parent = fragment.Activity as TInterface;
 			return parent;
 		}
 	}
