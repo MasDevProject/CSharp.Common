@@ -173,7 +173,8 @@ namespace MasDev.Droid.App
 		public override void OnAttach (Activity activity)
 		{
 			base.OnAttach (activity);
-			Parent = FragmentUtils.EnsureImplements<TParent> (this);
+			if (Parent == null)
+				Parent = FragmentUtils.EnsureImplements<TParent> (this);
 		}
 	}
 }
