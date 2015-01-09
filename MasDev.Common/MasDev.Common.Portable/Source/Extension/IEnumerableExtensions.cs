@@ -102,7 +102,7 @@ namespace MasDev.Extensions
 
 		public static ICollection<T> AddIfNotContains<T> (this ICollection<T> c, T element)
 		{
-			return c.AddIfNotContains (element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
+			return c.AddIfNotContains (element, (o1, o2) => Check.NullSafeEquals (o1, o2));
 		}
 
 		public static string AggregateStrings<T> (this ICollection<T> items, Func<T, string> toString, string separator)
