@@ -9,7 +9,7 @@ namespace MasDev.Localization
 	{
 		static readonly Dictionary<Type, dynamic> _localizations = new Dictionary<Type, dynamic> ();
 
-		public static TLocalizationInterface Get<TLocalizationInterface> (string locale) where TLocalizationInterface : ILocalization
+		public static TLocalizationInterface Get<TLocalizationInterface> (string locale = null) where TLocalizationInterface : ILocalization
 		{
 
 			var localizationInterface = typeof(TLocalizationInterface);
