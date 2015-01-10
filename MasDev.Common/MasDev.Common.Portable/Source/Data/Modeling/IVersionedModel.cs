@@ -12,7 +12,7 @@ namespace MasDev.Data
 
 
 
-	public interface IModelVersioning : IModel
+	public interface IModelVersioning : IUndeletableModel
 	{
 		DateTime? CreationUTC{ get; set; }
 	}
