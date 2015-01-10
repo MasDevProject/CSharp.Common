@@ -448,8 +448,16 @@ namespace MasDev.Data
 
 		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return UnfilteredQueryForModel<TVersionedModel> (); } }
 
+		bool IRepository<TVersionedModel, TModelVersioning>.ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel)
+		{
+			return this.ShouldDoVersioning (storedModel, newModel);
+		}
+
+		protected abstract bool ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel);
 
 		public abstract TModelVersioning CreateVersion (TVersionedModel model);
+
+
 	}
 
 }
