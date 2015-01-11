@@ -19,7 +19,6 @@ namespace MasDev.Droid.App
 	public abstract class TitledFragment : Android.Support.V4.App.DialogFragment, View.IOnTouchListener
 	{
 		public string Title { get; set; }
-
 		public bool IsRootFragment { get; set; }
 
 		public virtual bool OnKeyUp (Keycode keyCode, KeyEvent e)

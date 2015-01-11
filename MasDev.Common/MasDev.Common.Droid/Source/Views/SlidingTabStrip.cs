@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Util;
 using Android.Graphics;
 using Android.Views;
+using Android.Content.Res;
 
 namespace MasDev.Droid.Views
 {
@@ -34,13 +35,23 @@ namespace MasDev.Droid.Views
 
 		SlidingTabLayout.TabColorizer mCustomTabColorizer;
 		readonly SimpleTabColorizer mDefaultTabColorizer;
-
-		public SlidingTabStrip(Context context) : this (context, null) {}
+		Color _rowColor = new Color(0, 0, 0);
 
 		public SlidingTabStrip(Context context, IAttributeSet attrs) : base (context, attrs) 
 		{
 			SetWillNotDraw (false);
 			float density = Resources.DisplayMetrics.Density;
+
+			TypedArray a = null;
+			try
+			{
+				a = Context.ObtainStyledAttributes(attrs, Resource.Styleable.SlidingTabStrip);
+				if (a.HasValue (Resource.Styleable.SlidingTabStrip_row_color)) _rowColor = a.GetColor (Resource.Styleable.SlidingTabStrip_row_color, 0);
+			}
+			finally
+			{
+				if (a != null) a.Recycle();
+			}
 
 			var outValue = new TypedValue();
 			Context.Theme.ResolveAttribute(Android.Resource.Attribute.ColorForeground, outValue, true);
@@ -54,7 +65,7 @@ namespace MasDev.Droid.Views
 
 			mBottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
 			mBottomBorderPaint = new Paint();
-			mBottomBorderPaint.Color = new Color (156, 39, 176); //new Color(mDefaultBottomBorderColor); //TODO
+			mBottomBorderPaint.Color = _rowColor;
 
 			mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
 			mSelectedIndicatorPaint = new Paint();
@@ -103,19 +114,19 @@ namespace MasDev.Droid.Views
 				View selectedTitle = GetChildAt(mSelectedPosition);
 				int left = selectedTitle.Left;
 				int right = selectedTitle.Right;
-				int color = tabColorizer.GetIndicatorColor(mSelectedPosition);
+				//int color = tabColorizer.GetIndicatorColor(mSelectedPosition);
 
 				if (mSelectionOffset > 0f && mSelectedPosition < (ChildCount - 1)) {
-					int nextColor = tabColorizer.GetIndicatorColor(mSelectedPosition + 1);
-					if (color != nextColor)
-						color = BlendColors(nextColor, color, mSelectionOffset);
+					//int nextColor = tabColorizer.GetIndicatorColor(mSelectedPosition + 1);
+//					if (color != nextColor)
+//						color = BlendColors(nextColor, color, mSelectionOffset);
 						
 					var nextTitle = GetChildAt(mSelectedPosition + 1);
 					left = (int) (mSelectionOffset * nextTitle.Left + (1.0f - mSelectionOffset) * left);
 					right = (int) (mSelectionOffset * nextTitle.Right + (1.0f - mSelectionOffset) * right);
 				}
 
-				mSelectedIndicatorPaint.Color = new Color (156, 39, 176); //TODO
+				mSelectedIndicatorPaint.Color = _rowColor;
 				canvas.DrawRect(left, height - mSelectedIndicatorThickness, right, height, mSelectedIndicatorPaint);
 			}
 
@@ -125,7 +136,7 @@ namespace MasDev.Droid.Views
 			int separatorTop = (height - dividerHeightPx) / 2;
 			for (int i = 0; i < childCount - 1; i++) {
 				View child = GetChildAt(i);
-				mDividerPaint.Color = new Color (156, 39, 176); //TODO
+				mDividerPaint.Color = _rowColor;
 				canvas.DrawLine(child.Right, separatorTop, child.Right, separatorTop + dividerHeightPx, mDividerPaint);
 			}
 		}
