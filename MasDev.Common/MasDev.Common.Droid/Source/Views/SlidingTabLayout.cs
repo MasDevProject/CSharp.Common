@@ -39,7 +39,7 @@ namespace MasDev.Droid.Views
 			SetForegroundGravity (GravityFlags.Center);
 			FillViewport = true;
 			mTitleOffset = (int) (TITLE_OFFSET_DIPS * Resources.DisplayMetrics.Density);
-			mTabStrip = new SlidingTabStrip (context);
+			mTabStrip = new SlidingTabStrip (context, attrs);
 			AddView(mTabStrip, ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);	
 		}
 
