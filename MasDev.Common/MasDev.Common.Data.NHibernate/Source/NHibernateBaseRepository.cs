@@ -7,6 +7,7 @@ using NHibernate;
 using NHibernate.Linq;
 using System.Linq;
 using NHibernate.Persister.Entity;
+using MasDev.Utils;
 
 
 namespace MasDev.Data
@@ -450,14 +451,18 @@ namespace MasDev.Data
 
 		bool IRepository<TVersionedModel, TModelVersioning>.ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel)
 		{
-			return this.ShouldDoVersioning (storedModel, newModel);
+			if (Check.BothNull (storedModel, newModel) || !Check.BothNotNull (storedModel, newModel))
+				throw new ArgumentException ("Argument must not be null");
+
+			if (newModel.Id != storedModel.Id)
+				throw new ArgumentException ("Models id must be the same");
+
+			return ShouldDoVersioning (storedModel, newModel);
 		}
 
 		protected abstract bool ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel);
 
 		public abstract TModelVersioning CreateVersion (TVersionedModel model);
-
-
 	}
 
 }
