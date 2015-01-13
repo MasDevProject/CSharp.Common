@@ -3,6 +3,8 @@ using MasDev.Rest.Auth;
 using MasDev.Rest.Push;
 using MasDev.Utils;
 using System;
+using System.Collections.Generic;
+using MasDev.Data;
 
 
 namespace MasDev.Rest
@@ -11,69 +13,46 @@ namespace MasDev.Rest
 	{
 		readonly IRepositories _repositories;
 		readonly IAuthManager _authManager = RestConfiguration.AuthOptions.Manager;
-		readonly IConnectionManager _connectionManager;
-
-
+		readonly Dictionary<Type, dynamic> _connectionManagers;
 
 		protected PushManager (IRepositories repositories)
 		{
 			_repositories = repositories;
-			PushContext.RegisterConnectionManager (GetType (), CreateConnectionManager);
-			_connectionManager = CreateConnectionManager (_repositories);
+			_connectionManagers = new Dictionary<Type, dynamic> ();
 		}
-
-
 
 		public int? CredentialsScope { get; set; }
 
-
-
-		IHttpContext IRestModule.HttpContext
-		{
+		IHttpContext IRestModule.HttpContext {
 			get { return HttpContext; }
 			set { HttpContext = Assert.As<IPushHttpContext> (value); }
 		}
 
-
-
 		public IPushHttpContext HttpContext	{ get; set; }
-
-
 
 		public ICredentials CurrentCredentials { get ; set; }
 
-
-
 		public IAuthManager AuthManager { get { return _authManager; } }
-
-
 
 		public virtual IRepositories Repositories { get { return _repositories; } }
 
+		protected IConnectionManager<TModel> Connections<TModel> () where TModel : class, IModel, new()
+		{
+			var type = typeof(TModel);
+			if (!_connectionManagers.ContainsKey (type))
+				_connectionManagers.Add (type, PushContext.ConnectionManagerInternal<TModel> (_repositories));
 
-
-		protected IConnectionManager Connections { get { return _connectionManager; } }
-
-
-
-		protected abstract IConnectionManager CreateConnectionManager (IRepositories repositories);
-
-
+			return _connectionManagers [type];
+		}
 
 		public virtual void Dispose ()
 		{
 			_repositories.Dispose ();
 		}
 
-
-
 		public abstract Task OnConnected ();
 
-
-
 		public abstract Task OnDisconnected (bool stopCalled);
-
-
 
 		public abstract Task OnReconnected ();
 	}

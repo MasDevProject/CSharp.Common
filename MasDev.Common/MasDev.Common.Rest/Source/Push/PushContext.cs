@@ -1,51 +1,42 @@
 ﻿using MasDev.Rest.Push;
 using System;
 using System.Collections.Generic;
+using MasDev.Data;
 
 
 namespace MasDev.Rest
 {
 	public static class PushContext
 	{
-		static readonly Dictionary<Type, Func<IRepositories, IConnectionManager>> _connectionManagers = new Dictionary<Type, Func<IRepositories, IConnectionManager>> ();
-
 		static IPushContextAdapter _adapter;
+		static IConnectionManagerFactory _connectionFactory;
 
-
-
-		public static void Use (IPushContextAdapter adapter)
+		public static void Use (IPushContextAdapter adapter, IConnectionManagerFactory managers)
 		{
 			_adapter = adapter;
+			_connectionFactory = managers;
 		}
-
-
 
 		public static IPushClients Push<T> () where T : PushManager
 		{
 			if (_adapter == null)
-				throw new NotSupportedException ("You must use an adapter first");
+				throw new NotSupportedException ("You must use an Adapter and a ConnectionManagerFactory first");
 
 			return _adapter.Push<T> ();
 		}
 
-
-
-		internal static void RegisterConnectionManager (Type pusher, Func<IRepositories, IConnectionManager> creator)
+		public static IReadonlyConnectionManager<TModel> ConnectionManager<TModel> (IRepositories repositories) where TModel :class, IModel, new()
 		{
-			if (_connectionManagers.ContainsKey (pusher))
-				return;
-			_connectionManagers.Add (pusher, creator);
+			var connectionManager = ConnectionManagerInternal<TModel> (repositories);
+			return connectionManager == null ? null : connectionManager.AsReadOnly ();
 		}
 
-
-
-		public static IReadonlyConnectionManager ConnectionManager<TPushManager> (IRepositories repositories) where TPushManager : PushManager, new()
+		internal static IConnectionManager<TModel> ConnectionManagerInternal<TModel> (IRepositories repositories) where TModel :class, IModel, new()
 		{
-			var manager = typeof(TPushManager);
-			if (!_connectionManagers.ContainsKey (manager))
-				return null;
+			if (_connectionFactory == null)
+				throw new NotSupportedException ("You must use an Adapter and a ConnectionManagerFactory first");
 
-			return _connectionManagers [manager] (repositories).AsReadOnly ();
+			return _connectionFactory.Create<TModel> (repositories);
 		}
 	}
 }

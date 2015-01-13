@@ -68,13 +68,14 @@
     <Compile Include="Source\Push\PushContext.cs" />
     <Compile Include="Source\Push\IPushContextAdapter.cs" />
     <Compile Include="Source\Push\IPushHttpContext.cs" />
-    <Compile Include="Source\Push\IConnectionManager.cs" />
     <Compile Include="Source\Utils\Require.cs" />
     <Compile Include="Source\HandleTransactionsAttribute.cs" />
     <Compile Include="Source\Auth\IRestModule.cs" />
     <Compile Include="Source\Proxy\MethodCallExtensions.cs" />
     <Compile Include="Source\Proxy\RestModuleProxy.cs" />
     <Compile Include="Source\HttpContextExtensions.cs" />
+    <Compile Include="Source\Push\IConnectionManagerFactory.cs" />
+    <Compile Include="Source\Push\ConnectionManagers\InMemoryConnectionsCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -82,6 +83,7 @@
     <Folder Include="Source\Auth\" />
     <Folder Include="Source\Auth\AuthManagerOptions\" />
     <Folder Include="Source\Push\" />
+    <Folder Include="Source\Push\ConnectionManagers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
