@@ -131,11 +131,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\anim\rotate_centre.xml" />
-    <AndroidResource Include="Resources\anim\slide_in_left.xml" />
-    <AndroidResource Include="Resources\anim\slide_out_right.xml" />
-    <AndroidResource Include="Resources\values\Integers.xml" />
     <AndroidResource Include="Resources\drawable\Ic_textview_error.png" />
     <AndroidResource Include="Resources\values\Attrs.xml" />
   </ItemGroup>
@@ -144,7 +139,6 @@
     <Folder Include="Source\" />
     <Folder Include="Source\Utils\" />
     <Folder Include="Source\App\" />
-    <Folder Include="Resources\anim\" />
     <Folder Include="Source\ExtensionMethods\" />
     <Folder Include="Source\Views\" />
     <Folder Include="Source\IO\" />
