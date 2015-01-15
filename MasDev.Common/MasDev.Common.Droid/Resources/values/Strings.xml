@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="library_name">MasDev.Common.Android</string>
-	<string name="ApplicationName">PizzApp</string>
-	<string name="Hello">Hello_word!</string>
-</resources>

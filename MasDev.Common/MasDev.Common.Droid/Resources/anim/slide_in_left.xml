@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-	<translate android:fromXDelta="-50%p" android:toXDelta="0"
-            android:duration="@integer/slide_in_left_animation_duration"/>
-	<alpha android:fromAlpha="0.0" android:toAlpha="1.0"
-            android:duration="@integer/slide_in_left_animation_duration" />
-</set>
