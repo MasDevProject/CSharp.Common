@@ -176,6 +176,13 @@ namespace MasDev.Extensions
 				builder = new StringBuilder ();
 			}
 		}
+
+
+		public static string Before (this string s, char c)
+		{
+			var index = s.IndexOf (c);
+			return index <= 0 ? s : s.Substring (0, index);
+		}
 	}
 }
 
