@@ -62,13 +62,13 @@ namespace MasDev.Utils
 
 		public static bool AllNullOrEmpty<T> (params IEnumerable<T>[] ienumerables)
 		{
-			return Assert.NotNullOrEmpty (ienumerables).All (i => IsNullOrEmpty (i));
+			return Assert.NotNullOrEmpty<IEnumerable<T>[], IEnumerable<T>> (ienumerables).All (i => IsNullOrEmpty (i));
 		}
 
 
 		public static bool AllNullOrEmpty (params IEnumerable<object>[] ienumerables)
 		{
-			return Assert.NotNullOrEmpty (ienumerables).All (IsNullOrEmpty);
+			return Assert.NotNullOrEmpty<IEnumerable<object>[], IEnumerable<object>> (ienumerables).All (IsNullOrEmpty);
 		}
 
 

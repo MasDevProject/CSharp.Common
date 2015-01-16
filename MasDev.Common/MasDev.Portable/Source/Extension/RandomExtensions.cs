@@ -10,15 +10,12 @@ namespace MasDev.Extensions
 			return r.NextBool (0.5f);
 		}
 
-
-
 		public static bool NextBool (this Random r, float successProbability)
 		{
 			return r.NextDouble () < successProbability;
 		}
 
-
-
+		#if !SALTARELLE
 		public static decimal NextDecimal (this Random r, int min, int max)
 		{
 			var intPart = r.Next (min, max - 1);
@@ -26,13 +23,13 @@ namespace MasDev.Extensions
 			return Convert.ToDecimal (intPart + floatPart);
 		}
 
-
-
 		public static decimal? NextNullableDecimal (this Random r, int min, int max)
 		{
 			return r.NextBool () ? (decimal?)null : (decimal?)r.NextDecimal (min, max);
 
 		}
+		#endif
+
 	}
 }
 

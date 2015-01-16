@@ -5,8 +5,8 @@ namespace MasDev.Utils
 
 	public struct ClockTime
 	{
-		private uint _hours;
-		private uint _minutes;
+		readonly uint _hours;
+		readonly uint _minutes;
 
 		public uint Hour { get { return _hours; } }
 

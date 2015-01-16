@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +16,7 @@ namespace MasDev.Utils
 
 
 
-		public static TCollection NotNullOrEmpty<TCollection> (TCollection collection) where TCollection : class, ICollection
+		public static TCollection NotNullOrEmpty<TCollection, T> (TCollection collection)where TCollection : class, ICollection<T>
 		{
 			if (NotNull (collection).Count == 0)
 				throw new ArgumentException ("Argument is empty");
@@ -91,23 +90,19 @@ namespace MasDev.Utils
 	{
 		public static bool NullityEquals<T> (T o1, T o2)
 		{
-			//EnsureIsNullable<T> ();
-			if (BothNull (o1, o2))
-				return false;
+			return !BothNull (o1, o2) && BothNotNull (o1, o2);
 
-			return BothNotNull (o1, o2);
 		}
 
 		public static bool LeftNullityEquals<T> (T o1, T o2)
 		{
-			//EnsureIsNullable<T> ();
 			if (o1 != null)
 				return true;
-
 			return o2 == null;
 		}
 
 
+		#if !SALTARELLE
 		public static bool IsPositiveOrNull<T> (T nullableNumber)
 		{
 			EnsureIsNullable<T> ();
@@ -122,6 +117,7 @@ namespace MasDev.Utils
 				throw new ArgumentException ("Argument must be a number");
 			}
 		}
+		#endif
 
 
 		public static bool IsNull<T> (T what) where T : class
@@ -182,29 +178,21 @@ namespace MasDev.Utils
 			return BothNotNull (o1, o2) ? o1.Equals (o2) : BothNull (o1, o2);
 		}
 
-		public static bool NullSafeEquals<T, E> (T o1, T o2, Func<T, E> property)
+		public static bool NullSafeEquals<T1, T2> (T1 o1, T1 o2, Func<T1, T2> property)
 		{
-			if (BothNotNull (o1, o2))
-				return NullSafeEquals (property(o1), property(o2));
+			return BothNotNull (o1, o2) ? NullSafeEquals (property (o1), property (o2)) : BothNull (o1, o2);
 
-			return BothNull (o1, o2);
 		}
 
 		public static bool NullSafeEquals<T> (T o1, T o2, Func<T, T, bool> comparer)
 		{
-			if (BothNotNull (o1, o2))
-				return comparer (o1, o2);
-
-			if (BothNull (o1, o2))
-				return true;
-
-			return false;
+			return BothNotNull (o1, o2) ? comparer (o1, o2) : BothNull (o1, o2);
 		}
 
 
 		public static bool BoxedEquls (params object[] items)
 		{
-			var bools = Assert.NotNullOrEmpty (items).Select (i => i == null).ToList ();
+			var bools = items.Select (i => i == null).ToList ();
 			return bools.All (b => b) || bools.All (b => !b);
 		}
 
@@ -218,7 +206,7 @@ namespace MasDev.Utils
 
 		public static bool NullSafeAllCollectionsEquals<T> (Comparer<T> comparer, ICollection<T>[] collections)
 		{
-			var areCollectionsNull = Assert.NotNullOrEmpty (collections).Select (i => i == null).ToList ();
+			var areCollectionsNull = collections.Select (i => i == null).ToList ();
 
 			// All null
 			if (areCollectionsNull.All (isNull => isNull))
@@ -229,7 +217,7 @@ namespace MasDev.Utils
 				return false;
 
 			var collectionSize = collections [0].Count;
-			if (!collections.All (item => item.Count == collectionSize))
+			if (collections.Any (item => item.Count != collectionSize))
 				return false;
 
 			var testCollection = collections [0];
@@ -248,6 +236,7 @@ namespace MasDev.Utils
 			return true;
 		}
 
+		#if !SALTARELLE
 		private static void EnsureIsNullable<T> ()
 		{
 			var type = typeof(T);
@@ -263,6 +252,7 @@ namespace MasDev.Utils
 
 			throw new InvalidOperationException ("Type is not nullable or reference type.");
 		}
+		#endif
 	}
 }
 

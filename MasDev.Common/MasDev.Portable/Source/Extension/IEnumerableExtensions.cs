@@ -12,12 +12,6 @@ namespace MasDev.Extensions
 		static readonly Random _random = new Random ();
 
 
-		public static IEnumerable<T> Distinct<T,TKey> (this IEnumerable<T> enumerable, Func<T, TKey> property)
-		{
-			return enumerable.Distinct (EqualityComparer.Create ((T t1, T t2) => Check.NullSafeEquals (property (t1), property (t2))));
-		}
-
-
 		public static void ForEach<T> (this IEnumerable<T> enumerable, Action<T> action)
 		{
 			foreach (var t in enumerable) {
@@ -82,12 +76,12 @@ namespace MasDev.Extensions
 			}
 		}
 
-		public static IEnumerable<E> SafeSelect<T,E> (this IEnumerable<T> ienum, Func<T,E> selector)
+		public static IEnumerable<T2> SafeSelect<T1,T2> (this IEnumerable<T1> ienum, Func<T1,T2> selector)
 		{
 			try {
 				return ienum.Select (selector);
 			} catch (InvalidOperationException) {
-				return Enumerable.Empty<E> ();
+				return Enumerable.Empty<T2> ();
 			}
 		}
 
@@ -122,6 +116,13 @@ namespace MasDev.Extensions
 			}
 			return -1;
 		}
+
+		#if !SALTARELLE
+		public static IEnumerable<T> Distinct<T,TKey> (this IEnumerable<T> enumerable, Func<T, TKey> property)
+		{
+			return enumerable.Distinct (EqualityComparer.Create ((T t1, T t2) => Check.NullSafeEquals (property (t1), property (t2))));
+		}
+		#endif
 	}
 }
 

@@ -11,31 +11,6 @@ namespace MasDev.Utils
 	{
 		public const string Space = " ";
 
-		public static byte[] GetBytes (string str)
-		{
-			var bytes = new byte[str.Length * sizeof(char)];
-			Buffer.BlockCopy (str.ToCharArray (), 0, bytes, 0, bytes.Length);
-			return bytes;
-		}
-
-
-
-		public static string GetString (byte[] bytes)
-		{
-			var chars = new char[bytes.Length / sizeof(char)];
-			Buffer.BlockCopy (bytes, 0, chars, 0, bytes.Length);
-			return new string (chars);
-		}
-
-
-
-		public static string FromBase64 (string encoded)
-		{
-			var bytes = Convert.FromBase64String (encoded);
-			return GetString (bytes);
-		}
-
-	
 		public static string CommaSeparate (IEnumerable<string> strings)
 		{
 			if (strings == null)
@@ -66,7 +41,7 @@ namespace MasDev.Utils
 			if (values.Any (v => v == value))
 				return;
 
-			s = s + value + ',';
+			s = s + value + ",";
 		}
 
 		public static int Length (string s)
@@ -77,6 +52,28 @@ namespace MasDev.Utils
 		public static bool ContainsSomethingReadable (string s)
 		{
 			return !(string.IsNullOrEmpty (s) || s.ContainsOnlyWhiteSpaces ());
+		}
+	
+
+		#if !SALTARELLE
+		public static byte[] GetBytes (string str)
+		{
+			var bytes = new byte[str.Length * sizeof(char)];
+			Buffer.BlockCopy (str.ToCharArray (), 0, bytes, 0, bytes.Length);
+			return bytes;
+		}
+
+		public static string GetString (byte[] bytes)
+		{
+			var chars = new char[bytes.Length / sizeof(char)];
+			Buffer.BlockCopy (bytes, 0, chars, 0, bytes.Length);
+			return new string (chars);
+		}
+
+		public static string FromBase64 (string encoded)
+		{
+			var bytes = Convert.FromBase64String (encoded);
+			return GetString (bytes);
 		}
 
 		public static string[] PoorManStem (this string s, IEnumerable<string> stopWords)
@@ -91,6 +88,7 @@ namespace MasDev.Utils
 
 			return words;
 		}
+		#endif
 	}
 }
 

@@ -14,12 +14,11 @@
     <NoStdLib>True</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;SALTARELLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -35,6 +34,51 @@
   <ItemGroup>
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\..\MasDev.Portable\Source\Utils\Assert.cs">
+      <Link>Source\Utils\Assert.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Utils\BitwiseUtils.cs">
+      <Link>Source\Utils\BitwiseUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Utils\CollectionUtils.cs">
+      <Link>Source\Utils\CollectionUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Utils\EnumUtils.cs">
+      <Link>Source\Utils\EnumUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Utils\StringUtils.cs">
+      <Link>Source\Utils\StringUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\ArraysExtensions.cs">
+      <Link>Source\Extensions\ArraysExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\CurrenciesExtensions.cs">
+      <Link>Source\Extensions\CurrenciesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\DateTimeExtensions.cs">
+      <Link>Source\Extensions\DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\IEnumerableExtensions.cs">
+      <Link>Source\Extensions\IEnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\ObjectExtensions.cs">
+      <Link>Source\Extensions\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\RandomExtensions.cs">
+      <Link>Source\Extensions\RandomExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\StringBuilderExtensions.cs">
+      <Link>Source\Extensions\StringBuilderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Extension\StringExtensions.cs">
+      <Link>Source\Extensions\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Enums\Currencies.cs">
+      <Link>Source\Enums\Currencies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MasDev.Portable\Source\Enums\OS.cs">
+      <Link>Source\Enums\OS.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -53,6 +97,9 @@
     <Reference Include="Saltarelle.Web">
       <HintPath>..\..\..\packages\Saltarelle.Web.3.1.0\lib\Saltarelle.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Saltarelle.Linq">
+      <HintPath>..\..\..\packages\Saltarelle.Linq.2.4.0\lib\Saltarelle.Linq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.2.6.2\tools\Saltarelle.Compiler.targets')" />
   <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.2.6.2\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.2.6.2\tools\Saltarelle.Compiler.targets')" />
@@ -63,4 +110,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Source\Utils\" />
+    <Folder Include="Source\Extensions\" />
+    <Folder Include="Source\Enums\" />
+  </ItemGroup>
 </Project>

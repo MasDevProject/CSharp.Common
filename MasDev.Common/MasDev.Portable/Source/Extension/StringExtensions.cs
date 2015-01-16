@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Linq;
 using System.Collections.Generic;
 using MasDev.Utils;
+
+#if !SALTARELLE
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Linq;
+#endif
 
 
 namespace MasDev.Extensions
@@ -14,22 +17,6 @@ namespace MasDev.Extensions
 		const string JsonMime = "application/json";
 		const string Http = "http:\\";
 		const string Https = "https:\\";
-
-
-
-		public static Uri AsUri (this string s)
-		{
-			return new Uri (s);
-		}
-
-
-
-		public static bool ContainsIgnoreCase (this string s, string what)
-		{
-			return s.ToLower ().Contains (what.ToLower ());
-		}
-
-
 
 		public static bool EqualsIgnoreCase (this string s, string what)
 		{
@@ -43,65 +30,34 @@ namespace MasDev.Extensions
 				return false;
 
 
-			return s.ToLowerInvariant () == what.ToLowerInvariant ();
+			return s.ToLower () == what.ToLower ();
 		}
 
-
+		public static bool ContainsIgnoreCase (this string s, string what)
+		{
+			return s.ToLower ().Contains (what.ToLower ());
+		}
 
 		public static bool ContainsOnlyWhiteSpaces (this string s)
 		{
 			return s.Trim ().Length == 0;
 		}
 
-
-
-		public static HttpContent AsJsonHttpContent (this string s)
-		{
-			return new StringContent (s, Encoding.UTF8, JsonMime);
-		}
-
-
-
 		public static int AsInt (this string s)
 		{
 			return int.Parse (s);
 		}
-
-
 
 		public static void Append (this StringBuilder b, string s, params object[] args)
 		{
 			b.Append (string.Format (s, args));
 		}
 
-
-
-		public static byte[] AsByteArray (this string s)
-		{
-			return StringUtils.GetBytes (s);
-		}
-
-
-
-		public static bool IsLocalPath (this string path)
-		{
-			try {
-				if (path.StartsWith (Http, StringComparison.Ordinal) || path.StartsWith (Https, StringComparison.Ordinal))
-					return false;
-
-				return new Uri (path).IsFile;
-			} catch (Exception) {
-				return true;
-			}
-		}
-
-
-
 		public static string BetweenExclusive (this string s, string lowerBound, string upperBound)
 		{
-			var startIndex = s.IndexOf (lowerBound, StringComparison.OrdinalIgnoreCase);
+			var startIndex = s.IndexOf (lowerBound);
 			var actualStart = startIndex + lowerBound.Length;
-			var endIndex = s.LastIndexOf (upperBound, StringComparison.OrdinalIgnoreCase);
+			var endIndex = s.LastIndexOf (upperBound);
 
 			if (startIndex == endIndex)
 				return string.Empty;
@@ -112,51 +68,21 @@ namespace MasDev.Extensions
 			return s.Substring (actualStart, endIndex - actualStart);
 		}
 
-
-
 		public static string AfterExclusive (this string s, string what)
 		{
-			var index = s.IndexOf (what, StringComparison.Ordinal);
+			var index = s.IndexOf (what);
 			return index < 0 ? null : s.Substring (index + what.Length);
 		}
 
-
-
-		public static string StripPunctuation (this string s)
-		{
-			return new string (StripPunctuationInt (s).ToArray ());
-		}
-
-
-
-		static IEnumerable<char> StripPunctuationInt (string s)
-		{
-			for (int i = 0; i < s.Length; i++) {
-				var c = s [i];
-				if (!char.IsPunctuation (c))
-					yield return c;
-			}
-		}
-
-
-
-		public static string CollapseMultipleSpaces (this string s)
-		{
-			return Regex.Replace (s, @"\s+", StringUtils.Space);
-		}
-
-
-
 		public static int Occurrences (this string s, string value)
 		{                  
-			int count = 0, minIndex = s.IndexOf (value, 0, StringComparison.Ordinal);
+			int count = 0, minIndex = s.IndexOf (value, 0);
 			while (minIndex != -1) {
-				minIndex = s.IndexOf (value, minIndex + value.Length, StringComparison.Ordinal);
+				minIndex = s.IndexOf (value, minIndex + value.Length);
 				count++;
 			}
 			return count;
 		}
-
 
 		public static IEnumerable<string> ReadAsCommaSeparatedValues (this string s)
 		{
@@ -177,12 +103,60 @@ namespace MasDev.Extensions
 			}
 		}
 
-
 		public static string Before (this string s, char c)
 		{
 			var index = s.IndexOf (c);
 			return index <= 0 ? s : s.Substring (0, index);
 		}
+
+
+		#if !SALTARELLE
+		public static Uri AsUri (this string s)
+		{
+			return new Uri (s);
+		}
+
+		public static string CollapseMultipleSpaces (this string s)
+		{
+			return Regex.Replace (s, @"\s+", StringUtils.Space);
+		}
+
+		static IEnumerable<char> StripPunctuationInt (string s)
+		{
+			for (int i = 0; i < s.Length; i++) {
+				var c = s [i];
+				if (!char.IsPunctuation (c))
+					yield return c;
+			}
+		}
+
+		public static string StripPunctuation (this string s)
+		{
+			return new string (StripPunctuationInt (s).ToArray ());
+		}
+
+		public static bool IsLocalPath (this string path)
+		{
+			try {
+				if (path.StartsWith (Http, StringComparison.Ordinal) || path.StartsWith (Https, StringComparison.Ordinal))
+					return false;
+
+				return new Uri (path).IsFile;
+			} catch (Exception) {
+				return true;
+			}
+		}
+
+		public static HttpContent AsJsonHttpContent (this string s)
+		{
+			return new StringContent (s, Encoding.UTF8, JsonMime);
+		}
+
+		public static byte[] AsByteArray (this string s)
+		{
+			return StringUtils.GetBytes (s);
+		}
+		#endif
 	}
 }
 

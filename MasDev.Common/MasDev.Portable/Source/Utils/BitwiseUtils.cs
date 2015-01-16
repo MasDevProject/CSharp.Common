@@ -1,5 +1,8 @@
-﻿using MasDev.Extensions;
-using System;
+﻿using System;
+
+#if !SALTARELLE
+using MasDev.Extensions;
+#endif
 
 namespace MasDev.Utils
 {
@@ -10,27 +13,32 @@ namespace MasDev.Utils
 			return (sourceFlag & destFlag) == destFlag;
 		}
 
-
-
 		public static bool HasExcactly (int sourceFlag, params int[] flags)
 		{
-			Assert.NotNullOrEmpty (flags);
 			foreach (var flag in flags)
 				if (sourceFlag == flag)
 					return true; 
 			return false;
 		}
 
+		public static int ToInt (this bool[] bitArray)
+		{
+			var value = 0;
+			for (var i = bitArray.Length - 1; i >= 0; i--) {
+				var current = bitArray [i] ? 1 : 0;
+				value += (int)(current * Math.Pow (2, (bitArray.Length - 1) - i));
+			}
+			return value;
+		}
 
+		#if !SALTARELLE
 		public static T BitwiseRemove<T> (this T source, T bitsToRemove)
 		{
 			var s = source.Cast<int> ();
 			var r = bitsToRemove.Cast<int> ();
 			var n = BitwiseRemove (s, r);
-
 			return n.Cast<T> ();
 		}
-
 
 		public static int BitwiseRemove (this int source, int bitsToRemove)
 		{
@@ -49,16 +57,6 @@ namespace MasDev.Utils
 
 			return sourceBits.ToInt ();
 		}
-
-
-		public static int ToInt (this bool[] bitArray)
-		{
-			var value = 0;
-			for (var i = bitArray.Length - 1; i >= 0; i--) {
-				var current = bitArray [i] ? 1 : 0;
-				value += (int)(current * Math.Pow (2, (bitArray.Length - 1) - i));
-			}
-			return value;
-		}
+		#endif
 	}
 }
