@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Security\BaseHashedPassword.cs" />
-    <Compile Include="Source\Security\SHA256PasswordHasher.cs" />
     <Compile Include="Source\Mailing\MailClient.cs" />
     <Compile Include="Source\Security\Captcha.cs" />
     <Compile Include="Source\Security\Encryption\Aes.cs" />
