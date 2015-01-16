@@ -7,7 +7,7 @@
     <ProjectGuid>{333354FC-B2EB-42D3-96F0-08D1276CE891}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MasDev.Common.Azure</RootNamespace>
+    <RootNamespace>MasDev.Azure</RootNamespace>
     <AssemblyName>MasDev.Azure</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
