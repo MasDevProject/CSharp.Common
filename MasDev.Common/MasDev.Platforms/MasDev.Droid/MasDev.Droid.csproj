@@ -113,9 +113,6 @@
     <Compile Include="..\MasDev.Mono\Source\Security\BaseHashedPassword.cs">
       <Link>Source\Security\BaseHashedPassword.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Mono\Source\Security\Captcha.cs">
-      <Link>Source\Security\Captcha.cs</Link>
-    </Compile>
     <Compile Include="..\MasDev.Mono\Source\Security\SHA256PasswordHasher.cs">
       <Link>Source\Security\SHA256PasswordHasher.cs</Link>
     </Compile>
