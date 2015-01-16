@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</ProjectGuid>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MasDev.Common</RootNamespace>
+    <AssemblyName>MasDev.Common.Core</AssemblyName>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\AutoMapper\AutoMapperConfiguration.cs" />
+    <Compile Include="Source\AutoMapper\IAutoMapperConfigurator.cs" />
+    <Compile Include="Source\Collections\BasePagedEnumerable.cs" />
+    <Compile Include="Source\Collections\ConcurrentHashSet.cs" />
+    <Compile Include="Source\Collections\IPagedEnumerable.cs" />
+    <Compile Include="Source\Enums\Currencies.cs" />
+    <Compile Include="Source\Enums\OS.cs" />
+    <Compile Include="Source\Exceptions\DataException.cs" />
+    <Compile Include="Source\Exceptions\HttpException.cs" />
+    <Compile Include="Source\Exceptions\LocalizationServiceDisabledException.cs" />
+    <Compile Include="Source\Exceptions\ObjectException.cs" />
+    <Compile Include="Source\Exceptions\OperationAbortedException.cs" />
+    <Compile Include="Source\Exceptions\ShouldNeverHappenException.cs" />
+    <Compile Include="Source\Extension\ArraysExtensions.cs" />
+    <Compile Include="Source\Extension\CurrenciesExtensions.cs" />
+    <Compile Include="Source\Extension\DateTimeExtensions.cs" />
+    <Compile Include="Source\Extension\HttpExtensions.cs" />
+    <Compile Include="Source\Extension\IDisposableExtensions.cs" />
+    <Compile Include="Source\Extension\IEnumerableExtensions.cs" />
+    <Compile Include="Source\Extension\NumberExtensions.cs" />
+    <Compile Include="Source\Extension\ObjectExtensions.cs" />
+    <Compile Include="Source\Extension\RandomExtensions.cs" />
+    <Compile Include="Source\Extension\ReflectionExtensions.cs" />
+    <Compile Include="Source\Extension\RegistryExtensions.cs" />
+    <Compile Include="Source\Extension\StreamExtensions.cs" />
+    <Compile Include="Source\Extension\StringBuilderExtensions.cs" />
+    <Compile Include="Source\Extension\StringExtensions.cs" />
+    <Compile Include="Source\Extension\TaskExtensions.cs" />
+    <Compile Include="Source\Extension\WebExtensions.cs" />
+    <Compile Include="Source\IO\IFileIO.cs" />
+    <Compile Include="Source\IO\IPortableConsole.cs" />
+    <Compile Include="Source\IO\IRegistry.cs" />
+    <Compile Include="Source\IO\Mime.cs" />
+    <Compile Include="Source\IO\MimedStream.cs" />
+    <Compile Include="Source\IO\RegistryUtils.cs" />
+    <Compile Include="Source\Localization\ILocalization.cs" />
+    <Compile Include="Source\Localization\Localizator.cs" />
+    <Compile Include="Source\Patterns\Singleton.cs" />
+    <Compile Include="Source\Patterns\Injection\IDependencyConfigurator.cs" />
+    <Compile Include="Source\Patterns\Injection\IDependencyContainer.cs" />
+    <Compile Include="Source\Patterns\Injection\Injector.cs" />
+    <Compile Include="Source\Patterns\Injection\LifeStyles.cs" />
+    <Compile Include="Source\Patterns\Injection\SimpleInjector\SimpleInjectorContainer.cs" />
+    <Compile Include="Source\Reflection\ExpressionsParser.cs" />
+    <Compile Include="Source\Reflection\GenericType.cs" />
+    <Compile Include="Source\Reflection\Types.cs" />
+    <Compile Include="Source\Security\IHashedPassword.cs" />
+    <Compile Include="Source\Security\IPasswordHasher.cs" />
+    <Compile Include="Source\Security\ISymmetricCrypto.cs" />
+    <Compile Include="Source\Spatial\Cluster.cs" />
+    <Compile Include="Source\Spatial\Clusterizer.cs" />
+    <Compile Include="Source\Spatial\GeoArea.cs" />
+    <Compile Include="Source\Spatial\GeoUtils.cs" />
+    <Compile Include="Source\Spatial\LayerCache.cs" />
+    <Compile Include="Source\Spatial\TaggedGeoPoint.cs" />
+    <Compile Include="Source\Tasks\CancellationTokenEx.cs" />
+    <Compile Include="Source\Tasks\CancellationTokenExtensions.cs" />
+    <Compile Include="Source\Tasks\TaskLauncher.cs" />
+    <Compile Include="Source\Tasks\TaskUtils.cs" />
+    <Compile Include="Source\Utils\Assert.cs" />
+    <Compile Include="Source\Utils\BitwiseUtils.cs" />
+    <Compile Include="Source\Utils\ClockTime.cs" />
+    <Compile Include="Source\Utils\CollectionUtils.cs" />
+    <Compile Include="Source\Utils\ConnectionUtils.cs" />
+    <Compile Include="Source\Utils\DelegateUtils.cs" />
+    <Compile Include="Source\Utils\EnumUtils.cs" />
+    <Compile Include="Source\Utils\EqualityComparer.cs" />
+    <Compile Include="Source\Utils\GuidGenerator.cs" />
+    <Compile Include="Source\Utils\IAwaitableEvent.cs" />
+    <Compile Include="Source\Utils\ILogger.cs" />
+    <Compile Include="Source\Utils\ITimeZoneConverter.cs" />
+    <Compile Include="Source\Utils\LazyEx.cs" />
+    <Compile Include="Source\Utils\MathUtils.cs" />
+    <Compile Include="Source\Utils\Pair.cs" />
+    <Compile Include="Source\Utils\RankingUtils.cs" />
+    <Compile Include="Source\Utils\SerializationUtils.cs" />
+    <Compile Include="Source\Utils\StringUtils.cs" />
+    <Compile Include="Source\Utils\Tag.cs" />
+    <Compile Include="Source\Utils\ValidationUtils.cs" />
+    <Compile Include="Source\Utils\WeakReferenceEx.cs" />
+    <Compile Include="Source\Http\AcceptLanguageHeader.cs" />
+    <Compile Include="Source\Http\AuthorizationHeader.cs" />
+    <Compile Include="Source\Http\Headers.cs" />
+    <Compile Include="Source\Http\HttpAuthClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\packages\AutoMapper.3.3.0\lib\portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch\AutoMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
