@@ -107,19 +107,19 @@
     <Compile Include="Source\Views\ParallaxScroll\ParallaxedView.cs" />
     <Compile Include="Source\Views\ParallaxScroll\ParallaxScrollView.cs" />
     <Compile Include="Source\App\ActionBarActivityWithStates.cs" />
-    <Compile Include="..\MasDev.Mono\Source\Utils\TimeZoneConverter.cs">
-      <Link>Source\Utils\TimeZoneConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\MasDev.Mono\Source\Security\BaseHashedPassword.cs">
+    <Compile Include="..\Mono\Source\Security\BaseHashedPassword.cs">
       <Link>Source\Security\BaseHashedPassword.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Mono\Source\Security\SHA256PasswordHasher.cs">
+    <Compile Include="..\Mono\Source\Security\SHA256PasswordHasher.cs">
       <Link>Source\Security\SHA256PasswordHasher.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Mono\Source\Security\Encryption\Aes.cs">
+    <Compile Include="..\Mono\Source\Security\Encryption\Aes.cs">
       <Link>Source\Security\Encryption\Aes.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Mono\Source\IO\FileIO.cs">
+    <Compile Include="..\Mono\Source\Utils\TimeZoneConverter.cs">
+      <Link>Source\Utils\TimeZoneConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Mono\Source\IO\FileIO.cs">
       <Link>Source\IO\FileIO.cs</Link>
     </Compile>
   </ItemGroup>
@@ -144,9 +144,9 @@
     <Folder Include="Source\Security\Encryption\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MasDev.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\Portable\Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Portable</Name>
+      <Name>Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

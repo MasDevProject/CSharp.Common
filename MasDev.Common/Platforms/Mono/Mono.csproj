@@ -84,7 +84,6 @@
     <Compile Include="Source\GoogleServices\Maps\ServiceResponseStatus.cs" />
     <Compile Include="Source\GoogleServices\Google.cs" />
     <Compile Include="Source\Utils\LockByIdMutex.cs" />
-    <Compile Include="Source\Security\Security\SHA256PasswordHasher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -96,12 +95,11 @@
     <Folder Include="Source\Data\Expressions\" />
     <Folder Include="Source\IO\Http\" />
     <Folder Include="Source\GoogleServices\" />
-    <Folder Include="Source\Security\Security\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MasDev.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\Portable\Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Portable</Name>
+      <Name>Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

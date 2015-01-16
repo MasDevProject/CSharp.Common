@@ -86,17 +86,17 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MasDev.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\..\Portable\Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Portable</Name>
+      <Name>Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MasDev.Platforms\MasDev.Mono\MasDev.Mono.csproj">
+    <ProjectReference Include="..\..\..\Platforms\Mono\Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
-      <Name>MasDev.Mono</Name>
+      <Name>Mono</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Rest\MasDev.Rest.csproj">
+    <ProjectReference Include="..\Rest\Rest.csproj">
       <Project>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</Project>
-      <Name>MasDev.Rest</Name>
+      <Name>Rest</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
