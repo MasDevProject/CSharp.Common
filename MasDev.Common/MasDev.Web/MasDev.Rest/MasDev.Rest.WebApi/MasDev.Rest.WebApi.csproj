@@ -49,13 +49,13 @@
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+      <HintPath>..\..\..\packages\SimpleInjector.2.7.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\..\packages\SimpleInjector.2.7.0\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -85,15 +85,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\..\MasDev.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Mono.csproj">
+    <ProjectReference Include="..\..\..\MasDev.Platforms\MasDev.Mono\MasDev.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Mono</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Rest\MasDev.Rest.csproj">
+    <ProjectReference Include="..\MasDev.Rest\MasDev.Rest.csproj">
       <Project>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</Project>
       <Name>MasDev.Rest</Name>
     </ProjectReference>

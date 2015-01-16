@@ -41,17 +41,17 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\NHibernate.4.0.2.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.6.1\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +74,11 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\MasDev.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Mono.csproj">
+    <ProjectReference Include="..\..\MasDev.Platforms\MasDev.Mono\MasDev.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Mono</Name>
     </ProjectReference>

@@ -31,7 +31,7 @@
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -86,11 +86,11 @@
     <Folder Include="Source\Push\ConnectionManagers\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\..\MasDev.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Portable</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Mono.Desktop\MasDev.Mono.csproj">
+    <ProjectReference Include="..\..\..\MasDev.Platforms\MasDev.Mono\MasDev.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Mono</Name>
     </ProjectReference>

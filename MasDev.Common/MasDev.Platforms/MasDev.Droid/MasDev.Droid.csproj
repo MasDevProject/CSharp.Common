@@ -41,17 +41,11 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="SQLite.Net.Platform.XamarinAndroid">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SQLite.Net.Platform.XamarinAndroid.2.4.1\lib\MonoAndroid\SQLite.Net.Platform.XamarinAndroid.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLite.Net">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SQLite.Net-PCL.2.4.1\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.dll</HintPath>
-    </Reference>
     <Reference Include="NodaTime">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\NodaTime.1.3.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Android.Support.V8">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\Components\xamandroidsupportv8-20.0.0\lib\android\Xamarin.Android.Support.V8.dll</HintPath>
+      <HintPath>..\Components\xamandroidsupportv8-20.0.0\lib\android\Xamarin.Android.Support.V8.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.Android.Support.v4.21.0.3.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
@@ -65,8 +59,14 @@
     <Reference Include="GooglePlayServicesLib">
       <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Xamarin.GooglePlayServices.22.0.0.0\lib\MonoAndroid41\GooglePlayServicesLib.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite.Net">
+      <HintPath>..\..\packages\SQLite.Net-PCL.2.5\lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1\SQLite.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite.Net.Platform.XamarinAndroid">
+      <HintPath>..\..\packages\SQLite.Net.Platform.XamarinAndroid.2.5\lib\MonoAndroid\SQLite.Net.Platform.XamarinAndroid.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Newtonsoft.Json.6.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +146,7 @@
     <Folder Include="Source\Security\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Portable\MasDev.Portable.csproj">
+    <ProjectReference Include="..\..\MasDev.Portable\MasDev.Portable.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Portable</Name>
     </ProjectReference>
