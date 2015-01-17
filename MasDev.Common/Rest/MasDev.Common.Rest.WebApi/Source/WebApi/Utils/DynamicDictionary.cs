@@ -18,7 +18,7 @@ namespace MasDev.Rest.WebApi
 				return default(T);
 			try {
 				return JsonConvert.DeserializeObject<T> (json);
-			} catch (Exception e) {
+			} catch {
 				return default(T);
 			}
 		}

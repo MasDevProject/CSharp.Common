@@ -75,8 +75,8 @@
     <Compile Include="..\MasDev.Common.Core.Mono\Source\IO\FileIO.cs">
       <Link>Source\IO\FileIO.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Common.Core.Mono\Source\IO\Http\Https.cs">
-      <Link>Source\Http\Https.cs</Link>
+    <Compile Include="..\MasDev.Common.Core.Mono\Source\Net\Http\Https.cs">
+      <Link>Source\Net\Http\Https.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -115,8 +115,8 @@
   <ItemGroup>
     <Folder Include="Source\Net\" />
     <Folder Include="Source\IO\" />
-    <Folder Include="Source\Http\" />
     <Folder Include="Source\Security\Encryption\" />
+    <Folder Include="Source\Net\Http\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">

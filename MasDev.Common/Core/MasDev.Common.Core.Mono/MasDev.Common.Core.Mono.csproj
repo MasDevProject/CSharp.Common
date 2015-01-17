@@ -77,7 +77,6 @@
     <Compile Include="Source\JsonContractResolvers\IgnoreEmptyContractResolver.cs" />
     <Compile Include="Source\Threading\SingleThreadSyncronizationContext.cs" />
     <Compile Include="Source\Threading\SingleThreadSyncronizationContextExtensions.cs" />
-    <Compile Include="Source\IO\Http\Https.cs" />
     <Compile Include="Source\GoogleServices\CloudMessaging\CloudMessagingService.cs" />
     <Compile Include="Source\GoogleServices\Maps\Geocoding\GeocoderService.cs" />
     <Compile Include="Source\GoogleServices\Maps\Geocoding\GeocodingQueryOptions.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Source\GoogleServices\Google.cs" />
     <Compile Include="Source\Utils\LockByIdMutex.cs" />
     <Compile Include="Source\Security\SHA256PasswordHasher.cs" />
+    <Compile Include="Source\Net\Http\Https.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -94,8 +94,8 @@
   <ItemGroup>
     <Folder Include="..\MasDev.Common.Droid\Source\ParallaxScroll\" />
     <Folder Include="Source\Threading\" />
-    <Folder Include="Source\IO\Http\" />
     <Folder Include="Source\GoogleServices\" />
+    <Folder Include="Source\Net\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
