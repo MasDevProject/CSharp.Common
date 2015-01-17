@@ -11,11 +11,14 @@ namespace MasDev.Utils
 		readonly bool _hasHandle;
 		readonly Mutex _mutex;
 
-
-
-		public LockByIdMutex (int id)
+		public LockByIdMutex (int id) : this (id.ToString ())
 		{
-			string mutexId = id.ToString ();
+
+		}
+
+
+		public LockByIdMutex (string mutexId)
+		{
 			bool createdNew;
 
 			var allowEveryoneRule = new MutexAccessRule (new SecurityIdentifier (WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);

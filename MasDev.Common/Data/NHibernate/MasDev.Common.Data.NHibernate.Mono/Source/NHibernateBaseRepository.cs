@@ -13,6 +13,11 @@ namespace MasDev.Data
 {
 	public class NHibernateBaseRepository<T> : IRepository<T> where T : class, IModel, new()
 	{
+		protected NHibernateUnitOfWork _uow;
+
+		protected ISession Session { get { return _uow.Session; } }
+
+		public virtual IUnitOfWork UnitOfWork { get { return _uow; } }
 
 		public NHibernateBaseRepository (IUnitOfWork uow)
 		{
@@ -23,18 +28,6 @@ namespace MasDev.Data
 			_uow.Start ();
 		}
 
-
-
-		NHibernateUnitOfWork _uow;
-
-
-
-		ISession Session { get { return _uow.Session; } }
-
-
-		public virtual IUnitOfWork UnitOfWork { get { return _uow; } }
-
-
 		public virtual int Create (T model)
 		{
 			ThrowIfVersionedModel ();
@@ -42,17 +35,14 @@ namespace MasDev.Data
 			if (undeletable != null)
 				undeletable.IsDeleted = false;
 
-			var id = (int)Session.Save (model);
-			return id;
+			Session.Save (model);
+			return model.Id;
 		}
-
 
 		public virtual async Task<int> CreateAsync (T model)
 		{
 			return await Task.Factory.StartNew (() => Create (model));
 		}
-
-
 
 		public virtual T Read (int id)
 		{
@@ -60,14 +50,10 @@ namespace MasDev.Data
 			return obj;
 		}
 
-
-
 		public virtual async Task<T> ReadAsync (int id)
 		{
 			return await Task.Factory.StartNew (() => Read (id));
 		}
-
-
 
 		public virtual int Update (T model)
 		{
@@ -76,14 +62,10 @@ namespace MasDev.Data
 			return model.Id;
 		}
 
-
-
 		public virtual async Task<int> UpdateAsync (T model)
 		{
 			return await Task.Factory.StartNew (() => Update (model));
 		}
-
-
 
 		public virtual int Delete (T model)
 		{
@@ -97,14 +79,10 @@ namespace MasDev.Data
 			return model.Id;
 		}
 
-
-
 		public virtual async Task<int> DeleteAsync (T model)
 		{
 			return await Task.Factory.StartNew (() => Delete (model));
 		}
-
-
 
 		public virtual void Create (IEnumerable<T> models)
 		{
@@ -118,14 +96,10 @@ namespace MasDev.Data
 			
 		}
 
-
-
 		public virtual async Task CreateAsync (IEnumerable<T> models)
 		{
 			await Task.Factory.StartNew (() => Create (models));
 		}
-
-
 
 		public virtual IEnumerable<T> Read (IEnumerable<int> ids)
 		{
@@ -140,14 +114,10 @@ namespace MasDev.Data
 			return result;
 		}
 
-
-
 		public virtual async Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids)
 		{
 			return await Task.Factory.StartNew (() => Read (ids));
 		}
-
-
 
 		public virtual void Update (IEnumerable<T> models)
 		{
@@ -157,14 +127,10 @@ namespace MasDev.Data
 			
 		}
 
-
-
 		public virtual async Task UpdateAsync (IEnumerable<T> models)
 		{
 			await Task.Factory.StartNew (() => Update (models));
 		}
-
-
 
 		public virtual void Delete (IEnumerable<T> models)
 		{
@@ -174,14 +140,10 @@ namespace MasDev.Data
 			
 		}
 
-
-
 		public virtual async Task DeleteAsync (IEnumerable<T> models)
 		{
 			await Task.Factory.StartNew (() => Delete (models));
 		}
-
-
 
 		public T Update (int id, Action<T> updater)
 		{
@@ -194,8 +156,6 @@ namespace MasDev.Data
 			return model;
 		}
 
-
-
 		public async Task<T> UpdateAsync (int id, Action<T> updater)
 		{
 			var model = await ReadAsync (id);
@@ -207,8 +167,6 @@ namespace MasDev.Data
 			return model;
 		}
 
-
-
 		public void Clear ()
 		{
 			var metadata = Session.SessionFactory.GetClassMetadata (typeof(T)) as AbstractEntityPersister;
@@ -218,24 +176,17 @@ namespace MasDev.Data
 			Session.Delete (deleteAll);
 		}
 
-
-
 		public async Task ClearAsync ()
 		{
 			await Task.Factory.StartNew (Clear);
 		}
-
-
 
 		public virtual void Dispose ()
 		{
 			_uow.Dispose ();
 		}
 
-
 		public virtual IQueryable<T> Query { get { return UnfilteredQueryForModel<T> (); } }
-
-
 
 		public virtual void BeginWork ()
 		{
@@ -243,8 +194,6 @@ namespace MasDev.Data
 				throw new Exception ("Nested works are not allowed");
 			_uow.Start ();
 		}
-
-
 
 		public virtual void CommitWork ()
 		{
@@ -254,8 +203,6 @@ namespace MasDev.Data
 				throw new Exception ("Work not has not started");
 		}
 
-
-
 		public virtual void RollbackWork ()
 		{
 			if (IsInTransaction)
@@ -264,11 +211,7 @@ namespace MasDev.Data
 				throw new Exception ("Work not has not started");
 		}
 
-
-
 		public bool IsInTransaction { get { return _uow.IsStarted; } }
-
-
 
 		public void Lock (T model, LockMode lockMode)
 		{
@@ -277,8 +220,6 @@ namespace MasDev.Data
 
 			_uow.Session.Lock (model, ConvertLockMode (lockMode));
 		}
-
-
 
 		static global::NHibernate.LockMode ConvertLockMode (LockMode lockMode)
 		{
@@ -298,55 +239,40 @@ namespace MasDev.Data
 			}
 		}
 
-
-
-		public async Task<int> UncheckedCreateOrUpdateAsync (IModel model)
+		public async Task<int> CreateOrUpdateAsync (IModel model)
 		{
-			return await Task.Factory.StartNew (() => UncheckedCreateOrUpdate (model));
+			return await Task.Factory.StartNew (() => CreateOrUpdate (model));
 		}
 
-
-
-		public int UncheckedCreateOrUpdate (IModel model)
+		public int CreateOrUpdate (IModel model)
 		{
-			int id = model.Id;
-			if (model.Id == 0)
-				id = (int)Session.Save (model);
-			else
-				Session.Update (model);
+			Session.SaveOrUpdate (model);
 
-			return id;
+			return model.Id;
 		}
 
-
-		public async Task<IEnumerable<int>> UncheckedCreateOrUpdateAsync (IEnumerable<IModel> models)
+		public async Task<IEnumerable<int>> CreateOrUpdateAsync (IEnumerable<IModel> models)
 		{
-			return await Task.Factory.StartNew (() => UncheckedCreateOrUpdate (models));
+			return await Task.Factory.StartNew (() => CreateOrUpdate (models));
 		}
 
-
-
-		public IEnumerable<int> UncheckedCreateOrUpdate (IEnumerable<IModel> models)
+		public IEnumerable<int> CreateOrUpdate (IEnumerable<IModel> models)
 		{
 			var ids = new List<int> ();
 			foreach (var model in models)
-				ids.Add (UncheckedCreateOrUpdate (model));
+				ids.Add (CreateOrUpdate (model));
 			return ids;
 		}
-
 
 		public virtual IQueryable<TModel> UnfilteredQueryForModel<TModel> () where TModel : IModel
 		{
 			return _uow.Session.Query<TModel> ();
 		}
 
-
 		public virtual IQueryable<TModel> QueryForModel<TModel> () where TModel : IUndeletableModel
 		{
 			return UnfilteredQueryForModel<TModel> ().Where (m => !m.IsDeleted);
 		}
-
-
 
 		static void ThrowIfVersionedModel ()
 		{
@@ -363,29 +289,23 @@ namespace MasDev.Data
 
 		protected NHibernateBaseRepository (IUnitOfWork uow) : base (uow)
 		{
-
 		}
 
 
-
-		public override async Task<int> CreateAsync (TVersionedModel model)
+		public override int Create (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
-			await UncheckedCreateOrUpdateAsync (version);
-
+			version.IsDeleted = false;
+			CreateOrUpdate (version);
 			model.CurrentVersion = version;
 			model.IsDeleted = false;
-			await UncheckedCreateOrUpdateAsync (model);
-
+			CreateOrUpdate (model);
 			version.Parent = model;
-			await UncheckedCreateOrUpdateAsync (version);
-
+			CreateOrUpdate (version);
 			return model.Id;
 		}
 
-
-
-		public override async Task CreateAsync (IEnumerable<TVersionedModel> m)
+		public override void Create (IEnumerable<TVersionedModel> m)
 		{
 			var models = m.ToArray ();
 			var versions = new TModelVersioning[models.Length];
@@ -394,57 +314,79 @@ namespace MasDev.Data
 				var model = models [i];
 				model.IsDeleted = false;
 				var version = CreateVersion (model);
-				await UncheckedCreateOrUpdateAsync (version);
+				CreateOrUpdate (version);
 				versions [i] = version;
 			}
-			//SaveChanges (true);
-
 			for (var i = 0; i < models.Length; i++) {
 				var model = models [i];
 				var version = versions [i];
 				model.CurrentVersion = version;
-				await UncheckedCreateOrUpdateAsync (model);
+				CreateOrUpdate (model);
 
 				version.Parent = model;
-				await UncheckedCreateOrUpdateAsync (version);
+				CreateOrUpdate (version);
 			}
-			
 		}
 
+		public override async Task<int> CreateAsync (TVersionedModel model)
+		{
+			var version = CreateVersion (model);
+			await CreateOrUpdateAsync (version);
+			version.IsDeleted = false;
+			model.CurrentVersion = version;
+			model.IsDeleted = false;
+			await CreateOrUpdateAsync (model);
+			version.Parent = model;
+			await CreateOrUpdateAsync (version);
+			return model.Id;
+		}
 
-
+		public override async Task CreateAsync (IEnumerable<TVersionedModel> m)
+		{
+			var models = m.ToArray ();
+			var versions = new TModelVersioning[models.Length];
+			for (var i = 0; i < models.Length; i++) {
+				var model = models [i];
+				model.IsDeleted = false;
+				var version = CreateVersion (model);
+				await CreateOrUpdateAsync (version);
+				versions [i] = version;
+			}
+			for (var i = 0; i < models.Length; i++) {
+				var model = models [i];
+				var version = versions [i];
+				model.CurrentVersion = version;
+				await CreateOrUpdateAsync (model);
+				version.Parent = model;
+				await CreateOrUpdateAsync (version);
+			}
+		}
 
 		public virtual int UpdateVersioned (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
 			version.Parent = model;
-			UncheckedCreateOrUpdate (version);
-
+			CreateOrUpdate (version);
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
-			UncheckedCreateOrUpdate (model);
-
+			CreateOrUpdate (model);
 			return model.Id;
 		}
-
-
 
 		public virtual async Task<int> UpdateVersionedAsync (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
 			version.Parent = model;
-			await UncheckedCreateOrUpdateAsync (version);
+			await CreateOrUpdateAsync (version);
 
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
-			await UncheckedCreateOrUpdateAsync (model);
+			await CreateOrUpdateAsync (model);
 
 			return model.Id;
 		}
 
-
 		public new IQueryable<TVersionedModel> Query { get { return QueryForModel<TVersionedModel> (); } }
-
 
 		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return UnfilteredQueryForModel<TVersionedModel> (); } }
 

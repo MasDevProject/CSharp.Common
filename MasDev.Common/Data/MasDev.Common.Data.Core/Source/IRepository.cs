@@ -13,13 +13,13 @@ namespace MasDev.Data
 
 		Task<int> CreateAsync (T model);
 
-		Task<int> UncheckedCreateOrUpdateAsync (IModel model);
+		Task<int> CreateOrUpdateAsync (IModel model);
 
-		int UncheckedCreateOrUpdate (IModel model);
+		int CreateOrUpdate (IModel model);
 
-		Task<IEnumerable<int>> UncheckedCreateOrUpdateAsync (IEnumerable<IModel> models);
+		Task<IEnumerable<int>> CreateOrUpdateAsync (IEnumerable<IModel> models);
 
-		IEnumerable<int> UncheckedCreateOrUpdate (IEnumerable<IModel> models);
+		IEnumerable<int> CreateOrUpdate (IEnumerable<IModel> models);
 
 		T Read (int id);
 
