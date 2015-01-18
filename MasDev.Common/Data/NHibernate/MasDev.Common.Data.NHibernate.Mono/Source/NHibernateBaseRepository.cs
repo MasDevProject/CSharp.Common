@@ -291,7 +291,6 @@ namespace MasDev.Data
 		{
 		}
 
-
 		public override int Create (TVersionedModel model)
 		{
 			var version = CreateVersion (model);
@@ -362,8 +361,12 @@ namespace MasDev.Data
 			}
 		}
 
-		public virtual int UpdateVersioned (TVersionedModel model)
+		public override int Update (TVersionedModel model)
 		{
+			var oldModel = _uow.ReadonlySession.Get<TVersionedModel> (model.Id);
+			if (!this.ShouldVersion (oldModel, model))
+				return base.Update (model);
+
 			var version = CreateVersion (model);
 			version.Parent = model;
 			CreateOrUpdate (version);
@@ -373,8 +376,12 @@ namespace MasDev.Data
 			return model.Id;
 		}
 
-		public virtual async Task<int> UpdateVersionedAsync (TVersionedModel model)
+		public override async Task<int> UpdateAsync (TVersionedModel model)
 		{
+			var oldModel = _uow.ReadonlySession.Get<TVersionedModel> (model.Id);
+			if (!this.ShouldVersion (oldModel, model))
+				return await base.UpdateAsync (model);
+
 			var version = CreateVersion (model);
 			version.Parent = model;
 			await CreateOrUpdateAsync (version);
@@ -382,18 +389,15 @@ namespace MasDev.Data
 			model.CurrentVersion = version;
 			Lock (model, LockMode.Upgrade);
 			await CreateOrUpdateAsync (model);
-
 			return model.Id;
 		}
 
-		public new IQueryable<TVersionedModel> Query { get { return QueryForModel<TVersionedModel> (); } }
-
-		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return UnfilteredQueryForModel<TVersionedModel> (); } }
-
 		bool IRepository<TVersionedModel, TModelVersioning>.ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel)
 		{
-			if (Check.BothNull (storedModel, newModel) || !Check.BothNotNull (storedModel, newModel))
-				throw new ArgumentException ("Argument must not be null");
+			Assert.NotNull (newModel);
+
+			if (storedModel == null) // It happens when creating and updating the model in the same IUnitOfWork session
+				return false;
 
 			if (newModel.Id != storedModel.Id)
 				throw new ArgumentException ("Models id must be the same");
@@ -401,9 +405,23 @@ namespace MasDev.Data
 			return ShouldDoVersioning (storedModel, newModel);
 		}
 
+		public new IQueryable<TVersionedModel> Query { get { return QueryForModel<TVersionedModel> (); } }
+
+		public virtual IQueryable<TVersionedModel> UnfilteredQuery { get { return UnfilteredQueryForModel<TVersionedModel> (); } }
+
 		protected abstract bool ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel);
 
 		public abstract TModelVersioning CreateVersion (TVersionedModel model);
+	}
+
+	static class NHibernateBaseRepositoryExtensions
+	{
+		public static bool ShouldVersion<TVersionedModel, TModelVersioning> (this NHibernateBaseRepository<TVersionedModel, TModelVersioning> repo, TVersionedModel storedModel, TVersionedModel newModel)
+			where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
+			where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
+		{
+			return (repo as IRepository<TVersionedModel, TModelVersioning>).ShouldDoVersioning (storedModel, newModel);
+		}
 	}
 
 }

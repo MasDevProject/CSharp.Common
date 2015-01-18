@@ -95,10 +95,6 @@ namespace MasDev.Data
 	{
 		TModelVersioning CreateVersion (TVersionedModel model);
 
-		int UpdateVersioned (TVersionedModel model);
-
-		Task<int> UpdateVersionedAsync (TVersionedModel model);
-
 		IQueryable<TVersionedModel> UnfilteredQuery { get; }
 
 		bool ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel);
