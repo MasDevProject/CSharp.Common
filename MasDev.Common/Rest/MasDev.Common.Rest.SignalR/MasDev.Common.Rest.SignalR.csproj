@@ -93,6 +93,10 @@
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Common.Core.Mono</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Data\MasDev.Common.Data.Core\MasDev.Common.Data.Core.csproj">
+      <Project>{5097969b-9fb8-4a79-92be-43f41051c7f9}</Project>
+      <Name>MasDev.Common.Data.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MasDev.Common.Rest.Mono\MasDev.Common.Rest.Mono.csproj">
       <Project>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</Project>
       <Name>MasDev.Common.Rest.Mono</Name>
