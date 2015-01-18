@@ -94,7 +94,7 @@
       <Name>MasDev.Common.Core.Mono</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\MasDev.Common.Data.Core\MasDev.Common.Data.Core.csproj">
-      <Project>{5097969b-9fb8-4a79-92be-43f41051c7f9}</Project>
+      <Project>{5097969B-9FB8-4A79-92BE-43F41051C7F9}</Project>
       <Name>MasDev.Common.Data.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MasDev.Common.Rest.Mono\MasDev.Common.Rest.Mono.csproj">

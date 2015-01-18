@@ -93,6 +93,7 @@
     <Compile Include="Source\Typings\ExpressJs\ExpressSettings.cs" />
     <Compile Include="Source\Typings\ExpressJs\ExpressTemplateEngine.cs" />
     <Compile Include="Source\Typings\ExpressJs\HttpStatusCode.cs" />
+    <Compile Include="Source\Typings\ExpressJs\BodyParser\BodyParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
