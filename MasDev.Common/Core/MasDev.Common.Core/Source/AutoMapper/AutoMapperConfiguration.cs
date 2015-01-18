@@ -10,7 +10,6 @@ namespace MasDev.AutoMapper
 		readonly Dictionary<Type, Type> _map = new Dictionary<Type, Type> ();
 
 
-
 		public void AddMapping<TSource, TDestination> ()
 		{
 			Mapper.CreateMap<TSource, TDestination> ().ReverseMap ();
