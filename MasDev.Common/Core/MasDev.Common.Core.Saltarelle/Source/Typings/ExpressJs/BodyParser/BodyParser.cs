@@ -2,13 +2,13 @@
 
 namespace NodeExpress.BodyParser
 {
-	[Imported, ModuleName ("body-parser"), ScriptName ("")]
-	public class BodyParser
+	[Imported, ModuleName (ModuleName), ScriptName ("")]
+	public static class BodyParser
 	{
-		public static readonly string ModuleName = "body-parser";
+		public const string ModuleName = "body-parser";
 
 		[ScriptName ("urlencoded")]
-		public ExpressMiddleware Urlencoded (BodyParserOptions options)
+		public static ExpressMiddleware Urlencoded (BodyParserOptions options)
 		{
 			return null;
 		}

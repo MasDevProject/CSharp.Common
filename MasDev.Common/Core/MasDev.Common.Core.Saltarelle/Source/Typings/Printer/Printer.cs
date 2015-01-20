@@ -3,11 +3,11 @@
 namespace NodePrinter
 {
 	[Imported, ModuleName (Printer.ModuleName), ScriptName ("")]
-	public class Printer
+	public static  class Printer
 	{
 		public const string ModuleName = "printer";
 
-		public PrinterObject[] GetPrinters ()
+		public static PrinterObject[] GetPrinters ()
 		{
 			return null;
 		}
