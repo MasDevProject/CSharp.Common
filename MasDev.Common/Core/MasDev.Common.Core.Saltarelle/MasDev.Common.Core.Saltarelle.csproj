@@ -93,6 +93,7 @@
     <Compile Include="Source\Node\Exec.cs" />
     <Compile Include="Source\Extensions\ExpressExtensions.cs" />
     <Compile Include="Source\Utils\OsUtils.cs" />
+    <Compile Include="Source\Utils\JsUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
