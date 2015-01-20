@@ -12,6 +12,12 @@ namespace NodeExpress.BodyParser
 		{
 			return null;
 		}
+
+		[ScriptName ("json")]
+		public static ExplicitExpressMiddleware Json ()
+		{
+			return null;
+		}
 	}
 
 	public class BodyParserOptions
