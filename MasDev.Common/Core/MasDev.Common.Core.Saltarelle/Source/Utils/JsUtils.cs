@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace MasDev.Common
 {
@@ -14,6 +16,7 @@ namespace MasDev.Common
 			}
 		}
 	}
+
 
 
 	public class DynamicWrapper<T>
@@ -34,15 +37,30 @@ namespace MasDev.Common
 			set { _wrapped [property] = value; }
 		}
 
-		public DynamicWrapperProperty<TProperty> Property<TProperty> (Func<T, TProperty> propertyExpression)
+		public DynamicWrapperProperty<TProperty> Property<TProperty> (Expression<Func<T, TProperty>> propertyExpression)
 		{
 			try {
-				var propertyValue = propertyExpression (_wrapped);
-				return new DynamicWrapperProperty<TProperty> (propertyValue, true);
-			} catch {
-				return new DynamicWrapperProperty<TProperty> (null, false);
+				var member = propertyExpression.Body as MemberExpression;
+				if (member == null)
+					throw new ArgumentException (string.Format ("Expression '{0}' refers to a method, not a property.", propertyExpression));
+				return Property<TProperty> (member.Member.Name);
+			} catch (Exception e) {
+				NodeJS.Console.Log (e);
+				throw e;
 			}
 		}
+
+		public TProperty PropertyValue<TProperty> (Expression<Func<T, TProperty>> propertyExpression)
+		{
+			return Property (propertyExpression).Value;
+		}
+
+		public bool HasProperty<TProperty> (Expression<Func<T, TProperty>> property)
+		{
+			return Property (property).Exists;
+		}
+
+
 
 		public DynamicWrapperProperty<TProperty> Property<TProperty> (string propertyName)
 		{
@@ -54,20 +72,9 @@ namespace MasDev.Common
 			}
 		}
 
-		public TProperty PropertyValue<TProperty> (Func<T, TProperty> propertyExpression)
-		{
-			return Property (propertyExpression).Value;
-		}
-
-
 		public TProperty PropertyValue<TProperty> (string propertyName)
 		{
 			return Property<TProperty> (propertyName).Value;
-		}
-
-		public bool HasProperty<TProperty> (Func<T, TProperty> property)
-		{
-			return Property (property).Exists;
 		}
 
 		public bool HasProperty<TProperty> (string propertyName)
@@ -75,7 +82,7 @@ namespace MasDev.Common
 			return Property<TProperty> (propertyName).Exists;
 		}
 
-		public TProperty PropertyValueOrDefault<TProperty> (Func<T, TProperty> propertyExpression)
+		public TProperty PropertyValueOrDefault<TProperty> (Expression<Func<T, TProperty>> propertyExpression)
 		{
 			var property = Property (propertyExpression);
 			return property.Exists ? property.Value : default(TProperty);
