@@ -92,6 +92,7 @@
     <Compile Include="Source\Typings\Printer\Printer.cs" />
     <Compile Include="Source\Node\Exec.cs" />
     <Compile Include="Source\Extensions\ExpressExtensions.cs" />
+    <Compile Include="Source\Utils\OsUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
