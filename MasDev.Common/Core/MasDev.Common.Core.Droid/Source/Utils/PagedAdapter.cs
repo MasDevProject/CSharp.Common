@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Android.Views;
 using MasDev.Patterns.Injection;
 using MasDev.Utils;
+using System.Linq;
 
 namespace MasDev.Droid.Utils
 {
@@ -18,6 +19,7 @@ namespace MasDev.Droid.Utils
 
 		IPagedEnumerable<T> _paged;
 		bool _firstLoad = true;
+		Func<T, T, bool> _comparer;
 
 		public event Action<bool> OnLoading = delegate {};
 		public event Action<IEnumerable<T>> OnLoaded = delegate {};
@@ -25,9 +27,10 @@ namespace MasDev.Droid.Utils
 
 		readonly int _pageSize;
 
-		protected PagedAdapter (Context ctx, IPagedEnumerable<T> paged)
+		protected PagedAdapter (Context ctx, IPagedEnumerable<T> paged, Func<T, T, bool> comparer)
 		{
 			_paged = paged;
+			_comparer = comparer;
 			Items = new List<T> ();
 			_inflater = (LayoutInflater)ctx.GetSystemService (Context.LayoutInflaterService);
 			_pageSize = paged.PageSize;
@@ -58,8 +61,9 @@ namespace MasDev.Droid.Utils
 				OnLoading.Invoke (_firstLoad);
 				var newItems = await _paged.GetNextPageAsync ();
 
-				if (newItems != null)
-					Items.AddRange (newItems);
+				if (newItems != null) {
+					Items.AddRange (newItems.Where (ni => !Items.Any (i => _comparer(ni, i))));
+				}
 
 				NotifyDataSetChanged ();
 				OnLoaded.Invoke (newItems);

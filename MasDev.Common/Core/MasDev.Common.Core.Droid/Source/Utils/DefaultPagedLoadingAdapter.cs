@@ -23,7 +23,7 @@ namespace MasDev.Droid.Utils
 		protected ListView MainListView;
 		protected Context Context { get; private set; }
 
-		protected DefaultPagedLoadingAdapter (Context ctx, IPagedEnumerable<T> paged, ListView listView, Action<object, AdapterView.ItemClickEventArgs> onItemClick, Action loadingUi, Action loadedUi, Action noResultUi, Action errorUi) : base(ctx, paged)
+		protected DefaultPagedLoadingAdapter (Context ctx, IPagedEnumerable<T> paged, ListView listView, Action<object, AdapterView.ItemClickEventArgs> onItemClick, Action loadingUi, Action loadedUi, Action noResultUi, Action errorUi, Func<T, T, bool> comparer) : base(ctx, paged, comparer)
 		{
 			Context = ctx;
 
