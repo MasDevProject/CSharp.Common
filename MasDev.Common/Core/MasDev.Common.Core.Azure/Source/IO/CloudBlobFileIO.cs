@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using MasDev.Extensions;
-using MasDev.IO;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using MasDev.Extensions;
 
 namespace MasDev.IO
 {
