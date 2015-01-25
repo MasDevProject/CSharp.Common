@@ -132,6 +132,7 @@
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Net\Http\Https.cs">
       <Link>Source\Net\Http\Https.cs</Link>
     </Compile>
+    <Compile Include="Source\Utils\AccountUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
