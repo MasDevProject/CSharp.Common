@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Android.Content;
 using Android.Accounts;
+using Android.Telephony;
 
 namespace MasDev.Droid.Utils
 {
@@ -15,6 +16,16 @@ namespace MasDev.Droid.Utils
 					emails.Add (account.Name);
 			}
 			return emails;
+		}
+
+		/// <summary>
+		/// Require permissions: <uses-permission android:name="android.permission.READ_PHONE_STATE"/> 
+		/// This method does not work with all devices or telephony provider. In that cases it returns a blank string
+		/// </summary>
+		public static string GetPhoneNumber (Context ctx)
+		{
+			var tMgr = (TelephonyManager)ctx.GetSystemService(Context.TelephonyService);
+			return tMgr.Line1Number;
 		}
 	}
 }
