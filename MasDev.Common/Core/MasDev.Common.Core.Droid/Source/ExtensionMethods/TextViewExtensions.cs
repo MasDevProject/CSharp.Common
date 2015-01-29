@@ -17,7 +17,7 @@ namespace MasDev.Droid.ExtensionMethods
 
 		public static void SetUnderlinedText (this TextView textView, string text)
 		{
-			var content = new SpannableString(textView);
+			var content = new SpannableString(text);
 			content.SetSpan(new UnderlineSpan(), 0, content.Length(), 0);
 			textView.SetText (content, null);
 		}
