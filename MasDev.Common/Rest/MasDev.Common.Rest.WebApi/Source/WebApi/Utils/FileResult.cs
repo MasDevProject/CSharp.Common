@@ -7,7 +7,9 @@ using System.Net;
 using System.IO;
 using System.Web;
 using System.Net.Http.Headers;
-using System.Reflection;
+using MasDev.IO.Http;
+using MasDev.Extensions;
+using MasDev.Common;
 
 
 namespace MasDev.Rest.WebApi
@@ -17,10 +19,9 @@ namespace MasDev.Rest.WebApi
 		readonly string _filePath;
 		readonly string _contentType;
 		readonly HttpStatusCode _statusCode;
+		readonly DateTime? _ifModifiedSince;
 
-
-
-		public FileResult (string filePath, string contentType = null)
+		public FileResult (IfModifiedSinceHeader ifModifiedSince, string filePath, string contentType = null)
 		{
 			if (filePath == null)
 				throw new ArgumentNullException ("filePath");
@@ -28,22 +29,27 @@ namespace MasDev.Rest.WebApi
 			_filePath = filePath;
 			_contentType = contentType;
 			_statusCode = HttpStatusCode.OK;
+			_ifModifiedSince = ifModifiedSince == null ? null : (DateTime?)ifModifiedSince.TimeUtc;
 		}
 
-		public FileResult (string filePath, HttpStatusCode statusCode, string contentType = null) : this (filePath, contentType)
+		public FileResult (IfModifiedSinceHeader ifModifiedSince, string filePath, HttpStatusCode statusCode, string contentType = null) : this (ifModifiedSince, filePath, contentType)
 		{
 			_statusCode = statusCode;
 		}
 
-
-
 		public Task<HttpResponseMessage> ExecuteAsync (CancellationToken cancellationToken)
 		{
+			var fileInfo = new FileInfo (_filePath);
+			if (_ifModifiedSince.HasValue && _statusCode == HttpStatusCode.OK) {
+				if (fileInfo.LastWriteTimeUtc <= _ifModifiedSince.Value)
+					return Task.FromResult (new HttpResponseMessage (HttpStatusCode.NotModified));
+			}
+			
 			var response = new HttpResponseMessage (HttpStatusCode.OK) {
 				Content = new StreamContent (File.OpenRead (_filePath))
 			};
-
-			response.StatusCode = _statusCode;
+					
+			response.Content.Headers.LastModified = fileInfo.LastWriteTimeUtc;
 			var contentType = _contentType ?? MimeMapping.GetMimeMapping (Path.GetExtension (_filePath));
 			response.Content.Headers.ContentType = new MediaTypeHeaderValue (contentType);
 
@@ -51,10 +57,9 @@ namespace MasDev.Rest.WebApi
 		}
 
 
-
-		public static Task<HttpResponseMessage> CreateAsync (FileInfo fi)
+		public static Task<HttpResponseMessage> CreateAsync (IfModifiedSinceHeader ifModifiedSince, FileInfo fi)
 		{
-			var result = new FileResult (fi.FullName);
+			var result = new FileResult (ifModifiedSince, fi.FullName);
 			return result.ExecuteAsync (CancellationToken.None);
 		}
 	}

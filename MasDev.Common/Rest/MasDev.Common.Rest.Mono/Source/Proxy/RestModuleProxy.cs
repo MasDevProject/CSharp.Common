@@ -113,10 +113,10 @@ namespace MasDev.Rest.Proxy
 		void Authorize (int? roles = null)
 		{
 			var context = _instance.HttpContext;
-			if (!context.RequestHeaders.ContainsKey (AuthorizationHeader.Name))
+			if (!context.RequestHeaders.ContainsKey (Headers.Authorization))
 				throw new UnauthorizedException ("Missing authorization header");
 
-			var headerValues = context.RequestHeaders [AuthorizationHeader.Name].ToList ();
+			var headerValues = context.RequestHeaders [Headers.Authorization].ToList ();
 			if (headerValues.Count < 0 || headerValues.Count > 1)
 				throw new UnauthorizedException ("Bad authorization header");
 

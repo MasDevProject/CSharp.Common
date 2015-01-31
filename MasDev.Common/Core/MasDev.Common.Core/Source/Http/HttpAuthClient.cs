@@ -35,8 +35,7 @@ namespace MasDev.IO.Http
 
 
 
-		public TimeSpan Timeout
-		{ 
+		public TimeSpan Timeout { 
 			set { _client.Timeout = value; }
 			get { return _client.Timeout; }
 		}
@@ -92,8 +91,7 @@ namespace MasDev.IO.Http
 				BuildHeader (req);
 
 			using (var content = new MultipartFormDataContent ())
-			using (var imageContent = new StreamContent (stream.Stream))
-			{
+			using (var imageContent = new StreamContent (stream.Stream)) {
 				content.Add (imageContent, paramName, stream.FileName.Replace (StringUtils.Space, string.Empty));
 				imageContent.Headers.ContentType = new MediaTypeHeaderValue (stream.Mime);
 				req.Content = content;
@@ -119,8 +117,7 @@ namespace MasDev.IO.Http
 				BuildHeader (req);
 				
 			using (var content = new MultipartFormDataContent ())
-			using (var imageContent = new StreamContent (stream.Stream))
-			{
+			using (var imageContent = new StreamContent (stream.Stream)) {
 				content.Add (imageContent, paramName, stream.FileName.Replace (StringUtils.Space, string.Empty));
 				imageContent.Headers.ContentType = new MediaTypeHeaderValue (stream.Mime);
 				req.Content = content;
@@ -156,7 +153,7 @@ namespace MasDev.IO.Http
 
 		void BuildHeader (HttpRequestMessage request)
 		{
-			request.Headers.TryAddWithoutValidation (AuthorizationHeader.Name, TokenType + StringUtils.Space + Token);
+			request.Headers.TryAddWithoutValidation (Http.Headers.Authorization, TokenType + StringUtils.Space + Token);
 		}
 
 
@@ -175,8 +172,7 @@ namespace MasDev.IO.Http
 			#region HandlingUrlParameters
 			var actualUrl = url;
 			var urlParameters = content.Where (p => p.ParameterType == ParameterType.Url);
-			foreach (var urlParameter in urlParameters)
-			{
+			foreach (var urlParameter in urlParameters) {
 				var parameterWildcard = string.Format (WILDCARD_FORMAT, urlParameter.Key);
 
 				var occurrences = actualUrl.Occurrences (parameterWildcard);
@@ -190,8 +186,7 @@ namespace MasDev.IO.Http
 			#region HandlingQueryParameters
 			var queryParameters = content.Where (p => p.ParameterType == ParameterType.Query).ToArray ();
 			var builder = new StringBuilder (actualUrl);
-			for (var i = 0; i < queryParameters.Length; i++)
-			{
+			for (var i = 0; i < queryParameters.Length; i++) {
 				if (i == 0)
 					builder.Append ('?');
 
@@ -217,8 +212,7 @@ namespace MasDev.IO.Http
 			#endregion
 
 			#region FormParametersHandling
-			if (formParameters.Any ())
-			{
+			if (formParameters.Any ()) {
 				var formContent = new FormUrlEncodedContent (formParameters.Select (p => new KeyValuePair<string, string> (p.Key, p.Value)));
 				request.Content = formContent;
 			}			
@@ -318,8 +312,7 @@ namespace MasDev.IO.Http
 				var values = Enum.GetValues (value.GetType ());
 				if (values != null)
 					return;
-			}
-			catch (ArgumentException) {
+			} catch (ArgumentException) {
 
 			}
 

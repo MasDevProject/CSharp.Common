@@ -36,6 +36,7 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Source\" />
+    <Folder Include="Source\Http\Headers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\AutoMapper\AutoMapperConfiguration.cs" />
@@ -118,10 +119,13 @@
     <Compile Include="Source\Utils\Tag.cs" />
     <Compile Include="Source\Utils\ValidationUtils.cs" />
     <Compile Include="Source\Utils\WeakReferenceEx.cs" />
-    <Compile Include="Source\Http\AcceptLanguageHeader.cs" />
-    <Compile Include="Source\Http\AuthorizationHeader.cs" />
     <Compile Include="Source\Http\Headers.cs" />
     <Compile Include="Source\Http\HttpAuthClient.cs" />
+    <Compile Include="Source\Http\Headers\AuthorizationHeader.cs" />
+    <Compile Include="Source\Http\Headers\AcceptLanguageHeader.cs" />
+    <Compile Include="Source\Http\Headers\LastModifiedHeader.cs" />
+    <Compile Include="Source\Http\IHeader.cs" />
+    <Compile Include="Source\Http\Headers\IfModifiedSinceHeader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

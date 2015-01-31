@@ -1,22 +1,17 @@
 ﻿using System.Collections.Generic;
 using System;
+using MasDev.Common.Http;
 
 
 namespace MasDev.IO.Http
 {
-	public class AcceptLanguageHeader
+	public class AcceptLanguageHeader : IHeader
 	{
-		public const string Name = "Accept-Language";
-
-
+		public string Name { get { return Headers.AcceptLanguage; } }
 
 		public string Locale { get; set; }
 
-
-
 		public decimal? EstimatePreference { get; set; }
-
-
 
 		public override string ToString ()
 		{
@@ -26,7 +21,11 @@ namespace MasDev.IO.Http
 				string.Format ("{0},", Locale);
 		}
 
-
+		public IEnumerable<string> Values {
+			get {
+				yield return ToString ();
+			}
+		}
 
 		public static IEnumerable<AcceptLanguageHeader> Parse (string headerValue)
 		{

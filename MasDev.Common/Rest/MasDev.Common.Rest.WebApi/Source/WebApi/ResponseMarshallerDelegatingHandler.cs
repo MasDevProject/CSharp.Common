@@ -6,6 +6,7 @@ using System.IO;
 using MasDev.IO;
 using System.Net;
 using System.Net.Http.Headers;
+using MasDev.Extensions;
 
 
 namespace MasDev.Rest.WebApi
@@ -39,8 +40,12 @@ namespace MasDev.Rest.WebApi
 			} 
 
 			var fileInfo = value as FileInfo;
-			if (fileInfo != null)
-				result = await FileResult.CreateAsync (fileInfo);
+			if (fileInfo != null) {
+				var ifModifiedSince = request.GetIfModifiedSinceHeader ();
+				result = ifModifiedSince == null ? 
+					await FileResult.CreateAsync (null, fileInfo) : 
+					await FileResult.CreateAsync (ifModifiedSince, fileInfo);
+			}
 
 			return result;
 		}

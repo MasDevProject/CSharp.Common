@@ -4,6 +4,11 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net;
 using MasDev.Exceptions;
+using System.Net.Http.Headers;
+using MasDev.Common.Http;
+using MasDev.Common;
+using MasDev.IO.Http;
+using System.Linq;
 
 
 namespace MasDev.Extensions

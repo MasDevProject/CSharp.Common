@@ -32,7 +32,7 @@ namespace MasDev.GoogleServices.CloudMessaging
 				var httpContent = new StringContent (json);
 				httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse (_contentType);
 				var request = new HttpRequestMessage (HttpMethod.Post, _url);
-				request.Headers.TryAddWithoutValidation (AuthorizationHeader.Name, _authorization + serverApiKey);
+				request.Headers.TryAddWithoutValidation (Headers.Authorization, _authorization + serverApiKey);
 				request.Content = httpContent;
 
 				var response = await client.SendAsync (request);
