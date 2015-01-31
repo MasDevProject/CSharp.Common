@@ -158,10 +158,9 @@ namespace MasDev.IO.Http
 
 
 
-		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, IEnumerable<HttpParameter> content)
+		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, IEnumerable<HttpParameter> c)
 		{
-			if (content == null)
-				content = new HttpParameter[0];
+			var content = c == null ? null : c.ToArray () ?? new HttpParameter[0];
 
 			#region ParametersValidation
 			var formParameters = content.Where (p => p.ParameterType == ParameterType.Form).ToList ();
