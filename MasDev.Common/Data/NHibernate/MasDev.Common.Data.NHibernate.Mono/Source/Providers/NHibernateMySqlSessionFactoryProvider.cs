@@ -7,21 +7,17 @@ namespace MasDev.Data.NHibernate.Providers
 	public class NHibernateMySqlSessionFactoryProvider<TMappingProvider> : ISessionFactoryProvider 
         where TMappingProvider : PersistenceMapper, new()
 	{
-		readonly Lazy<ISessionFactory> _lazyFactory;
-
-
+		protected readonly Lazy<ISessionFactory> FactoryLazy;
 
 		public NHibernateMySqlSessionFactoryProvider (string modelsNamespace, string host, string database, string username, string password, string context)
 		{
-			_lazyFactory = new Lazy<ISessionFactory> (() => {
+			FactoryLazy = new Lazy<ISessionFactory> (() => {
 				var model = NHibernateUtils.CreateMappings<TMappingProvider> (modelsNamespace);
 				return NHibernateUtils.BuildMySqlSessionFactory<TMappingProvider> (host, database, username, password, model, context);
 			});
 		}
 
-
-
-		public ISessionFactory Factory{ get { return _lazyFactory.Value; } }
+		public virtual ISessionFactory Factory{ get { return FactoryLazy.Value; } }
 	}
 }
 
