@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Interop;
+using SQLite.Net.Interop;
 using SQLite.Net.Platform.XamarinIOS;
 using MasDev.Patterns.Injection;
 using MasDev.Utils;
