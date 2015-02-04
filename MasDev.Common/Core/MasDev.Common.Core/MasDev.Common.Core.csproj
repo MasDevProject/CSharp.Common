@@ -49,7 +49,6 @@
     <Compile Include="Source\Exceptions\DataException.cs" />
     <Compile Include="Source\Exceptions\HttpException.cs" />
     <Compile Include="Source\Exceptions\LocalizationServiceDisabledException.cs" />
-    <Compile Include="Source\Exceptions\ObjectException.cs" />
     <Compile Include="Source\Exceptions\OperationAbortedException.cs" />
     <Compile Include="Source\Exceptions\ShouldNeverHappenException.cs" />
     <Compile Include="Source\Extension\ArraysExtensions.cs" />
@@ -126,6 +125,7 @@
     <Compile Include="Source\Http\Headers\LastModifiedHeader.cs" />
     <Compile Include="Source\Http\IHeader.cs" />
     <Compile Include="Source\Http\Headers\IfModifiedSinceHeader.cs" />
+    <Compile Include="Source\Exceptions\TypedException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
