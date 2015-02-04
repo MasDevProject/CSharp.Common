@@ -15,7 +15,7 @@ namespace MasDev.iOS
 			container.AddDependency<ISQLitePlatform, SQLitePlatformIOS> (LifeStyles.Singleton);
 			container.AddDependency<ISymmetricCrypto, Aes> (LifeStyles.Singleton);
 			container.AddDependency<IFileIO, FileIO> (LifeStyles.Singleton);
-			container.AddDependency<IRegistry, Registry> (LifeStyles.Singleton);
+			container.AddDependency<IRegistryProvider, RegistryProvider> (LifeStyles.Singleton);
 			container.AddDependency<ILogger, Logger> (LifeStyles.Singleton);
 			container.AddDependency<ITimeZoneConverter, TimeZoneConverter> (LifeStyles.Singleton);
 		}

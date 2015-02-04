@@ -81,7 +81,7 @@ namespace MasDev.iOS.Utils
 			return Manager.ArrayForKey (key);
 		}
 
-		public static NSDictionary ReadString(string key)
+		public static NSDictionary ReadDictionary(string key)
 		{
 			return Manager.DictionaryForKey(key);
 		}

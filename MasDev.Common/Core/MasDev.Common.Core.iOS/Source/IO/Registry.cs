@@ -18,25 +18,32 @@ namespace MasDev.IO
 
 	public class Registry : IRegistry
 	{
+		// Choose to use only StandardUserDefaults because using Domain
+		// we would have to read and write the whole file each time
+
+		NSUserDefaults Manager
+		{
+			get { return NSUserDefaults.StandardUserDefaults; }
+		}
+
 		public Registry (string registryName)
 		{
-			//TODO vedere se si può fare altrimenti ignorare il registryname
 		}
 
 		public void Put (string key, object value)
 		{
-			NSUserDefaults.StandardUserDefaults.SetString (JsonConvert.SerializeObject (value), key);
+			Manager.SetString (JsonConvert.SerializeObject (value), key);
 		}
 
 		public T Read<T> (string key, T defaultValue)
 		{
-			var value = NSUserDefaults.StandardUserDefaults.StringForKey(key);
+			var value = Manager.StringForKey(key);
 			return string.IsNullOrEmpty (value) ? defaultValue : JsonConvert.DeserializeObject<T> (value);
 		}
 
 		public void Remove (string key)
 		{
-			NSUserDefaults.StandardUserDefaults.RemoveObject (key);
+			Manager.RemoveObject (key);
 		}
 
 		public void Prepare ()
@@ -50,7 +57,7 @@ namespace MasDev.IO
 
 		public void Commit ()
 		{
-			NSUserDefaults.StandardUserDefaults.Synchronize ();
+			Manager.Synchronize ();
 		}
 
 		public Task CommitAsync ()
@@ -80,7 +87,13 @@ namespace MasDev.IO
 
 		public IEnumerable<string> Keys {
 			get {
-				NSUserDefaults.StandardUserDefaults.ToDictionary ().Keys.ToList ();
+				var keys = new List<string> ();
+				var objs = Manager.ToDictionary ().Keys;
+
+				foreach (var key in objs)
+					keys.Add (key.ToString ());
+
+				return keys;
 			}
 		}
 	}
