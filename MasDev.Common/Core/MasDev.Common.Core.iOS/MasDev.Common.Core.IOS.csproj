@@ -77,7 +77,9 @@
     <Compile Include="Source\Utils\NSUserDefaultsUtils.cs" />
     <Compile Include="Source\IO\Registry.cs" />
     <Compile Include="Source\Utils\Logger.cs" />
-    <Compile Include="Source\IO\FileIO.cs" />
+    <Compile Include="..\MasDev.Common.Core.Mono\Source\IO\FileIO.cs">
+      <Link>Source\IO\FileIO.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

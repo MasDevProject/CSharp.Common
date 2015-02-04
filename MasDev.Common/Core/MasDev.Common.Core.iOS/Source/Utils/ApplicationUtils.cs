@@ -1,18 +1,22 @@
 using UIKit;
+using Foundation;
 
 namespace MasDev.iOS.Utils
 {
 	public static class ApplicationUtils
 	{
-		static int _deviceIsTablet = -1;
+		public static bool DeviceIsTablet {
+			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad; }
+		}
 
-		public static bool DeviceIsTablet()
+		public static void DisableScreenLock(bool disabled)
 		{
-			if(_deviceIsTablet == -1) {
-				_deviceIsTablet = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad ? 1 : 0;
-			}
-			return _deviceIsTablet == 1;
+			UIApplication.SharedApplication.IdleTimerDisabled = disabled;
+		}
+
+		public static void ShowNetworkActivityIndicator(bool visible)
+		{
+			UIApplication.SharedApplication.NetworkActivityIndicatorVisible = visible;
 		}
 	}
 }
-
