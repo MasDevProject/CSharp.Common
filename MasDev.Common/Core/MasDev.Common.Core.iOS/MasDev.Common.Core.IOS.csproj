@@ -71,17 +71,13 @@
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Security\Encryption\Aes.cs">
       <Link>Source\Security\Encryption\Aes.cs</Link>
     </Compile>
-    <Compile Include="..\MasDev.Common.Core.Mono\Source\IO\BaseRegistry.cs">
-      <Link>Source\IO\BaseRegistry.cs</Link>
-    </Compile>
-    <Compile Include="..\MasDev.Common.Core.Mono\Source\IO\FileIO.cs">
-      <Link>Source\IO\FileIO.cs</Link>
-    </Compile>
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Net\Http\Https.cs">
       <Link>Source\Net\Http\Https.cs</Link>
     </Compile>
     <Compile Include="Source\Utils\NSUserDefaultsUtils.cs" />
     <Compile Include="Source\IO\Registry.cs" />
+    <Compile Include="Source\Utils\Logger.cs" />
+    <Compile Include="Source\IO\FileIO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
