@@ -9,7 +9,7 @@ namespace MasDev.Data.NHibernate.Providers
 	{
 		protected readonly Lazy<ISessionFactory> FactoryLazy;
 
-		public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, string host, string database, string schema, string username, string password, string context)
+		public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, string host, string database, string schema, string username, string password, string context, bool buildSchema = false)
 		{
 			FactoryLazy = new Lazy<ISessionFactory> (() => {
 				var model = NHibernateUtils.CreateMappings<TMappingProvider> (modelsNamespace);
