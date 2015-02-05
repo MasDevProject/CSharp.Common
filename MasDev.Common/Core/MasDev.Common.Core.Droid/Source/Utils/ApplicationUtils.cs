@@ -7,6 +7,7 @@ using Android.Util;
 using Android.Provider;
 using Android.Graphics;
 using Android.Views;
+using Android.Content.PM;
 
 namespace MasDev.Droid.Utils
 {
@@ -37,19 +38,41 @@ namespace MasDev.Droid.Utils
 		}
 
 		static int _deviceIsTablet = -1;
-
-		public static bool DeviceIsTablet ()
+		public static bool DeviceIsTablet
 		{
-			if (_deviceIsTablet == -1) {
-				var x = Context.Resources.Configuration.ScreenLayout & ScreenLayout.SizeMask;
-				_deviceIsTablet = ((x == ScreenLayout.SizeLarge) || (x == ScreenLayout.SizeXlarge)) ? 1 : 0;
+			get {
+				if (_deviceIsTablet == -1) {
+					var x = Context.Resources.Configuration.ScreenLayout & ScreenLayout.SizeMask;
+					_deviceIsTablet = ((x == ScreenLayout.SizeLarge) || (x == ScreenLayout.SizeXlarge)) ? 1 : 0;
+				}
+				return _deviceIsTablet == 1;
 			}
-			return _deviceIsTablet == 1;
 		}
 
-		public static string GetApplicationFolderPath ()
+		public static PackageInfo PackageInfo
 		{
-			return Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+			get {
+				return Context.PackageManager.GetPackageInfo (Context.PackageName, 0);
+			}
+		}
+
+		public static string ApplicationFolderPath
+		{
+			get {
+				return Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+			}
+		}
+
+		public static decimal ScreenSizeInch 
+		{
+			get {
+				var dm = Context.Resources.DisplayMetrics;
+
+				double density = dm.Density * 160;
+				double x = Math.Pow (dm.WidthPixels / density, 2);
+				double y = Math.Pow (dm.HeightPixels / density, 2);
+				return (decimal)Math.Sqrt (x + y);
+			}
 		}
 
 		public static void HideKeyboard (Activity context)
@@ -104,16 +127,6 @@ namespace MasDev.Droid.Utils
 		public static int ConvertDpToPixel (Context ctx, float dp)
 		{
 			return (int)TypedValue.ApplyDimension (ComplexUnitType.Dip, dp, ctx.Resources.DisplayMetrics);
-		}
-
-		public static decimal ScreenSizeInch (Context ctx) 
-		{
-			var dm = ctx.Resources.DisplayMetrics;
-
-			double density = dm.Density * 160;
-			double x = Math.Pow(dm.WidthPixels / density, 2);
-			double y = Math.Pow(dm.HeightPixels / density, 2);
-			return (decimal) Math.Sqrt(x + y);
 		}
 			
 		public static class Intents
