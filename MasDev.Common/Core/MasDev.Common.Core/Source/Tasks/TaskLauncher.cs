@@ -23,11 +23,10 @@ namespace MasDev.Threading.Tasks
 		{
 			return Task.Factory.StartNew (
 				async () => {
-					for (;;) {
-						if (token.WaitCancellationRequested (interval))
-							break;
-
+					while(true) {
 						await asyncAction ();
+                        if (token.WaitCancellationRequested(interval))
+                            break;
 					}
 				}, token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 		}
