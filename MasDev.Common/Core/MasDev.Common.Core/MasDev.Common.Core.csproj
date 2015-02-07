@@ -34,10 +34,7 @@
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Source\" />
-    <Folder Include="Source\Http\Headers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Source\AutoMapper\AutoMapperConfiguration.cs" />
     <Compile Include="Source\AutoMapper\IAutoMapperConfigurator.cs" />
@@ -103,6 +100,7 @@
     <Compile Include="Source\Utils\CollectionUtils.cs" />
     <Compile Include="Source\Utils\ConnectionUtils.cs" />
     <Compile Include="Source\Utils\DelegateUtils.cs" />
+    <Compile Include="Source\Utils\DynamicWrapper.cs" />
     <Compile Include="Source\Utils\EnumUtils.cs" />
     <Compile Include="Source\Utils\EqualityComparer.cs" />
     <Compile Include="Source\Utils\GuidGenerator.cs" />
