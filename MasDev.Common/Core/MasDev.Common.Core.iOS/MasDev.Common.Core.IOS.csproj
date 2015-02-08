@@ -80,6 +80,7 @@
     <Compile Include="..\MasDev.Common.Core.Mono\Source\IO\FileIO.cs">
       <Link>Source\IO\FileIO.cs</Link>
     </Compile>
+    <Compile Include="Source\Extensions\DateExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -91,6 +92,7 @@
     <Folder Include="Source\IO\" />
     <Folder Include="Source\Security\Encryption\" />
     <Folder Include="Source\Net\Http\" />
+    <Folder Include="Source\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">
