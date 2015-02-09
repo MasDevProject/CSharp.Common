@@ -133,6 +133,11 @@ namespace MasDev.Droid.Utils
 		{
 			public static readonly IntentStartFailedDelegate VoidDelegate = (_, __) => {}; 
 
+			public static void AddCloseAllActivitiesFlag (Intent intent)
+			{
+				intent.AddFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);
+			}
+
 			public static void StartSettingsActivity (Activity ctx)
 			{
 				ctx.StartActivityForResult (new Intent (Settings.ActionSettings), 0);
