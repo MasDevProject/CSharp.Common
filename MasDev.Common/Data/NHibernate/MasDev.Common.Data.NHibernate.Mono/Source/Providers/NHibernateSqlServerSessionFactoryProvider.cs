@@ -13,7 +13,7 @@ namespace MasDev.Data.NHibernate.Providers
 		{
 			FactoryLazy = new Lazy<ISessionFactory> (() => {
 				var model = NHibernateUtils.CreateMappings<TMappingProvider> (modelsNamespace);
-				var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider> (host, database, schema, username, password, model, context);
+				var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider> (host, database, schema, username, password, model, context, buildSchema);
 				return factory;
 			});
 		}
