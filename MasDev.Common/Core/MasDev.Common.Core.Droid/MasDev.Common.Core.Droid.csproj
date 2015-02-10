@@ -85,13 +85,8 @@
     <Compile Include="Source\App\TitledFragment.cs" />
     <Compile Include="Source\Utils\DialogUtils.cs" />
     <Compile Include="Source\Utils\SharedPreferencesUtils.cs" />
-    <Compile Include="Source\ExtensionMethods\ViewExtensions.cs" />
     <Compile Include="Source\Views\PagerPositionIndicator.cs" />
-    <Compile Include="Source\ExtensionMethods\DialogFragmentExtensions.cs" />
-    <Compile Include="Source\ExtensionMethods\BitmapExtensions.cs" />
-    <Compile Include="Source\ExtensionMethods\ImageViewExtensions.cs" />
     <Compile Include="Source\Utils\FragmentUtils.cs" />
-    <Compile Include="Source\ExtensionMethods\DialogExtensions.cs" />
     <Compile Include="Source\Views\ImageViewRounder.cs" />
     <Compile Include="Source\Views\RoundedImageView.cs" />
     <Compile Include="Source\IO\Registry.cs" />
@@ -99,13 +94,11 @@
     <Compile Include="Source\Utils\SensorsUtils.cs" />
     <Compile Include="Source\Utils\PagedAdapter.cs" />
     <Compile Include="Source\Utils\JavaHolder.cs" />
-    <Compile Include="Source\ExtensionMethods\JavaObjectExtensions.cs" />
     <Compile Include="Source\Utils\DefaultPagedLoadingAdapter.cs" />
     <Compile Include="Source\Utils\Logger.cs" />
     <Compile Include="Source\Utils\GCMUtils.cs" />
     <Compile Include="Source\Views\BottomDrawer.cs" />
     <Compile Include="Source\Utils\GeoUtils.cs" />
-    <Compile Include="Source\ExtensionMethods\TextViewExtensions.cs" />
     <Compile Include="Source\Views\SlidingTabLayout.cs" />
     <Compile Include="Source\Views\SlidingTabStrip.cs" />
     <Compile Include="Source\Views\ToolbarSearchView.cs" />
@@ -133,6 +126,13 @@
       <Link>Source\Net\Http\Https.cs</Link>
     </Compile>
     <Compile Include="Source\Utils\AccountUtils.cs" />
+    <Compile Include="Source\Extensions\ViewExtensions.cs" />
+    <Compile Include="Source\Extensions\DialogFragmentExtensions.cs" />
+    <Compile Include="Source\Extensions\BitmapExtensions.cs" />
+    <Compile Include="Source\Extensions\ImageViewExtensions.cs" />
+    <Compile Include="Source\Extensions\DialogExtensions.cs" />
+    <Compile Include="Source\Extensions\JavaObjectExtensions.cs" />
+    <Compile Include="Source\Extensions\TextViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -148,7 +148,6 @@
     <Folder Include="Source\" />
     <Folder Include="Source\Utils\" />
     <Folder Include="Source\App\" />
-    <Folder Include="Source\ExtensionMethods\" />
     <Folder Include="Source\Views\" />
     <Folder Include="Source\IO\" />
     <Folder Include="Resources\drawable\" />
@@ -156,6 +155,7 @@
     <Folder Include="Source\Security\Encryption\" />
     <Folder Include="Source\Net\" />
     <Folder Include="Source\Net\Http\" />
+    <Folder Include="Source\Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv8">
