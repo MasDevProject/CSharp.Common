@@ -30,7 +30,6 @@ namespace MasDev.IO.Http
 		readonly string _baseUrl;
 
 
-
 		public Dictionary<string, IEnumerable<string>> Headers { get; private set; }
 
 
@@ -83,8 +82,14 @@ namespace MasDev.IO.Http
 		}
 
 
-		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, ContentType contentType = ContentType.FormUrlEncoded, params HttpParameter[] args)
+		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
+			var request = BuildRequest (HttpMethod.Post, relativeUrl, requiresAuthorization, ContentType.FormUrlEncoded, args);
+			return await _client.SendAsync (request);
+		}
+
+		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, ContentType contentType, bool requiresAuthorization = false, params HttpParameter[] args)
+		{ 
 			var request = BuildRequest (HttpMethod.Post, relativeUrl, requiresAuthorization, contentType, args);
 			return await _client.SendAsync (request);
 		}
@@ -109,7 +114,14 @@ namespace MasDev.IO.Http
 
 
 
-		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, ContentType contentType = ContentType.FormUrlEncoded, params HttpParameter[] args)
+		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
+		{
+			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, ContentType.FormUrlEncoded, args);
+			return await _client.SendAsync (request);
+		}
+
+
+		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, ContentType contentType, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, contentType, args);
 			return await _client.SendAsync (request);
@@ -182,7 +194,7 @@ namespace MasDev.IO.Http
 			if ((contentType == ContentType.None || contentType == ContentType.FormUrlEncoded) && contentParamenters.Any ())
 				throw new ArgumentException ("Using content parameter implies content type different from None or FormUrlEncoded");
 
-			if (method != HttpMethod.Post || method != HttpMethod.Put && contentParamenters.Any ())
+			if ((method != HttpMethod.Post && method != HttpMethod.Put) && contentParamenters.Any ())
 				throw new ArgumentException ("You can use content paramenters in PUT and POST only");
 
 			#endregion
