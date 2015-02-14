@@ -142,13 +142,13 @@
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.Diagnostics.dll</HintPath>
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.7.2\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.7.2\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper">
-      <HintPath>..\..\packages\AutoMapper.3.3.0\lib\portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch\AutoMapper.dll</HintPath>
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\AutoMapper.3.3.1\lib\portable-windows8+net40+wp8+sl5+MonoAndroid+MonoTouch\AutoMapper.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

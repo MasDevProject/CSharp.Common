@@ -33,18 +33,6 @@
     <Reference Include="System.Dynamic" />
     <Reference Include="System.Drawing" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper.Net4">
-      <HintPath>..\..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.Net4.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector">
-      <HintPath>..\..\packages\SimpleInjector.2.7.0\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -59,6 +47,18 @@
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.7.2\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\SimpleInjector.2.7.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
