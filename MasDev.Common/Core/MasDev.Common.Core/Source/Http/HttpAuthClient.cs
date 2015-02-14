@@ -11,13 +11,21 @@ using System.Text;
 using MasDev.Utils;
 using MasDev.Reflection;
 using MasDev.IO.Http;
+using Newtonsoft.Json;
 
 
 namespace MasDev.IO.Http
 {
+	public enum ContentType {
+		FormUrlEncoded,
+		Json,
+		None
+	}
+
 	public abstract class HttpAuthClient : IDisposable
 	{
 		const string WILDCARD_FORMAT = "{{{0}}}";
+		const string APPLICATION_JSON = "application/json";
 		readonly HttpClient _client;
 		readonly string _baseUrl;
 
@@ -70,15 +78,14 @@ namespace MasDev.IO.Http
 
 		public async Task<HttpResponseMessage> GetAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
-			var request = BuildRequest (HttpMethod.Get, relativeUrl, requiresAuthorization, args);
+			var request = BuildRequest (HttpMethod.Get, relativeUrl, requiresAuthorization, ContentType.None, args);
 			return await _client.SendAsync (request);
 		}
 
 
-
-		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
+		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, ContentType contentType = ContentType.FormUrlEncoded, params HttpParameter[] args)
 		{
-			var request = BuildRequest (HttpMethod.Post, relativeUrl, requiresAuthorization, args);
+			var request = BuildRequest (HttpMethod.Post, relativeUrl, requiresAuthorization, contentType, args);
 			return await _client.SendAsync (request);
 		}
 
@@ -102,9 +109,9 @@ namespace MasDev.IO.Http
 
 
 
-		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
+		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, ContentType contentType = ContentType.FormUrlEncoded, params HttpParameter[] args)
 		{
-			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, args);
+			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, contentType, args);
 			return await _client.SendAsync (request);
 		}
 
@@ -130,7 +137,7 @@ namespace MasDev.IO.Http
 
 		public async Task<HttpResponseMessage> DeleteAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
-			var request = BuildRequest (HttpMethod.Delete, relativeUrl, requiresAuthorization, args);
+			var request = BuildRequest (HttpMethod.Delete, relativeUrl, requiresAuthorization, ContentType.None, args);
 			return await _client.SendAsync (request);
 		}
 
@@ -138,7 +145,7 @@ namespace MasDev.IO.Http
 
 		public async Task<HttpResponseMessage> HeadAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
-			var request = BuildRequest (HttpMethod.Head, relativeUrl, requiresAuthorization, args);
+			var request = BuildRequest (HttpMethod.Head, relativeUrl, requiresAuthorization, ContentType.None, args);
 			return await _client.SendAsync (request);
 		}
 
@@ -158,14 +165,26 @@ namespace MasDev.IO.Http
 
 
 
-		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, IEnumerable<HttpParameter> c)
+		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, ContentType contentType, IEnumerable<HttpParameter> c)
 		{
 			var content = c == null ? null : c.ToArray () ?? new HttpParameter[0];
 
 			#region ParametersValidation
+
 			var formParameters = content.Where (p => p.ParameterType == ParameterType.Form).ToList ();
-			if (!(method == HttpMethod.Post || method == HttpMethod.Put) && formParameters.Any ())
+			if ((!(method == HttpMethod.Post || method == HttpMethod.Put) || contentType != ContentType.FormUrlEncoded) && formParameters.Any ()) 
 				throw new ArgumentException ("Form parameters are allowed only in Post or Put requests");
+
+			var contentParamenters = content.Where (p => p.ParameterType == ParameterType.Content).ToList ();
+			if (contentParamenters.Count > 1)
+				throw new ArgumentException ("Only a single content paramenter in allowed");
+
+			if ((contentType == ContentType.None || contentType == ContentType.FormUrlEncoded) && contentParamenters.Any ())
+				throw new ArgumentException ("Using content parameter implies content type different from None or FormUrlEncoded");
+
+			if (method != HttpMethod.Post || method != HttpMethod.Put && contentParamenters.Any ())
+				throw new ArgumentException ("You can use content paramenters in PUT and POST only");
+
 			#endregion
 
 			#region HandlingUrlParameters
@@ -217,6 +236,21 @@ namespace MasDev.IO.Http
 			}			
 			#endregion
 
+			#region ContentParametersHandling
+
+			if (contentParamenters.Any ()) {
+				var contentParamenter = contentParamenters.Single ();
+				switch (contentType) {
+				case ContentType.Json:
+					var jsonContent = new StringContent (contentParamenter.Value, Encoding.UTF8, APPLICATION_JSON);
+					request.Content = jsonContent;
+					break;
+				default: throw new NotSupportedException ("Unsupported content type [" + contentType + "]");
+				}
+			}
+
+			#endregion
+
 			AddRequestHeaders (request);
 
 			return request;
@@ -245,7 +279,8 @@ namespace MasDev.IO.Http
 		Query,
 		Url,
 		Form,
-		Header
+		Header,
+		Content
 	}
 
 
@@ -339,6 +374,22 @@ namespace MasDev.IO.Http
 	public class HeaderHttpParameter : HttpParameter
 	{
 		public HeaderHttpParameter (string key, string value) : base (key, value, ParameterType.Header)
+		{
+
+		}
+	}
+
+	public class ContentHttpParameter : HttpParameter
+	{
+		public ContentHttpParameter (string content) : base (null, content, ParameterType.Content)
+		{
+
+		}
+	}
+
+	public class JsonContentHttpParameter : ContentHttpParameter
+	{
+		public JsonContentHttpParameter (object content) : base (JsonConvert.SerializeObject (content))
 		{
 
 		}
