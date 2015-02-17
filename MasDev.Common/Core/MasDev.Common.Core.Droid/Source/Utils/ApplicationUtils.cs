@@ -237,6 +237,18 @@ namespace MasDev.Droid.Utils
 			{
 				ctx.StartActivity (new Intent (Settings.ActionLocationSourceSettings));
 			}
+
+			public static void StartMarketPage (Context ctx, string packageNameNullIfCurrent = null)
+			{
+				var name = packageNameNullIfCurrent ?? ApplicationUtils.PackageInfo.PackageName;
+				try {
+					ctx.StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://details?id=" + name)));
+				} 
+				catch 
+				{
+					ctx.StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + name)));
+				}
+			}
 		}
 	}
 }
