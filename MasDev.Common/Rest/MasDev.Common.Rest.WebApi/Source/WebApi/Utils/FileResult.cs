@@ -62,9 +62,11 @@ namespace MasDev.Rest.WebApi
 			if (_useCache && Cache.Has (_filePath)) {
 				cachedFile = Cache [_filePath];
 				var cachedLastModifiedUtc = cachedFile.LastModifiedUtc;
-				if (cachedLastModifiedUtc != lastModifiedUtc)
-					Cache.Invalidate (_filePath);
-				cachedFile = null;
+			    if (cachedLastModifiedUtc != lastModifiedUtc)
+			    {
+                    Cache.Invalidate(_filePath);
+                    cachedFile = null;
+			    }
 			}
 				
 			if (_ifModifiedSince.HasValue && _statusCode == HttpStatusCode.OK) {
@@ -83,7 +85,7 @@ namespace MasDev.Rest.WebApi
 						var sb = new StringBuilder ();
 						var buffer = new byte[0x1000];
 						int numRead;
-						while ((numRead = await fileStream.ReadAsync (buffer, 0, buffer.Length)) != 0) {
+						while ((numRead = await fileStream.ReadAsync (buffer, 0, buffer.Length, cancellationToken)) != 0) {
 							cancellationToken.ThrowIfCancellationRequested ();
 							var text = Encoding.Unicode.GetString (buffer, 0, numRead);
 							sb.Append (text);
