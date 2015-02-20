@@ -2,7 +2,6 @@
 using System.Linq;
 using System;
 
-
 namespace MasDev.Utils
 {
 	public delegate bool Comparer<T> (T o1, T o2);
@@ -107,6 +106,12 @@ namespace MasDev.Utils
 		public static void AddIfNotPresent<T> (ref ICollection<T> collection, T element)
 		{
 			AddIfNotPresent (ref collection, element, (o1, o2) => !Check.NullSafeEquals (o1, o2));
+		}
+
+		public static void NullSafeAdd<T> (ref ICollection<T> collection, T elementToAdd)
+		{
+			collection = collection ?? new List<T> ();
+			collection.Add (elementToAdd);
 		}
 	}
 }
