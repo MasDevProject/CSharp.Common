@@ -56,15 +56,15 @@ namespace MasDev.Rest.WebApi
 		public async Task<HttpResponseMessage> ExecuteAsync (CancellationToken cancellationToken)
 		{
 			FileCache.CachedFile cachedFile = null;
-			FileInfo fileInfo = null;
-			DateTime lastModifiedUtc;
+			var fileInfo = new FileInfo (_filePath);
+			var lastModifiedUtc = fileInfo.LastWriteTimeUtc;
 
 			if (_useCache && Cache.Has (_filePath)) {
 				cachedFile = Cache [_filePath];
-				lastModifiedUtc = cachedFile.LastModifiedUtc;
-			} else {
-				fileInfo = new FileInfo (_filePath);
-				lastModifiedUtc = fileInfo.LastWriteTimeUtc;
+				var cachedLastModifiedUtc = cachedFile.LastModifiedUtc;
+				if (cachedLastModifiedUtc != lastModifiedUtc)
+					Cache.Invalidate (_filePath);
+				cachedFile = null;
 			}
 				
 			if (_ifModifiedSince.HasValue && _statusCode == HttpStatusCode.OK) {
