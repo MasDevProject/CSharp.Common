@@ -9,9 +9,19 @@ namespace MasDev.Data
 {
 	public interface IRepository<T> : IDisposable, IModelQueryFactory where T : class, IModel, new()
 	{
+		#region Create
+
 		int Create (T model);
 
 		Task<int> CreateAsync (T model);
+
+		void Create (IEnumerable<T> models);
+
+		Task CreateAsync (IEnumerable<T> models);
+
+		#endregion
+
+		#region CreateOrUpdate
 
 		Task<int> CreateOrUpdateAsync (IModel model);
 
@@ -21,9 +31,25 @@ namespace MasDev.Data
 
 		IEnumerable<int> CreateOrUpdate (IEnumerable<IModel> models);
 
+		#endregion
+
+		#region Read
+
+		TModel ReadonlyModel<TModel> (int id) where TModel : class, IModel, new();
+
+		Task<TModel> ReadonlyModelAsync<TModel> (int id) where TModel : class, IModel, new();
+
 		T Read (int id);
 
 		Task<T> ReadAsync (int id);
+
+		IEnumerable<T> Read (IEnumerable<int> ids);
+
+		Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids);
+
+		#endregion
+
+		#region Update
 
 		int Update (T model);
 
@@ -33,33 +59,33 @@ namespace MasDev.Data
 
 		Task<T> UpdateAsync (int id, Action<T> updater);
 
-		int Delete (T model);
-
-		Task<int> DeleteAsync (T model);
-
-		void Create (IEnumerable<T> models);
-
-		Task CreateAsync (IEnumerable<T> models);
-
-		IEnumerable<T> Read (IEnumerable<int> ids);
-
-		Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids);
-
 		void Update (IEnumerable<T> models);
 
 		Task UpdateAsync (IEnumerable<T> models);
+
+		#endregion
+
+		#region Delete
+
+		int Delete (T model);
+
+		Task<int> DeleteAsync (T model);
 
 		void Delete (IEnumerable<T> models);
 
 		Task DeleteAsync (IEnumerable<T> models);
 
+		#endregion
+
+		#region Clear
+
 		void Clear ();
 
 		Task ClearAsync ();
 
-		IQueryable<T> Query { get; }
+		#endregion
 
-		IUnitOfWork UnitOfWork { get; }
+		#region UnitOfWork
 
 		void BeginWork ();
 
@@ -69,12 +95,15 @@ namespace MasDev.Data
 
 		bool IsInTransaction { get; }
 
+		#endregion
+
+		IQueryable<T> Query { get; }
+
+		IUnitOfWork UnitOfWork { get; }
+
 		void Lock (T model, LockMode lockMode);
+
 	}
-
-
-
-
 
 	public enum LockMode
 	{
@@ -84,10 +113,6 @@ namespace MasDev.Data
 		Read,
 		None
 	}
-
-
-
-
 
 	public interface IRepository<TVersionedModel, TModelVersioning> : IRepository<TVersionedModel>
 		where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()

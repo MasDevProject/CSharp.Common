@@ -28,6 +28,8 @@ namespace MasDev.Data
 			_uow.Start ();
 		}
 
+		#region Create
+
 		public virtual int Create (T model)
 		{
 			ThrowIfVersionedModel ();
@@ -44,6 +46,27 @@ namespace MasDev.Data
 			return await Task.Factory.StartNew (() => Create (model));
 		}
 
+		public virtual void Create (IEnumerable<T> models)
+		{
+			ThrowIfVersionedModel ();
+			foreach (var t in models) {
+				var undeletable = t as IUndeletableModel;
+				if (undeletable != null)
+					undeletable.IsDeleted = false;
+				Session.Save (t);
+			}
+
+		}
+
+		public virtual async Task CreateAsync (IEnumerable<T> models)
+		{
+			await Task.Factory.StartNew (() => Create (models));
+		}
+
+		#endregion
+
+		#region Read
+
 		public virtual T Read (int id)
 		{
 			var obj = Session.Get<T> (id);
@@ -54,6 +77,39 @@ namespace MasDev.Data
 		{
 			return await Task.Factory.StartNew (() => Read (id));
 		}
+
+		public virtual IEnumerable<T> Read (IEnumerable<int> ids)
+		{
+			var result = new List<T> ();
+			foreach (var id in ids) {
+				var t = Session.Get<T> (id);
+				if (t == null)
+					continue;
+				result.Add (t);
+			}
+
+			return result;
+		}
+
+		public virtual async Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids)
+		{
+			return await Task.Factory.StartNew (() => Read (ids));
+		}
+
+		public TModel ReadonlyModel<TModel> (int id) where TModel : class, IModel, new()
+		{
+			var obj = _uow.ReadonlySession.Get<TModel> (id);
+			return obj;
+		}
+
+		public async Task<TModel> ReadonlyModelAsync<TModel> (int id) where TModel : class, IModel, new()
+		{
+			return await Task.Factory.StartNew (() => ReadonlyModel<TModel> (id));
+		}
+
+		#endregion
+
+		#region Update
 
 		public virtual int Update (T model)
 		{
@@ -67,82 +123,17 @@ namespace MasDev.Data
 			return await Task.Factory.StartNew (() => Update (model));
 		}
 
-		public virtual int Delete (T model)
-		{
-			var undeletable = model as IUndeletableModel;
-			if (undeletable == null)
-				Session.Delete (model);
-			else {
-				undeletable.IsDeleted = true;
-				Session.Update (undeletable);
-			}
-			return model.Id;
-		}
-
-		public virtual async Task<int> DeleteAsync (T model)
-		{
-			return await Task.Factory.StartNew (() => Delete (model));
-		}
-
-		public virtual void Create (IEnumerable<T> models)
-		{
-			ThrowIfVersionedModel ();
-			foreach (var t in models) {
-				var undeletable = t as IUndeletableModel;
-				if (undeletable != null)
-					undeletable.IsDeleted = false;
-				Session.Save (t);
-			}
-			
-		}
-
-		public virtual async Task CreateAsync (IEnumerable<T> models)
-		{
-			await Task.Factory.StartNew (() => Create (models));
-		}
-
-		public virtual IEnumerable<T> Read (IEnumerable<int> ids)
-		{
-			var result = new List<T> ();
-			foreach (var id in ids) {
-				var t = Session.Get<T> (id);
-				if (t == null)
-					continue;
-				result.Add (t);
-			}
-			
-			return result;
-		}
-
-		public virtual async Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids)
-		{
-			return await Task.Factory.StartNew (() => Read (ids));
-		}
-
 		public virtual void Update (IEnumerable<T> models)
 		{
 			foreach (var m in models) {
 				Update (m);
 			}
-			
+
 		}
 
 		public virtual async Task UpdateAsync (IEnumerable<T> models)
 		{
 			await Task.Factory.StartNew (() => Update (models));
-		}
-
-		public virtual void Delete (IEnumerable<T> models)
-		{
-			foreach (var m in models) {
-				Delete (m);
-			}
-			
-		}
-
-		public virtual async Task DeleteAsync (IEnumerable<T> models)
-		{
-			await Task.Factory.StartNew (() => Delete (models));
 		}
 
 		public T Update (int id, Action<T> updater)
@@ -167,6 +158,44 @@ namespace MasDev.Data
 			return model;
 		}
 
+		#endregion
+
+		#region Delete
+
+		public virtual int Delete (T model)
+		{
+			var undeletable = model as IUndeletableModel;
+			if (undeletable == null)
+				Session.Delete (model);
+			else {
+				undeletable.IsDeleted = true;
+				Session.Update (undeletable);
+			}
+			return model.Id;
+		}
+
+		public virtual async Task<int> DeleteAsync (T model)
+		{
+			return await Task.Factory.StartNew (() => Delete (model));
+		}
+
+		public virtual void Delete (IEnumerable<T> models)
+		{
+			foreach (var m in models) {
+				Delete (m);
+			}
+
+		}
+
+		public virtual async Task DeleteAsync (IEnumerable<T> models)
+		{
+			await Task.Factory.StartNew (() => Delete (models));
+		}
+
+		#endregion
+
+		#region Clear
+
 		public void Clear ()
 		{
 			var metadata = Session.SessionFactory.GetClassMetadata (typeof(T)) as AbstractEntityPersister;
@@ -181,12 +210,43 @@ namespace MasDev.Data
 			await Task.Factory.StartNew (Clear);
 		}
 
-		public virtual void Dispose ()
+		#endregion
+
+		#region CreateOrUpdate
+
+		public async Task<int> CreateOrUpdateAsync (IModel model)
 		{
-			_uow.Dispose ();
+			return await Task.Factory.StartNew (() => CreateOrUpdate (model));
 		}
 
-		public virtual IQueryable<T> Query { get { return UnfilteredQueryForModel<T> (); } }
+		public int CreateOrUpdate (IModel model)
+		{
+			Session.SaveOrUpdate (model);
+
+			return model.Id;
+		}
+
+		public async Task<IEnumerable<int>> CreateOrUpdateAsync (IEnumerable<IModel> models)
+		{
+			return await Task.Factory.StartNew (() => CreateOrUpdate (models));
+		}
+
+		public IEnumerable<int> CreateOrUpdate (IEnumerable<IModel> models)
+		{
+			var ids = new List<int> ();
+			foreach (var model in models)
+				ids.Add (CreateOrUpdate (model));
+			return ids;
+		}
+
+		public virtual IQueryable<TModel> UnfilteredQueryForModel<TModel> () where TModel : IModel
+		{
+			return _uow.Session.Query<TModel> ();
+		}
+
+		#endregion
+
+		#region UnitOfWork
 
 		public virtual void BeginWork ()
 		{
@@ -239,35 +299,14 @@ namespace MasDev.Data
 			}
 		}
 
-		public async Task<int> CreateOrUpdateAsync (IModel model)
+		#endregion
+
+		public virtual void Dispose ()
 		{
-			return await Task.Factory.StartNew (() => CreateOrUpdate (model));
+			_uow.Dispose ();
 		}
 
-		public int CreateOrUpdate (IModel model)
-		{
-			Session.SaveOrUpdate (model);
-
-			return model.Id;
-		}
-
-		public async Task<IEnumerable<int>> CreateOrUpdateAsync (IEnumerable<IModel> models)
-		{
-			return await Task.Factory.StartNew (() => CreateOrUpdate (models));
-		}
-
-		public IEnumerable<int> CreateOrUpdate (IEnumerable<IModel> models)
-		{
-			var ids = new List<int> ();
-			foreach (var model in models)
-				ids.Add (CreateOrUpdate (model));
-			return ids;
-		}
-
-		public virtual IQueryable<TModel> UnfilteredQueryForModel<TModel> () where TModel : IModel
-		{
-			return _uow.Session.Query<TModel> ();
-		}
+		public virtual IQueryable<T> Query { get { return UnfilteredQueryForModel<T> (); } }
 
 		public virtual IQueryable<TModel> QueryForModel<TModel> () where TModel : IUndeletableModel
 		{
