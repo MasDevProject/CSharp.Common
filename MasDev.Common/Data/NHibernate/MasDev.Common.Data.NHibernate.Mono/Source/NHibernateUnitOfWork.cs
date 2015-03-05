@@ -7,8 +7,9 @@ namespace MasDev.Data
 {
 	public class NHibernateUnitOfWork : IUnitOfWork
 	{
-		readonly ISession _session;
+		readonly Lazy<ISession> _session;
 		readonly Lazy<ISession> _readonlySession;
+		readonly Lazy<ISession> _parallelSession;
 
 		ITransaction _transaction;
 		volatile int _consumers = 0;
@@ -17,9 +18,10 @@ namespace MasDev.Data
 		{
 			if (factory == null)
 				throw new ArgumentNullException ();
-			_session = factory.OpenSession ();
-			_session.FlushMode = FlushMode.Commit;
-		
+
+			_session = GetDefaultSessionLazy (factory);
+			_parallelSession = GetDefaultSessionLazy (factory);
+
 			_readonlySession = new Lazy<ISession> (() => {
 				var session = factory.OpenSession ();
 				session.FlushMode = FlushMode.Never;
@@ -27,18 +29,29 @@ namespace MasDev.Data
 			}, true);
 		}
 
+		static Lazy<ISession> GetDefaultSessionLazy (ISessionFactory factory)
+		{
+			return new Lazy<ISession> (() => {
+				var session = factory.OpenSession ();
+				session.FlushMode = FlushMode.Commit;
+				return session;
+			});
+		}
+
+		public ISession Session { get { return _session.Value; } }
+
+		public ISession ReadonlySession { get { return _readonlySession.Value; } }
+
+		public ISession ParallelSession { get { return _parallelSession.Value; } }
+
 		public void Consume ()
 		{
 			_consumers++;
 		}
 
-		public ISession Session { get { return _session; } }
-
-		public ISession ReadonlySession { get { return _readonlySession.Value; } }
-
 		public void Start ()
 		{
-			_transaction = _session.BeginTransaction (IsolationLevel.ReadCommitted);
+			_transaction = _session.Value.BeginTransaction (IsolationLevel.ReadCommitted);
 		}
 
 		public bool IsStarted { get { return _transaction != null; } }
@@ -93,8 +106,16 @@ namespace MasDev.Data
 			if (_readonlySession.IsValueCreated)
 				_readonlySession.Value.Dispose ();
 
-			_session.Close ();
-			_session.Dispose ();
+			DisposeSession (_parallelSession);
+			DisposeSession (_session);
+		}
+
+		static void DisposeSession (Lazy<ISession> session)
+		{
+			if (!session.IsValueCreated)
+				return;
+			session.Value.Close ();
+			session.Value.Dispose ();
 		}
 	}
 }
