@@ -4,7 +4,7 @@ using System;
 
 namespace MasDev.Rest.Auth
 {
-	public class Token
+	public sealed class Token
 	{
 		public ICredentials Credentials { get; set; }
 
@@ -15,6 +15,9 @@ namespace MasDev.Rest.Auth
 
 
 		public int Scope { get; set; }
+
+
+		public dynamic Extra {get; set;}
 	}
 }
 

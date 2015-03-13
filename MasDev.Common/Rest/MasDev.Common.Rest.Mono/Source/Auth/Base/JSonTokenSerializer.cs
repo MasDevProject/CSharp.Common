@@ -28,6 +28,10 @@ namespace MasDev.Rest.Auth
 			var credentialsJson = json ["Credentials"].ToString ();
 			var credentials = JsonConvert.DeserializeObject<TokenCredentials> (credentialsJson);
 			token.Credentials = credentials;
+
+			var extraJson = json ["Extra"];
+			token.Extra = extraJson;
+
 			return token;
 		}
 	}

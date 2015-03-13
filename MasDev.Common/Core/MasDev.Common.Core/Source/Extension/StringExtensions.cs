@@ -109,6 +109,12 @@ namespace MasDev.Extensions
 			return index <= 0 ? s : s.Substring (0, index);
 		}
 
+		public static string BeforeLast (this string s, char c)
+		{
+			var index = s.LastIndexOf (c);
+			return index <= 0 ? s : s.Substring (0, index);
+		}
+
 
 		#if !SALTARELLE
 		public static Uri AsUri (this string s)

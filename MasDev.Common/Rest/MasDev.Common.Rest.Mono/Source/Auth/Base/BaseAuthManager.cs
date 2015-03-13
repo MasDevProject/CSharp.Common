@@ -19,7 +19,8 @@ namespace MasDev.Rest.Auth
 				var decompressed = TokenCompressor.Decompress (headerValue);
 				var unprotected = TokenProtector.Unprotect (decompressed);
 				return TokenSerializer.Deserialize (unprotected);
-			} catch {
+			} catch 
+			{
 				return null;
 			}
 		}
