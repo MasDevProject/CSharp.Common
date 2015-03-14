@@ -13,7 +13,22 @@ namespace MasDev.Common
 
 		public IfModifiedSinceHeader (string timeUtc)
 		{
-			TimeUtc = DateTime.Parse (timeUtc).ToUniversalTime ();
+		    try
+		    {
+		        TimeUtc = DateTime.Parse(timeUtc).ToUniversalTime();
+		    }
+		    catch
+		    {
+		        try
+		        {
+                    // TODO FIXME HACK
+		            TimeUtc = DateTime.ParseExact(timeUtc.Replace(" GMT", string.Empty), "ddd, dd MMM YYYY HH:mm:ss", null);
+		        }
+		        catch
+		        {
+		            TimeUtc = DateTime.MinValue;
+		        }
+		    }
 		}
 
 		public override string ToString ()
