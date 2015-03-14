@@ -2,6 +2,7 @@
 using MasDev.Common.Http;
 using System.Collections.Generic;
 using MasDev.IO.Http;
+using System.Globalization;
 
 namespace MasDev.Common
 {
@@ -21,12 +22,18 @@ namespace MasDev.Common
 		    {
 		        try
 		        {
-                    // TODO FIXME HACK
-		            TimeUtc = DateTime.ParseExact(timeUtc.Replace(" GMT", string.Empty), "ddd, dd MMM YYYY HH:mm:ss", null);
+                    TimeUtc = DateTime.ParseExact(timeUtc, "ddd, dd MMM yyyy HH:mm:ss GMT", CultureInfo.InvariantCulture); //Sat, 14 Mar 2015 10:09:09 GMT
 		        }
 		        catch
 		        {
-		            TimeUtc = DateTime.MinValue;
+		            try
+		            {
+		                TimeUtc = DateTime.ParseExact(timeUtc, "ddd, dd MMM yyyy HH:mm:ss GMT", CultureInfo.InvariantCulture);
+		            }
+		            catch
+		            {
+		                TimeUtc = DateTime.MinValue;
+		            }
 		        }
 		    }
 		}
