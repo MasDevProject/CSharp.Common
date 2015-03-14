@@ -22,7 +22,7 @@ namespace MasDev.Common
 		    {
 		        try
 		        {
-                    TimeUtc = DateTime.ParseExact(timeUtc, "ddd, dd MMM yyyy HH:mm:ss GMT", CultureInfo.InvariantCulture); //Sat, 14 Mar 2015 10:09:09 GMT
+                    TimeUtc = DateTime.ParseExact(timeUtc, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.AdjustToUniversal); //Sat, 14 Mar 2015 10:09:09 GMT
 		        }
 		        catch
 		        {
