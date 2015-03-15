@@ -147,8 +147,11 @@ namespace MasDev.Droid.Views
 			if (tabStripChildCount == 0 || tabIndex < 0 || tabIndex >= tabStripChildCount)
 				return;
 
+			for (var i = 0; i < mTabStrip.ChildCount; i++)
+				mTabStrip.GetChildAt (i).Alpha = 0.5f;
 			var selectedChild = mTabStrip.GetChildAt (tabIndex);
 			if (selectedChild != null) {
+				selectedChild.Alpha = 1;
 				int targetScrollX = selectedChild.Left + positionOffset;
 
 				if (tabIndex > 0 || positionOffset > 0)
@@ -158,7 +161,7 @@ namespace MasDev.Droid.Views
 			}
 		}
 
-		class TabClickListener : Java.Lang.Object, View.IOnClickListener
+		sealed class TabClickListener : Java.Lang.Object, View.IOnClickListener
 		{
 			readonly ViewPager mViewPager;
 			readonly SlidingTabStrip mTabStrip;

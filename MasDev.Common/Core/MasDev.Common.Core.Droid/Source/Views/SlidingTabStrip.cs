@@ -106,8 +106,6 @@ namespace MasDev.Droid.Views
 		{
 			int height = Height;
 			int childCount = ChildCount;
-			int dividerHeightPx = (int)(Math.Min (Math.Max (0f, mDividerHeight), 1f) * height);
-			//var tabColorizer = mCustomTabColorizer ?? mDefaultTabColorizer;
 
 			// Thick colored underline below the current selection
 			if (childCount > 0) {
@@ -130,15 +128,7 @@ namespace MasDev.Droid.Views
 				canvas.DrawRect (left, height - mSelectedIndicatorThickness, right, height, mSelectedIndicatorPaint);
 			}
 
-
 			canvas.DrawRect (0, height - mBottomBorderThickness, Width, height, mBottomBorderPaint);
-
-			int separatorTop = (height - dividerHeightPx) / 2;
-			for (int i = 0; i < childCount - 1; i++) {
-				View child = GetChildAt (i);
-				mDividerPaint.Color = _rowColor;
-				canvas.DrawLine (child.Right, separatorTop, child.Right, separatorTop + dividerHeightPx, mDividerPaint);
-			}
 		}
 
 		static int SetColorAlpha (int color, byte alpha)
@@ -148,10 +138,10 @@ namespace MasDev.Droid.Views
 
 		static int BlendColors (int color1, int color2, float ratio)
 		{
-			float inverseRation = 1f - ratio;
-			float r = (Color.GetRedComponent (color1) * ratio) + (Color.GetRedComponent (color2) * inverseRation);
-			float g = (Color.GetGreenComponent (color1) * ratio) + (Color.GetGreenComponent (color2) * inverseRation);
-			float b = (Color.GetBlueComponent (color1) * ratio) + (Color.GetBlueComponent (color2) * inverseRation);
+			var inverseRation = 1f - ratio;
+			var r = (Color.GetRedComponent (color1) * ratio) + (Color.GetRedComponent (color2) * inverseRation);
+			var g = (Color.GetGreenComponent (color1) * ratio) + (Color.GetGreenComponent (color2) * inverseRation);
+			var b = (Color.GetBlueComponent (color1) * ratio) + (Color.GetBlueComponent (color2) * inverseRation);
 			return Color.Rgb ((int)r, (int)g, (int)b);
 		}
 
