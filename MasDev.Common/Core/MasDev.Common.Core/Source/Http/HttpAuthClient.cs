@@ -29,25 +29,16 @@ namespace MasDev.IO.Http
 		readonly HttpClient _client;
 		readonly string _baseUrl;
 
-
 		public Dictionary<string, IEnumerable<string>> Headers { get; private set; }
-
-
 
 		public abstract string Token { get; set; }
 
-
-
 		public abstract string TokenType { get; set; }
-
-
 
 		public TimeSpan Timeout { 
 			set { _client.Timeout = value; }
 			get { return _client.Timeout; }
 		}
-
-
 
 		protected HttpAuthClient (string protocol, string address, int? port)
 		{
@@ -64,23 +55,17 @@ namespace MasDev.IO.Http
 			_client = new HttpClient ();
 		}
 
-
-
 		protected HttpAuthClient (string protocol, string address, int? port, HttpMessageHandler handler) : this (protocol, address, port)
 		{
 			_client.Dispose ();
 			_client = new HttpClient (handler);
 		}
 
-
-
-
 		public async Task<HttpResponseMessage> GetAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Get, relativeUrl, requiresAuthorization, ContentType.None, args);
 			return await _client.SendAsync (request);
 		}
-
 
 		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
@@ -93,9 +78,7 @@ namespace MasDev.IO.Http
 			var request = BuildRequest (HttpMethod.Post, relativeUrl, requiresAuthorization, contentType, args);
 			return await _client.SendAsync (request);
 		}
-
-
-
+			
 		public async Task<HttpResponseMessage> PostAsync (string relativeUrl, MimedStream stream, string paramName, bool requiresAuthorization = false)
 		{
 			var req = new HttpRequestMessage (HttpMethod.Post, _baseUrl + relativeUrl);
@@ -112,22 +95,17 @@ namespace MasDev.IO.Http
 			}
 		}
 
-
-
 		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, ContentType.FormUrlEncoded, args);
 			return await _client.SendAsync (request);
 		}
 
-
 		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, ContentType contentType, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Put, relativeUrl, requiresAuthorization, contentType, args);
 			return await _client.SendAsync (request);
 		}
-
-
 
 		public async Task<HttpResponseMessage> PutAsync (string relativeUrl, MimedStream stream, string paramName, bool requiresAuthorization = false)
 		{
@@ -145,23 +123,17 @@ namespace MasDev.IO.Http
 			}
 		}
 
-
-
 		public async Task<HttpResponseMessage> DeleteAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Delete, relativeUrl, requiresAuthorization, ContentType.None, args);
 			return await _client.SendAsync (request);
 		}
 
-
-
 		public async Task<HttpResponseMessage> HeadAsync (string relativeUrl, bool requiresAuthorization = false, params HttpParameter[] args)
 		{
 			var request = BuildRequest (HttpMethod.Head, relativeUrl, requiresAuthorization, ContentType.None, args);
 			return await _client.SendAsync (request);
 		}
-
-
 
 		public void Dispose ()
 		{
@@ -174,8 +146,6 @@ namespace MasDev.IO.Http
 		{
 			request.Headers.TryAddWithoutValidation (Http.Headers.Authorization, TokenType + StringUtils.Space + Token);
 		}
-
-
 
 		HttpRequestMessage BuildRequest (HttpMethod method, string url, bool requiresAuthorization, ContentType contentType, IEnumerable<HttpParameter> c)
 		{
@@ -268,8 +238,6 @@ namespace MasDev.IO.Http
 			return request;
 		}
 
-
-
 		void AddRequestHeaders (HttpRequestMessage request)
 		{
 			if (!Headers.Any ())
@@ -281,11 +249,7 @@ namespace MasDev.IO.Http
 
 		#endregion
 	}
-
-
-
-
-
+		
 	public enum ParameterType
 	{
 		Query,
@@ -294,34 +258,18 @@ namespace MasDev.IO.Http
 		Header,
 		Content
 	}
-
-
-
-
-
+		
 	public class HttpParameter
 	{
 		public string Key { get; private set; }
-
-
-
 		public string Value { get; private set; }
-
-
-
 		public ParameterType ParameterType { get; private set; }
-
-
-
 		public HttpParameter (string key, string value, ParameterType paramType)
 		{
 			Key = key;
 			Value = value;
 			ParameterType = paramType;
 		}
-
-
-
 		public HttpParameter (string key, object value, ParameterType paramType)
 		{
 			Key = key;
@@ -329,22 +277,14 @@ namespace MasDev.IO.Http
 			ParameterType = paramType;
 		}
 	}
-
-
-
-
-
+		
 	public class FormHttpParameter : HttpParameter
 	{
 		public FormHttpParameter (string key, object value) : base (key, value, ParameterType.Form)
 		{
 		}
 	}
-
-
-
-
-
+		
 	public class QueryHttpParameter : HttpParameter
 	{
 		public QueryHttpParameter (string key, object value) : base (key, value, ParameterType.Query)
@@ -366,10 +306,6 @@ namespace MasDev.IO.Http
 		}
 	}
 
-
-
-
-
 	public class UrlHttpParameter : HttpParameter
 	{
 		public UrlHttpParameter (string key, object value) : base (key, value, ParameterType.Url)
@@ -378,10 +314,6 @@ namespace MasDev.IO.Http
 				throw new ArgumentException ("Only native types are allowed for this kind of parameter");
 		}
 	}
-
-
-
-
 
 	public class HeaderHttpParameter : HttpParameter
 	{
