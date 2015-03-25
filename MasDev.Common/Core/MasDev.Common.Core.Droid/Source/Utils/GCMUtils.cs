@@ -1,9 +1,9 @@
 ﻿using System;
 using Android.App;
 using Android.Gms.Gcm;
-using Android.Gms.Common;
 using Android.Content;
-using MasDev.Exceptions;
+using System.Threading.Tasks;
+
 
 namespace MasDev.Droid.Utils
 {
@@ -13,63 +13,48 @@ namespace MasDev.Droid.Utils
 		const string PROPERTY_APP_VERSION = "appVersion";
 		const string SHARED_PREFERENCES_NAME = "pqowwo";
 
-		public static async System.Threading.Tasks.Task PerformRegistration (Activity ctx, int playServicesResolutionRequest, string senderId, Func<string, System.Threading.Tasks.Task> onRegistrationIdRetrived, Action onDeviceNotSupported)
+		public static async Task PerformRegistration (Activity ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
 		{
-			string regid;
-			if (CheckPlayServices (ctx, onDeviceNotSupported, playServicesResolutionRequest)) 
-			{
-				var gcm = GoogleCloudMessaging.GetInstance (ctx);
-				regid = GetRegistrationIdLocally (ctx);
-
-				if (string.IsNullOrEmpty (regid)) {
-					await System.Threading.Tasks.Task.Run (() => {
-						regid = gcm.Register (senderId);
-						GetGCMPreferences (ctx).Edit ().PutString (PROPERTY_REG_ID, regid).Commit ();
-					});
-				}
-				await onRegistrationIdRetrived.Invoke (regid);
-			} 
+			var regId = GetRegistrationId(ctx);
+			if (string.IsNullOrEmpty (regId))
+				await RegisterInBackground(ctx, senderId, onRegistrationIdRetrived);
 		}
 
-		static bool CheckPlayServices (Activity activity, Action onDeviceNotSupported, int playServicesResolutionRequest)
+		static string GetRegistrationId (Context ctx)
 		{
-			int resultCode = GooglePlayServicesUtil.IsGooglePlayServicesAvailable (activity);
-			if (resultCode != ConnectionResult.Success) {
-				if (GooglePlayServicesUtil.IsUserRecoverableError (resultCode)) {
-					GooglePlayServicesUtil.GetErrorDialog (resultCode, activity, playServicesResolutionRequest).Show ();
-				}
-				onDeviceNotSupported.Invoke ();
-				return false;
-			}
-			return true;
-		}
-
-		static string GetRegistrationIdLocally (Context context)
-		{
-			var prefs = GetGCMPreferences (context);
-			var registrationId = prefs.GetString (PROPERTY_REG_ID, string.Empty);
+			var prefs = GetGCMPreferences(ctx);
+			var registrationId = prefs.GetString(PROPERTY_REG_ID, string.Empty);
 			if (string.IsNullOrEmpty (registrationId))
 				return string.Empty;
-
-			int registeredVersion = prefs.GetInt (PROPERTY_APP_VERSION, int.MinValue);
-			int currentVersion = GetAppVersion (context);
+			
+			// Check if app was updated; if so, it must clear the registration ID
+			// since the existing registration ID is not guaranteed to work with
+			// the new app version.
+			int registeredVersion = prefs.GetInt(PROPERTY_APP_VERSION, int.MinValue);
+			int currentVersion = ApplicationUtils.PackageInfo.VersionCode;
 			return registeredVersion != currentVersion ? string.Empty : registrationId;
 		}
 
-		static ISharedPreferences GetGCMPreferences (Context context)
+		static async Task RegisterInBackground (Context ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
 		{
-			return context.GetSharedPreferences (SHARED_PREFERENCES_NAME, FileCreationMode.Private);
+			var regid = await Task.Run (() =>  { return GoogleCloudMessaging.GetInstance(ctx).Register(senderId); });
+			await onRegistrationIdRetrived(regid);
+			storeRegistrationId(ctx, regid);
 		}
 
-		static int GetAppVersion (Context context)
+		static ISharedPreferences GetGCMPreferences (Context ctx)
 		{
-			try {
-				var packageInfo = context.PackageManager.GetPackageInfo (context.PackageName, 0);
-				return packageInfo.VersionCode;
-			} 
-			catch (Exception e) {
-				throw new ShouldNeverHappenException ("Could not get package name: " + e);
-			}
+			return ctx.GetSharedPreferences (SHARED_PREFERENCES_NAME, FileCreationMode.Private);
+		}
+
+		static void storeRegistrationId (Context ctx, string regid)
+		{
+			var prefs = GetGCMPreferences(ctx);
+			var appVersion = ApplicationUtils.PackageInfo.VersionCode;
+			var editor = prefs.Edit();
+			editor.PutString(PROPERTY_REG_ID, regid);
+			editor.PutInt(PROPERTY_APP_VERSION, appVersion);
+			editor.Commit();	
 		}
 	}
 }
