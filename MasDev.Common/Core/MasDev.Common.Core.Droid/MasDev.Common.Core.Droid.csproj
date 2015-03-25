@@ -133,6 +133,7 @@
     <Compile Include="Source\Extensions\DialogExtensions.cs" />
     <Compile Include="Source\Extensions\JavaObjectExtensions.cs" />
     <Compile Include="Source\Extensions\TextViewExtensions.cs" />
+    <Compile Include="Source\Utils\PlayServicesUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
