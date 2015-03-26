@@ -13,11 +13,17 @@ namespace MasDev.Droid.Utils
 		const string PROPERTY_APP_VERSION = "appVersion";
 		const string SHARED_PREFERENCES_NAME = "pqowwo";
 
-		public static async Task PerformRegistration (Activity ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
+		public static async Task<string> PerformRegistration (Activity ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
 		{
 			var regId = GetRegistrationId(ctx);
 			if (string.IsNullOrEmpty (regId))
-				await RegisterInBackground(ctx, senderId, onRegistrationIdRetrived);
+				regId = await RegisterInBackground(ctx, senderId, onRegistrationIdRetrived);
+			return regId;
+		}
+
+		public static void ResetCachedRegistrationId (Context ctx)
+		{
+			StoreRegistrationId (ctx, string.Empty);
 		}
 
 		static string GetRegistrationId (Context ctx)
@@ -35,11 +41,12 @@ namespace MasDev.Droid.Utils
 			return registeredVersion != currentVersion ? string.Empty : registrationId;
 		}
 
-		static async Task RegisterInBackground (Context ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
+		static async Task<string> RegisterInBackground (Context ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
 		{
 			var regid = await Task.Run (() =>  { return GoogleCloudMessaging.GetInstance(ctx).Register(senderId); });
 			await onRegistrationIdRetrived(regid);
-			storeRegistrationId(ctx, regid);
+			StoreRegistrationId(ctx, regid);
+			return regid;
 		}
 
 		static ISharedPreferences GetGCMPreferences (Context ctx)
@@ -47,7 +54,7 @@ namespace MasDev.Droid.Utils
 			return ctx.GetSharedPreferences (SHARED_PREFERENCES_NAME, FileCreationMode.Private);
 		}
 
-		static void storeRegistrationId (Context ctx, string regid)
+		static void StoreRegistrationId (Context ctx, string regid)
 		{
 			var prefs = GetGCMPreferences(ctx);
 			var appVersion = ApplicationUtils.PackageInfo.VersionCode;
