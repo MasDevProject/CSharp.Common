@@ -77,6 +77,18 @@ namespace MasDev.Data
 
 		#endregion
 
+		#region RawDelete
+
+		int RawDelete<TModel> (TModel model) where TModel : IModel;
+
+		Task<int> RawDeleteAsync<TModel> (TModel model) where TModel : IModel;
+
+		void RawDelete<TModel> (IEnumerable<TModel> models) where TModel : IModel;
+
+		Task RawDeleteAsync<TModel> (IEnumerable<TModel> models) where TModel : IModel;
+
+		#endregion
+
 		#region Clear
 
 		void Clear ();
