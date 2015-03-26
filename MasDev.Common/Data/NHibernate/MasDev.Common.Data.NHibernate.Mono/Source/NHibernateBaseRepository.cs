@@ -194,6 +194,34 @@ namespace MasDev.Data
 
 		#endregion
 
+		#region RawDelete
+
+		public virtual int RawDelete<TModel> (TModel model) where TModel : IModel
+		{
+			Session.Delete (model);
+			return model.Id;
+		}
+
+		public virtual async Task<int> RawDeleteAsync<TModel> (TModel model) where TModel : IModel
+		{
+			return await Task.Factory.StartNew (() => RawDelete (model));
+		}
+
+		public virtual void RawDelete<TModel> (IEnumerable<TModel> models) where TModel : IModel
+		{
+			foreach (var m in models) {
+				RawDelete (m);
+			}
+
+		}
+
+		public virtual async Task RawDeleteAsync<TModel> (IEnumerable<TModel> models) where TModel : IModel
+		{
+			await Task.Factory.StartNew (() => RawDelete (models));
+		}
+
+		#endregion
+
 		#region Clear
 
 		public void Clear ()
