@@ -1,5 +1,4 @@
 ﻿using System;
-using MasDev.Rest.Auth;
 using System.Collections.Concurrent;
 using MasDev.Utils;
 
@@ -10,8 +9,6 @@ namespace MasDev.Rest.Auth
 	{
 		// Tuple<id, flag>
 		readonly ConcurrentDictionary<Tuple<int, int>, ICredentials> _issued = new ConcurrentDictionary<Tuple<int, int>, ICredentials> ();
-
-
 
 		public Token Deserialize (string headerValue)
 		{
@@ -25,8 +22,6 @@ namespace MasDev.Rest.Auth
 			}
 		}
 
-
-
 		public string Serialize (Token token)
 		{
 			var serialized = TokenSerializer.Serialize (token);
@@ -34,8 +29,6 @@ namespace MasDev.Rest.Auth
 			var ret = TokenCompressor.Compress (protect);
 			return ret;
 		}
-
-
 
 		public int Authenticate (Token token, int? roles, ICredentialsRepository repository)
 		{
@@ -66,8 +59,6 @@ namespace MasDev.Rest.Auth
 			return token.Scope;
 		}
 
-
-
 		public LoginResult LogIn (ICredentials credentials, int? scope, ICredentialsRepository repository)
 		{
 			using (new LockByIdMutex (credentials.Id)) {
@@ -87,8 +78,6 @@ namespace MasDev.Rest.Auth
 			}
 		}
 
-
-
 		public void LogOut (ICredentials credentials, ICredentialsRepository repository)
 		{
 			using (new LockByIdMutex (credentials.Id)) {
@@ -102,9 +91,6 @@ namespace MasDev.Rest.Auth
 				repository.Update (credentials);
 			}
 		}
-
-
-
 
 		public ICredentials Find (int credentialsId, int flag, ICredentialsRepository repository)
 		{
@@ -124,8 +110,6 @@ namespace MasDev.Rest.Auth
 			}
 		}
 
-
-
 		public void Save (ICredentials credentials, ICredentialsRepository repository)
 		{
 			credentials.LastIssuedUTC = DateTime.UtcNow;
@@ -138,60 +122,37 @@ namespace MasDev.Rest.Auth
 			repository.Update (credentials);
 		}
 
+	    public void ClearCache()
+	    {
+	        _issued.Clear();
+	    }
 
-
-		public AuthManagerOptions Options { get; set; }
-
-
+	    public AuthManagerOptions Options { get; set; }
 
 		const string _tokenType = "bearer";
 
-
-
 		public string TokenType { get { return _tokenType; } }
-
-
 
 		ITokenCompressor TokenCompressor { get { return Options.TokenCompressor; } }
 
-
-
 		ITokenProtector TokenProtector { get { return Options.TokenProtector; } }
-
-
 
 		ITokenSerializer TokenSerializer { get { return Options.TokenSerializer; } }
 
-
-
 		IExpiration Expiration { get { return Options.Expiration; } }
-
 	}
-
-
-
-
 
 	class TokenCredentials : ICredentials
 	{
 		public int Roles { get; set; }
 
-
-
 		public DateTime LastIssuedUTC { get; set; }
-
-
 
 		public bool IsEnabled { get; set; }
 
-
-
 		public int Id { get; set; }
 
-
 		public int Flag { get; set; }
-
-
 
 		public static TokenCredentials Import (ICredentials credentials)
 		{

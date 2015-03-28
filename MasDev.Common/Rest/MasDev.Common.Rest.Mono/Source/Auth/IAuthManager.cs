@@ -4,6 +4,9 @@ namespace MasDev.Rest.Auth
 {
 	public interface IAuthManager
 	{
+	    void ClearCache();
+
+
 		AuthManagerOptions Options { get; set; }
 
 
