@@ -160,6 +160,58 @@ namespace MasDev.Data
 
 		#endregion
 
+        #region RawUpdate
+
+        public virtual int RawUpdate<TModel>(TModel model) where TModel:IModel
+        {
+            Session.Update(model);
+
+            return model.Id;
+        }
+
+        public virtual async Task<int> RawUpdateAsync<TModel>(TModel model) where TModel : IModel
+        {
+            return await Task.Factory.StartNew(() => RawUpdate(model));
+        }
+
+        public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        {
+            foreach (var m in models)
+            {
+                RawUpdate(m);
+            }
+
+        }
+
+        public virtual async Task RawUpdateAsync<TModel>(IEnumerable<TModel> models) where  TModel : IModel
+        {
+            await Task.Factory.StartNew(() => RawUpdate(models));
+        }
+
+        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : IModel
+        {
+            var model = Session.Get<TModel>(id);
+            if (model == null)
+                return default(TModel);
+
+            updater(model);
+            RawUpdate(model);
+            return model;
+        }
+
+        public async Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : IModel
+        {
+            var model = Session.Get<TModel>(id);
+            if (model == null)
+                return default(TModel);
+
+            updater(model);
+            await RawUpdateAsync(model);
+            return model;
+        }
+
+        #endregion
+
 		#region Delete
 
 		public virtual int Delete (T model)

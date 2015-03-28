@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -33,7 +33,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Expressions\AtomicExpression.cs" />
     <Compile Include="Source\Expressions\ExpressionBuilder.cs" />
-    <Compile Include="Source\Expressions\ModelIdExpressionBuilder.cs" />
+    <Compile Include="Source\Expressions\BaseExpressions.cs" />
     <Compile Include="Source\Modeling\IModel.cs" />
     <Compile Include="Source\Modeling\IUndeletableModel.cs" />
     <Compile Include="Source\Modeling\IVersionedModel.cs" />
@@ -50,10 +50,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <ItemGroup>
-    <Folder Include="Source\" />
-    <Folder Include="Source\Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
