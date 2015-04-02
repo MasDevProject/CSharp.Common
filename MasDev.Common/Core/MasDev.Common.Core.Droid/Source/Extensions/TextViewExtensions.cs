@@ -17,6 +17,13 @@ namespace MasDev.Droid.ExtensionMethods
 			textView.SetError (message, errorIcon ?? textView.Context.Resources.GetDrawable (Resource.Drawable.Ic_textview_error));
 		}
 
+		public static void ShowError (this TextView textView, int messageId, Drawable errorIcon = null)
+		{
+			textView.RequestFocus ();
+			textView.Focusable = true;
+			textView.SetError (textView.Context.GetString (messageId), errorIcon ?? textView.Context.Resources.GetDrawable (Resource.Drawable.Ic_textview_error));
+		}
+
 		public static void SetUnderlinedText (this TextView textView, string text)
 		{
 			var content = new SpannableString(text);
