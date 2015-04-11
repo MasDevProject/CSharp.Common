@@ -7,6 +7,8 @@ using MasDev.IO;
 using System.Net;
 using System.Net.Http.Headers;
 using MasDev.Extensions;
+using System.Web.UI.WebControls;
+using AutoMapper;
 
 
 namespace MasDev.Rest.WebApi
@@ -33,8 +35,8 @@ namespace MasDev.Rest.WebApi
 
 			var mimed = value as MimedStream;
 			if (mimed != null) {
-				result = new HttpResponseMessage (HttpStatusCode.OK);
 				var content = new StreamContent (mimed.Stream);
+				Mapper.DynamicMap (result.Content.Headers, content.Headers);
 				content.Headers.ContentType = new MediaTypeHeaderValue (mimed.Mime);
 				result.Content = content;
 			} 

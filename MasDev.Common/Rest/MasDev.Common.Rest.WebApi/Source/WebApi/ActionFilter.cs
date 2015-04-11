@@ -5,6 +5,7 @@ using System.Web.Http.Controllers;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using MasDev.IO.Http;
 
 
 namespace MasDev.Rest.WebApi
@@ -40,7 +41,17 @@ namespace MasDev.Rest.WebApi
 		static HttpResponseMessage AddHeaders (IHttpContext host, HttpResponseMessage response)
 		{
 			foreach (var header in host.ResponseHeaders) {
-				response.Headers.Add (header.Key, header.Value);
+				switch (header.Key) {
+				case Headers.LastModified:
+					if (response.Content == null || !header.Value.Any ())
+						continue;
+
+					response.Content.Headers.LastModified = DateTimeOffset.Parse (header.Value.FirstOrDefault ());
+					continue;
+				}
+
+				// DEFAULT HEADERS
+				response.Headers.TryAddWithoutValidation (header.Key, header.Value);
 				Debug.Write ("\t\t" + header.Key + " ");
 				foreach (var value in header.Value)
 					Debug.Write (value + "; ");
