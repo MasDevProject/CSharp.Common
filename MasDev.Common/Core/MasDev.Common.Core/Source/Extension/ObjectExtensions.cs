@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 
 
 namespace MasDev.Extensions
@@ -27,6 +28,11 @@ namespace MasDev.Extensions
 				return;
 
 			voidMethodCall (obj);
+		}
+
+		public static T CloneObject<T> (this T obj)
+		{
+			return Mapper.DynamicMap<T> (obj);
 		}
 	}
 }
