@@ -85,6 +85,7 @@
     <Compile Include="Source\WebApi\Utils\FileResult.cs" />
     <Compile Include="Source\WebApi\Utils\RequestExtensions.cs" />
     <Compile Include="Source\WebApi\Utils\WebApiControllerUtils.cs" />
+    <Compile Include="Source\WebApi\Response.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

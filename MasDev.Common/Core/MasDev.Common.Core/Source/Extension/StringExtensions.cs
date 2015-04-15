@@ -115,6 +115,16 @@ namespace MasDev.Extensions
 			return index <= 0 ? s : s.Substring (0, index);
 		}
 
+		public static bool IsHttpPath(this string s) 
+		{
+			try{
+				Uri uriResult;
+				return  Uri.TryCreate(s, UriKind.Absolute, out uriResult) && (uriResult.Scheme == "http" || uriResult.Scheme == "https");
+			}
+			catch{
+				return false;
+			}
+		}
 
 		#if !SALTARELLE
 		public static Uri AsUri (this string s)
