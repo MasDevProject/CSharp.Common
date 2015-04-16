@@ -143,11 +143,11 @@ namespace MasDev.Droid.Utils
 				ctx.StartActivityForResult (new Intent (Settings.ActionSettings), 0);
 			}
 
-			public static void StartBrowserActivity (Context ctx, string site, IntentStartFailedDelegate onError)
+			public static void StartBrowserActivity (Context ctx, string url, IntentStartFailedDelegate onError)
 			{
 				try {
 					var i = new Intent (Intent.ActionView);
-					i.SetData (Android.Net.Uri.Parse (site));
+					i.SetData (Android.Net.Uri.Parse (url));
 					ctx.StartActivity (i);
 				} catch (Exception e) {
 					onError.Invoke (ctx, e);
