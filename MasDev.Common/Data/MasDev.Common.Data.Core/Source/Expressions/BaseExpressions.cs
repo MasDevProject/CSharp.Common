@@ -25,7 +25,6 @@ namespace MasDev.Data.Expressions
     public sealed class PropertyEqualsExpressionBuilderFactory<TModel, TProperty> where TModel : IModel
     {
         readonly PropertyInfo _propertyInfo;
-        ParameterExpression _currentParameterExpression;
 
         public PropertyEqualsExpressionBuilderFactory(Expression<Func<TModel, TProperty>> propertyExpression, IPropertyNameResolver nameResolver)
         {
@@ -38,7 +37,7 @@ namespace MasDev.Data.Expressions
             return new PropertyEqualsExpressionBuilder<TModel, TProperty>(parameterExpression, _propertyInfo);
         }
 
-        class PropertyEqualsExpressionBuilder<TModel, TProperty> : AtomicExpressionBuilder<TModel, TProperty> where TModel : IModel
+        class PropertyEqualsExpressionBuilder<TIModel, TIProperty> : AtomicExpressionBuilder<TIModel, TIProperty> where TIModel : IModel
         {
             readonly PropertyInfo _property;
 
@@ -48,7 +47,7 @@ namespace MasDev.Data.Expressions
                 _property = prop;
             }
 
-            public override Expression BuildAtomicExpression(TProperty constantValue)
+            public override Expression BuildAtomicExpression(TIProperty constantValue)
             {
                 var memberAccess = Expression.MakeMemberAccess(ParameterExpression, _property);
                 return Expression.Equal(memberAccess, Expression.Constant(constantValue));

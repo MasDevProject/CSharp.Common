@@ -75,9 +75,6 @@
     <Reference Include="Xamarin.Android.Support.V8">
       <HintPath>..\..\packages\Xamarin.Android.Support.v8.RenderScript.21.0.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v8.RenderScript.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.V8">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v8.RenderScript.21.0.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v8.RenderScript.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
