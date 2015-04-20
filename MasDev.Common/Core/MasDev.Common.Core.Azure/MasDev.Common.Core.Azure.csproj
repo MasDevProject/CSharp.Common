@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">
-      <Project>{91e5d594-a734-48ab-b0da-cf63ac2bbba8}</Project>
+      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Common.Core</Name>
     </ProjectReference>
   </ItemGroup>

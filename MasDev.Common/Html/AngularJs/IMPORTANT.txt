@@ -1,3 +1,0 @@
-IMPORTANT
-
-Helper classes for https://github.com/nippur72/Saltarelle.AngularJS

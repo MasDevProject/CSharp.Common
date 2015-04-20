@@ -39,23 +39,25 @@ namespace MasDev.Droid.ExtensionMethods
 		/// <param name="input">Input.</param>
 		/// <param name="context">Context.</param>
 		/// <param name="radius">Radius.</param>
-		public static Bitmap AsBlurImage (this Bitmap input, Context context, int radius)
-		{
-			var rsScript = RenderScript.Create (context);
-			var alloc = Allocation.CreateFromBitmap (rsScript, input);
 
-			var blur = ScriptIntrinsicBlur.Create (rsScript, alloc.Element);
-			blur.SetRadius (radius);
-			blur.SetInput (alloc);
-
-			var result = Bitmap.CreateBitmap (input.Width, input.Height, input.GetConfig ());
-			var outAlloc = Allocation.CreateFromBitmap (rsScript, result);
-			blur.ForEach (outAlloc);
-			outAlloc.CopyTo (result);
-
-			rsScript.Destroy ();
-			return result;
-		}
+		// REQUIRE SUPPORT V8 (RENDERSCRIPT) TO WORK
+//		public static Bitmap AsBlurImage (this Bitmap input, Context context, int radius)
+//		{
+//			var rsScript = RenderScript.Create (context);
+//			var alloc = Allocation.CreateFromBitmap (rsScript, input);
+//
+//			var blur = ScriptIntrinsicBlur.Create (rsScript, alloc.Element);
+//			blur.SetRadius (radius);
+//			blur.SetInput (alloc);
+//
+//			var result = Bitmap.CreateBitmap (input.Width, input.Height, input.GetConfig ());
+//			var outAlloc = Allocation.CreateFromBitmap (rsScript, result);
+//			blur.ForEach (outAlloc);
+//			outAlloc.CopyTo (result);
+//
+//			rsScript.Destroy ();
+//			return result;
+//		}
 	}
 }
 

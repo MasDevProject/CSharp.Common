@@ -1,3 +1,0 @@
-IMPORTANT
-
-In order to compile on xamarin studio remove the ReferenceDependencyPaths from SCTask parameters in the file Saltarelle.Compiler.targets 

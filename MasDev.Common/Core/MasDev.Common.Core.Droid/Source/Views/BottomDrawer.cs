@@ -263,7 +263,7 @@ namespace MasDev.Droid.Views
 
 		public void OnGlobalLayout ()
 		{
-			_view.ViewTreeObserver.RemoveGlobalOnLayoutListener (this);
+			_view.ViewTreeObserver.RemoveOnGlobalLayoutListener (this);
 			OnViewTreeObserverFinished.Invoke (_view.Height);
 			_view = null;
 			OnViewTreeObserverFinished = null;
