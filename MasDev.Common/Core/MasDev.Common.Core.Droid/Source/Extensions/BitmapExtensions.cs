@@ -2,8 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using System;
-using Android.Content;
-using Android.Support.V8.Renderscript;
 
 namespace MasDev.Droid.ExtensionMethods
 {
@@ -35,23 +33,23 @@ namespace MasDev.Droid.ExtensionMethods
 		/// <summary>
 		/// Returns a blurred bitmap. Usually radius value is between 5 and 25
 		/// </summary>
-		public static Bitmap AsBlurImage (this Bitmap input, Context context, int radius)
-		{
-			var rsScript = RenderScript.Create (context);
-			var alloc = Allocation.CreateFromBitmap (rsScript, input);
-
-			var blur = ScriptIntrinsicBlur.Create (rsScript, alloc.Element);
-			blur.SetRadius (radius);
-			blur.SetInput (alloc);
-
-			var result = Bitmap.CreateBitmap (input.Width, input.Height, input.GetConfig ());
-			var outAlloc = Allocation.CreateFromBitmap (rsScript, result);
-			blur.ForEach (outAlloc);
-			outAlloc.CopyTo (result);
-
-			rsScript.Destroy ();
-			return result;
-		}
+//		public static Bitmap AsBlurImage (this Bitmap input, Context context, int radius)
+//		{
+//			var rsScript = RenderScript.Create (context);
+//			var alloc = Allocation.CreateFromBitmap (rsScript, input);
+//
+//			var blur = ScriptIntrinsicBlur.Create (rsScript, alloc.Element);
+//			blur.SetRadius (radius);
+//			blur.SetInput (alloc);
+//
+//			var result = Bitmap.CreateBitmap (input.Width, input.Height, input.GetConfig ());
+//			var outAlloc = Allocation.CreateFromBitmap (rsScript, result);
+//			blur.ForEach (outAlloc);
+//			outAlloc.CopyTo (result);
+//
+//			rsScript.Destroy ();
+//			return result;
+//		}
 	}
 }
 
