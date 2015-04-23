@@ -115,15 +115,20 @@ namespace MasDev.Extensions
 			return index <= 0 ? s : s.Substring (0, index);
 		}
 
-		public static bool IsHttpPath(this string s) 
+		public static bool IsHttpPath (this string s)
 		{
-			try{
+			try {
 				Uri uriResult;
-				return  Uri.TryCreate(s, UriKind.Absolute, out uriResult) && (uriResult.Scheme == "http" || uriResult.Scheme == "https");
-			}
-			catch{
+				return  Uri.TryCreate (s, UriKind.Absolute, out uriResult) && (uriResult.Scheme == "http" || uriResult.Scheme == "https");
+			} catch {
 				return false;
 			}
+		}
+
+		public static bool Matches (this string s, string regex)
+		{
+			var match = Regex.Match (s, regex);
+			return match.Success && match.Groups != null && match.Groups.Count > 0;
 		}
 
 		#if !SALTARELLE
