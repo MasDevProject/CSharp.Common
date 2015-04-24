@@ -9,8 +9,4 @@
         <attr name="circular_parallax" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="SlidingTabStrip">
-        <attr name="row_color" format="reference" />
-    </declare-styleable>
-
 </resources>
