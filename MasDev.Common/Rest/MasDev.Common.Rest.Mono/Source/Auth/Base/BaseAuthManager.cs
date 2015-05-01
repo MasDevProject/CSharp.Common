@@ -16,8 +16,7 @@ namespace MasDev.Rest.Auth
 				var decompressed = TokenCompressor.Decompress (headerValue);
 				var unprotected = TokenProtector.Unprotect (decompressed);
 				return TokenSerializer.Deserialize (unprotected);
-			} catch 
-			{
+			} catch {
 				return null;
 			}
 		}
@@ -53,7 +52,8 @@ namespace MasDev.Rest.Auth
 			if (roles == null)
 				return token.Scope;
 				
-			if ((roles & issuedCredentials.Roles) == 0)
+			var rolesIntersection = roles & issuedCredentials.Roles;
+			if (rolesIntersection != roles)
 				throw new UnauthorizedException ("Invald authorization level");
 
 			return token.Scope;
@@ -122,12 +122,12 @@ namespace MasDev.Rest.Auth
 			repository.Update (credentials);
 		}
 
-	    public void ClearCache()
-	    {
-	        _issued.Clear();
-	    }
+		public void ClearCache ()
+		{
+			_issued.Clear ();
+		}
 
-	    public AuthManagerOptions Options { get; set; }
+		public AuthManagerOptions Options { get; set; }
 
 		const string _tokenType = "bearer";
 
