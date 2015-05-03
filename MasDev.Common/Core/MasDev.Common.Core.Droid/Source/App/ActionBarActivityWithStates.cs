@@ -8,7 +8,7 @@ namespace MasDev.Droid.App
 		Pause,
 	}
 
-	public class ActionBarActivityWithStates : ActionBarActivity
+	public class ActionBarActivityWithStates : AppCompatActivity
 	{
 		public ActivityStates State { get; private set; }
 
