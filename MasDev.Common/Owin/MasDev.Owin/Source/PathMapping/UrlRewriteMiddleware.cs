@@ -15,7 +15,7 @@ namespace MasDev.Owin.UrlRewrite
 		public override async Task Invoke (IOwinContext context)
 		{
 			var requestPath = context.Request.Path.ToString ();
-			var matchingRule = MappingRules.Rules.FirstOrDefault (rule => rule.Predicate (requestPath));
+			var matchingRule = MappingRules.FirstOrDefault (rule => rule.Predicate (requestPath));
 			if (matchingRule != null)
 				context.Request.Path = new PathString (matchingRule.MapTo);
 

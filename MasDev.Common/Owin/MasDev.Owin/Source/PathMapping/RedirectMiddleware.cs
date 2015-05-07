@@ -14,13 +14,13 @@ namespace MasDev.Owin.Middlewares
 		public override async Task Invoke (IOwinContext context)
 		{
 			var requestPath = context.Request.Path.ToString ();
-			var matchingRule = MappingRules.Rules.FirstOrDefault (rule => rule.Predicate (requestPath));
-			if (matchingRule == null) {
+			var matchingRule = MappingRules.FirstOrDefault (rule => rule.Predicate (requestPath));
+			if (matchingRule != null) {
 				await Next.Invoke (context);
 				return;
 			}
 
-			context.Response.Redirect (requestPath);
+			context.Response.Redirect (matchingRule.MapTo);
 		}
 	}
 }

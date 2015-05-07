@@ -51,6 +51,10 @@
     <Compile Include="Source\PathMapping\UrlRewriteMiddleware.cs" />
     <Compile Include="Source\PathMapping\RedirectMiddleware.cs" />
     <Compile Include="Source\PathMapping\BasePathMappingMiddleware.cs" />
+    <Compile Include="Source\Authorization\AuthorizationMiddleware.cs" />
+    <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
+    <Compile Include="Source\ErrorPage\ErrorPageRules.cs" />
+    <Compile Include="Source\Compression\CompressionMiddleware.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -60,5 +64,8 @@
     <Folder Include="Source\" />
     <Folder Include="Source\Injection\" />
     <Folder Include="Source\PathMapping\" />
+    <Folder Include="Source\Authorization\" />
+    <Folder Include="Source\ErrorPage\" />
+    <Folder Include="Source\Compression\" />
   </ItemGroup>
 </Project>

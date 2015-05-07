@@ -5,41 +5,60 @@ using System;
 
 namespace MasDev.Owin.PathMapping
 {
-	public delegate bool PathMappingPredicate (string requestPath);
 
-	public class PathMappingRules
+	public class PathMappingRules : IEnumerable<PathMappingRule>
 	{
-		internal IEnumerable<PathMappingRule> Rules { get { return _rule.AsEnumerable (); } }
 
-		readonly IList<PathMappingRule> _rule = new List<PathMappingRule> ();
+		readonly IList<PathMappingRule> _rules = new List<PathMappingRule> ();
 
 
 		public PathMappingRule When (PathMappingPredicate predicate)
 		{
 			var rewrite = new PathMappingRule (predicate);
-			_rule.Add (rewrite);
+			_rules.Add (rewrite);
 			return rewrite;
 		}
 
 		internal void Validate ()
 		{
-			foreach (var rewrite in Rules) {
+			foreach (var rewrite in this) {
 				var rewriteTo = rewrite.MapTo;
-				if (string.IsNullOrWhiteSpace (rewriteTo))
-					throw new PathMappingException ("Path mapping destination cannot be null");
 
-				if (Rules.Any (r => r.Predicate (rewriteTo)))
+				if (this.Any (r => r.Predicate (rewriteTo)))
 					throw new PathMappingException ("Path mapping destination '{0}' maps to other math mapping rule", rewriteTo);
 			}
 		}
+
+		public IEnumerator<PathMappingRule> GetEnumerator ()
+		{
+			return _rules.GetEnumerator ();
+		}
+
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
+		{
+			return _rules.GetEnumerator ();
+		}
+
 	}
+
+	public delegate bool PathMappingPredicate (string requestPath);
 
 
 	public class PathMappingRule
 	{
 		internal PathMappingPredicate Predicate { get; set; }
 
-		public string MapTo { get; set; }
+		string _mapTo;
+
+		public string MapTo { 
+			get { return _mapTo; } 
+			set {
+				if (string.IsNullOrWhiteSpace (value))
+					throw new ArgumentNullException ();
+				_mapTo = value;
+			}
+		}
 
 		PathMappingRule ()
 		{
