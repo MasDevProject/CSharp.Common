@@ -1,19 +1,14 @@
 ﻿using Microsoft.Owin;
 using MasDev.Owin.PathMapping;
-using System;
 
 
 namespace MasDev.Owin.Middlewares
 {
-	public abstract class BasePathMappingMiddleware : OwinMiddleware
+	public abstract class BasePathMappingMiddleware : RuledMiddleware<PathMappingRules, PathMappingRule, PathMappingRulePredicate>
 	{
-		public static PathMappingRules MappingRules { get; set; }
-
-		public BasePathMappingMiddleware (OwinMiddleware next, string middlewareName) : base (next)
+		protected BasePathMappingMiddleware (PathMappingRules rules, OwinMiddleware next) : base (rules, next)
 		{
-			if (MappingRules == null)
-				throw new NotSupportedException (string.Format ("Set mapping rules before using {0}", middlewareName));
-			MappingRules.Validate ();
+			Rules.Validate ();
 		}
 	}
 }

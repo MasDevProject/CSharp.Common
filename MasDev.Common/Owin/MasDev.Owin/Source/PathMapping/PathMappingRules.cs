@@ -1,24 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System;
 
 
 namespace MasDev.Owin.PathMapping
 {
 
-	public class PathMappingRules : IEnumerable<PathMappingRule>
+	public class PathMappingRules : Rules<PathMappingRule, PathMappingRulePredicate>
 	{
-
-		readonly IList<PathMappingRule> _rules = new List<PathMappingRule> ();
-
-
-		public PathMappingRule When (PathMappingPredicate predicate)
-		{
-			var rewrite = new PathMappingRule (predicate);
-			_rules.Add (rewrite);
-			return rewrite;
-		}
-
 		internal void Validate ()
 		{
 			foreach (var rewrite in this) {
@@ -28,27 +16,13 @@ namespace MasDev.Owin.PathMapping
 					throw new PathMappingException ("Path mapping destination '{0}' maps to other math mapping rule", rewriteTo);
 			}
 		}
-
-		public IEnumerator<PathMappingRule> GetEnumerator ()
-		{
-			return _rules.GetEnumerator ();
-		}
-
-
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
-		{
-			return _rules.GetEnumerator ();
-		}
-
 	}
 
-	public delegate bool PathMappingPredicate (string requestPath);
+	public delegate bool PathMappingRulePredicate (string requestPath);
 
 
-	public class PathMappingRule
+	public class PathMappingRule : Rule<PathMappingRulePredicate>
 	{
-		internal PathMappingPredicate Predicate { get; set; }
-
 		string _mapTo;
 
 		public string MapTo { 
@@ -58,16 +32,6 @@ namespace MasDev.Owin.PathMapping
 					throw new ArgumentNullException ();
 				_mapTo = value;
 			}
-		}
-
-		PathMappingRule ()
-		{
-			// No public constructor
-		}
-
-		internal PathMappingRule (PathMappingPredicate predicate)
-		{
-			Predicate = predicate;
 		}
 	}
 }

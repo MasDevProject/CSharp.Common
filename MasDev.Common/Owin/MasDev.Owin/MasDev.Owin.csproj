@@ -41,6 +41,15 @@
     <Reference Include="SimpleInjector">
       <HintPath>..\..\packages\SimpleInjector.2.7.3\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems">
+      <HintPath>..\..\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles">
+      <HintPath>..\..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +64,19 @@
     <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
     <Compile Include="Source\ErrorPage\ErrorPageRules.cs" />
     <Compile Include="Source\Compression\CompressionMiddleware.cs" />
+    <Compile Include="Source\Authorization\AccessToken.cs" />
+    <Compile Include="Source\Authorization\Credentials.cs" />
+    <Compile Include="Source\Authorization\AuthorizationManager.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenConverter.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenProtector.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenCompressor.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
+    <Compile Include="Source\Authorization\AccessTokenStore.cs" />
+    <Compile Include="Source\Authorization\AuthorizationRules.cs" />
+    <Compile Include="Source\Rules.cs" />
+    <Compile Include="Source\RuledMiddleware.cs" />
+    <Compile Include="Source\RuleUtils.cs" />
+    <Compile Include="Source\Extensions\Extensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -67,5 +89,7 @@
     <Folder Include="Source\Authorization\" />
     <Folder Include="Source\ErrorPage\" />
     <Folder Include="Source\Compression\" />
+    <Folder Include="Source\Authorization\AccessTokenPipeline\" />
+    <Folder Include="Source\Extensions\" />
   </ItemGroup>
 </Project>
