@@ -14,14 +14,13 @@ namespace MasDev.Owin.Middlewares
 		const string _authorizationHeaderName = "Authorization";
 
 		readonly AuthorizationManager _manager;
-		readonly IAccessTokenStore _store;
+		readonly Func<IAccessTokenStore> _storeFactory;
 
-		public AuthorizationMiddleware (AuthorizationRules rules, AccessTokenPipeline pipeline, IAccessTokenStore store, OwinMiddleware next) : base (rules, next)
+		public AuthorizationMiddleware (AuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory, OwinMiddleware next) : base (rules, next)
 		{
 			pipeline.ThrowIfNull ("pipeline");
-			store.ThrowIfNull ("store");
-			_manager = new AuthorizationManager (pipeline, store);
-			_store = store;
+			_manager = new AuthorizationManager (pipeline, storeFactory);
+			_storeFactory = storeFactory;
 			rules.Validate ();
 		}
 
@@ -53,7 +52,7 @@ namespace MasDev.Owin.Middlewares
 			}
 
 			var credentials = accessToken.Credentials;
-			var lastInvalidationTimeUtc = await _store.GetlastInvalidationUtcAsync (credentials.Id, credentials.Flag);
+			var lastInvalidationTimeUtc = await _storeFactory ().GetlastInvalidationUtcAsync (credentials.Id, credentials.Flag);
 			if (lastInvalidationTimeUtc == null || !_manager.IsAccessTokenValid (minimumRequiredRole, lastInvalidationTimeUtc.Value, accessToken)) {
 				SendUnauthorized (context.Response);
 				return;

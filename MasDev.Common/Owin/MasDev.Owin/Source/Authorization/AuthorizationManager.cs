@@ -13,15 +13,14 @@ namespace MasDev.Owin.Auth
 
 		readonly AccessTokenPipeline _pipeline;
 
-		public IAccessTokenStore Store { get; private set; }
+		public Func<IAccessTokenStore> StoreFactory { get; private set; }
 
-		internal AuthorizationManager (AccessTokenPipeline pipeline, IAccessTokenStore store)
+		internal AuthorizationManager (AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
 		{
 			pipeline.ThrowIfNull ("pipeline");
-			store.ThrowIfNull ("store");
 			Current = this;
 			_pipeline = pipeline;
-			Store = store;
+			StoreFactory = storeFactory;
 		}
 
 		public string GenerateAccessToken (int id, int roles, DateTime expirationUtc, int? scope = null)
