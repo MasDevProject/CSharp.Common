@@ -13,19 +13,22 @@ namespace MasDev.Owin.PathMapping
 				var mapPath = rule.MapPath;
 
 				if (string.IsNullOrWhiteSpace (mapPath))
-					throw new ArgumentNullException ("mapPath");
+					throw new NotSupportedException ("MapPath must not be null");
 
 				if (this.Any (r => r.Predicate (mapPath)))
 					throw new PathMappingException ("Path mapping destination '{0}' maps to other math mapping rule", mapPath);
 			}
 		}
 
-
-		public override PathMappingRule FindMatch (IOwinContext context)
+		protected override PathMappingRule FindMatchInternal (IOwinContext context)
 		{
 			var requestPath = context.Request.Path.ToString ();
-			// TODO cache
 			return this.FirstOrDefault (r => r.Predicate (requestPath));
+		}
+
+		protected override string GetCacheKey (IOwinContext context)
+		{
+			return context.Request.Path.ToString ();
 		}
 	}
 

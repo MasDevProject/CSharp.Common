@@ -6,6 +6,8 @@ namespace MasDev.Owin.ErrorPage
 {
 	public class ErrorPageRules : OwinMiddlewareRules<ErrorPageRule>
 	{
+		const string _cacheKeyFormat = "{0}::{1}";
+
 		public override void Validate ()
 		{
 			foreach (var rule in this) {
@@ -16,13 +18,17 @@ namespace MasDev.Owin.ErrorPage
 			}
 		}
 
-		public override ErrorPageRule FindMatch (IOwinContext context)
+		protected override ErrorPageRule FindMatchInternal (IOwinContext context)
 		{
 			var requestPath = context.Request.Path.ToString ();
 			var statusCode = context.Response.StatusCode;
 
-			// TODO cache
 			return this.FirstOrDefault (rule => rule.StatusCodes.Any (c => c == statusCode) && rule.Predicate (requestPath));
+		}
+
+		protected override string GetCacheKey (IOwinContext context)
+		{
+			return string.Format (_cacheKeyFormat, context.Response.StatusCode, context.Request.Path);
 		}
 	}
 

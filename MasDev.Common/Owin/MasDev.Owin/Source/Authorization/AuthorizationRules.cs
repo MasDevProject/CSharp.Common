@@ -30,18 +30,24 @@ namespace MasDev.Owin.Auth
 
 	public class AuthorizationRules : OwinMiddlewareRules<AuthorizationRule>
 	{
+		const string _cacheKeyFormat = "{0}::{1}";
+
 		public override void Validate ()
 		{
 			if (this.Any (rule => rule.Method == null))
 				throw new NotSupportedException ("All rules must specify an HttpMethod");
 		}
 
-		public override AuthorizationRule FindMatch (IOwinContext context)
+		protected override AuthorizationRule FindMatchInternal (IOwinContext context)
 		{
 			var requestPath = context.Request.Path.ToString ();
 			var method = ParseHttpMethod (context.Request.Method).Value;
-			// TODO cache
 			return this.FirstOrDefault (r => r.Method == method && r.Predicate (requestPath));
+		}
+
+		protected override string GetCacheKey (IOwinContext context)
+		{
+			return string.Format (_cacheKeyFormat, context.Request.Method, context.Request.Path);
 		}
 
 		public static HttpMethod? ParseHttpMethod (string method)
