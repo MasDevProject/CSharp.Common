@@ -1,7 +1,5 @@
 ﻿using System;
 using Microsoft.Owin.Hosting;
-using Owin;
-using MasDev.Owin.PathMapping;
 
 namespace MasDev.Owin.Test
 {
@@ -16,26 +14,6 @@ namespace MasDev.Owin.Test
 				Console.ReadLine ();
 				Console.WriteLine ("Server closed");
 			}
-		}
-	}
-
-
-	class Startup
-	{
-		public void Configuration (IAppBuilder builder)
-		{
-			builder.UseSimpleInjectorMiddleware ();
-			builder.UseRedirectMiddleware (new RedirectRules ());
-		}
-	}
-
-	class RedirectRules : PathMappingRules
-	{
-		public RedirectRules ()
-		{
-			When (path => {
-				return path == "/test";
-			}).MapTo ("ciao");
 		}
 	}
 }

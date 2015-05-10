@@ -70,10 +70,10 @@
     <Compile Include="Source\Authorization\AccessTokenStore.cs" />
     <Compile Include="Source\Authorization\AuthorizationRules.cs" />
     <Compile Include="Source\RuledMiddleware.cs" />
-    <Compile Include="Source\RuleUtils.cs" />
     <Compile Include="Source\Extensions\Extensions.cs" />
     <Compile Include="Source\OwinMiddlewareRules.cs" />
     <Compile Include="Source\PathMapping\PathMappingMiddleware.cs" />
+    <Compile Include="Source\PathUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
