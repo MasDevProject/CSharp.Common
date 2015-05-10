@@ -8,9 +8,9 @@ namespace MasDev.Owin
 {
 	public static class Extensions
 	{
-		public static void UseAuthorizationMiddleware (this IAppBuilder app, AccessTokenPipeline pipeline, IAccessTokenStore store)
+		public static void UseAuthorizationMiddleware (this IAppBuilder app, AuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
 		{
-			app.Use<AuthorizationMiddleware> (pipeline, store);
+			app.Use<AuthorizationMiddleware> (rules, pipeline, storeFactory);
 		}
 
 		public static void UseRedirectMiddleware (this IAppBuilder builder, PathMappingRules rules)

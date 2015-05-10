@@ -6,7 +6,7 @@ namespace MasDev.Owin.Test
 	{
 		public UrlRewriteRules ()
 		{
-			When (path => path.MatchesTemplate ("/mimmo/{id}/ciao")).MapTo ("/timmy");
+			WhenMatches ("/mimmo/{id}/ciao").MapTo ("/timmy");
 		}
 	}
 }

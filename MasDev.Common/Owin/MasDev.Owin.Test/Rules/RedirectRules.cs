@@ -6,7 +6,7 @@ namespace MasDev.Owin.Test
 	{
 		public RedirectRules ()
 		{
-			When (path => path == "/test").MapTo ("/ciao");
+			WhenStartsWith ("/test").MapTo ("/ciao");
 		}
 	}
 }

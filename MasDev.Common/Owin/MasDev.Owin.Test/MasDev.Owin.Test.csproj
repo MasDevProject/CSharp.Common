@@ -63,6 +63,8 @@
     <Compile Include="Rules\RedirectRules.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Rules\UrlRewriteRules.cs" />
+    <Compile Include="Rules\AuthorizationRules.cs" />
+    <Compile Include="DummyAccessTokenStore.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -38,7 +38,7 @@ namespace MasDev.Owin.ErrorPage
 
 		internal string ErrorPagePath { get; private set; }
 
-		public ErrorPageRule ForStatusCodes (int[] statusCodes)
+		public ErrorPageRule ForStatusCodes (params int[] statusCodes)
 		{
 			StatusCodes = statusCodes;
 			return this;

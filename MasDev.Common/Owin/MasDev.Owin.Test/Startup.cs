@@ -1,4 +1,5 @@
 ﻿using Owin;
+using MasDev.Owin.Auth;
 
 namespace MasDev.Owin.Test
 {
@@ -9,6 +10,7 @@ namespace MasDev.Owin.Test
 			builder.UseSimpleInjectorMiddleware ();
 			builder.UseUrlRewriteMiddleware (new UrlRewriteRules ());
 			builder.UseRedirectMiddleware (new RedirectRules ());
+			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), () => new DummyAccessTokenStore ());
 		}
 	}
 }

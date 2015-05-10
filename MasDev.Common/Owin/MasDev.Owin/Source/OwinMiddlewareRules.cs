@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Owin;
 using System.Collections.Concurrent;
+using System;
 
 
 namespace MasDev.Owin
@@ -50,6 +51,26 @@ namespace MasDev.Owin
 			rule.Predicate = predicate;
 			_rules.Add (rule);
 			return rule;
+		}
+
+		public TRule WhenMatches (string templatePath)
+		{
+			return When (path => path.MatchesTemplate (templatePath));
+		}
+
+		public TRule WhenEquals (string url)
+		{
+			return When (path => path == url);
+		}
+
+		public TRule WhenStartsWith (string url, StringComparison? comparison = null)
+		{
+			return When (path => path.StartsWith (url, comparison ?? StringComparison.OrdinalIgnoreCase));
+		}
+
+		public TRule WhenContains (string what)
+		{
+			return When (path => path.Contains (what));
 		}
 	}
 

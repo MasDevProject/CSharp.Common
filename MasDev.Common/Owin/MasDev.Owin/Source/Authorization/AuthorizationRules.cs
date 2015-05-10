@@ -34,7 +34,7 @@ namespace MasDev.Owin.Auth
 
 		public override void Validate ()
 		{
-			if (this.Any (rule => rule.Method == null))
+			if (this.Any (rule => rule.Methods == null || rule.Methods.Length == 0))
 				throw new NotSupportedException ("All rules must specify an HttpMethod");
 		}
 
@@ -42,7 +42,7 @@ namespace MasDev.Owin.Auth
 		{
 			var requestPath = context.Request.Path.ToString ();
 			var method = ParseHttpMethod (context.Request.Method).Value;
-			return this.FirstOrDefault (r => r.Method == method && r.Predicate (requestPath));
+			return this.FirstOrDefault (r => r.Methods.Any (m => m == method) && r.Predicate (requestPath));
 		}
 
 		protected override string GetCacheKey (IOwinContext context)
@@ -78,13 +78,13 @@ namespace MasDev.Owin.Auth
 
 	public class AuthorizationRule : OwinMiddlewareRule
 	{
-		internal HttpMethod? Method { get; private set; }
+		internal HttpMethod[] Methods { get; private set; }
 
 		internal int? MinimumRoles { get; private set; }
 
-		public AuthorizationRule WithMethod (HttpMethod method)
+		public AuthorizationRule WithMethods (params HttpMethod[] methods)
 		{
-			Method = method;
+			Methods = methods;
 			return this;
 		}
 
