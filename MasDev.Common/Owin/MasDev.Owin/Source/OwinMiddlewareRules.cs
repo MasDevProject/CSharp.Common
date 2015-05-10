@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Owin;
 
 
 namespace MasDev.Owin
 {
-	public class Rules<TRule, TPredicate> : IEnumerable<TRule> where TRule : Rule<TPredicate>, new()
+	public abstract class OwinMiddlewareRules<TRule> : IEnumerable<TRule> where TRule : OwinMiddlewareRule, new()
 	{
 		readonly IList<TRule> _rules = new List<TRule> ();
 
@@ -17,7 +18,14 @@ namespace MasDev.Owin
 			return _rules.GetEnumerator ();
 		}
 
-		public void When (TPredicate predicate)
+		public virtual void Validate ()
+		{
+
+		}
+
+		public abstract TRule FindMatch (IOwinContext context);
+
+		public void When (OwinMiddlewareRulePredicate predicate)
 		{
 			predicate.ThrowIfNull ("predicate");
 			var rule = new TRule ();
@@ -26,13 +34,16 @@ namespace MasDev.Owin
 		}
 	}
 
-	public class Rule<TPredicate>
+	public delegate bool OwinMiddlewareRulePredicate (string path);
+		
+
+	public class OwinMiddlewareRule
 	{
-		public TPredicate Predicate { get; internal set; }
+		internal OwinMiddlewareRulePredicate Predicate { get; set; }
 
 		public bool IsCacheEnabled { get; private set; }
 
-		internal Rule ()
+		internal OwinMiddlewareRule ()
 		{
 			// No public constructor
 			IsCacheEnabled = true;

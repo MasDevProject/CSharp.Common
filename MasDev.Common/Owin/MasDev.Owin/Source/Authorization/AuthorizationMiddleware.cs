@@ -2,12 +2,11 @@
 using System.Threading.Tasks;
 using MasDev.Owin.Auth;
 using System;
-using System.Linq;
 
 
 namespace MasDev.Owin.Middlewares
 {
-	public class AuthorizationMiddleware : RuledMiddleware<AuthorizationRules, AuthorizationRule, AuthorizationRulePredicate>
+	public class AuthorizationMiddleware : RuledMiddleware<AuthorizationRules, AuthorizationRule>
 	{
 		public const string AccessTokenOwinContextKey = "AuthorizationMiddleware.AccessToken";
 		const string _accessTokenScheme = "bearer ";
@@ -28,23 +27,18 @@ namespace MasDev.Owin.Middlewares
 		public override async Task Invoke (IOwinContext context)
 		{
 			var request = context.Request;
-			var method = ParseHttpMethod (request.Method);
+			var method = AuthorizationRules.ParseHttpMethod (request.Method);
 			if (method == null) {
 				await Next.Invoke (context);
 				return;
 			}
-			var path = request.Path.ToString ();
 
-			var matchingRule = Rules.FirstOrDefault (r => r.Method == method && r.Predicate (path));
+			var matchingRule = Rules.FindMatch (context);
 			if (matchingRule == null) {
 				await Next.Invoke (context);
 				return;
 			}
-
-			int? minimumRequiredRole = null;
-			if (matchingRule.RoleRestriction != null)
-				minimumRequiredRole = matchingRule.RoleRestriction.AtLeastRole;
-
+				
 			var accessToken = GetAccessTokenFromAuthorizationHeader (context.Request);
 			if (accessToken == null) {
 				SendUnauthorized (context.Response);
@@ -53,7 +47,7 @@ namespace MasDev.Owin.Middlewares
 
 			var credentials = accessToken.Credentials;
 			var lastInvalidationTimeUtc = await _storeFactory ().GetlastInvalidationUtcAsync (credentials.Id, credentials.Flag);
-			if (lastInvalidationTimeUtc == null || !_manager.IsAccessTokenValid (minimumRequiredRole, lastInvalidationTimeUtc.Value, accessToken)) {
+			if (lastInvalidationTimeUtc == null || !_manager.IsAccessTokenValid (matchingRule.MinimumRoles, lastInvalidationTimeUtc.Value, accessToken)) {
 				SendUnauthorized (context.Response);
 				return;
 			}
@@ -88,31 +82,6 @@ namespace MasDev.Owin.Middlewares
 			try {
 				return _manager.UnprocessAccessToken (headerAccessToken);
 			} catch (Exception) {
-				return null;
-			}
-		}
-
-		static HttpMethod? ParseHttpMethod (string method)
-		{
-			if (string.IsNullOrWhiteSpace (method))
-				return null;
-			
-			switch (method.ToLowerInvariant ()) {
-			case HttpMethodNames.Get:
-				return HttpMethod.Get;
-			case HttpMethodNames.Post:
-				return HttpMethod.Post;
-			case HttpMethodNames.Put:
-				return HttpMethod.Put;
-			case HttpMethodNames.Head:
-				return HttpMethod.Head;
-			case HttpMethodNames.Delete:
-				return HttpMethod.Delete;
-			case HttpMethodNames.Trace:
-				return HttpMethod.Trace;
-			case HttpMethodNames.Options:
-				return HttpMethod.Options;
-			default:
 				return null;
 			}
 		}

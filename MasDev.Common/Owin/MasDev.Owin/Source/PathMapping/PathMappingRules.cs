@@ -1,37 +1,42 @@
 ﻿using System.Linq;
 using System;
+using Microsoft.Owin;
 
 
 namespace MasDev.Owin.PathMapping
 {
-
-	public class PathMappingRules : Rules<PathMappingRule, PathMappingRulePredicate>
+	public class PathMappingRules : OwinMiddlewareRules<PathMappingRule>
 	{
-		internal void Validate ()
+		public override void Validate ()
 		{
-			foreach (var rewrite in this) {
-				var rewriteTo = rewrite.MapTo;
+			foreach (var rule in this) {
+				var mapPath = rule.MapPath;
 
-				if (this.Any (r => r.Predicate (rewriteTo)))
-					throw new PathMappingException ("Path mapping destination '{0}' maps to other math mapping rule", rewriteTo);
+				if (string.IsNullOrWhiteSpace (mapPath))
+					throw new ArgumentNullException ("mapPath");
+
+				if (this.Any (r => r.Predicate (mapPath)))
+					throw new PathMappingException ("Path mapping destination '{0}' maps to other math mapping rule", mapPath);
 			}
+		}
+
+
+		public override PathMappingRule FindMatch (IOwinContext context)
+		{
+			var requestPath = context.Request.Path.ToString ();
+			// TODO cache
+			return this.FirstOrDefault (r => r.Predicate (requestPath));
 		}
 	}
 
-	public delegate bool PathMappingRulePredicate (string requestPath);
-
-
-	public class PathMappingRule : Rule<PathMappingRulePredicate>
+	public class PathMappingRule : OwinMiddlewareRule
 	{
-		string _mapTo;
+		internal string MapPath { get; set; }
 
-		public string MapTo { 
-			get { return _mapTo; } 
-			set {
-				if (string.IsNullOrWhiteSpace (value))
-					throw new ArgumentNullException ();
-				_mapTo = value;
-			}
+		public PathMappingRule MapTo (string path)
+		{
+			MapPath = path;
+			return this;
 		}
 	}
 }

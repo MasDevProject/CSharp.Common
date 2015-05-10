@@ -2,11 +2,10 @@
 using Microsoft.Owin;
 using System.Threading.Tasks;
 using MasDev.Owin.ErrorPage;
-using System.Linq;
 
 namespace MasDev.Owin.Middlewares
 {
-	public class ErrorPageMiddleware : RuledMiddleware<ErrorPageRules, ErrorPageRule, ErrorPageRulePredicate>
+	public class ErrorPageMiddleware : RuledMiddleware<ErrorPageRules, ErrorPageRule>
 	{
 		public ErrorPageMiddleware (ErrorPageRules rules, OwinMiddleware next) : base (rules, next)
 		{
@@ -21,8 +20,7 @@ namespace MasDev.Owin.Middlewares
 			if (statusCode == 200)
 				return;
 			
-			var requestPath = context.Request.Path.ToString ();
-			var matchingRule = Rules.FirstOrDefault (rule => rule.Predicate (statusCode, requestPath));
+			var matchingRule = Rules.FindMatch (context);
 			if (matchingRule == null)
 				return;
 				

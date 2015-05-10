@@ -59,7 +59,6 @@
     <Compile Include="Source\PathMapping\PathMappingRules.cs" />
     <Compile Include="Source\PathMapping\UrlRewriteMiddleware.cs" />
     <Compile Include="Source\PathMapping\RedirectMiddleware.cs" />
-    <Compile Include="Source\PathMapping\BasePathMappingMiddleware.cs" />
     <Compile Include="Source\Authorization\AuthorizationMiddleware.cs" />
     <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
     <Compile Include="Source\ErrorPage\ErrorPageRules.cs" />
@@ -73,10 +72,11 @@
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
     <Compile Include="Source\Authorization\AccessTokenStore.cs" />
     <Compile Include="Source\Authorization\AuthorizationRules.cs" />
-    <Compile Include="Source\Rules.cs" />
     <Compile Include="Source\RuledMiddleware.cs" />
     <Compile Include="Source\RuleUtils.cs" />
     <Compile Include="Source\Extensions\Extensions.cs" />
+    <Compile Include="Source\OwinMiddlewareRules.cs" />
+    <Compile Include="Source\PathMapping\PathMappingMiddleware.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

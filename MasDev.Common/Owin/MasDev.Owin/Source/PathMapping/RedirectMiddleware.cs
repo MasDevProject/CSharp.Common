@@ -1,12 +1,10 @@
-﻿using System;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using System.Threading.Tasks;
-using System.Linq;
 using MasDev.Owin.PathMapping;
 
 namespace MasDev.Owin.Middlewares
 {
-	public class RedirectMiddleware : BasePathMappingMiddleware
+	public class RedirectMiddleware : PathMappingMiddleware
 	{
 		public RedirectMiddleware (PathMappingRules rules, OwinMiddleware next) : base (rules, next)
 		{
@@ -14,14 +12,12 @@ namespace MasDev.Owin.Middlewares
 
 		public override async Task Invoke (IOwinContext context)
 		{
-			var requestPath = context.Request.Path.ToString ();
-			var matchingRule = Rules.FirstOrDefault (rule => rule.Predicate (requestPath));
+			var matchingRule = Rules.FindMatch (context);
 			if (matchingRule != null) {
-				await Next.Invoke (context);
+				context.Response.Redirect (matchingRule.MapPath);
 				return;
 			}
-
-			context.Response.Redirect (matchingRule.MapTo);
+			await Next.Invoke (context);
 		}
 	}
 }
