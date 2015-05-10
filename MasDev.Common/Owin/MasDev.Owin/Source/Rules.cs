@@ -30,9 +30,17 @@ namespace MasDev.Owin
 	{
 		public TPredicate Predicate { get; internal set; }
 
+		public bool IsCacheEnabled { get; private set; }
+
 		internal Rule ()
 		{
 			// No public constructor
+			IsCacheEnabled = true;
+		}
+
+		public void UseCache (bool useCache)
+		{
+			IsCacheEnabled = useCache;
 		}
 	}
 }
