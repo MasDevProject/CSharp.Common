@@ -7,7 +7,7 @@ namespace MasDev.Owin.Middlewares
 {
 	public class ErrorPageMiddleware : RuledMiddleware<ErrorPageRules, ErrorPageRule>
 	{
-		public ErrorPageMiddleware (ErrorPageRules rules, OwinMiddleware next) : base (rules, next)
+		public ErrorPageMiddleware (OwinMiddleware next, ErrorPageRules rules) : base (next, rules)
 		{
 		}
 

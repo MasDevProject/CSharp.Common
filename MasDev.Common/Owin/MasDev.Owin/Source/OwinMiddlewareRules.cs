@@ -43,12 +43,13 @@ namespace MasDev.Owin
 
 		protected abstract string GetCacheKey (IOwinContext context);
 
-		public void When (OwinMiddlewareRulePredicate predicate)
+		public TRule When (OwinMiddlewareRulePredicate predicate)
 		{
 			predicate.ThrowIfNull ("predicate");
 			var rule = new TRule ();
 			rule.Predicate = predicate;
 			_rules.Add (rule);
+			return rule;
 		}
 	}
 
@@ -59,7 +60,7 @@ namespace MasDev.Owin
 	{
 		internal OwinMiddlewareRulePredicate Predicate { get; set; }
 
-		public bool IsCacheEnabled { get; private set; }
+		internal bool IsCacheEnabled { get; private set; }
 
 		internal OwinMiddlewareRule ()
 		{

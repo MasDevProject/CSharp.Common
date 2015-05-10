@@ -8,7 +8,7 @@ namespace MasDev.Owin
 	{
 		public TRules Rules { get; private set; }
 
-		protected RuledMiddleware (TRules rules, OwinMiddleware next) : base (next)
+		protected RuledMiddleware (OwinMiddleware next, TRules rules) : base (next)
 		{
 			Rules = rules;
 			Rules.Validate ();

@@ -6,7 +6,7 @@ using Owin;
 
 namespace MasDev.Owin
 {
-	static class Extensions
+	public static class Extensions
 	{
 		public static void UseAuthorizationMiddleware (this IAppBuilder app, AccessTokenPipeline pipeline, IAccessTokenStore store)
 		{

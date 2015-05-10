@@ -15,7 +15,7 @@ namespace MasDev.Owin.Middlewares
 		readonly AuthorizationManager _manager;
 		readonly Func<IAccessTokenStore> _storeFactory;
 
-		public AuthorizationMiddleware (AuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory, OwinMiddleware next) : base (rules, next)
+		public AuthorizationMiddleware (OwinMiddleware next, AuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory) : base (next, rules)
 		{
 			pipeline.ThrowIfNull ("pipeline");
 			_manager = new AuthorizationManager (pipeline, storeFactory);

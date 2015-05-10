@@ -7,7 +7,7 @@ namespace MasDev.Owin.Middlewares
 {
 	public class UrlRewriteMiddleware : PathMappingMiddleware
 	{
-		public UrlRewriteMiddleware (PathMappingRules rules, OwinMiddleware next) : base (rules, next)
+		public UrlRewriteMiddleware (OwinMiddleware next, PathMappingRules rules) : base (next, rules)
 		{
 		}
 

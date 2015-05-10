@@ -6,7 +6,7 @@ namespace MasDev.Owin.Middlewares
 {
 	public class RedirectMiddleware : PathMappingMiddleware
 	{
-		public RedirectMiddleware (PathMappingRules rules, OwinMiddleware next) : base (rules, next)
+		public RedirectMiddleware (OwinMiddleware next, PathMappingRules rules) : base (next, rules)
 		{
 		}
 
