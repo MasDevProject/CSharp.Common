@@ -22,7 +22,7 @@ namespace MasDev.Owin.PathMapping
 
 		protected override PathMappingRule FindMatchInternal (IOwinContext context)
 		{
-			var requestPath = context.Request.Path.ToString ();
+			var requestPath = context.Request.Path.ToNormalizedString ();
 			return this.FirstOrDefault (r => r.Predicate (requestPath));
 		}
 

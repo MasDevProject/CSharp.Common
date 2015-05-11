@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System;
 using Microsoft.Owin;
+using System.Net;
 
 namespace MasDev.Owin.Auth
 {
@@ -40,7 +41,8 @@ namespace MasDev.Owin.Auth
 
 		protected override AuthorizationRule FindMatchInternal (IOwinContext context)
 		{
-			var requestPath = context.Request.Path.ToString ();
+			var requestPath = context.Request.Path.ToNormalizedString ();
+
 			var method = ParseHttpMethod (context.Request.Method).Value;
 			return this.FirstOrDefault (r => r.Methods.Any (m => m == method) && r.Predicate (requestPath));
 		}

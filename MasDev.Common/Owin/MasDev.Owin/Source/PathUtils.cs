@@ -1,12 +1,17 @@
 ﻿using System.Text.RegularExpressions;
+using System.IO;
+using Microsoft.Owin;
 
 
 namespace MasDev.Owin
 {
 	public static class PathUtils
 	{
-		const string _urlParameterRegexPattern = "{[^/]*?}";
-		const string _urlParameterRegexReplacement = "[^/]*?";
+		const string _normalizeSlashesRegexPattern = @"/+";
+		const string _normalizeSlashesRegexReplacement = "/";
+		const string _urlParameterRegexPattern = @"{[^/]*?}";
+		const string _urlParameterRegexReplacement = @"[^/]*?";
+		static readonly char[] _trimEndCharacters = { '\\', '/' };
 
 		public static bool MatchesTemplate (this string path, string urlTemplate)
 		{
@@ -14,6 +19,11 @@ namespace MasDev.Owin
 
 			var isTemplateMatched = Regex.IsMatch (path, urlTemplate);
 			return isTemplateMatched;
+		}
+
+		public static string ToNormalizedString (this PathString path)
+		{
+			return Regex.Replace (path.ToString (), _normalizeSlashesRegexPattern, _normalizeSlashesRegexReplacement).TrimEnd (_trimEndCharacters);
 		}
 	}
 }
