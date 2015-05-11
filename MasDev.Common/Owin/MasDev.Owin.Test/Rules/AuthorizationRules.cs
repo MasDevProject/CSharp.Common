@@ -1,8 +1,9 @@
-﻿using MasDev.Owin.Auth;
+﻿using MasDev.Common.Owin.Rules;
 
-namespace MasDev.Owin.Test
+
+namespace MasDev.Common.Owin
 {
-	public class AuthorizationRules : MasDev.Owin.Auth.AuthorizationRules
+	public class AuthorizationRules : MasDev.Common.Owin.Rules.AuthorizationRules
 	{
 		public AuthorizationRules ()
 		{

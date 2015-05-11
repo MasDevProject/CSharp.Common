@@ -1,7 +1,7 @@
 ﻿using Owin;
-using MasDev.Owin.Auth;
+using MasDev.Common.Owin.Auth;
 
-namespace MasDev.Owin.Test
+namespace MasDev.Common.Owin
 {
 	class Startup
 	{

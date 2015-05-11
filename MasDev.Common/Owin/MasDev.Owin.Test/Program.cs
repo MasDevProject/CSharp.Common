@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Owin.Hosting;
 
-namespace MasDev.Owin.Test
+namespace MasDev.Common.Owin
 {
 	class MainClass
 	{

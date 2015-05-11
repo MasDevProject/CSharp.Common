@@ -1,6 +1,7 @@
-﻿using MasDev.Owin.PathMapping;
+﻿using MasDev.Common.Owin.Rules;
 
-namespace MasDev.Owin.Test
+
+namespace MasDev.Common.Owin
 {
 	class RedirectRules : PathMappingRules
 	{

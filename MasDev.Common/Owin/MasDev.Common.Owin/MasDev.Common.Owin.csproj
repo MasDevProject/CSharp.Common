@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{891F1160-4993-4AFA-9079-56E986D81EFF}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>MasDev.Owin.Test</RootNamespace>
-    <AssemblyName>MasDev.Owin.Test</AssemblyName>
+    <ProjectGuid>{C0C50872-12B4-4FC5-B6D3-800CE7E7C838}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MasDev.Common.Owin</RootNamespace>
+    <AssemblyName>MasDev.Common.Owin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -25,13 +25,10 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="SimpleInjector">
-      <HintPath>..\..\packages\SimpleInjector.2.8.0\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -44,39 +41,45 @@
     <Reference Include="Microsoft.Owin.StaticFiles">
       <HintPath>..\..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\..\packages\SimpleInjector.2.8.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Diagnostics">
-      <HintPath>..\..\packages\Microsoft.Owin.Diagnostics.3.0.1\lib\net45\Microsoft.Owin.Diagnostics.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Hosting">
-      <HintPath>..\..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.HttpListener">
-      <HintPath>..\..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\RedirectRules.cs" />
-    <Compile Include="Startup.cs" />
-    <Compile Include="Rules\UrlRewriteRules.cs" />
-    <Compile Include="Rules\AuthorizationRules.cs" />
-    <Compile Include="DummyAccessTokenStore.cs" />
+    <Compile Include="Source\OwinMiddlewareRules.cs" />
+    <Compile Include="Source\PathUtils.cs" />
+    <Compile Include="Source\RuledMiddleware.cs" />
+    <Compile Include="Source\Authorization\AccessToken.cs" />
+    <Compile Include="Source\Authorization\AccessTokenStore.cs" />
+    <Compile Include="Source\Authorization\AuthorizationManager.cs" />
+    <Compile Include="Source\Authorization\AuthorizationMiddleware.cs" />
+    <Compile Include="Source\Authorization\AuthorizationRules.cs" />
+    <Compile Include="Source\Authorization\Credentials.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenCompressor.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenConverter.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenProtector.cs" />
+    <Compile Include="Source\Compression\CompressionMiddleware.cs" />
+    <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
+    <Compile Include="Source\ErrorPage\ErrorPageRules.cs" />
+    <Compile Include="Source\Extensions\Extensions.cs" />
+    <Compile Include="Source\Injection\PerRequestLifestyle.cs" />
+    <Compile Include="Source\Injection\SimpleInjectorMiddleware.cs" />
+    <Compile Include="Source\PathMapping\PathMappingException.cs" />
+    <Compile Include="Source\PathMapping\PathMappingMiddleware.cs" />
+    <Compile Include="Source\PathMapping\PathMappingRules.cs" />
+    <Compile Include="Source\PathMapping\RedirectMiddleware.cs" />
+    <Compile Include="Source\PathMapping\UrlRewriteMiddleware.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Rules\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MasDev.Common.Owin\MasDev.Common.Owin.csproj">
-      <Project>{C0C50872-12B4-4FC5-B6D3-800CE7E7C838}</Project>
-      <Name>MasDev.Common.Owin</Name>
-    </ProjectReference>
+    <Folder Include="Source\" />
   </ItemGroup>
 </Project>

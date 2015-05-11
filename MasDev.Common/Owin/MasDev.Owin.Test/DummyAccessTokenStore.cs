@@ -1,8 +1,8 @@
 ﻿using System;
-using MasDev.Owin.Auth;
+using MasDev.Common.Owin.Auth;
 using System.Threading.Tasks;
 
-namespace MasDev.Owin.Test
+namespace MasDev.Common.Owin
 {
 	public class DummyAccessTokenStore : IAccessTokenStore
 	{
