@@ -5,16 +5,30 @@ namespace MasDev.iOS.Extensions
 {
 	public static class DateExtensions
 	{
-		private static DateTime BaseDate = new DateTime(2001,1,1,0,0,0);
-
-		public static NSDate ToNSDate(this DateTime dateTime)
+		private static DateTime ReferenceDate 
 		{
-			return NSDate.FromTimeIntervalSinceReferenceDate((dateTime-(BaseDate)).TotalSeconds);
+			get { return new DateTime (2001, 1, 1, 0, 0, 0, DateTimeKind.Utc); }
 		}
 
-		public static DateTime ToDateTime(this NSDate nsDate)
+		// NSDate extensions
+
+		public static DateTime ToDateTime(this NSDate nsDateUTC)
 		{
-			return (BaseDate).AddSeconds(nsDate.SecondsSinceReferenceDate);
+			return ReferenceDate.AddSeconds(nsDateUTC.SecondsSinceReferenceDate).ToLocalTime();
+		}
+
+		// DateTime extensions
+
+		public static NSDate ToNSDate(this DateTime date)
+		{
+			date = date.ToUniversalTime ();
+
+			return NSDate.FromTimeIntervalSinceReferenceDate((date - ReferenceDate).TotalSeconds);
+		}
+
+		public static DateTime SumDate(this DateTime date, DateTime source)
+		{
+			return date.AddSeconds (source.Second).AddMinutes (source.Minute).AddHours (source.Hour);
 		}
 	}
 }
