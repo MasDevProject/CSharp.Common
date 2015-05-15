@@ -8,6 +8,7 @@ namespace MasDev.Services.Test
 		public override void ConfigureDependencies (IDependencyContainer container)
 		{
 			ConfigureModeling (container);
+			ConfigureData (container);
 		}
 	}
 }

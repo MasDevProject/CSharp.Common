@@ -83,21 +83,26 @@
     <Compile Include="Source\Communication\Dto\UserDto.cs" />
     <Compile Include="Source\Data\Models\User.cs" />
     <Compile Include="Source\Data\Roles.cs" />
-    <Compile Include="Source\Injection\CommunicationDependencyConfigurator.cs" />
     <Compile Include="Source\Communication\Mapping\UserDtoMapper.cs" />
+    <Compile Include="Source\Controllers\User\UserController.cs" />
+    <Compile Include="Source\Controllers\User\UserEndpoints.cs" />
+    <Compile Include="Source\Injection\CommunicationDependencyConfigurator %28copy%29.cs" />
+    <Compile Include="Source\Injection\DataDependencyConfigurator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <Folder Include="Source\" />
     <Folder Include="Source\Services\" />
-    <Folder Include="Source\Endpoints\" />
     <Folder Include="Source\Injection\" />
     <Folder Include="Source\Communication\" />
     <Folder Include="Source\Communication\Mapping\" />
     <Folder Include="Source\Communication\Dto\" />
     <Folder Include="Source\Data\" />
     <Folder Include="Source\Data\Models\" />
+    <Folder Include="Source\Data\Repositories\" />
+    <Folder Include="Source\Controllers\" />
+    <Folder Include="Source\Controllers\User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">

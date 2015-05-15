@@ -6,17 +6,17 @@ namespace MasDev.Services.Middlewares
 {
 	public static class Extensions
 	{
-		public static void UseAuthorizationMiddleware (this IAppBuilder app, AuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
+		public static void UseAuthorizationMiddleware (this IAppBuilder app, BaseAuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
 		{
 			app.Use<AuthorizationMiddleware> (rules, pipeline, storeFactory);
 		}
 
-		public static void UseRedirectMiddleware (this IAppBuilder builder, PathMappingRules rules)
+		public static void UseRedirectMiddleware (this IAppBuilder builder, BasePathMappingRules rules)
 		{
 			builder.Use<RedirectMiddleware> (rules);
 		}
 
-		public static void UseUrlRewriteMiddleware (this IAppBuilder builder, PathMappingRules rules)
+		public static void UseUrlRewriteMiddleware (this IAppBuilder builder, BasePathMappingRules rules)
 		{
 			builder.Use<UrlRewriteMiddleware> (rules);
 		}

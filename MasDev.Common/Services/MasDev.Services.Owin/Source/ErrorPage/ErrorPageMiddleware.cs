@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace MasDev.Services.Middlewares
 {
-	public class ErrorPageMiddleware : RuledMiddleware<ErrorPageRules, ErrorPageRule>
+	public class ErrorPageMiddleware : RuledMiddleware<BaseErrorPageRules, ErrorPageRule>
 	{
-		public ErrorPageMiddleware (OwinMiddleware next, ErrorPageRules rules) : base (next, rules)
+		public ErrorPageMiddleware (OwinMiddleware next, BaseErrorPageRules rules) : base (next, rules)
 		{
 		}
 

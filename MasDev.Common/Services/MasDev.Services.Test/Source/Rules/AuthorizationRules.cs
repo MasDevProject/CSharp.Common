@@ -1,13 +1,14 @@
 ﻿using MasDev.Services.Middlewares;
+using MasDev.Services.Test;
 
 
-namespace MasDev.Services
+namespace MasDev.Services.Test
 {
-	public class AuthorizationRules : MasDev.Services.Middlewares.AuthorizationRules
+	public class AuthorizationRules : BaseAuthorizationRules
 	{
 		public AuthorizationRules ()
 		{
-			WhenMatches ("/user/{id}").WithMethods (HttpMethod.Get);
+			WhenMatches (UserEndpoints.Delete).WithMethods (HttpMethod.Delete);
 		}
 	}
 }

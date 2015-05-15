@@ -4,7 +4,7 @@ using Microsoft.Owin;
 
 namespace MasDev.Services.Middlewares
 {
-	public class ErrorPageRules : OwinMiddlewareRules<ErrorPageRule>
+	public abstract class BaseErrorPageRules : OwinMiddlewareRules<ErrorPageRule>
 	{
 		const string _cacheKeyFormat = "{0}::{1}";
 
@@ -32,7 +32,7 @@ namespace MasDev.Services.Middlewares
 		}
 	}
 
-	public class ErrorPageRule : OwinMiddlewareRule
+	public sealed class ErrorPageRule : OwinMiddlewareRule
 	{
 		internal int[] StatusCodes { get; private set; }
 

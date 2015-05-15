@@ -5,7 +5,7 @@ namespace MasDev.Services.Middlewares
 {
 	public class RedirectMiddleware : PathMappingMiddleware
 	{
-		public RedirectMiddleware (OwinMiddleware next, PathMappingRules rules) : base (next, rules)
+		public RedirectMiddleware (OwinMiddleware next, BasePathMappingRules rules) : base (next, rules)
 		{
 		}
 

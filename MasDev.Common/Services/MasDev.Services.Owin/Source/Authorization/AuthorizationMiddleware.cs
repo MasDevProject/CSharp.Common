@@ -6,7 +6,7 @@ using MasDev.Services.Auth;
 
 namespace MasDev.Services.Middlewares
 {
-	public class AuthorizationMiddleware : RuledMiddleware<AuthorizationRules, AuthorizationRule>
+	public class AuthorizationMiddleware : RuledMiddleware<BaseAuthorizationRules, AuthorizationRule>
 	{
 		public const string AccessTokenOwinContextKey = "AuthorizationMiddleware.AccessToken";
 		const string _accessTokenScheme = "bearer ";
@@ -15,7 +15,7 @@ namespace MasDev.Services.Middlewares
 		readonly AuthorizationManager _manager;
 		readonly Func<IAccessTokenStore> _storeFactory;
 
-		public AuthorizationMiddleware (OwinMiddleware next, AuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory) : base (next, rules)
+		public AuthorizationMiddleware (OwinMiddleware next, BaseAuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory) : base (next, rules)
 		{
 			pipeline.ThrowIfNull ("pipeline");
 			_manager = new AuthorizationManager (pipeline, storeFactory);
@@ -27,7 +27,7 @@ namespace MasDev.Services.Middlewares
 		public override async Task Invoke (IOwinContext context)
 		{
 			var request = context.Request;
-			var method = AuthorizationRules.ParseHttpMethod (request.Method);
+			var method = BaseAuthorizationRules.ParseHttpMethod (request.Method);
 			if (method == null) {
 				await Next.Invoke (context);
 				return;

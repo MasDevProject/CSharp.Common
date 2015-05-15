@@ -1,7 +1,5 @@
 ﻿using MasDev.Patterns.Injection;
 using MasDev.Services.Test.Communication;
-using MasDev.Services.Modeling;
-using MasDev.Services.Test.Models;
 
 namespace MasDev.Services.Test
 {
@@ -9,7 +7,7 @@ namespace MasDev.Services.Test
 	{
 		static void ConfigureModeling (IDependencyContainer container)
 		{
-			container.AddDependency<DtoMapper<UserDto, User>, UserDtoMapper> (LifeStyles.Singleton);
+			container.AddDependency<UserDtoMapper, UserDtoMapper> (LifeStyles.Singleton);
 		}
 	}
 }

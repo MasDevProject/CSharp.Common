@@ -2,6 +2,7 @@
 using Microsoft.Owin;
 using System.Collections.Concurrent;
 using System;
+using System.Linq;
 
 
 namespace MasDev.Services.Middlewares
@@ -58,9 +59,19 @@ namespace MasDev.Services.Middlewares
 			return When (path => path.MatchesTemplate (templatePath));
 		}
 
+		public TRule WhenMatches (params string[] templatePaths)
+		{
+			return When (path => templatePaths.Any (templatePath => path.MatchesTemplate (templatePath)));
+		}
+
 		public TRule WhenEquals (string url)
 		{
 			return When (path => path == url);
+		}
+
+		public TRule WhenEquals (params string[] urls)
+		{
+			return When (path => urls.Any (templatePath => path == templatePath));
 		}
 
 		public TRule WhenStartsWith (string url, StringComparison? comparison = null)
@@ -68,10 +79,21 @@ namespace MasDev.Services.Middlewares
 			return When (path => path.StartsWith (url, comparison ?? StringComparison.OrdinalIgnoreCase));
 		}
 
+		public TRule WhenStartsWith (StringComparison? comparison = null, params string[] urls)
+		{
+			return When (path => urls.Any (url => path.StartsWith (url, comparison ?? StringComparison.OrdinalIgnoreCase)));
+		}
+
 		public TRule WhenContains (string what)
 		{
 			return When (path => path.Contains (what));
 		}
+
+		public TRule WhenContains (params string[] what)
+		{
+			return When (path => what.Any (path.Contains));
+		}
+
 	}
 
 	public delegate bool OwinMiddlewareRulePredicate (string path);

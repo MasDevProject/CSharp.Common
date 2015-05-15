@@ -28,7 +28,7 @@ namespace MasDev.Services.Middlewares
 		public const string Options = "options";
 	}
 
-	public class AuthorizationRules : OwinMiddlewareRules<AuthorizationRule>
+	public abstract class BaseAuthorizationRules : OwinMiddlewareRules<AuthorizationRule>
 	{
 		const string _cacheKeyFormat = "{0}::{1}";
 
@@ -77,7 +77,7 @@ namespace MasDev.Services.Middlewares
 		}
 	}
 
-	public class AuthorizationRule : OwinMiddlewareRule
+	public sealed class AuthorizationRule : OwinMiddlewareRule
 	{
 		internal HttpMethod[] Methods { get; private set; }
 

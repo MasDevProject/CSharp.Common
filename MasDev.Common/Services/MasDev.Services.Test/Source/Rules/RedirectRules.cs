@@ -2,11 +2,11 @@
 
 namespace MasDev.Services
 {
-	class RedirectRules : PathMappingRules
+	class RedirectRules : BasePathMappingRules
 	{
 		public RedirectRules ()
 		{
-			WhenStartsWith ("/test").MapTo ("/ciao");
+			//WhenStartsWith ("/test").MapTo ("/ciao");
 		}
 	}
 }

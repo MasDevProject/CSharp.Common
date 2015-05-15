@@ -27,12 +27,10 @@ namespace MasDev.Services
 			get { return 150; }
 		}
 
-
 		protected override Scope GetCurrentScopeCore (Container container)
 		{
 			return GetScopeManager (container).CurrentScope;
 		}
-
 
 		protected override Func<Scope> CreateCurrentScopeProvider (Container container)
 		{
@@ -61,11 +59,15 @@ namespace MasDev.Services
 
 	class RequestScopeManager
 	{
-		public Scope CurrentScope { get; private set; }
-
-		public RequestScopeManager ()
-		{
-			CurrentScope = CallContext.GetData (PerRequestLifestyle.CallContextKey) as Scope;
+		public Scope CurrentScope { 
+			get {
+				var scope = CallContext.GetData (PerRequestLifestyle.CallContextKey) as Scope;
+				if (scope == null) {
+					scope = new Scope ();
+					CallContext.SetData (PerRequestLifestyle.CallContextKey, scope);
+				}
+				return scope;
+			}
 		}
 	}
 }

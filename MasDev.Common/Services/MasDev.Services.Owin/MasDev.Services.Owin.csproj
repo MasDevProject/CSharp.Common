@@ -72,14 +72,12 @@
     <Compile Include="Source\Authorization\AccessTokenStore.cs" />
     <Compile Include="Source\Authorization\AuthorizationManager.cs" />
     <Compile Include="Source\Authorization\AuthorizationMiddleware.cs" />
-    <Compile Include="Source\Authorization\AuthorizationRules.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenCompressor.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenConverter.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenProtector.cs" />
     <Compile Include="Source\Compression\CompressionMiddleware.cs" />
     <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
-    <Compile Include="Source\ErrorPage\ErrorPageRules.cs" />
     <Compile Include="Source\Extensions\Extensions.cs" />
     <Compile Include="Source\Injection\PerRequestLifestyle.cs" />
     <Compile Include="Source\Injection\SimpleInjectorMiddleware.cs" />
@@ -88,6 +86,8 @@
     <Compile Include="Source\PathMapping\PathMappingRules.cs" />
     <Compile Include="Source\PathMapping\RedirectMiddleware.cs" />
     <Compile Include="Source\PathMapping\UrlRewriteMiddleware.cs" />
+    <Compile Include="Source\Authorization\BaseAuthorizationRules.cs" />
+    <Compile Include="Source\ErrorPage\BaseErrorPageRules.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

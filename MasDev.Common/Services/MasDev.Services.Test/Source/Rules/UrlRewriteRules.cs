@@ -3,11 +3,11 @@
 
 namespace MasDev.Services
 {
-	class UrlRewriteRules : PathMappingRules
+	class UrlRewriteRules : BasePathMappingRules
 	{
 		public UrlRewriteRules ()
 		{
-			WhenMatches ("/mimmo/{id}/ciao").MapTo ("/timmy");
+			//WhenMatches ("/mimmo/{id}/ciao").MapTo ("/timmy");
 		}
 	}
 }

@@ -5,7 +5,7 @@ using Microsoft.Owin;
 
 namespace MasDev.Services.Middlewares
 {
-	public class PathMappingRules : OwinMiddlewareRules<PathMappingRule>
+	public abstract class BasePathMappingRules : OwinMiddlewareRules<PathMappingRule>
 	{
 		public override void Validate ()
 		{
@@ -32,7 +32,7 @@ namespace MasDev.Services.Middlewares
 		}
 	}
 
-	public class PathMappingRule : OwinMiddlewareRule
+	public sealed class PathMappingRule : OwinMiddlewareRule
 	{
 		internal string MapPath { get; set; }
 
