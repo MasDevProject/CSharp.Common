@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MasDev.Services
 {
-	public interface ICrudService<TDto> : IDisposable  where TDto : IDto
+	public interface ICrudService<TDto>  where TDto : IDto
 	{
 		Task<TDto> CreateAsync (TDto dto);
 

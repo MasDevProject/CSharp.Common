@@ -1,6 +1,7 @@
 ﻿using System;
 using Owin;
 using MasDev.Services.Auth;
+using MasDev.Patterns.Injection.SimpleInjector;
 
 namespace MasDev.Services.Middlewares
 {
@@ -21,9 +22,9 @@ namespace MasDev.Services.Middlewares
 			builder.Use<UrlRewriteMiddleware> (rules);
 		}
 
-		public static void UseSimpleInjectorMiddleware (this IAppBuilder builder)
+		public static void UseSimpleInjectorMiddleware (this IAppBuilder builder, SimpleInjectorContainer container)
 		{
-			builder.Use<SimpleInjectorMiddleware> ();
+			builder.Use<SimpleInjectorMiddleware> (container);
 		}
 
 		public static void ThrowIfNull (this object obj, string name)

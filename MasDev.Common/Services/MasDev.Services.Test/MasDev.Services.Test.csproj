@@ -82,6 +82,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping">
+      <HintPath>..\..\packages\SimpleInjector.Extensions.ExecutionContextScoping.2.8.0\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,7 +98,6 @@
     <Compile Include="Source\Communication\Dto\UserDto.cs" />
     <Compile Include="Source\Data\Models\User.cs" />
     <Compile Include="Source\Data\Roles.cs" />
-    <Compile Include="Source\Communication\Mapping\UserDtoMapper.cs" />
     <Compile Include="Source\Controllers\User\UserController.cs" />
     <Compile Include="Source\Controllers\User\UserEndpoints.cs" />
     <Compile Include="Source\Injection\CommunicationDependencyConfigurator %28copy%29.cs" />
@@ -107,6 +109,10 @@
     <Compile Include="Source\Data\Repositories\IUsersRepository.cs" />
     <Compile Include="Source\Data\Repositories\Implementation\UsersRepository.cs" />
     <Compile Include="Source\Data\Repositories.cs" />
+    <Compile Include="Source\Services\UsersService.cs" />
+    <Compile Include="Source\TopLevelMiddleware.cs" />
+    <Compile Include="Source\Communication\Mappers\UserDtoMapper.cs" />
+    <Compile Include="Source\Communication\Validators\UserValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -115,7 +121,6 @@
     <Folder Include="Source\Services\" />
     <Folder Include="Source\Injection\" />
     <Folder Include="Source\Communication\" />
-    <Folder Include="Source\Communication\Mapping\" />
     <Folder Include="Source\Communication\Dto\" />
     <Folder Include="Source\Data\" />
     <Folder Include="Source\Data\Models\" />
@@ -124,6 +129,8 @@
     <Folder Include="Source\Controllers\User\" />
     <Folder Include="Source\Data\Repositories\Base\" />
     <Folder Include="Source\Data\Repositories\Implementation\" />
+    <Folder Include="Source\Communication\Validators\" />
+    <Folder Include="Source\Communication\Mappers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">

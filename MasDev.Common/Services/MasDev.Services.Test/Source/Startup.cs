@@ -12,14 +12,17 @@ namespace MasDev.Services
 	{
 		public void Configuration (IAppBuilder builder)
 		{
-			Injector.InitializeWith (new SimpleInjectorContainer (), new TestDependencyConfigurator ());
+			var container = new SimpleInjectorContainer ();
+			Injector.InitializeWith (container, new TestDependencyConfigurator ());
 			var dbSession = Injector.Resolve<ISessionFactoryProvider> ();
 			dbSession.Connect ();
 
-			builder.UseSimpleInjectorMiddleware ();
+			builder.UseSimpleInjectorMiddleware (container);
 			builder.UseUrlRewriteMiddleware (new UrlRewriteRules ());
 			builder.UseRedirectMiddleware (new RedirectRules ());
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
+
+			builder.Use<TopLevelMiddleware> ();
 		}
 	}
 }

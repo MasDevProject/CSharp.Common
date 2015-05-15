@@ -8,64 +8,56 @@ using System;
 
 namespace MasDev.Services
 {
-	public class CrudService<TDto, TModel, TMapper, TRepository> : IDisposable, ICrudService<TDto>
+	public class CrudService<TDto, TModel, TRepository> : ICrudService<TDto>
 		where TDto: class, IDto
 		where TModel : class, IModel, new()
 		where TRepository : class, IRepository<TModel>
-		where TMapper : DtoMapper<TDto, TModel>
 	{
 		protected TRepository Repository { get; private set; }
 
-		protected TMapper DtoMapper { get; private set; }
+		protected ICommunicationMapper<TDto, TModel> CommunicationMapper { get; private set; }
 
-		protected Identity Identity { get; private set; }
+		protected IValidator<TDto> Validator { get; private set; }
 
-		protected int? Scope { get; private set; }
+		protected IContext Context { get; private set; }
 
 		protected virtual IQueryable<TModel> Query { get { return Repository.Query; } }
 
-		public CrudService (Identity identity, int? scope)
+		public CrudService (IContext context)
 		{
 			Repository = Injector.Resolve<TRepository> ();
-			DtoMapper = Injector.Resolve<TMapper> ();
-			Identity = identity;
-			Scope = scope;
-		}
-
-		protected virtual TDto Map (TModel model)
-		{ 
-			return DtoMapper.Map (model, Identity, Scope);
-		}
-
-		protected virtual TModel Map (TDto dto)
-		{ 
-			return DtoMapper.Map (dto, Identity);
+			CommunicationMapper = Injector.Resolve<ICommunicationMapper<TDto, TModel>> ();
+			Validator = Injector.Resolve<IValidator<TDto>> ();
+			Context = context;
 		}
 
 		public virtual async Task<TDto> CreateAsync (TDto dto)
 		{
-			var model = DtoMapper.Map (dto, Identity);
+			var model = await Map (dto);
 			await Repository.CreateAsync (model);
-			return DtoMapper.Map (model, Identity);
+			return await Map (model);
 		}
 
 		public virtual async Task<IList<TDto>> ReadAsync (int skip, int take)
 		{
 			var models = await Query.Skip (skip).Take (take).ToListAsync ();
 
-			return !models.Any () ? 
-				Enumerable.Empty<TDto> ().ToList () : 
-				models.Select (Map).ToList ();
+			if (!models.Any ())
+				return Enumerable.Empty<TDto> ().ToList ();
 
+			var conversionTasks = models.Select (Map).ToList ();
+			await Task.WhenAll (conversionTasks);
+			return conversionTasks.Select (t => t.Result).ToList ();
 		}
 
 		public virtual async Task<TDto> ReadAsync (int id)
 		{
 			var model = await Repository.ReadAsync (id);
 
-			return model == null ? 
-				null : 
-				Map (model);
+			if (model == null)
+				return null;
+
+			return await Map (model);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto)
@@ -74,9 +66,13 @@ namespace MasDev.Services
 			if (model == null)
 				throw new ServiceUpdateException ();
 
-			DtoMapper.MapForUpdate (dto, model, Identity, Scope);
+			if (CommunicationMapper.IsAsync)
+				await CommunicationMapper.MapForUpdateAsync (dto, model, Context);
+			else
+				CommunicationMapper.MapForUpdate (dto, model, Context);
+			
 			await Repository.UpdateAsync (model);
-			return DtoMapper.Map (model, Identity, Scope);
+			return await Map (model);
 		}
 
 		public virtual async Task DeleteAsync (int id)
@@ -87,10 +83,23 @@ namespace MasDev.Services
 			await Repository.DeleteAsync (model);
 		}
 
-		public void Dispose ()
+		protected virtual async Task<TDto> Map (TModel model)
 		{
-			if (Repository != null)
-				Repository.Dispose ();
+			return CommunicationMapper.IsAsync ? 
+				await CommunicationMapper.MapAsync (model, Context) : 
+				CommunicationMapper.Map (model, Context);
+		}
+
+		protected virtual async Task<TModel> Map (TDto dto)
+		{
+			if (Validator.IsAsync)
+				await Validator.ValidateAsync (dto, Context);
+			else
+				Validator.Validate (dto, Context);
+
+			return CommunicationMapper.IsAsync ? 
+				await CommunicationMapper.MapAsync (dto, Context) : 
+				CommunicationMapper.Map (dto, Context);
 		}
 	}
 
