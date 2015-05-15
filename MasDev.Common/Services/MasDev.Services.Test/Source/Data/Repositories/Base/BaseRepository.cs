@@ -1,6 +1,5 @@
 ﻿using MasDev.Data;
 using MasDev.Patterns.Injection;
-using System;
 
 namespace MasDev.Services.Test.Data
 {
@@ -8,13 +7,6 @@ namespace MasDev.Services.Test.Data
 	{
 		public BaseRepository () : base (Injector.Resolve<IUnitOfWork> ())
 		{
-			Console.WriteLine ("{0} constructed", typeof(TModel).Name);
-		}
-
-		public override void Dispose ()
-		{
-			Console.WriteLine ("{0} disposed", typeof(TModel).Name);
-			base.Dispose ();
 		}
 	}
 }

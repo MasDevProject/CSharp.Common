@@ -6,149 +6,149 @@ using System.Linq;
 
 namespace MasDev.Data
 {
-    public interface IRepository<T> : IDisposable, IModelQueryFactory where T : class, IModel, new()
-    {
-        #region Create
+	public interface IRepository<T> : IModelQueryFactory where T : class, IModel, new()
+	{
+		#region Create
 
-        int Create(T model);
+		int Create (T model);
 
-        Task<int> CreateAsync(T model);
+		Task<int> CreateAsync (T model);
 
-        void Create(IEnumerable<T> models);
+		void Create (IEnumerable<T> models);
 
-        Task CreateAsync(IEnumerable<T> models);
+		Task CreateAsync (IEnumerable<T> models);
 
-        #endregion
+		#endregion
 
-        #region CreateOrUpdate
+		#region CreateOrUpdate
 
-        Task<int> CreateOrUpdateAsync(IModel model);
+		Task<int> CreateOrUpdateAsync (IModel model);
 
-        int CreateOrUpdate(IModel model);
+		int CreateOrUpdate (IModel model);
 
-        Task<IEnumerable<int>> CreateOrUpdateAsync(IEnumerable<IModel> models);
+		Task<IEnumerable<int>> CreateOrUpdateAsync (IEnumerable<IModel> models);
 
-        IEnumerable<int> CreateOrUpdate(IEnumerable<IModel> models);
+		IEnumerable<int> CreateOrUpdate (IEnumerable<IModel> models);
 
-        #endregion
+		#endregion
 
-        #region Read
+		#region Read
 
-        TModel ReadonlyModel<TModel>(int id) where TModel : class, IModel, new();
+		TModel ReadonlyModel<TModel> (int id) where TModel : class, IModel, new();
 
-        Task<TModel> ReadonlyModelAsync<TModel>(int id) where TModel : class, IModel, new();
+		Task<TModel> ReadonlyModelAsync<TModel> (int id) where TModel : class, IModel, new();
 
-        T Read(int id);
+		T Read (int id);
 
-        Task<T> ReadAsync(int id);
+		Task<T> ReadAsync (int id);
 
-        IEnumerable<T> Read(IEnumerable<int> ids);
+		IEnumerable<T> Read (IEnumerable<int> ids);
 
-        Task<IEnumerable<T>> ReadAsync(IEnumerable<int> ids);
+		Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids);
 
-        #endregion
+		#endregion
 
-        #region Update
+		#region Update
 
-        int Update(T model);
+		int Update (T model);
 
-        Task<int> UpdateAsync(T model);
+		Task<int> UpdateAsync (T model);
 
-        T Update(int id, Action<T> updater);
+		T Update (int id, Action<T> updater);
 
-        Task<T> UpdateAsync(int id, Action<T> updater);
+		Task<T> UpdateAsync (int id, Action<T> updater);
 
-        void Update(IEnumerable<T> models);
+		void Update (IEnumerable<T> models);
 
-        Task UpdateAsync(IEnumerable<T> models);
+		Task UpdateAsync (IEnumerable<T> models);
 
-        #endregion
+		#endregion
 
-        #region RawUpdate
+		#region RawUpdate
 
-        int RawUpdate<TModel>(TModel model) where TModel : IModel;
+		int RawUpdate<TModel> (TModel model) where TModel : IModel;
 
-        Task<int> RawUpdateAsync<TModel>(TModel model) where TModel : IModel;
+		Task<int> RawUpdateAsync<TModel> (TModel model) where TModel : IModel;
 
-        TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : IModel;
+		TModel RawUpdate<TModel> (int id, Action<TModel> updater) where TModel : IModel;
 
-        Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : IModel;
+		Task<TModel> RawUpdateAsync<TModel> (int id, Action<TModel> updater) where TModel : IModel;
 
-        void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : IModel;
+		void RawUpdate<TModel> (IEnumerable<TModel> models) where TModel : IModel;
 
-        Task RawUpdateAsync<TModel>(IEnumerable<TModel> models) where TModel : IModel;
+		Task RawUpdateAsync<TModel> (IEnumerable<TModel> models) where TModel : IModel;
 
-        #endregion
+		#endregion
 
-        #region Delete
+		#region Delete
 
-        int Delete(T model);
+		int Delete (T model);
 
-        Task<int> DeleteAsync(T model);
+		Task<int> DeleteAsync (T model);
 
-        void Delete(IEnumerable<T> models);
+		void Delete (IEnumerable<T> models);
 
-        Task DeleteAsync(IEnumerable<T> models);
+		Task DeleteAsync (IEnumerable<T> models);
 
-        #endregion
+		#endregion
 
-        #region RawDelete
+		#region RawDelete
 
-        int RawDelete<TModel>(TModel model) where TModel : IModel;
+		int RawDelete<TModel> (TModel model) where TModel : IModel;
 
-        Task<int> RawDeleteAsync<TModel>(TModel model) where TModel : IModel;
+		Task<int> RawDeleteAsync<TModel> (TModel model) where TModel : IModel;
 
-        void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : IModel;
+		void RawDelete<TModel> (IEnumerable<TModel> models) where TModel : IModel;
 
-        Task RawDeleteAsync<TModel>(IEnumerable<TModel> models) where TModel : IModel;
+		Task RawDeleteAsync<TModel> (IEnumerable<TModel> models) where TModel : IModel;
 
-        #endregion
+		#endregion
 
-        #region Clear
+		#region Clear
 
-        void Clear();
+		void Clear ();
 
-        Task ClearAsync();
+		Task ClearAsync ();
 
-        #endregion
+		#endregion
 
-        #region UnitOfWork
+		#region UnitOfWork
 
-        void BeginWork();
+		void BeginWork ();
 
-        void CommitWork();
+		void CommitWork ();
 
-        void RollbackWork();
+		void RollbackWork ();
 
-        bool IsInTransaction { get; }
+		bool IsInTransaction { get; }
 
-        #endregion
+		#endregion
 
-        IQueryable<T> Query { get; }
+		IQueryable<T> Query { get; }
 
-        IUnitOfWork UnitOfWork { get; }
+		IUnitOfWork UnitOfWork { get; }
 
-        void Lock(T model, LockMode lockMode);
+		void Lock (T model, LockMode lockMode);
 
-    }
+	}
 
-    public enum LockMode
-    {
-        Write,
-        Upgrade,
-        UpgradeNoWait,
-        Read,
-        None
-    }
+	public enum LockMode
+	{
+		Write,
+		Upgrade,
+		UpgradeNoWait,
+		Read,
+		None
+	}
 
-    public interface IRepository<TVersionedModel, TModelVersioning> : IRepository<TVersionedModel>
+	public interface IRepository<TVersionedModel, TModelVersioning> : IRepository<TVersionedModel>
         where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
         where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
-    {
-        TModelVersioning CreateVersion(TVersionedModel model);
+	{
+		TModelVersioning CreateVersion (TVersionedModel model);
 
-        IQueryable<TVersionedModel> UnfilteredQuery { get; }
+		IQueryable<TVersionedModel> UnfilteredQuery { get; }
 
-        bool ShouldDoVersioning(TVersionedModel storedModel, TVersionedModel newModel);
-    }
+		bool ShouldDoVersioning (TVersionedModel storedModel, TVersionedModel newModel);
+	}
 }

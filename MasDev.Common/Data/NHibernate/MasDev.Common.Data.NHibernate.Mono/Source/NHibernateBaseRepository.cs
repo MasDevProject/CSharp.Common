@@ -380,11 +380,6 @@ namespace MasDev.Data
 
 		#endregion
 
-		public virtual void Dispose ()
-		{
-			Uow.Dispose ();
-		}
-
 		public virtual IQueryable<T> Query { get { return UnfilteredQueryForModel<T> (); } }
 
 		public virtual IQueryable<TModel> QueryForModel<TModel> () where TModel : IUndeletableModel

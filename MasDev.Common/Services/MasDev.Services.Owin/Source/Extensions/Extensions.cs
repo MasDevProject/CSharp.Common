@@ -27,6 +27,11 @@ namespace MasDev.Services.Middlewares
 			builder.Use<SimpleInjectorMiddleware> (container);
 		}
 
+		public static void UseUnitOfWorkHandlerMiddleware (this IAppBuilder builder, params int[] committableStatusCodes)
+		{
+			builder.Use<UnitOfWorkHandlerMiddleware> (committableStatusCodes);
+		}
+
 		public static void ThrowIfNull (this object obj, string name)
 		{
 			if (obj == null)
