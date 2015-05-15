@@ -11,6 +11,7 @@ namespace MasDev.Data.NHibernate.Providers
 
 		public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, string host, string database, string schema, string username, string password, string context, bool buildSchema = false)
 		{
+			throw new NotImplementedException ();
 			FactoryLazy = new Lazy<ISessionFactory> (() => {
 				var model = NHibernateUtils.CreateMappings<TMappingProvider> (modelsNamespace);
 				var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider> (host, database, schema, username, password, model, context, buildSchema);
@@ -19,6 +20,11 @@ namespace MasDev.Data.NHibernate.Providers
 		}
 
 		public virtual ISessionFactory Factory { get { return FactoryLazy.Value; } }
+
+		public void Connect ()
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
 

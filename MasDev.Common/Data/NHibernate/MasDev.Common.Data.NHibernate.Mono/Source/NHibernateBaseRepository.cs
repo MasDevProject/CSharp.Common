@@ -13,19 +13,19 @@ namespace MasDev.Data
 {
 	public class NHibernateBaseRepository<T> : IRepository<T> where T : class, IModel, new()
 	{
-		protected NHibernateUnitOfWork _uow;
+		internal NHibernateUnitOfWork Uow;
 
-		protected ISession Session { get { return _uow.Session; } }
+		protected ISession Session { get { return Uow.Session; } }
 
-		public virtual IUnitOfWork UnitOfWork { get { return _uow; } }
+		public virtual IUnitOfWork UnitOfWork { get { return Uow; } }
 
 		public NHibernateBaseRepository (IUnitOfWork uow)
 		{
-			_uow = uow as NHibernateUnitOfWork;
-			if (_uow == null)
+			Uow = uow as NHibernateUnitOfWork;
+			if (Uow == null)
 				throw new ArgumentException ("uow must be subclass of NHibernateUnitOfWork");
 
-			_uow.Start ();
+			Uow.Start ();
 		}
 
 		#region Create
@@ -98,7 +98,7 @@ namespace MasDev.Data
 
 		public TModel ReadonlyModel<TModel> (int id) where TModel : class, IModel, new()
 		{
-			var obj = _uow.ReadonlySession.Get<TModel> (id);
+			var obj = Uow.ReadonlySession.Get<TModel> (id);
 			return obj;
 		}
 
@@ -160,57 +160,56 @@ namespace MasDev.Data
 
 		#endregion
 
-        #region RawUpdate
+		#region RawUpdate
 
-        public virtual int RawUpdate<TModel>(TModel model) where TModel:IModel
-        {
-            Session.Update(model);
+		public virtual int RawUpdate<TModel> (TModel model) where TModel:IModel
+		{
+			Session.Update (model);
 
-            return model.Id;
-        }
+			return model.Id;
+		}
 
-        public virtual async Task<int> RawUpdateAsync<TModel>(TModel model) where TModel : IModel
-        {
-            return await Task.Factory.StartNew(() => RawUpdate(model));
-        }
+		public virtual async Task<int> RawUpdateAsync<TModel> (TModel model) where TModel : IModel
+		{
+			return await Task.Factory.StartNew (() => RawUpdate (model));
+		}
 
-        public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : IModel
-        {
-            foreach (var m in models)
-            {
-                RawUpdate(m);
-            }
+		public virtual void RawUpdate<TModel> (IEnumerable<TModel> models) where TModel : IModel
+		{
+			foreach (var m in models) {
+				RawUpdate (m);
+			}
 
-        }
+		}
 
-        public virtual async Task RawUpdateAsync<TModel>(IEnumerable<TModel> models) where  TModel : IModel
-        {
-            await Task.Factory.StartNew(() => RawUpdate(models));
-        }
+		public virtual async Task RawUpdateAsync<TModel> (IEnumerable<TModel> models) where  TModel : IModel
+		{
+			await Task.Factory.StartNew (() => RawUpdate (models));
+		}
 
-        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : IModel
-        {
-            var model = Session.Get<TModel>(id);
-            if (model == null)
-                return default(TModel);
+		public TModel RawUpdate<TModel> (int id, Action<TModel> updater) where TModel : IModel
+		{
+			var model = Session.Get<TModel> (id);
+			if (model == null)
+				return default(TModel);
 
-            updater(model);
-            RawUpdate(model);
-            return model;
-        }
+			updater (model);
+			RawUpdate (model);
+			return model;
+		}
 
-        public async Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : IModel
-        {
-            var model = Session.Get<TModel>(id);
-            if (model == null)
-                return default(TModel);
+		public async Task<TModel> RawUpdateAsync<TModel> (int id, Action<TModel> updater) where TModel : IModel
+		{
+			var model = Session.Get<TModel> (id);
+			if (model == null)
+				return default(TModel);
 
-            updater(model);
-            await RawUpdateAsync(model);
-            return model;
-        }
+			updater (model);
+			await RawUpdateAsync (model);
+			return model;
+		}
 
-        #endregion
+		#endregion
 
 		#region Delete
 
@@ -321,7 +320,7 @@ namespace MasDev.Data
 
 		public virtual IQueryable<TModel> UnfilteredQueryForModel<TModel> () where TModel : IModel
 		{
-			return _uow.Session.Query<TModel> ();
+			return Uow.Session.Query<TModel> ();
 		}
 
 		#endregion
@@ -332,13 +331,13 @@ namespace MasDev.Data
 		{
 			if (IsInTransaction)
 				throw new Exception ("Nested works are not allowed");
-			_uow.Start ();
+			Uow.Start ();
 		}
 
 		public virtual void CommitWork ()
 		{
 			if (IsInTransaction)
-				_uow.Commit (true);
+				Uow.Commit (true);
 			else
 				throw new Exception ("Work not has not started");
 		}
@@ -346,19 +345,19 @@ namespace MasDev.Data
 		public virtual void RollbackWork ()
 		{
 			if (IsInTransaction)
-				_uow.Rollback (true);
+				Uow.Rollback (true);
 			else
 				throw new Exception ("Work not has not started");
 		}
 
-		public bool IsInTransaction { get { return _uow.IsStarted; } }
+		public bool IsInTransaction { get { return Uow.IsStarted; } }
 
 		public void Lock (T model, LockMode lockMode)
 		{
-			if (!_uow.IsStarted)
+			if (!Uow.IsStarted)
 				throw new Exception ("Cannot lock an unstarted job");
 
-			_uow.Session.Lock (model, ConvertLockMode (lockMode));
+			Uow.Session.Lock (model, ConvertLockMode (lockMode));
 		}
 
 		static global::NHibernate.LockMode ConvertLockMode (LockMode lockMode)
@@ -383,7 +382,7 @@ namespace MasDev.Data
 
 		public virtual void Dispose ()
 		{
-			_uow.Dispose ();
+			Uow.Dispose ();
 		}
 
 		public virtual IQueryable<T> Query { get { return UnfilteredQueryForModel<T> (); } }
@@ -482,7 +481,7 @@ namespace MasDev.Data
 
 		public override int Update (TVersionedModel model)
 		{
-			var oldModel = _uow.ReadonlySession.Get<TVersionedModel> (model.Id);
+			var oldModel = Uow.ReadonlySession.Get<TVersionedModel> (model.Id);
 			if (!this.ShouldVersion (oldModel, model))
 				return base.Update (model);
 
@@ -497,7 +496,7 @@ namespace MasDev.Data
 
 		public override async Task<int> UpdateAsync (TVersionedModel model)
 		{
-			var oldModel = _uow.ReadonlySession.Get<TVersionedModel> (model.Id);
+			var oldModel = Uow.ReadonlySession.Get<TVersionedModel> (model.Id);
 			if (!this.ShouldVersion (oldModel, model))
 				return await base.UpdateAsync (model);
 
