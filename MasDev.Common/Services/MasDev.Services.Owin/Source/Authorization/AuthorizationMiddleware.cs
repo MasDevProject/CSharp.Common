@@ -8,7 +8,7 @@ namespace MasDev.Services.Middlewares
 {
 	public class AuthorizationMiddleware : RuledMiddleware<BaseAuthorizationRules, AuthorizationRule>
 	{
-		public const string AccessTokenOwinContextKey = "AuthorizationMiddleware.AccessToken";
+		public const string IdentityContextKey = "AuthorizationMiddleware.Context";
 		const string _accessTokenScheme = "bearer ";
 		const string _authorizationHeaderName = "Authorization";
 
@@ -52,7 +52,7 @@ namespace MasDev.Services.Middlewares
 				return;
 			}
 
-			context.Set (AccessTokenOwinContextKey, accessToken);
+			context.Set (IdentityContextKey, new IdentityContext (accessToken.Identity, accessToken.Scope));
 			await Next.Invoke (context);
 		}
 

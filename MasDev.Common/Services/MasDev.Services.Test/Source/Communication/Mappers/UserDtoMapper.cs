@@ -7,12 +7,12 @@ namespace MasDev.Services.Test.Communication
 {
 	public class UserDtoMapper : CommunicationMapper<UserDto, User>
 	{
-		protected override User Map (UserDto dto, IContext context)
+		protected override User Map (UserDto dto, IIdentityContext context)
 		{
 			return Mapper.DynamicMap<User> (dto);
 		}
 
-		protected override UserDto Map (User model, IContext context)
+		protected override UserDto Map (User model, IIdentityContext context)
 		{
 			var dto = Mapper.DynamicMap<UserDto> (model);
 

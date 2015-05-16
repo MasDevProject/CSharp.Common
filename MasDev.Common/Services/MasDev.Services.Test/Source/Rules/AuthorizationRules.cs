@@ -1,5 +1,6 @@
 ﻿using MasDev.Services.Middlewares;
 using MasDev.Services.Test;
+using MasDev.Services.Test.Models;
 
 
 namespace MasDev.Services.Test
@@ -8,7 +9,8 @@ namespace MasDev.Services.Test
 	{
 		public AuthorizationRules ()
 		{
-			WhenMatches (UserEndpoints.Delete).WithMethods (HttpMethod.Delete);
+			WhenMatches (UserEndpoints.Delete).WithMethods (HttpMethod.Delete).RequireAtLeast (Roles.Admin);
+			WhenMatches (UserEndpoints.Update).WithMethods (HttpMethod.Put);
 		}
 	}
 }

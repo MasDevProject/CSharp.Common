@@ -10,7 +10,7 @@ namespace MasDev.Services.Middlewares
 
 	public class UnitOfWorkHandlerMiddleware : OwinMiddleware
 	{
-		static readonly int[] _ok = new []{ 200 };
+		static readonly int[] _ok = new []{ 200, 201, 204, 304 };
 		readonly int[] _committableStatusCodes;
 
 		public UnitOfWorkHandlerMiddleware (OwinMiddleware next, params int[] committableStatusCodes) : base (next)

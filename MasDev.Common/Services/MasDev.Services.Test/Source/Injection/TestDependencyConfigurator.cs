@@ -9,6 +9,7 @@ namespace MasDev.Services.Test
 		{
 			ConfigureModeling (container);
 			ConfigureData (container);
+			ConfigureServices (container);
 		}
 	}
 }

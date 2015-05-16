@@ -3,14 +3,14 @@
 
 namespace MasDev.Services
 {
-	public interface IContext
+	public interface IIdentityContext
 	{
 		Identity Identity { get; }
 
 		int? Scope { get; }
 	}
 
-	public class Context : IContext
+	public class IdentityContext : IIdentityContext
 	{
 		readonly Identity _identity;
 		readonly int? _scope;
@@ -19,7 +19,7 @@ namespace MasDev.Services
 
 		public int? Scope { get { return _scope; } }
 
-		public Context (Identity identity, int? scope = null)
+		public IdentityContext (Identity identity, int? scope = null)
 		{
 			_identity = identity;
 			_scope = scope;

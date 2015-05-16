@@ -13,69 +13,62 @@ namespace MasDev.Services
 		where TModel : class, IModel, new()
 		where TRepository : class, IRepository<TModel>
 	{
-		protected TRepository Repository { get; private set; }
+		protected TRepository Repository { get { return Injector.Resolve<TRepository> (); } }
 
-		protected ICommunicationMapper<TDto, TModel> CommunicationMapper { get; private set; }
+		protected ICommunicationMapper<TDto, TModel> CommunicationMapper { get { return Injector.Resolve <ICommunicationMapper<TDto, TModel>> (); } }
 
-		protected IValidator<TDto> Validator { get; private set; }
+		protected IValidator<TDto> Validator { get { return Injector.Resolve<IValidator<TDto>> (); } }
 
-		protected IContext Context { get; private set; }
-
-		protected virtual IQueryable<TModel> Query { get { return Repository.Query; } }
-
-		public CrudService (IContext context)
+		protected virtual IQueryable<TModel> Query (IIdentityContext context)
 		{
-			Repository = Injector.Resolve<TRepository> ();
-			CommunicationMapper = Injector.Resolve<ICommunicationMapper<TDto, TModel>> ();
-			Validator = Injector.Resolve<IValidator<TDto>> ();
-			Context = context;
+			return Repository.Query;
 		}
 
-		public virtual async Task<TDto> CreateAsync (TDto dto)
+		public virtual async Task<TDto> CreateAsync (TDto dto, IIdentityContext context)
 		{
-			var model = await Map (dto);
+			var model = await Map (dto, context);
 			await Repository.CreateAsync (model);
-			return await Map (model);
+			return await Map (model, context);
 		}
 
-		public virtual async Task<IList<TDto>> ReadAsync (int skip, int take)
+		public virtual async Task<IList<TDto>> ReadAsync (int skip, int take, IIdentityContext context)
 		{
-			var models = await Query.Skip (skip).Take (take).ToListAsync ();
+			var models = await Query (context).Skip (skip).Take (take).ToListAsync ();
 
 			if (!models.Any ())
 				return Enumerable.Empty<TDto> ().ToList ();
 
-			var conversionTasks = models.Select (Map).ToList ();
+			var conversionTasks = models.Select (m => Map (m, context)).ToList ();
 			await Task.WhenAll (conversionTasks);
 			return conversionTasks.Select (t => t.Result).ToList ();
 		}
 
-		public virtual async Task<TDto> ReadAsync (int id)
+		public virtual async Task<TDto> ReadAsync (int id, IIdentityContext context)
 		{
 			var model = await Repository.ReadAsync (id);
 
 			if (model == null)
 				return null;
 
-			return await Map (model);
+			return await Map (model, context);
 		}
 
-		public virtual async Task<TDto> UpdateAsync (TDto dto)
+		public virtual async Task<TDto> UpdateAsync (TDto dto, IIdentityContext context)
 		{
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
 				throw new ServiceUpdateException ();
 
 			if (CommunicationMapper.IsAsync)
-				await CommunicationMapper.MapForUpdateAsync (dto, model, Context);
+				await CommunicationMapper.MapForUpdateAsync (dto, model, context);
 			else
-				CommunicationMapper.MapForUpdate (dto, model, Context);
+				CommunicationMapper.MapForUpdate (dto, model, context);
 			
 			await Repository.UpdateAsync (model);
-			return await Map (model);
+			return await Map (model, context);
 		}
 
-		public virtual async Task DeleteAsync (int id)
+		public virtual async Task DeleteAsync (int id, IIdentityContext context)
 		{
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
@@ -83,23 +76,23 @@ namespace MasDev.Services
 			await Repository.DeleteAsync (model);
 		}
 
-		protected virtual async Task<TDto> Map (TModel model)
+		protected virtual async Task<TDto> Map (TModel model, IIdentityContext context)
 		{
 			return CommunicationMapper.IsAsync ? 
-				await CommunicationMapper.MapAsync (model, Context) : 
-				CommunicationMapper.Map (model, Context);
+				await CommunicationMapper.MapAsync (model, context) : 
+				CommunicationMapper.Map (model, context);
 		}
 
-		protected virtual async Task<TModel> Map (TDto dto)
+		protected virtual async Task<TModel> Map (TDto dto, IIdentityContext context)
 		{
 			if (Validator.IsAsync)
-				await Validator.ValidateAsync (dto, Context);
+				await Validator.ValidateAsync (dto, context);
 			else
-				Validator.Validate (dto, Context);
+				Validator.Validate (dto, context);
 
 			return CommunicationMapper.IsAsync ? 
-				await CommunicationMapper.MapAsync (dto, Context) : 
-				CommunicationMapper.Map (dto, Context);
+				await CommunicationMapper.MapAsync (dto, context) : 
+				CommunicationMapper.Map (dto, context);
 		}
 	}
 

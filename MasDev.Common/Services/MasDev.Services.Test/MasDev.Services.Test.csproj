@@ -85,6 +85,15 @@
     <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping">
       <HintPath>..\..\packages\SimpleInjector.Extensions.ExecutionContextScoping.2.8.0\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,9 +119,9 @@
     <Compile Include="Source\Data\Repositories\Implementation\UsersRepository.cs" />
     <Compile Include="Source\Data\Repositories.cs" />
     <Compile Include="Source\Services\UsersService.cs" />
-    <Compile Include="Source\TopLevelMiddleware.cs" />
     <Compile Include="Source\Communication\Mappers\UserDtoMapper.cs" />
     <Compile Include="Source\Communication\Validators\UserValidator.cs" />
+    <Compile Include="Source\Injection\ServicesDependencyConfigurator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -160,6 +169,10 @@
     <ProjectReference Include="..\..\Data\NHibernate\MasDev.Common.Data.NHibernate.Mono\MasDev.Common.Data.NHibernate.Mono.csproj">
       <Project>{481798A7-D1A2-4984-83D1-B82F93C91469}</Project>
       <Name>MasDev.Common.Data.NHibernate.Mono</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MasDev.Services.Owin.WebApi\MasDev.Services.Owin.WebApi.csproj">
+      <Project>{BD676F78-4479-4721-B47C-643818956418}</Project>
+      <Name>MasDev.Services.Owin.WebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -22,8 +22,6 @@ namespace MasDev.Services
 			builder.UseRedirectMiddleware (new RedirectRules ());
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
 			builder.UseUnitOfWorkHandlerMiddleware ();
-
-			builder.Use<TopLevelMiddleware> ();
 		}
 	}
 }
