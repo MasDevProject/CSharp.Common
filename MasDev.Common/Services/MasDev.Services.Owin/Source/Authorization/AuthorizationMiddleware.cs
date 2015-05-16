@@ -52,7 +52,8 @@ namespace MasDev.Services.Middlewares
 				return;
 			}
 
-			context.Set (IdentityContextKey, new IdentityContext (accessToken.Identity, accessToken.Scope));
+			var language = "en-us"; // TODO
+			context.Set (IdentityContextKey, new IdentityContext (accessToken.Identity, language, accessToken.Scope));
 			await Next.Invoke (context);
 		}
 

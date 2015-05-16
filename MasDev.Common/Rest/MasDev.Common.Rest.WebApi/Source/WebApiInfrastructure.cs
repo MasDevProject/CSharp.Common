@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using MasDev.Utils;
-using MasDev.Newtonsoft.ContractResolvers;
 using Newtonsoft.Json.Serialization;
 
 

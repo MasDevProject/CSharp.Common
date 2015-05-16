@@ -2,8 +2,6 @@
 using System.Web.Http;
 using MasDev.Patterns.Injection;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Net.Http;
 using MasDev.Services.Modeling;
 
 namespace MasDev.Services.Owin.WebApi

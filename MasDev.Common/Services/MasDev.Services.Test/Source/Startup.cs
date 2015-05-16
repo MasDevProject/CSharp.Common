@@ -5,6 +5,7 @@ using MasDev.Patterns.Injection;
 using MasDev.Patterns.Injection.SimpleInjector;
 using MasDev.Services.Test;
 using MasDev.Data.NHibernate;
+using System.Web.Http;
 
 namespace MasDev.Services
 {
@@ -22,6 +23,10 @@ namespace MasDev.Services
 			builder.UseRedirectMiddleware (new RedirectRules ());
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
 			builder.UseUnitOfWorkHandlerMiddleware ();
+
+			var config = new HttpConfiguration ();
+			config.MapHttpAttributeRoutes ();
+			builder.UseWebApi (config);
 		}
 	}
 }

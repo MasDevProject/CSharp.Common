@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using System.Threading.Tasks;
 using MasDev.Patterns.Injection;
 using MasDev.Data;
@@ -10,7 +9,7 @@ namespace MasDev.Services.Middlewares
 
 	public class UnitOfWorkHandlerMiddleware : OwinMiddleware
 	{
-		static readonly int[] _ok = new []{ 200, 201, 204, 304 };
+		static readonly int[] _ok = { 200, 201, 204, 304 };
 		readonly int[] _committableStatusCodes;
 
 		public UnitOfWorkHandlerMiddleware (OwinMiddleware next, params int[] committableStatusCodes) : base (next)
