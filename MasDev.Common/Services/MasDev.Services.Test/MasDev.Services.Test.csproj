@@ -118,8 +118,6 @@
     <Compile Include="Source\Data\Roles.cs" />
     <Compile Include="Source\Controllers\User\UserController.cs" />
     <Compile Include="Source\Controllers\User\UserEndpoints.cs" />
-    <Compile Include="Source\Injection\CommunicationDependencyConfigurator %28copy%29.cs" />
-    <Compile Include="Source\Injection\DataDependencyConfigurator.cs" />
     <Compile Include="Source\Data\Repositories\Base\BaseRepository.cs" />
     <Compile Include="Source\Data\ModelsMapper.cs" />
     <Compile Include="Source\Data\Repositories\Base\DatabaseSessionFactoryProvider.cs" />
@@ -129,8 +127,13 @@
     <Compile Include="Source\Data\Repositories.cs" />
     <Compile Include="Source\Services\UsersService.cs" />
     <Compile Include="Source\Communication\Mappers\UserDtoMapper.cs" />
-    <Compile Include="Source\Communication\Validators\UserValidator.cs" />
-    <Compile Include="Source\Injection\ServicesDependencyConfigurator.cs" />
+    <Compile Include="Source\Services\DataAccessValidators\UserDataAccessValidator.cs" />
+    <Compile Include="Source\Injection\RegisterConsistencyValidators.cs" />
+    <Compile Include="Source\Injection\RegisterCommunicationMappers.cs" />
+    <Compile Include="Source\Services\ConsistencyValidators\UserConsistencyValidator.cs" />
+    <Compile Include="Source\Injection\RegisterDataAccessValidators.cs" />
+    <Compile Include="Source\Injection\RegisterRepositories.cs" />
+    <Compile Include="Source\Injection\RegisterServices.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -147,8 +150,8 @@
     <Folder Include="Source\Controllers\User\" />
     <Folder Include="Source\Data\Repositories\Base\" />
     <Folder Include="Source\Data\Repositories\Implementation\" />
-    <Folder Include="Source\Communication\Validators\" />
     <Folder Include="Source\Communication\Mappers\" />
+    <Folder Include="Source\Services\DataAccessValidators\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">

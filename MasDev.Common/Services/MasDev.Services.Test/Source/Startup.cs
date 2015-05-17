@@ -6,6 +6,7 @@ using MasDev.Patterns.Injection.SimpleInjector;
 using MasDev.Services.Test;
 using MasDev.Data.NHibernate;
 using System.Web.Http;
+using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace MasDev.Services
 {
@@ -13,8 +14,10 @@ namespace MasDev.Services
 	{
 		public void Configuration (IAppBuilder builder)
 		{
+			AppInjector.PerRequestLifestyle = new ExecutionContextScopeLifestyle ();
 			var container = new SimpleInjectorContainer ();
 			Injector.InitializeWith (container, new TestDependencyConfigurator ());
+
 			var dbSession = Injector.Resolve<ISessionFactoryProvider> ();
 			dbSession.Connect ();
 

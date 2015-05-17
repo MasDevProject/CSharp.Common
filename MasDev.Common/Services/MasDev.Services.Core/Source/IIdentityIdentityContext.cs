@@ -14,22 +14,10 @@ namespace MasDev.Services
 
 	public class IdentityContext : IIdentityContext
 	{
-		readonly Identity _identity;
-		readonly int? _scope;
-		readonly string _language;
+		public Identity Identity { get; set; }
 
-		public Identity Identity { get { return _identity; } }
+		public int? Scope { get ; set; }
 
-		public int? Scope { get { return _scope; } }
-
-		public string Language { get { return _language; } }
-
-
-		public IdentityContext (Identity identity, string language = null, int? scope = null)
-		{
-			_identity = identity;
-			_scope = scope;
-			_language = language;
-		}
+		public string Language { get; set; }
 	}
 }

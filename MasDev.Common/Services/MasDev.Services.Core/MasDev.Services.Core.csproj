@@ -35,7 +35,6 @@
     <Compile Include="Source\Modeling\Identity.cs" />
     <Compile Include="Source\CrudService.cs" />
     <Compile Include="Source\ICrudService.cs" />
-    <Compile Include="Source\Modeling\IValidator.cs" />
     <Compile Include="Source\Modeling\ICommunicationMapper.cs" />
     <Compile Include="Source\IIdentityIdentityContext.cs" />
     <Compile Include="Source\Modeling\LoginResult.cs" />
@@ -47,6 +46,11 @@
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenConverter.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenProtector.cs" />
+    <Compile Include="Source\Modeling\Validation\DataAccessAuthorizationException.cs" />
+    <Compile Include="Source\Modeling\Validation\IdataAccessValidator.cs" />
+    <Compile Include="Source\Modeling\Validation\IConsistencyValidator.cs" />
+    <Compile Include="Source\Injection\IAppDependencyConfigurator.cs" />
+    <Compile Include="Source\Injection\AppInjector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -54,6 +58,7 @@
     <Folder Include="Source\" />
     <Folder Include="Source\Authorization\" />
     <Folder Include="Source\Authorization\AccessTokenPipeline\" />
+    <Folder Include="Source\Injection\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">

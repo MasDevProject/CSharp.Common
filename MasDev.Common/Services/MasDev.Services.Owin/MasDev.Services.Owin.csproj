@@ -76,7 +76,6 @@
     <Compile Include="Source\Compression\CompressionMiddleware.cs" />
     <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
     <Compile Include="Source\Extensions\Extensions.cs" />
-    <Compile Include="Source\Injection\PerRequestLifestyle.cs" />
     <Compile Include="Source\Injection\SimpleInjectorMiddleware.cs" />
     <Compile Include="Source\PathMapping\PathMappingException.cs" />
     <Compile Include="Source\PathMapping\PathMappingMiddleware.cs" />

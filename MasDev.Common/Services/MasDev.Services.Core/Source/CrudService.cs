@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using MasDev.Services.DataAccess;
 
 namespace MasDev.Services
 {
@@ -13,11 +14,17 @@ namespace MasDev.Services
 		where TModel : class, IModel, new()
 		where TRepository : class, IRepository<TModel>
 	{
+		#region Properties
+
 		protected TRepository Repository { get { return Injector.Resolve<TRepository> (); } }
 
 		protected ICommunicationMapper<TDto, TModel> CommunicationMapper { get { return Injector.Resolve <ICommunicationMapper<TDto, TModel>> (); } }
 
-		protected IValidator<TDto> Validator { get { return Injector.Resolve<IValidator<TDto>> (); } }
+		protected IConsistencyValidator<TDto> ConsistencyValidator { get { return Injector.Resolve<IConsistencyValidator<TDto>> (); } }
+
+		protected IDataAccessValidator<TDto> DataAccessValidator { get { return Injector.Resolve<IDataAccessValidator<TDto>> (); } }
+
+		#endregion
 
 		protected virtual IQueryable<TModel> Query (IIdentityContext context)
 		{
@@ -26,9 +33,11 @@ namespace MasDev.Services
 
 		public virtual async Task<TDto> CreateAsync (TDto dto, IIdentityContext context)
 		{
-			var model = await Map (dto, context);
+			await ValidateDataAccessAsync (dto, context);
+			await ValidateConsistencyAsync (dto, context);
+			var model = await MapAsync (dto, context);
 			await Repository.CreateAsync (model);
-			return await Map (model, context);
+			return await MapAsync (model, context);
 		}
 
 		public virtual async Task<IList<TDto>> ReadAsync (int skip, int take, IIdentityContext context)
@@ -38,26 +47,42 @@ namespace MasDev.Services
 			if (!models.Any ())
 				return Enumerable.Empty<TDto> ().ToList ();
 
-			var conversionTasks = models.Select (m => Map (m, context)).ToList ();
+			var conversionTasks = models.Select (m => MapAsync (m, context)).ToList ();
 			await Task.WhenAll (conversionTasks);
-			return conversionTasks.Select (t => t.Result).ToList ();
+
+			var dtos = conversionTasks.Select (t => t.Result).ToList ();
+
+			if (DataAccessValidator != null) {
+				var tmpDtos = new List<TDto> ();
+				foreach (var dto in dtos) {
+					if (await CanAccessAsync (dto, context))
+						tmpDtos.Add (dto);
+				}
+				dtos = tmpDtos;
+			}
+
+			return dtos;
 		}
 
 		public virtual async Task<TDto> ReadAsync (int id, IIdentityContext context)
 		{
+			await ValidateDataAccessAsync (id, context);
+
 			var model = await Repository.ReadAsync (id);
-
 			if (model == null)
-				return null;
+				throw new ServiceReadException (id);
 
-			return await Map (model, context);
+			return await MapAsync (model, context);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto, IIdentityContext context)
 		{
+			await ValidateDataAccessAsync (dto, context);
+			await ValidateConsistencyAsync (dto, context);
+
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
-				throw new ServiceUpdateException ();
+				throw new ServiceReadException (dto.Id);
 
 			if (CommunicationMapper.IsAsync)
 				await CommunicationMapper.MapForUpdateAsync (dto, model, context);
@@ -65,45 +90,93 @@ namespace MasDev.Services
 				CommunicationMapper.MapForUpdate (dto, model, context);
 			
 			await Repository.UpdateAsync (model);
-			return await Map (model, context);
+			return await MapAsync (model, context);
 		}
 
 		public virtual async Task DeleteAsync (int id, IIdentityContext context)
 		{
+			await ValidateDataAccessAsync (id, context);
+
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
-				throw new ServiceDeleteException ();
+				throw new ServiceReadException (id);
+			
 			await Repository.DeleteAsync (model);
 		}
 
-		protected virtual async Task<TDto> Map (TModel model, IIdentityContext context)
+		#region Protected methods
+
+		protected virtual async Task<TDto> MapAsync (TModel model, IIdentityContext context)
 		{
 			return CommunicationMapper.IsAsync ? 
 				await CommunicationMapper.MapAsync (model, context) : 
 				CommunicationMapper.Map (model, context);
 		}
 
-		protected virtual async Task<TModel> Map (TDto dto, IIdentityContext context)
+		protected virtual async Task<TModel> MapAsync (TDto dto, IIdentityContext context)
 		{
-			if (Validator.IsAsync)
-				await Validator.ValidateAsync (dto, context);
+			if (ConsistencyValidator.IsAsync)
+				await ConsistencyValidator.ValidateAsync (dto, context);
 			else
-				Validator.Validate (dto, context);
+				ConsistencyValidator.Validate (dto, context);
 
 			return CommunicationMapper.IsAsync ? 
 				await CommunicationMapper.MapAsync (dto, context) : 
 				CommunicationMapper.Map (dto, context);
 		}
+
+		protected virtual async Task ValidateConsistencyAsync (TDto dto, IIdentityContext context)
+		{
+			if (ConsistencyValidator == null)
+				return;
+
+			if (ConsistencyValidator.IsAsync)
+				await ConsistencyValidator.ValidateAsync (dto, context);
+			else
+				ConsistencyValidator.Validate (dto, context);
+		}
+
+		protected virtual async Task<bool> CanAccessAsync (TDto dto, IIdentityContext context)
+		{
+			if (DataAccessValidator == null)
+				return true;
+
+			return DataAccessValidator.IsAsync ? 
+				await DataAccessValidator.CanAccessAsync (dto, context) : 
+				DataAccessValidator.CanAccess (dto, context);
+		}
+
+		protected virtual async Task<bool> CanAccessAsync (int id, IIdentityContext context)
+		{
+			if (DataAccessValidator == null)
+				return true;
+
+			return DataAccessValidator.IsAsync ? 
+				await DataAccessValidator.CanAccessAsync (id, context) : 
+				DataAccessValidator.CanAccess (id, context);
+		}
+
+		protected async Task ValidateDataAccessAsync (TDto dto, IIdentityContext context)
+		{
+			if (!await CanAccessAsync (dto, context))
+				throw new DataAccessAuthorizationException ();
+		}
+
+		protected async Task ValidateDataAccessAsync (int id, IIdentityContext context)
+		{
+			if (!await CanAccessAsync (id, context))
+				throw new DataAccessAuthorizationException ();
+		}
+
+		#endregion
 	}
 
-	public class ServiceUpdateException : Exception
+	public class ServiceReadException : Exception
 	{
-
-	}
-
-	public class ServiceDeleteException : Exception
-	{
-
+		public ServiceReadException (int id) : base (string.Format ("Model with id {0} was not stored", id))
+		{
+			
+		}
 	}
 }
 

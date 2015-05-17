@@ -24,7 +24,7 @@ namespace MasDev.Services.Test.Services
 				return null;
 
 			var expirationUtc = DateTime.UtcNow.AddMonths (1);
-			var userDto = await Map (user, context);
+			var userDto = await MapAsync (user, context);
 			var accessToken = AuthorizationManager.Current.GenerateAccessToken (user.Id, user.Roles, expirationUtc);
 			return new LoginResult<UserDto> {
 				AccessToken = accessToken,

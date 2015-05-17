@@ -5,5 +5,10 @@ namespace MasDev.Services.Modeling
 	{
 		int Id { get; set; }
 	}
+
+	public interface IChildDto<TDto> : IDto where TDto : IDto
+	{
+		TDto Parent { get; set; }
+	}
 }
 

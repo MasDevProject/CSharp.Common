@@ -3,7 +3,6 @@ using MasDev.Services.Owin.WebApi;
 using System.Web.Http;
 using System.Threading.Tasks;
 using MasDev.Services.Test.Services;
-using System.Net.Http.Formatting;
 
 namespace MasDev.Services.Test
 {
@@ -11,31 +10,31 @@ namespace MasDev.Services.Test
 	{
 		#region Crud
 
-		[Route (UserEndpoints.Create)]
+		[Route (UserEndpoints.Base)]
 		public override async Task<IHttpActionResult> CreateAsync (UserDto dto)
 		{
 			return await base.CreateAsync (dto);
 		}
 
-		[Route (UserEndpoints.ReadMany)]
+		[Route (UserEndpoints.Base)]
 		public override async Task<IHttpActionResult> ReadAsync (int skip, int take)
 		{
 			return await base.ReadAsync (skip, take);
 		}
 
-		[Route (UserEndpoints.Read)]
+		[Route (UserEndpoints.Resource)]
 		public override async Task<IHttpActionResult> ReadAsync (int id)
 		{
 			return await base.ReadAsync (id);
 		}
 
-		[Route (UserEndpoints.Update)]
+		[Route (UserEndpoints.Resource)]
 		public override async Task<IHttpActionResult> UpdateAsync (UserDto dto)
 		{
 			return await base.UpdateAsync (dto);
 		}
 
-		[Route (UserEndpoints.Delete)]
+		[Route (UserEndpoints.Resource)]
 		public override async Task<IHttpActionResult> DeleteAsync (int id)
 		{
 			return await base.DeleteAsync (id);

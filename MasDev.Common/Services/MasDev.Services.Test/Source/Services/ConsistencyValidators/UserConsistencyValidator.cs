@@ -5,7 +5,7 @@ using MasDev.Services.Test.Models;
 
 namespace MasDev.Services.Test
 {
-	public class UserValidator : Validator<UserDto>
+	public class UserConsistencyValidator : ConsistencyValidator<UserDto>
 	{
 		protected override void Validate (UserDto dto, IIdentityContext context)
 		{

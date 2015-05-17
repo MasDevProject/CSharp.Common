@@ -27,6 +27,10 @@ namespace MasDev.Services.Middlewares
 		public override async Task Invoke (IOwinContext context)
 		{
 			var request = context.Request;
+			var identityContext = new IdentityContext ();
+			identityContext.Language = "en-us"; // TODO
+			context.Set (IdentityContextKey, identityContext);
+
 			var method = BaseAuthorizationRules.ParseHttpMethod (request.Method);
 			if (method == null) {
 				await Next.Invoke (context);
@@ -45,15 +49,15 @@ namespace MasDev.Services.Middlewares
 				return;
 			}
 
+			identityContext.Scope = accessToken.Scope;
+			identityContext.Identity = accessToken.Identity;
+
 			var identity = accessToken.Identity;
 			var lastInvalidationTimeUtc = await _storeFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
 			if (lastInvalidationTimeUtc == null || !_manager.IsAccessTokenValid (matchingRule.MinimumRoles, lastInvalidationTimeUtc.Value, accessToken)) {
 				SendUnauthorized (context.Response);
 				return;
 			}
-
-			var language = "en-us"; // TODO
-			context.Set (IdentityContextKey, new IdentityContext (accessToken.Identity, language, accessToken.Scope));
 			await Next.Invoke (context);
 		}
 

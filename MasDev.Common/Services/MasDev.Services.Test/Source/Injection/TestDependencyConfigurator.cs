@@ -3,13 +3,11 @@ using MasDev.Patterns.Injection;
 
 namespace MasDev.Services.Test
 {
-	public partial class TestDependencyConfigurator : MonoDependecyConfigurator
+	public partial class TestDependencyConfigurator : MonoDependecyConfigurator, IAppDependencyConfigurator
 	{
 		public override void ConfigureDependencies (IDependencyContainer container)
 		{
-			ConfigureModeling (container);
-			ConfigureData (container);
-			ConfigureServices (container);
+			this.RegisterAppComponents (container);
 		}
 	}
 }
