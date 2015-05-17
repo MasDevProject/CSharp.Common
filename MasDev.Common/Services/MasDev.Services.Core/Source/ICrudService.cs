@@ -4,7 +4,12 @@ using System.Collections.Generic;
 
 namespace MasDev.Services
 {
-	public interface ICrudService<TDto>  where TDto : IDto
+	public interface IService
+	{
+
+	}
+
+	public interface ICrudService<TDto> : IService where TDto : IDto
 	{
 		Task<TDto> CreateAsync (TDto dto, IIdentityContext context);
 
