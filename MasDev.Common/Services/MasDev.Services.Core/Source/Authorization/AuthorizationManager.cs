@@ -1,5 +1,4 @@
 ﻿using System;
-using MasDev.Services.Middlewares;
 using MasDev.Services.Modeling;
 
 namespace MasDev.Services.Auth
@@ -8,18 +7,14 @@ namespace MasDev.Services.Auth
 	{
 		public static AuthorizationManager Current { get; private set; }
 
-		AuthorizationManager ()
-		{
-			// No public constructors
-		}
-
 		readonly AccessTokenPipeline _pipeline;
 
 		public Func<IAccessTokenStore> StoreFactory { get; private set; }
 
-		internal AuthorizationManager (AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
+		public AuthorizationManager (AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
 		{
-			pipeline.ThrowIfNull ("pipeline");
+			if (pipeline == null)
+				throw new ArgumentNullException ("pipeline");
 			Current = this;
 			_pipeline = pipeline;
 			StoreFactory = storeFactory;

@@ -7,13 +7,6 @@ using System.Security;
 
 namespace MasDev.Services.Auth
 {
-	public interface IAccessTokenProtector
-	{
-		byte[] Protect (string serializedAccessToken);
-
-		string Unprotect (byte[] protectedAccessToken);
-	}
-
 	public class DefaultAccessTokenProtector : IAccessTokenProtector
 	{
 		readonly byte[] _key;

@@ -4,13 +4,6 @@ using System.Collections.Concurrent;
 
 namespace MasDev.Services.Auth
 {
-	public interface IAccessTokenStore
-	{
-		Task<DateTime?> GetlastInvalidationUtcAsync (int id, int flag);
-
-		Task SetInvalidationTime (int id, int flag, DateTime invalidationTimeUtc);
-	}
-
 	public class CachedAccessTokenStore : IAccessTokenStore
 	{
 		const string _cacheKeyFormat = "{0},{1}";

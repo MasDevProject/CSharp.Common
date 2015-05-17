@@ -40,11 +40,20 @@
     <Compile Include="Source\IIdentityIdentityContext.cs" />
     <Compile Include="Source\Modeling\LoginResult.cs" />
     <Compile Include="Source\Modeling\LoginRequest.cs" />
+    <Compile Include="Source\Authorization\AuthorizationManager.cs" />
+    <Compile Include="Source\Authorization\AccessToken.cs" />
+    <Compile Include="Source\Authorization\IAccessTokenStore.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenCompressor.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenConverter.cs" />
+    <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenProtector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <Folder Include="Source\" />
+    <Folder Include="Source\Authorization\" />
+    <Folder Include="Source\Authorization\AccessTokenPipeline\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">

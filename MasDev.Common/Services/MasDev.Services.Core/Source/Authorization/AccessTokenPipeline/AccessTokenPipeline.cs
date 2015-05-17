@@ -1,4 +1,4 @@
-﻿using MasDev.Services.Middlewares;
+﻿using System;
 
 namespace MasDev.Services.Auth
 {
@@ -12,19 +12,16 @@ namespace MasDev.Services.Auth
 
 		public AccessTokenPipeline (IAccessTokenConverter converter, IAccessTokenProtector protector, IAccessTokenCompressor compressor)
 		{
-			converter.ThrowIfNull ("converter");
-			protector.ThrowIfNull ("protector");
-			compressor.ThrowIfNull ("compressor");
+			if (converter == null)
+				throw new ArgumentNullException ("converter");
+			if (protector == null)
+				throw new ArgumentNullException ("protector");
+			if (compressor == null)
+				throw new ArgumentNullException ("compressor");
+			
 			Converter = converter;
 			Protector = protector;
 			Compressor = compressor;
-		}
-	}
-
-	public class DefaultAccessTokenPipeline : AccessTokenPipeline
-	{
-		public DefaultAccessTokenPipeline (string password) : base (new DefaultAccessTokenConverter (), new DefaultAccessTokenProtector (password), new DefaultAccessTokenCompressor ())
-		{
 		}
 	}
 }
