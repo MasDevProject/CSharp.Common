@@ -9,6 +9,7 @@
 		public const string Read = Base + "{id}";
 		public const string Update = Read;
 		public const string Delete = Read;
+		public const string Login = Base + "login";
 	}
 }
 

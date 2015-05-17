@@ -6,13 +6,15 @@ using MasDev.Services.Modeling;
 
 namespace MasDev.Services.Owin.WebApi
 {
-	public class CrudApiController<TDto> : BaseApiController where TDto : class, IDto
+	public class CrudApiController<TDto, TCrudService> : BaseApiController 
+		where TDto : class, IDto
+		where TCrudService : class, ICrudService<TDto>
 	{
-		protected readonly ICrudService<TDto> Service;
+		protected readonly TCrudService Service;
 
 		public CrudApiController ()
 		{
-			Service = Injector.Resolve<ICrudService<TDto>> ();
+			Service = Injector.Resolve<TCrudService> ();
 		}
 
 		[HttpPost]
