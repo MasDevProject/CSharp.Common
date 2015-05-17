@@ -47,6 +47,7 @@
     <Compile Include="Source\VersioningHelper.cs" />
     <Compile Include="Source\Extensions\ModelExtensions.cs" />
     <Compile Include="Source\Expressions\IQueryableExtensions.cs" />
+    <Compile Include="Source\Modeling\IChildModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

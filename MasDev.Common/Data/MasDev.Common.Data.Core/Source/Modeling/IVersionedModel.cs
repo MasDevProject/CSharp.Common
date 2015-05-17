@@ -8,31 +8,18 @@ namespace MasDev.Data
 	{
 	}
 
-
-
-
-
 	public interface IModelVersioning : IUndeletableModel
 	{
 		DateTime? CreationUTC{ get; set; }
 	}
-
-
-
-
 
 	public interface IVersionedModel<TModelVersioning> : IVersionedModel where TModelVersioning : IModelVersioning
 	{
 		TModelVersioning CurrentVersion { get; set; }
 	}
 
-
-
-
-
-	public interface IModelVersioning<TVersionedModel> : IModelVersioning where TVersionedModel : IVersionedModel
+	public interface IModelVersioning<TVersionedModel> : IModelVersioning, IChildModel<TVersionedModel> where TVersionedModel : IVersionedModel
 	{
-		TVersionedModel Parent { get; set; }
 	}
 }
 
