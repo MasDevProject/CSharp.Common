@@ -127,13 +127,13 @@
     <Compile Include="Source\Data\Repositories.cs" />
     <Compile Include="Source\Services\UsersService.cs" />
     <Compile Include="Source\Communication\Mappers\UserDtoMapper.cs" />
-    <Compile Include="Source\Services\DataAccessValidators\UserDataAccessValidator.cs" />
     <Compile Include="Source\Injection\RegisterConsistencyValidators.cs" />
     <Compile Include="Source\Injection\RegisterCommunicationMappers.cs" />
-    <Compile Include="Source\Services\ConsistencyValidators\UserConsistencyValidator.cs" />
     <Compile Include="Source\Injection\RegisterDataAccessValidators.cs" />
     <Compile Include="Source\Injection\RegisterRepositories.cs" />
     <Compile Include="Source\Injection\RegisterServices.cs" />
+    <Compile Include="Source\Communication\ConsistencyValidators\UserConsistencyValidator.cs" />
+    <Compile Include="Source\Communication\DataAccessValidators\UserDataAccessValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -151,7 +151,6 @@
     <Folder Include="Source\Data\Repositories\Base\" />
     <Folder Include="Source\Data\Repositories\Implementation\" />
     <Folder Include="Source\Communication\Mappers\" />
-    <Folder Include="Source\Services\DataAccessValidators\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
