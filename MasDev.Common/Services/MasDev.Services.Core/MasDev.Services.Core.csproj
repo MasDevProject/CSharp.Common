@@ -46,11 +46,16 @@
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenConverter.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenProtector.cs" />
-    <Compile Include="Source\Modeling\Validation\DataAccessAuthorizationException.cs" />
-    <Compile Include="Source\Modeling\Validation\IdataAccessValidator.cs" />
     <Compile Include="Source\Modeling\Validation\IConsistencyValidator.cs" />
     <Compile Include="Source\Injection\IAppDependencyConfigurator.cs" />
     <Compile Include="Source\Injection\AppInjector.cs" />
+    <Compile Include="Source\Exceptions\ServiceException.cs" />
+    <Compile Include="Source\Exceptions\InputException.cs" />
+    <Compile Include="Source\Exceptions\ForbiddenException.cs" />
+    <Compile Include="Source\Exceptions\NotFoundException.cs" />
+    <Compile Include="Source\Exceptions\UnauthorizedException.cs" />
+    <Compile Include="Source\Modeling\Validation\IDataAccessValidator.cs" />
+    <Compile Include="Source\RemoteResourceUrl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -59,6 +64,7 @@
     <Folder Include="Source\Authorization\" />
     <Folder Include="Source\Authorization\AccessTokenPipeline\" />
     <Folder Include="Source\Injection\" />
+    <Folder Include="Source\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">

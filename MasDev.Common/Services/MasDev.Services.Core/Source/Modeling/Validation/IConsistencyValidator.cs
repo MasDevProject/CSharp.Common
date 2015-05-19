@@ -13,12 +13,15 @@ namespace MasDev.Services.Modeling
 		bool IsAsync { get; }
 	}
 
-	public abstract class ConsistencyValidator<TDto> : IConsistencyValidator<TDto> where TDto : IDto
+	public abstract class ConsistencyValidator<TDto> : IConsistencyValidator<TDto> where TDto : class, IDto
 	{
 		protected abstract void Validate (TDto dto, IIdentityContext context);
 
 		void IConsistencyValidator<TDto>.Validate (TDto dto, IIdentityContext context)
 		{
+			if (dto == null)
+				throw new InputException ();
+
 			(this as ConsistencyValidator<TDto>).Validate (dto, context);
 		}
 
@@ -30,7 +33,7 @@ namespace MasDev.Services.Modeling
 		public bool IsAsync { get { return false; } }
 	}
 
-	public abstract class AsyncConsistencyValidator<TDto> : IConsistencyValidator<TDto> where TDto : IDto
+	public abstract class AsyncConsistencyValidator<TDto> : IConsistencyValidator<TDto> where TDto : class, IDto
 	{
 		protected abstract Task ValidateAsync (TDto dto, IIdentityContext context);
 
@@ -41,6 +44,9 @@ namespace MasDev.Services.Modeling
 
 		async Task IConsistencyValidator<TDto>.ValidateAsync (TDto dto, IIdentityContext context)
 		{
+			if (dto == null)
+				throw new InputException ();
+			
 			await (this as AsyncConsistencyValidator<TDto>).ValidateAsync (dto, context);
 		}
 

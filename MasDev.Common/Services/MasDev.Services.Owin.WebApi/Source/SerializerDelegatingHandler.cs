@@ -6,14 +6,12 @@ using System.IO;
 using MasDev.IO;
 using System.Net;
 using System.Net.Http.Headers;
-using MasDev.Extensions;
-using System.Web.UI.WebControls;
 using AutoMapper;
 
 
-namespace MasDev.Rest.WebApi
+namespace MasDev.Services.Owin.WebApi
 {
-	public class ResponseMarshallerDelegatingHandler : DelegatingHandler
+	public class SerializerDelegatingHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage> SendAsync (HttpRequestMessage request, CancellationToken cancellationToken)
 		{
@@ -27,7 +25,7 @@ namespace MasDev.Rest.WebApi
 
 			var value = objectContent.Value;
 				
-			var redirect = value as Redirect;
+			var redirect = value as RemoteResourceUrl;
 			if (redirect != null) {
 				result = new HttpResponseMessage (HttpStatusCode.Redirect);
 				result.Headers.Location = new Uri (redirect.To);

@@ -62,7 +62,6 @@
     <Compile Include="Source\Utils\ForbiddenException.cs" />
     <Compile Include="Source\Utils\MultipartContent.cs" />
     <Compile Include="Source\Utils\NotFoundException.cs" />
-    <Compile Include="Source\Utils\Redirect.cs" />
     <Compile Include="Source\Utils\UnauthorizedException.cs" />
     <Compile Include="Source\Auth\ICredentials.cs" />
     <Compile Include="Source\Auth\IAuthManager.cs" />

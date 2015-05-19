@@ -1,5 +1,6 @@
 ﻿using MasDev.Patterns.Injection;
 using MasDev.Services.Test.Communication;
+using MasDev.Services.Test.Models;
 
 namespace MasDev.Services.Test
 {
@@ -7,7 +8,7 @@ namespace MasDev.Services.Test
 	{
 		public void RegisterDataAccessValidators (IDependencyContainer container)
 		{
-			container.RegisterDataAccessValidator<UserDto, UserDataAccessValidator> ();
+			container.RegisterDataAccessValidator<UserDto, User, UserDataAccessValidator> ();
 		}
 	}
 }

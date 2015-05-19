@@ -1,12 +1,9 @@
-﻿
-
-
-namespace MasDev.Rest
+﻿namespace MasDev.Services
 {
 	/// <summary>
 	/// Which type of redirect
 	/// </summary>
-	public enum RedirectType
+	public enum RemoteResourceType
 	{
 		/// <summary>
 		/// HTTP 301 - All future requests should be to this URL
@@ -22,25 +19,16 @@ namespace MasDev.Rest
 		SeeOther
 	}
 
-
-
-
-
-	public sealed class Redirect
+	public sealed class RemoteResourceUrl
 	{
 		public string To { get; private set; }
 
+		public RemoteResourceType ResourceType { get; private set; }
 
-
-		public RedirectType RedirectType { get; private set; }
-
-
-
-		public Redirect (string to, RedirectType redirectType)
+		public RemoteResourceUrl (string resourceUrl, RemoteResourceType redirectType)
 		{
-			To = to;
-			RedirectType = redirectType;
+			To = resourceUrl;
+			ResourceType = redirectType;
 		}
 	}
 }
-

@@ -10,7 +10,7 @@ namespace MasDev.Services.Owin.WebApi
 		protected IIdentityContext IdentityContext { get { return Request.GetOwinContext ().Get<IIdentityContext> (AuthorizationMiddleware.IdentityContextKey); } }
 	}
 
-	public class ServiceApiController<TService> : ServiceApiController where TService : IService
+	public class ServiceApiController<TService> : ServiceApiController where TService : class, IService
 	{
 		protected readonly TService Service;
 

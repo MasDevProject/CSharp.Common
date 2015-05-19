@@ -66,12 +66,13 @@ namespace MasDev.Services
 			container.AddDependency<IConsistencyValidator<TDto>, TConsistencyValidator> (LifeStyles.Singleton);
 		}
 
-		public static void RegisterDataAccessValidator<TDto, TDataAccessValidator> (this IDependencyContainer container)
+		public static void RegisterDataAccessValidator<TDto, TModel, TDataAccessValidator> (this IDependencyContainer container)
 			where TDto : class, IDto
-			where TDataAccessValidator : class, IDataAccessValidator<TDto>, new()
+			where TModel : class, IModel
+			where TDataAccessValidator : class, IDataAccessValidator<TDto, TModel>, new()
 		{
 			EnsurePerRequestLifestyleIsSet ();
-			container.AddDependency<IDataAccessValidator<TDto>, TDataAccessValidator> (LifeStyles.Singleton);
+			container.AddDependency<IDataAccessValidator<TDto, TModel>, TDataAccessValidator> (LifeStyles.Singleton);
 		}
 	}
 }

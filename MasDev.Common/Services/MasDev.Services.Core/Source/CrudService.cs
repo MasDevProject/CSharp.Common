@@ -22,7 +22,7 @@ namespace MasDev.Services
 
 		protected IConsistencyValidator<TDto> ConsistencyValidator { get { return Injector.Resolve<IConsistencyValidator<TDto>> (); } }
 
-		protected IDataAccessValidator<TDto> DataAccessValidator { get { return Injector.Resolve<IDataAccessValidator<TDto>> (); } }
+		protected IDataAccessValidator<TDto, TModel> DataAccessValidator { get { return Injector.Resolve<IDataAccessValidator<TDto, TModel>> (); } }
 
 		#endregion
 
@@ -47,21 +47,19 @@ namespace MasDev.Services
 			if (!models.Any ())
 				return Enumerable.Empty<TDto> ().ToList ();
 
+			if (DataAccessValidator != null) {
+				var authorizedModels = new List<TModel> ();
+				foreach (var model in models) {
+					if (await CanAccessAsync (model, context))
+						authorizedModels.Add (model);
+				}
+				models = authorizedModels;
+			}
+
 			var conversionTasks = models.Select (m => MapAsync (m, context)).ToList ();
 			await Task.WhenAll (conversionTasks);
 
-			var dtos = conversionTasks.Select (t => t.Result).ToList ();
-
-			if (DataAccessValidator != null) {
-				var tmpDtos = new List<TDto> ();
-				foreach (var dto in dtos) {
-					if (await CanAccessAsync (dto, context))
-						tmpDtos.Add (dto);
-				}
-				dtos = tmpDtos;
-			}
-
-			return dtos;
+			return conversionTasks.Select (t => t.Result).ToList ();
 		}
 
 		public virtual async Task<TDto> ReadAsync (int id, IIdentityContext context)
@@ -70,19 +68,22 @@ namespace MasDev.Services
 
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
-				throw new ServiceReadException (id);
+				throw new NotFoundException (id);
 
+			await ValidateDataAccessAsync (model, context);
 			return await MapAsync (model, context);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto, IIdentityContext context)
 		{
-			await ValidateDataAccessAsync (dto, context);
 			await ValidateConsistencyAsync (dto, context);
+			await ValidateDataAccessAsync (dto, context);
 
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
-				throw new ServiceReadException (dto.Id);
+				throw new NotFoundException (dto.Id);
+
+			await ValidateDataAccessAsync (model, context);
 
 			if (CommunicationMapper.IsAsync)
 				await CommunicationMapper.MapForUpdateAsync (dto, model, context);
@@ -99,7 +100,7 @@ namespace MasDev.Services
 
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
-				throw new ServiceReadException (id);
+				throw new NotFoundException (id);
 			
 			await Repository.DeleteAsync (model);
 		}
@@ -146,6 +147,16 @@ namespace MasDev.Services
 				DataAccessValidator.CanAccess (dto, context);
 		}
 
+		protected virtual async Task<bool> CanAccessAsync (TModel model, IIdentityContext context)
+		{
+			if (DataAccessValidator == null)
+				return true;
+
+			return DataAccessValidator.IsAsync ? 
+				await DataAccessValidator.CanAccessAsync (model, context) : 
+				DataAccessValidator.CanAccess (model, context);
+		}
+
 		protected virtual async Task<bool> CanAccessAsync (int id, IIdentityContext context)
 		{
 			if (DataAccessValidator == null)
@@ -159,24 +170,22 @@ namespace MasDev.Services
 		protected async Task ValidateDataAccessAsync (TDto dto, IIdentityContext context)
 		{
 			if (!await CanAccessAsync (dto, context))
-				throw new DataAccessAuthorizationException ();
+				throw new UnauthorizedException ();
+		}
+
+		protected async Task ValidateDataAccessAsync (TModel model, IIdentityContext context)
+		{
+			if (!await CanAccessAsync (model, context))
+				throw new UnauthorizedException ();
 		}
 
 		protected async Task ValidateDataAccessAsync (int id, IIdentityContext context)
 		{
 			if (!await CanAccessAsync (id, context))
-				throw new DataAccessAuthorizationException ();
+				throw new UnauthorizedException ();
 		}
 
 		#endregion
-	}
-
-	public class ServiceReadException : Exception
-	{
-		public ServiceReadException (int id) : base (string.Format ("Model with id {0} was not stored", id))
-		{
-			
-		}
 	}
 }
 

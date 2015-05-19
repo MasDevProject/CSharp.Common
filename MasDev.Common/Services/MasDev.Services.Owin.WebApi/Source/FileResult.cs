@@ -5,17 +5,16 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
 using System.IO;
-using System.Web;
 using System.Net.Http.Headers;
 using MasDev.Common;
 using System.Collections.Generic;
 using System.Linq;
 using MasDev.Utils;
 using System.Text;
-using System.Diagnostics;
+using System.Web;
 
 
-namespace MasDev.Rest.WebApi
+namespace MasDev.Services.Owin.WebApi
 {
 	public class FileResult : IHttpActionResult
 	{
@@ -62,11 +61,10 @@ namespace MasDev.Rest.WebApi
 			if (_useCache && Cache.Has (_filePath)) {
 				cachedFile = Cache [_filePath];
 				var cachedLastModifiedUtc = cachedFile.LastModifiedUtc;
-			    if (cachedLastModifiedUtc != lastModifiedUtc)
-			    {
-                    Cache.Invalidate(_filePath);
-                    cachedFile = null;
-			    }
+				if (cachedLastModifiedUtc != lastModifiedUtc) {
+					Cache.Invalidate (_filePath);
+					cachedFile = null;
+				}
 			}
 				
 			if (_ifModifiedSince.HasValue && _statusCode == HttpStatusCode.OK) {

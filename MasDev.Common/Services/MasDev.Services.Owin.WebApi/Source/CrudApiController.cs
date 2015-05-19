@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Http;
-using MasDev.Patterns.Injection;
 using System.Threading.Tasks;
 using MasDev.Services.Modeling;
 

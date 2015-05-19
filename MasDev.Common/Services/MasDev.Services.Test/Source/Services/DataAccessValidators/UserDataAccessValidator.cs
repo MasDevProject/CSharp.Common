@@ -4,7 +4,7 @@ using MasDev.Services.Test.Models;
 
 namespace MasDev.Services.Test
 {
-	public class UserDataAccessValidator : DataAccessValidator<UserDto>
+	public class UserDataAccessValidator : DataAccessValidator<UserDto, User>
 	{
 		protected override bool CanAccess (int id, IIdentityContext context)
 		{			
