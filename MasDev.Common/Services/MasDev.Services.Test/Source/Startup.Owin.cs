@@ -6,6 +6,7 @@ using MasDev.Patterns.Injection.SimpleInjector;
 using MasDev.Services.Test;
 using MasDev.Data.NHibernate;
 using SimpleInjector.Extensions.ExecutionContextScoping;
+using Microsoft.Owin.Extensions;
 
 namespace MasDev.Services
 {
@@ -27,9 +28,9 @@ namespace MasDev.Services
 			builder.UseSimpleInjectorMiddleware (container);
 			builder.UseUrlRewriteMiddleware (new UrlRewriteRules ());
 			builder.UseRedirectMiddleware (new RedirectRules ());
+			builder.UseStageMarker (PipelineStage.MapHandler);
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
 			builder.UseUnitOfWorkHandlerMiddleware ();
-
 
 			builder.UseWebApi (ConfigureWebApi ());
 		}
