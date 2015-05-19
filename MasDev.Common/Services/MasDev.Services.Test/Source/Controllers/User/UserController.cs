@@ -3,6 +3,7 @@ using MasDev.Services.Owin.WebApi;
 using System.Web.Http;
 using System.Threading.Tasks;
 using MasDev.Services.Test.Services;
+using MasDev.Services.Modeling;
 
 namespace MasDev.Services.Test
 {
@@ -44,15 +45,9 @@ namespace MasDev.Services.Test
 
 		[HttpPost]
 		[Route (UserEndpoints.Login)]
-		public async Task<IHttpActionResult> LoginAsync (LoginRequest request)
-		{
-			if (request == null)
-				return BadRequest ();
-			
-			var result = await Service.LoginAsync (request.Username, request.Password, IdentityContext);
-			if (result == null)
-				return BadRequest ();
-			return Ok (result);
+		public async Task<LoginResult<UserDto>> LoginAsync (LoginRequest request)
+		{			
+			return await Service.LoginAsync (request.Username, request.Password, IdentityContext);
 		}
 	}
 }

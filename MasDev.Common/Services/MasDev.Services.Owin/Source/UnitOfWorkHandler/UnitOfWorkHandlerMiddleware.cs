@@ -3,12 +3,16 @@ using System.Threading.Tasks;
 using MasDev.Patterns.Injection;
 using MasDev.Data;
 using System.Linq;
+using System.Diagnostics;
 
 namespace MasDev.Services.Middlewares
 {
 
 	public class UnitOfWorkHandlerMiddleware : OwinMiddleware
 	{
+		const string RolledBack = "Unit of work rolled back";
+		const string Committed = "Unit of work committed";
+
 		static readonly int[] _ok = { 200, 201, 204, 304 };
 		readonly int[] _committableStatusCodes;
 
@@ -37,10 +41,13 @@ namespace MasDev.Services.Middlewares
 			if (uow == null || !uow.IsStarted)
 				return;
 			
-			if (rollback || _committableStatusCodes.All (c => context.Response.StatusCode != c))
+			if (rollback || _committableStatusCodes.All (c => context.Response.StatusCode != c)) {
 				uow.Rollback (false);
-			else
+				Debug.WriteLine (RolledBack);
+			} else {
 				uow.Commit (false);
+				Debug.WriteLine (Committed);
+			}
 				
 		}
 	}

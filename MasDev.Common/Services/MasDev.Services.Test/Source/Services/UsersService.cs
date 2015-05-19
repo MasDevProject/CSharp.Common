@@ -19,9 +19,9 @@ namespace MasDev.Services.Test.Services
 	{
 		public async Task<LoginResult<UserDto>> LoginAsync (string username, string password, IIdentityContext context)
 		{
-			var user = await Repository.Query.Where (u => u.Username == username).SingleOrDefaultAsync ();
+			var user = await Repository.Query.Where (u => u.Username == username && u.Password == password).SingleOrDefaultAsync ();
 			if (user == null)
-				return null;
+				throw new InputException ();
 
 			var expirationUtc = DateTime.UtcNow.AddMonths (1);
 			var userDto = await MapAsync (user, context);
