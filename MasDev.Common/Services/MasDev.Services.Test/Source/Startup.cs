@@ -5,12 +5,11 @@ using MasDev.Patterns.Injection;
 using MasDev.Patterns.Injection.SimpleInjector;
 using MasDev.Services.Test;
 using MasDev.Data.NHibernate;
-using System.Web.Http;
 using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace MasDev.Services
 {
-	class Startup
+	partial class Startup
 	{
 		public void Configuration (IAppBuilder builder)
 		{
@@ -21,15 +20,18 @@ namespace MasDev.Services
 			var dbSession = Injector.Resolve<ISessionFactoryProvider> ();
 			dbSession.Connect ();
 
+			#if DEBUG
+			builder.UseDiagnosticMiddleware ();
+			#endif
+
 			builder.UseSimpleInjectorMiddleware (container);
 			builder.UseUrlRewriteMiddleware (new UrlRewriteRules ());
 			builder.UseRedirectMiddleware (new RedirectRules ());
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
 			builder.UseUnitOfWorkHandlerMiddleware ();
 
-			var config = new HttpConfiguration ();
-			config.MapHttpAttributeRoutes ();
-			builder.UseWebApi (config);
+
+			builder.UseWebApi (ConfigureWebApi ());
 		}
 	}
 }

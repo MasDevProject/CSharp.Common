@@ -13,6 +13,7 @@ using System.Linq;
 using MasDev.Reflection;
 using System.Linq.Expressions;
 using MasDev.Extensions;
+using System.Diagnostics;
 
 
 namespace MasDev.Data.NHibernate
@@ -119,7 +120,7 @@ namespace MasDev.Data.NHibernate
 	{
 		public override SqlString OnPrepareStatement (SqlString sql)
 		{
-			Console.WriteLine (sql.ToString ());
+			Debug.WriteLine (sql.ToString ());
 			return sql;
 		}
 	}

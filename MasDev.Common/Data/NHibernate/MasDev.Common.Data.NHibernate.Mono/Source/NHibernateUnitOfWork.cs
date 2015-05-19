@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using System.Data;
 using System;
+using System.Diagnostics;
 
 
 namespace MasDev.Data
@@ -18,7 +19,7 @@ namespace MasDev.Data
 			if (factory == null)
 				throw new ArgumentNullException ();
 			
-			Console.WriteLine ("Uow constructed");
+			Debug.WriteLine ("Uow constructed");
 
 			_session = GetDefaultSessionLazy (factory);
 			_parallelSession = GetDefaultSessionLazy (factory);
@@ -93,7 +94,7 @@ namespace MasDev.Data
 
 		public void Dispose ()
 		{
-			Console.WriteLine ("Uow disposed");
+			Debug.WriteLine ("Uow disposed");
 
 			if (_transaction != null)
 				_transaction.Dispose ();

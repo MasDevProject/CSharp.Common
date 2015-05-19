@@ -32,6 +32,12 @@ namespace MasDev.Services.Middlewares
 			builder.Use<UnitOfWorkHandlerMiddleware> (committableStatusCodes);
 		}
 
+
+		public static void UseDiagnosticMiddleware (this IAppBuilder builder)
+		{
+			builder.Use<DiagnosticMiddleware> ();
+		}
+
 		public static void ThrowIfNull (this object obj, string name)
 		{
 			if (obj == null)

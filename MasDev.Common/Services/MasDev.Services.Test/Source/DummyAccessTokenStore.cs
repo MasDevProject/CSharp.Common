@@ -2,13 +2,16 @@
 using System.Threading.Tasks;
 using MasDev.Services.Auth;
 
+using System.Diagnostics;
+
+
 namespace MasDev.Services
 {
 	public class DummyAccessTokenStore : IAccessTokenStore, IDisposable
 	{
 		public DummyAccessTokenStore ()
 		{
-			Console.WriteLine ("DummyAccessTokenStore instantiated");
+			Debug.WriteLine ("DummyAccessTokenStore instantiated");
 		}
 
 		public async Task<DateTime?> GetlastInvalidationUtcAsync (int id, int flag)
@@ -23,7 +26,7 @@ namespace MasDev.Services
 
 		public void Dispose ()
 		{
-			Console.WriteLine ("DummyAccessTokenStore disposed");
+			Debug.WriteLine ("DummyAccessTokenStore disposed");
 		}
 	}
 }
