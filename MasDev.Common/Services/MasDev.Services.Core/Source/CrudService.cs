@@ -35,7 +35,7 @@ namespace MasDev.Services
 		public virtual async Task<TDto> CreateAsync (TDto dto, IIdentityContext context)
 		{
 			await ValidateConsistencyAsync (dto, context);
-			await ValidateAccessAsync (dto, context);
+			await ValidateAccessAsync (dto, context, AccessType.Create);
 			var model = await MapAsync (dto, context);
 			await Repository.CreateAsync (model);
 			return await MapAsync (model, context);
@@ -52,7 +52,7 @@ namespace MasDev.Services
 				var authorizedModels = new List<TModel> ();
 				foreach (var model in models) {
 					try {
-						await ValidateAccessAsync (model, context);
+						await ValidateAccessAsync (model, context, AccessType.Read);
 					} catch {
 						authorizedModels.Add (model);
 					}
@@ -68,26 +68,26 @@ namespace MasDev.Services
 
 		public virtual async Task<TDto> ReadAsync (int id, IIdentityContext context)
 		{
-			await ValidateAccessAsync (id, context);
+			await ValidateAccessAsync (id, context, AccessType.Read);
 
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
 				throw new NotFoundException (id);
 
-			await ValidateAccessAsync (model, context);
+			await ValidateAccessAsync (model, context, AccessType.Read);
 			return await MapAsync (model, context);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto, IIdentityContext context)
 		{
 			await ValidateConsistencyAsync (dto, context);
-			await ValidateAccessAsync (dto, context);
+			await ValidateAccessAsync (dto, context, AccessType.Update);
 
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
 				throw new NotFoundException (dto.Id);
 
-			await ValidateAccessAsync (model, context);
+			await ValidateAccessAsync (model, context, AccessType.Update);
 
 			if (CommunicationMapper.IsAsync)
 				await CommunicationMapper.MapForUpdateAsync (dto, model, context);
@@ -100,7 +100,7 @@ namespace MasDev.Services
 
 		public virtual async Task DeleteAsync (int id, IIdentityContext context)
 		{
-			await ValidateAccessAsync (id, context);
+			await ValidateAccessAsync (id, context, AccessType.Delete);
 
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
@@ -141,28 +141,28 @@ namespace MasDev.Services
 				ConsistencyValidator.Validate (dto, context);
 		}
 
-		protected virtual async Task ValidateAccessAsync (TDto dto, IIdentityContext context)
+		protected virtual async Task ValidateAccessAsync (TDto dto, IIdentityContext context, AccessType accessType)
 		{
 			if (DtoAccessValidator == null)
 				return;
 
-			DtoAccessValidator.EnsureCanAccessAsync (dto, context);
+			DtoAccessValidator.EnsureCanAccessAsync (dto, context, accessType);
 		}
 
-		protected virtual async Task ValidateAccessAsync (TModel model, IIdentityContext context)
+		protected virtual async Task ValidateAccessAsync (TModel model, IIdentityContext context, AccessType accessType)
 		{
 			if (ModelAccessValidator == null)
 				return;
 
-			await ModelAccessValidator.EnsureCanAccessAsync (model, context);
+			await ModelAccessValidator.EnsureCanAccessAsync (model, context, accessType);
 		}
 
-		protected virtual async Task ValidateAccessAsync (int id, IIdentityContext context)
+		protected virtual async Task ValidateAccessAsync (int id, IIdentityContext context, AccessType accessType)
 		{
 			if (DtoAccessValidator != null)
-				await DtoAccessValidator.EnsureCanAccessAsync (id, context);
+				await DtoAccessValidator.EnsureCanAccessAsync (id, context, accessType);
 			if (ModelAccessValidator != null)
-				await ModelAccessValidator.EnsureCanAccessAsync (id, context);
+				await ModelAccessValidator.EnsureCanAccessAsync (id, context, accessType);
 		}
 
 		#endregion

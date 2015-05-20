@@ -15,9 +15,9 @@ namespace MasDev.Services
 			_dtoValidator = Injector.Resolve<IEntityAccessValidator<TDto>> ();
 		}
 
-		protected override void Validate (int id, IIdentityContext context)
+		protected override void Validate (int id, IIdentityContext context, AccessType accessType)
 		{
-			_dtoValidator.Validate (id, context);
+			_dtoValidator.Validate (id, context, accessType);
 		}
 	}
 
@@ -32,9 +32,9 @@ namespace MasDev.Services
 			_dtoValidator = Injector.Resolve<IEntityAccessValidator<TDto>> ();
 		}
 
-		protected override async Task ValidateAsync (int id, IIdentityContext context)
+		protected override async Task ValidateAsync (int id, IIdentityContext context, AccessType accessType)
 		{
-			await _dtoValidator.EnsureCanAccessAsync (id, context);
+			await _dtoValidator.EnsureCanAccessAsync (id, context, accessType);
 		}
 	}
 }

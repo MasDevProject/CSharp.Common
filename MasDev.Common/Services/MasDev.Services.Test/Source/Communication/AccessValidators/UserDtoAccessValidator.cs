@@ -6,7 +6,7 @@ namespace MasDev.Services.Test
 {
 	public class UserDtoAccessValidator : EntityAccessValidator<UserDto>
 	{
-		protected override void Validate (int id, IIdentityContext context)
+		protected override void Validate (int id, IIdentityContext context, AccessType accessType)
 		{
 			if (context == null)
 				throw new UnauthorizedException ();
