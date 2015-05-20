@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace MasDev.Services
+﻿
+namespace MasDev.Common
 {
 	public class NotFoundException : ServiceException
 	{

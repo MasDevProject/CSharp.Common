@@ -1,6 +1,7 @@
 ﻿using MasDev.Services.Test.Models;
 using MasDev.Services.Modeling;
 using AutoMapper;
+using MasDev.Common;
 
 
 namespace MasDev.Services.Test.Communication

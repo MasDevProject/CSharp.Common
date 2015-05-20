@@ -1,7 +1,9 @@
-﻿
+﻿using MasDev.Common;
+
+
 namespace MasDev.Services.Modeling
 {
-	public sealed class Identity
+	public sealed class Identity : IIdentity
 	{
 		public int Id { get; set; }
 

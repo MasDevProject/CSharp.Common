@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using System;
 using AutoMapper;
+using MasDev.Common;
 
 namespace MasDev.Services.Modeling
 {
 	public interface ICommunicationMapper <TDto, TModel>
-		where TDto : IDto
+		where TDto : IEntity
 		where TModel : IModel
 	{
 		bool IsAsync { get; }
@@ -25,7 +26,7 @@ namespace MasDev.Services.Modeling
 	}
 
 	public abstract class CommunicationMapper <TDto, TModel> : ICommunicationMapper<TDto, TModel>
-		where TDto : IDto
+		where TDto : IEntity
 		where TModel : IModel
 	{
 		public bool IsAsync { get { return false; } }
@@ -68,7 +69,7 @@ namespace MasDev.Services.Modeling
 	}
 
 	public abstract class AsyncCommunicationMapper <TDto, TModel> : ICommunicationMapper<TDto, TModel>
-		where TDto : IDto
+		where TDto : IEntity
 		where TModel : IModel
 	{
 		public bool IsAsync { get { return true; } }

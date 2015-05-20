@@ -1,4 +1,4 @@
-﻿namespace MasDev.Services
+﻿namespace MasDev.Common
 {
 	public class UnauthorizedException : ServiceException
 	{

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using MasDev.Services.Middlewares;
 using MasDev.Patterns.Injection;
+using MasDev.Common;
 
 namespace MasDev.Services.Owin.WebApi
 {

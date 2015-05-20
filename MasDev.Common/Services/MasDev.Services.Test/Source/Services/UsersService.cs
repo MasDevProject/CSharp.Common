@@ -7,6 +7,7 @@ using System.Linq;
 using MasDev.Data;
 using MasDev.Services.Auth;
 using System;
+using MasDev.Common;
 
 namespace MasDev.Services.Test.Services
 {

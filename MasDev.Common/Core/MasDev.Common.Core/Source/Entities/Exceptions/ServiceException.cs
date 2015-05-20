@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace MasDev.Services
+namespace MasDev.Common
 {
 	public abstract class ServiceException : Exception
 	{

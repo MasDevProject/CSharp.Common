@@ -1,6 +1,6 @@
-﻿using MasDev.Services.Modeling;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
+using MasDev.Common;
 
 namespace MasDev.Services
 {
@@ -9,7 +9,7 @@ namespace MasDev.Services
 
 	}
 
-	public interface ICrudService<TDto> : IService where TDto : IDto
+	public interface ICrudService<TDto> : IService where TDto : IEntity
 	{
 		Task<TDto> CreateAsync (TDto dto, IIdentityContext context);
 

@@ -1,9 +1,9 @@
-﻿using MasDev.Services.Modeling;
+﻿using MasDev.Common;
 
 
 namespace MasDev.Services.Test.Communication
 {
-	public class UserDto : IDto
+	public class UserDto : IEntity
 	{
 		public int Id { get; set; }
 

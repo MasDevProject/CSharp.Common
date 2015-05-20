@@ -1,7 +1,7 @@
-﻿using MasDev.Services.Modeling;
-using MasDev.Services.Test.Communication;
+﻿using MasDev.Services.Test.Communication;
 using System;
 using MasDev.Services.Test.Models;
+using MasDev.Common;
 
 namespace MasDev.Services.Test
 {

@@ -3,7 +3,7 @@ using MasDev.Patterns.Injection;
 using System;
 using MasDev.Data;
 using MasDev.Services.Auth;
-using MasDev.Services.DataAccess;
+using MasDev.Common;
 
 namespace MasDev.Services
 {
@@ -18,7 +18,7 @@ namespace MasDev.Services
 		}
 
 		public static void RegisterCrudService<TDto, TServiceInterface, TServiceImplementation> (this IDependencyContainer container)
-			where TDto : IDto
+			where TDto : IEntity
 			where TServiceInterface : class, ICrudService<TDto>
 			where TServiceImplementation : class, TServiceInterface, new()
 		{
@@ -50,7 +50,7 @@ namespace MasDev.Services
 		}
 
 		public static void RegisterCommunicationMapper<TDto, TModel, TCommunicationMapper> (this IDependencyContainer container)
-			where TDto : class, IDto
+			where TDto : class, IEntity
 			where TModel : class, IModel, new()
 			where TCommunicationMapper : class, ICommunicationMapper<TDto, TModel>, new()
 		{
@@ -59,20 +59,19 @@ namespace MasDev.Services
 		}
 
 		public static void RegisterConsistencyValidator<TDto, TConsistencyValidator> (this IDependencyContainer container)
-			where TDto : class, IDto
+			where TDto : class, IEntity
 			where TConsistencyValidator : class, IConsistencyValidator<TDto>, new()
 		{
 			EnsurePerRequestLifestyleIsSet ();
 			container.AddDependency<IConsistencyValidator<TDto>, TConsistencyValidator> (LifeStyles.Singleton);
 		}
 
-		public static void RegisterDataAccessValidator<TDto, TModel, TDataAccessValidator> (this IDependencyContainer container)
-			where TDto : class, IDto
-			where TModel : class, IModel
-			where TDataAccessValidator : class, IDataAccessValidator<TDto, TModel>, new()
+		public static void RegisterAccessValidator<TEntity, TDataAccessValidator> (this IDependencyContainer container)
+			where TEntity : class, IEntity
+			where TDataAccessValidator : class, IEntityAccessValidator<TEntity>, new()
 		{
 			EnsurePerRequestLifestyleIsSet ();
-			container.AddDependency<IDataAccessValidator<TDto, TModel>, TDataAccessValidator> (LifeStyles.Singleton);
+			container.AddDependency<IEntityAccessValidator<TEntity>, TDataAccessValidator> (LifeStyles.Singleton);
 		}
 	}
 }

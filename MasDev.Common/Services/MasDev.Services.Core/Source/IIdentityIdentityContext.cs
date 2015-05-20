@@ -1,20 +1,11 @@
-﻿using MasDev.Services.Modeling;
+﻿using MasDev.Common;
 
 
 namespace MasDev.Services
 {
-	public interface IIdentityContext
+	public sealed class IdentityContext : IIdentityContext
 	{
-		Identity Identity { get; }
-
-		int? Scope { get; }
-
-		string Language { get; }
-	}
-
-	public class IdentityContext : IIdentityContext
-	{
-		public Identity Identity { get; set; }
+		public IIdentity Identity { get; set; }
 
 		public int? Scope { get ; set; }
 

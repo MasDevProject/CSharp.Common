@@ -6,17 +6,26 @@ using System.Linq;
 
 namespace MasDev.Data
 {
-	public interface IRepository<T> : IModelQueryFactory where T : class, IModel, new()
+	public enum LockMode
+	{
+		Write,
+		Upgrade,
+		UpgradeNoWait,
+		Read,
+		None
+	}
+
+	public interface IRepository<TModel> : IModelQueryFactory where TModel : class, IModel, new()
 	{
 		#region Create
 
-		int Create (T model);
+		int Create (TModel model);
 
-		Task<int> CreateAsync (T model);
+		Task<int> CreateAsync (TModel model);
 
-		void Create (IEnumerable<T> models);
+		void Create (IEnumerable<TModel> models);
 
-		Task CreateAsync (IEnumerable<T> models);
+		Task CreateAsync (IEnumerable<TModel> models);
 
 		#endregion
 
@@ -38,29 +47,29 @@ namespace MasDev.Data
 
 		Task<TModel> ReadonlyModelAsync<TModel> (int id) where TModel : class, IModel, new();
 
-		T Read (int id);
+		TModel Read (int id);
 
-		Task<T> ReadAsync (int id);
+		Task<TModel> ReadAsync (int id);
 
-		IEnumerable<T> Read (IEnumerable<int> ids);
+		IEnumerable<TModel> Read (IEnumerable<int> ids);
 
-		Task<IEnumerable<T>> ReadAsync (IEnumerable<int> ids);
+		Task<IEnumerable<TModel>> ReadAsync (IEnumerable<int> ids);
 
 		#endregion
 
 		#region Update
 
-		int Update (T model);
+		int Update (TModel model);
 
-		Task<int> UpdateAsync (T model);
+		Task<int> UpdateAsync (TModel model);
 
-		T Update (int id, Action<T> updater);
+		TModel Update (int id, Action<TModel> updater);
 
-		Task<T> UpdateAsync (int id, Action<T> updater);
+		Task<TModel> UpdateAsync (int id, Action<TModel> updater);
 
-		void Update (IEnumerable<T> models);
+		void Update (IEnumerable<TModel> models);
 
-		Task UpdateAsync (IEnumerable<T> models);
+		Task UpdateAsync (IEnumerable<TModel> models);
 
 		#endregion
 
@@ -82,13 +91,13 @@ namespace MasDev.Data
 
 		#region Delete
 
-		int Delete (T model);
+		int Delete (TModel model);
 
-		Task<int> DeleteAsync (T model);
+		Task<int> DeleteAsync (TModel model);
 
-		void Delete (IEnumerable<T> models);
+		void Delete (IEnumerable<TModel> models);
 
-		Task DeleteAsync (IEnumerable<T> models);
+		Task DeleteAsync (IEnumerable<TModel> models);
 
 		#endregion
 
@@ -124,21 +133,12 @@ namespace MasDev.Data
 
 		#endregion
 
-		IQueryable<T> Query { get; }
+		IQueryable<TModel> Query { get; }
 
 		IUnitOfWork UnitOfWork { get; }
 
-		void Lock (T model, LockMode lockMode);
+		void Lock (TModel model, LockMode lockMode);
 
-	}
-
-	public enum LockMode
-	{
-		Write,
-		Upgrade,
-		UpgradeNoWait,
-		Read,
-		None
 	}
 
 	public interface IRepository<TVersionedModel, TModelVersioning> : IRepository<TVersionedModel>

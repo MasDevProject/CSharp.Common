@@ -10,7 +10,7 @@ namespace MasDev.Services
 
 		void RegisterConsistencyValidators (IDependencyContainer container);
 
-		void RegisterDataAccessValidators (IDependencyContainer container);
+		void RegisterAccessValidators (IDependencyContainer container);
 
 		void RegisterCommunicationMappers (IDependencyContainer container);
 	}
@@ -22,7 +22,7 @@ namespace MasDev.Services
 			configurator.RegisterRepositories (container);
 			configurator.RegisterConsistencyValidators (container);
 			configurator.RegisterCommunicationMappers (container);
-			configurator.RegisterDataAccessValidators (container);
+			configurator.RegisterAccessValidators (container);
 			configurator.RegisterServices (container);
 		}
 	}

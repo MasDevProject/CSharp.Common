@@ -11,7 +11,7 @@ using MasDev.Utils;
 
 namespace MasDev.Data
 {
-	public class NHibernateBaseRepository<T> : IRepository<T> where T : class, IModel, new()
+	public class NHibernateRepository<T> : IRepository<T> where T : class, IModel, new()
 	{
 		internal NHibernateUnitOfWork Uow;
 
@@ -19,7 +19,7 @@ namespace MasDev.Data
 
 		public virtual IUnitOfWork UnitOfWork { get { return Uow; } }
 
-		public NHibernateBaseRepository (IUnitOfWork uow)
+		public NHibernateRepository (IUnitOfWork uow)
 		{
 			Uow = uow as NHibernateUnitOfWork;
 			if (Uow == null)
@@ -395,7 +395,7 @@ namespace MasDev.Data
 	}
 
 
-	public abstract class NHibernateBaseRepository<TVersionedModel, TModelVersioning> : NHibernateBaseRepository<TVersionedModel>,  IRepository<TVersionedModel, TModelVersioning>
+	public abstract class NHibernateBaseRepository<TVersionedModel, TModelVersioning> : NHibernateRepository<TVersionedModel>,  IRepository<TVersionedModel, TModelVersioning>
 		where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
 		where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 	{

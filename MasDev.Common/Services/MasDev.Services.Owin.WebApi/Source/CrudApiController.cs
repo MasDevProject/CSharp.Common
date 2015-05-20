@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Web.Http;
 using System.Threading.Tasks;
-using MasDev.Services.Modeling;
+using MasDev.Common;
 
 namespace MasDev.Services.Owin.WebApi
 {
 	public class CrudApiController<TDto, TCrudService> : ServiceApiController<TCrudService>
-		where TDto : class, IDto
+		where TDto : class, IEntity
 		where TCrudService : class, ICrudService<TDto>
 	{
 		[HttpPost]

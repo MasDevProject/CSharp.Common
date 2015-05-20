@@ -67,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\NHibernateBaseRepository.cs" />
     <Compile Include="Source\NHibernateUnitOfWork.cs" />
     <Compile Include="Source\NHibernatePropertyNameResolver.cs" />
     <Compile Include="Source\ContractResolvers\NHibernateIngoreNullValueContractResolver.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Source\PersistenceMapperAutoMapConfiguration.cs" />
     <Compile Include="Source\PersistenceMapperConvention.cs" />
     <Compile Include="Source\Providers\SessionFactoryWrapper.cs" />
+    <Compile Include="Source\NHibernateRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

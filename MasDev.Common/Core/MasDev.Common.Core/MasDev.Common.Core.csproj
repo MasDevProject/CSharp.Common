@@ -125,6 +125,16 @@
     <Compile Include="Source\Http\Headers\IfModifiedSinceHeader.cs" />
     <Compile Include="Source\Exceptions\TypedException.cs" />
     <Compile Include="Source\Utils\Enumerables.cs" />
+    <Compile Include="Source\Entities\IEntity.cs" />
+    <Compile Include="Source\Entities\IIdentity.cs" />
+    <Compile Include="Source\Entities\IEntityAccessValidator.cs" />
+    <Compile Include="Source\Entities\IIdentityContext.cs" />
+    <Compile Include="Source\Entities\IConsistencyValidator.cs" />
+    <Compile Include="Source\Entities\Exceptions\ForbiddenException.cs" />
+    <Compile Include="Source\Entities\Exceptions\InputException.cs" />
+    <Compile Include="Source\Entities\Exceptions\NotFoundException.cs" />
+    <Compile Include="Source\Entities\Exceptions\ServiceException.cs" />
+    <Compile Include="Source\Entities\Exceptions\UnauthorizedException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -148,5 +158,8 @@
     <Reference Include="SimpleInjector">
       <HintPath>..\..\packages\SimpleInjector.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Entities\" />
   </ItemGroup>
 </Project>

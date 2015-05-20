@@ -4,13 +4,12 @@ using MasDev.Patterns.Injection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using MasDev.Services.DataAccess;
+using MasDev.Common;
 
 namespace MasDev.Services
 {
 	public class CrudService<TDto, TModel, TRepository> : ICrudService<TDto>
-		where TDto: class, IDto
+		where TDto: class, IEntity
 		where TModel : class, IModel, new()
 		where TRepository : class, IRepository<TModel>
 	{
@@ -22,7 +21,9 @@ namespace MasDev.Services
 
 		protected IConsistencyValidator<TDto> ConsistencyValidator { get { return Injector.Resolve<IConsistencyValidator<TDto>> (); } }
 
-		protected IDataAccessValidator<TDto, TModel> DataAccessValidator { get { return Injector.Resolve<IDataAccessValidator<TDto, TModel>> (); } }
+		protected IEntityAccessValidator<TDto> DtoAccessValidator { get { return Injector.Resolve<IEntityAccessValidator<TDto>> (); } }
+
+		protected IEntityAccessValidator<TModel> ModelAccessValidator { get { return Injector.Resolve<IEntityAccessValidator<TModel>> (); } }
 
 		#endregion
 
@@ -33,8 +34,8 @@ namespace MasDev.Services
 
 		public virtual async Task<TDto> CreateAsync (TDto dto, IIdentityContext context)
 		{
-			await ValidateDataAccessAsync (dto, context);
 			await ValidateConsistencyAsync (dto, context);
+			await ValidateAccessAsync (dto, context);
 			var model = await MapAsync (dto, context);
 			await Repository.CreateAsync (model);
 			return await MapAsync (model, context);
@@ -47,11 +48,14 @@ namespace MasDev.Services
 			if (!models.Any ())
 				return Enumerable.Empty<TDto> ().ToList ();
 
-			if (DataAccessValidator != null) {
+			if (DtoAccessValidator != null) {
 				var authorizedModels = new List<TModel> ();
 				foreach (var model in models) {
-					if (await CanAccessAsync (model, context))
+					try {
+						await ValidateAccessAsync (model, context);
+					} catch {
 						authorizedModels.Add (model);
+					}
 				}
 				models = authorizedModels;
 			}
@@ -64,26 +68,26 @@ namespace MasDev.Services
 
 		public virtual async Task<TDto> ReadAsync (int id, IIdentityContext context)
 		{
-			await ValidateDataAccessAsync (id, context);
+			await ValidateAccessAsync (id, context);
 
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
 				throw new NotFoundException (id);
 
-			await ValidateDataAccessAsync (model, context);
+			await ValidateAccessAsync (model, context);
 			return await MapAsync (model, context);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto, IIdentityContext context)
 		{
 			await ValidateConsistencyAsync (dto, context);
-			await ValidateDataAccessAsync (dto, context);
+			await ValidateAccessAsync (dto, context);
 
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
 				throw new NotFoundException (dto.Id);
 
-			await ValidateDataAccessAsync (model, context);
+			await ValidateAccessAsync (model, context);
 
 			if (CommunicationMapper.IsAsync)
 				await CommunicationMapper.MapForUpdateAsync (dto, model, context);
@@ -96,7 +100,7 @@ namespace MasDev.Services
 
 		public virtual async Task DeleteAsync (int id, IIdentityContext context)
 		{
-			await ValidateDataAccessAsync (id, context);
+			await ValidateAccessAsync (id, context);
 
 			var model = await Repository.ReadAsync (id);
 			if (model == null)
@@ -137,52 +141,28 @@ namespace MasDev.Services
 				ConsistencyValidator.Validate (dto, context);
 		}
 
-		protected virtual async Task<bool> CanAccessAsync (TDto dto, IIdentityContext context)
+		protected virtual async Task ValidateAccessAsync (TDto dto, IIdentityContext context)
 		{
-			if (DataAccessValidator == null)
-				return true;
+			if (DtoAccessValidator == null)
+				return;
 
-			return DataAccessValidator.IsAsync ? 
-				await DataAccessValidator.CanAccessAsync (dto, context) : 
-				DataAccessValidator.CanAccess (dto, context);
+			DtoAccessValidator.EnsureCanAccessAsync (dto, context);
 		}
 
-		protected virtual async Task<bool> CanAccessAsync (TModel model, IIdentityContext context)
+		protected virtual async Task ValidateAccessAsync (TModel model, IIdentityContext context)
 		{
-			if (DataAccessValidator == null)
-				return true;
+			if (ModelAccessValidator == null)
+				return;
 
-			return DataAccessValidator.IsAsync ? 
-				await DataAccessValidator.CanAccessAsync (model, context) : 
-				DataAccessValidator.CanAccess (model, context);
+			await ModelAccessValidator.EnsureCanAccessAsync (model, context);
 		}
 
-		protected virtual async Task<bool> CanAccessAsync (int id, IIdentityContext context)
+		protected virtual async Task ValidateAccessAsync (int id, IIdentityContext context)
 		{
-			if (DataAccessValidator == null)
-				return true;
-
-			return DataAccessValidator.IsAsync ? 
-				await DataAccessValidator.CanAccessAsync (id, context) : 
-				DataAccessValidator.CanAccess (id, context);
-		}
-
-		protected async Task ValidateDataAccessAsync (TDto dto, IIdentityContext context)
-		{
-			if (!await CanAccessAsync (dto, context))
-				throw new UnauthorizedException ();
-		}
-
-		protected async Task ValidateDataAccessAsync (TModel model, IIdentityContext context)
-		{
-			if (!await CanAccessAsync (model, context))
-				throw new UnauthorizedException ();
-		}
-
-		protected async Task ValidateDataAccessAsync (int id, IIdentityContext context)
-		{
-			if (!await CanAccessAsync (id, context))
-				throw new UnauthorizedException ();
+			if (DtoAccessValidator != null)
+				await DtoAccessValidator.EnsureCanAccessAsync (id, context);
+			if (ModelAccessValidator != null)
+				await ModelAccessValidator.EnsureCanAccessAsync (id, context);
 		}
 
 		#endregion
