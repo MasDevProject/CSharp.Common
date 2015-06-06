@@ -8,7 +8,7 @@ namespace MasDev.Common
 	{
 		readonly object _lock = new object ();
 
-		public IDisposable StartExclusiveAccess (IIdentifier identifier)
+		public virtual IDisposable StartExclusiveAccess (IIdentifier identifier)
 		{
 			lock (_lock) {
 				return new LockByIdMutex (identifier.Identify);
