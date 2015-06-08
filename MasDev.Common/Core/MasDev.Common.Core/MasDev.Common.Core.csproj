@@ -125,6 +125,7 @@
     <Compile Include="Source\Http\Headers\IfModifiedSinceHeader.cs" />
     <Compile Include="Source\Exceptions\TypedException.cs" />
     <Compile Include="Source\Utils\Enumerables.cs" />
+    <Compile Include="Source\Http\RestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -147,6 +148,9 @@
     </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\..\packages\SimpleInjector.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\..\..\..\..\PizzApp\MasDev.PizzApp\packages\modernhttpclient.2.4.1\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
