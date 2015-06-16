@@ -14,7 +14,6 @@ namespace MasDev.Common.Push
     public class ApplePushNotification
     {
         public string DeviceToken { get; private set; }
-        public object Payload { get; private set; }
 
         public ApplePushNotification(string deviceToken)
         {
@@ -26,5 +25,7 @@ namespace MasDev.Common.Push
         public int? Badge { get; set; }
 
         public string Sound { get; set; }
+
+		public object Payload { get; set; }
     }
 }
