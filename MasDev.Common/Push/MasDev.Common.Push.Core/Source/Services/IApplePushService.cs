@@ -6,6 +6,7 @@ namespace MasDev.Common.Push
     {
         byte[] Certificate { get; set; }
         string Password { get; set; }
+		bool UseProductionMode { get; set; }
 
         Task SendAsync(ApplePushNotification notification);
 
