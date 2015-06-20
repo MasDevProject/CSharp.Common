@@ -14,7 +14,8 @@ namespace MasDev.Services
 	{
 		public void Configuration (IAppBuilder builder)
 		{
-			AppInjector.PerRequestLifestyle = new ExecutionContextScopeLifestyle ();
+			App.ConfigFolder = "Configurations";
+			App.PerRequestLifestyle = new ExecutionContextScopeLifestyle ();
 			var container = new SimpleInjectorContainer ();
 			Injector.InitializeWith (container, new TestDependencyConfigurator ());
 
@@ -26,12 +27,12 @@ namespace MasDev.Services
 			#endif
 
 			builder.UseSimpleInjectorMiddleware (container);
-			builder.UseUrlRewriteMiddleware (new UrlRewriteRules ());
+			builder.UseUrlRewriteMiddleware (App.ConfigFile ("urlRewrites.json"));
 			builder.UseRedirectMiddleware (new RedirectRules ());
 			builder.UseStageMarker (PipelineStage.MapHandler);
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
+			builder.UseStageMarker (PipelineStage.Authenticate);
 			builder.UseUnitOfWorkHandlerMiddleware ();
-
 			builder.UseWebApi (ConfigureWebApi ());
 		}
 	}

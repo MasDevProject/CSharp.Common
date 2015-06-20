@@ -16,15 +16,20 @@ namespace MasDev.Services
 		public static bool MatchesTemplate (this string path, string urlTemplate)
 		{
 			urlTemplate = Regex.Replace (urlTemplate, _urlParameterRegexPattern, _urlParameterRegexReplacement);
-			urlTemplate = string.Format (_delimiterFormat, urlTemplate);
+			urlTemplate = string.Format (_delimiterFormat, urlTemplate).NormalizePath ();
 
-			var isTemplateMatched = Regex.IsMatch (path, urlTemplate);
+			var isTemplateMatched = Regex.IsMatch (path.NormalizePath (), urlTemplate);
 			return isTemplateMatched;
 		}
 
-		public static string ToNormalizedString (this PathString path)
+		public static string NormalizePath (this PathString path)
 		{
 			return Regex.Replace (path.ToString (), _normalizeSlashesRegexPattern, _normalizeSlashesRegexReplacement).TrimEnd (_trimEndCharacters);
+		}
+
+		public static string NormalizePath (this string path)
+		{
+			return Regex.Replace (path, _normalizeSlashesRegexPattern, _normalizeSlashesRegexReplacement).TrimEnd (_trimEndCharacters);
 		}
 	}
 }

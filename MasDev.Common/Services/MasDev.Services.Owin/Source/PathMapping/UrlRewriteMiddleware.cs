@@ -9,6 +9,10 @@ namespace MasDev.Services.Middlewares
 		{
 		}
 
+		public UrlRewriteMiddleware (OwinMiddleware next, string configFilePath) : base (next, configFilePath)
+		{
+		}
+
 		public override async Task Invoke (IOwinContext context)
 		{
 			var matchingRule = Rules.FindMatch (context);

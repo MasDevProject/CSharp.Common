@@ -40,7 +40,7 @@ namespace MasDev.Services.Middlewares
 
 		protected override AuthorizationRule FindMatchInternal (IOwinContext context)
 		{
-			var requestPath = context.Request.Path.ToNormalizedString ();
+			var requestPath = context.Request.Path.NormalizePath ();
 
 			var method = ParseHttpMethod (context.Request.Method).Value;
 			return this.FirstOrDefault (r => r.Methods.Any (m => m == method) && r.Predicate (requestPath));

@@ -5,7 +5,7 @@ using Microsoft.Owin;
 
 namespace MasDev.Services.Middlewares
 {
-	public abstract class BasePathMappingRules : OwinMiddlewareRules<PathMappingRule>
+	public class BasePathMappingRules : OwinMiddlewareRules<PathMappingRule>
 	{
 		public override void Validate ()
 		{
@@ -22,7 +22,7 @@ namespace MasDev.Services.Middlewares
 
 		protected override PathMappingRule FindMatchInternal (IOwinContext context)
 		{
-			var requestPath = context.Request.Path.ToNormalizedString ();
+			var requestPath = context.Request.Path.NormalizePath ();
 			return this.FirstOrDefault (r => r.Predicate (requestPath));
 		}
 

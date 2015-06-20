@@ -4,11 +4,22 @@ using System;
 using MasDev.Data;
 using MasDev.Services.Auth;
 using MasDev.Common;
+using System.IO;
 
 namespace MasDev.Services
 {
-	public static class AppInjector
+	public static class App
 	{
+		public static string ConfigFolder { get; set; }
+
+		public static string ConfigFile (string relativePath)
+		{
+			if (string.IsNullOrEmpty (ConfigFolder))
+				throw new NotSupportedException ("Must set configFolderFirst");
+			
+			return Path.Combine (ConfigFolder, relativePath);
+		}
+
 		public static object PerRequestLifestyle { get; set; }
 
 		static void EnsurePerRequestLifestyleIsSet ()

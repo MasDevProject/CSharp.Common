@@ -9,6 +9,10 @@ namespace MasDev.Services.Middlewares
 		{
 		}
 
+		public RedirectMiddleware (OwinMiddleware next, string configFilePath) : base (next, configFilePath)
+		{
+		}
+
 		public override async Task Invoke (IOwinContext context)
 		{
 			var matchingRule = Rules.FindMatch (context);
