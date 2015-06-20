@@ -33,6 +33,7 @@ namespace MasDev.Services
 			builder.UseStageMarker (PipelineStage.MapHandler);
 			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
 			builder.UseStageMarker (PipelineStage.Authenticate);
+			// STATIC FILES HERE
 			builder.UseUnitOfWorkHandlerMiddleware ();
 			builder.UseWebApi (ConfigureWebApi ());
 		}
