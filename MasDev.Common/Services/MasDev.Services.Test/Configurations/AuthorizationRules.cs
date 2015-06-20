@@ -7,7 +7,7 @@ namespace MasDev.Services.Test
 	{
 		public AuthorizationRules ()
 		{
-			WhenMatches (UserEndpoints.Resource).WithMethods (HttpMethod.Delete, HttpMethod.Get, HttpMethod.Put);
+			WhenMatches (UserEndpoints.Resource).ForMethods (HttpMethod.Delete, HttpMethod.Get, HttpMethod.Put);
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace MasDev.Services
 		{
 			App.ConfigFolder = "Configurations";
 			App.PerRequestLifestyle = new ExecutionContextScopeLifestyle ();
+
 			var container = new SimpleInjectorContainer ();
 			Injector.InitializeWith (container, new TestDependencyConfigurator ());
 
