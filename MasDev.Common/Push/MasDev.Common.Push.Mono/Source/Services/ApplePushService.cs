@@ -18,13 +18,15 @@ namespace MasDev.Common.Push.Wrappers
             if (string.IsNullOrWhiteSpace(Password))
                 throw new ArgumentException("Specify Password first");
 
-            var task = new ApplePushSendTask(Certificate, Password, data);
+			var task = new ApplePushSendTask(Certificate, Password, data, UseProductionMode);
             return task.Completion.Task;
         }
 
         public byte[] Certificate { get; set; }
 
         public string Password { get; set; }
+
+		public bool UseProductionMode { get; set; }
     }
 
 
@@ -32,7 +34,7 @@ namespace MasDev.Common.Push.Wrappers
     {
         public TaskCompletionSource<INotification> Completion { get; private set; }
 
-        public ApplePushSendTask(byte[] certificate, string password, ApplePushNotification data)
+		public ApplePushSendTask(byte[] certificate, string password, ApplePushNotification data, bool productionMode)
         {
             Completion = new TaskCompletionSource<INotification>();
             var broker = new PushBroker();
@@ -46,7 +48,7 @@ namespace MasDev.Common.Push.Wrappers
             broker.OnChannelCreated += ChannelCreated;
             broker.OnChannelDestroyed += ChannelDestroyed;
 
-            broker.RegisterAppleService(new ApplePushChannelSettings(certificate, password));
+			broker.RegisterAppleService(new ApplePushChannelSettings(productionMode, certificate, password));
             var notification = new AppleNotification().ForDeviceToken(data.DeviceToken);
 
             if (!string.IsNullOrWhiteSpace(data.Alert))

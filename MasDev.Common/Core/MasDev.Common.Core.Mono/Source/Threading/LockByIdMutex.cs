@@ -27,7 +27,7 @@ namespace MasDev.Utils
 
 			_mutex = new Mutex (false, mutexId, out createdNew, securitySettings);
 			try {
-				_hasHandle = _mutex.WaitOne (5000, false);
+				_hasHandle = _mutex.WaitOne();
 				if (!_hasHandle)
 					throw new TimeoutException ("Timeout waiting for exclusive access");
 			} catch (AbandonedMutexException) {
