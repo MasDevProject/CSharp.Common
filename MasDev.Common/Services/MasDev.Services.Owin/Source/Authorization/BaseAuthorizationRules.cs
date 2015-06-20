@@ -79,13 +79,27 @@ namespace MasDev.Services.Middlewares
 
 	public sealed class AuthorizationRule : OwinMiddlewareRule
 	{
+		static readonly HttpMethod[] AllMethods = Enum.GetValues (typeof(HttpMethod)).Cast<HttpMethod> ().ToArray ();
+
 		internal HttpMethod[] Methods { get; private set; }
 
 		internal int? MinimumRoles { get; private set; }
 
-		public AuthorizationRule WithMethods (params HttpMethod[] methods)
+		public AuthorizationRule ForMethods (params HttpMethod[] methods)
 		{
 			Methods = methods;
+			return this;
+		}
+
+		public AuthorizationRule ExceptForMethods (params HttpMethod[] methods)
+		{
+			Methods = AllMethods.Except (methods).ToArray ();
+			return this;
+		}
+
+		public AuthorizationRule ForAllMethods ()
+		{
+			Methods = AllMethods;
 			return this;
 		}
 
