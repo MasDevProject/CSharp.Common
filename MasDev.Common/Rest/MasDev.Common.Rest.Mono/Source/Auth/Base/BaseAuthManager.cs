@@ -112,7 +112,6 @@ namespace MasDev.Rest.Auth
 
 		public void Save (ICredentials credentials, ICredentialsRepository repository)
 		{
-			credentials.LastIssuedUTC = DateTime.UtcNow;
 			var credentialsKey = Tuple.Create (credentials.Id, credentials.Flag);
 			_issued.AddOrUpdate (
 				credentialsKey,
