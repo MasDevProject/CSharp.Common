@@ -9,8 +9,6 @@ namespace MasDev.Rest.WebApi
 	{
 		readonly Dictionary<string, string> _innerDictionary = new Dictionary<string, string> ();
 
-
-
 		public T Get<T> (string key)
 		{
 			var json = this [key];
@@ -19,11 +17,9 @@ namespace MasDev.Rest.WebApi
 			try {
 				return JsonConvert.DeserializeObject<T> (json);
 			} catch {
-				return default(T);
+				throw new BadRequestException (int.MaxValue);
 			}
 		}
-
-
 
 		public string this [string i] {
 			get { 
@@ -35,8 +31,6 @@ namespace MasDev.Rest.WebApi
 			}
 			set { _innerDictionary [i] = value; }
 		}
-
-
 
 		internal void Add (string key, string value)
 		{
