@@ -1,15 +1,14 @@
 ﻿using System;
 using Owin;
-using MasDev.Services.Auth;
 using MasDev.Patterns.Injection.SimpleInjector;
 
 namespace MasDev.Services.Middlewares
 {
 	public static class Extensions
 	{
-		public static void UseAuthorizationMiddleware (this IAppBuilder app, BaseAuthorizationRules rules, AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
+		public static void UseAuthorizationMiddleware (this IAppBuilder app)
 		{
-			app.Use<AuthorizationMiddleware> (rules, pipeline, storeFactory);
+			app.Use<AuthorizationMiddleware> ();
 		}
 
 		public static void UseRedirectMiddleware (this IAppBuilder builder, BasePathMappingRules rules)

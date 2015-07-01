@@ -28,6 +28,12 @@ namespace MasDev.Services
 				throw new NotSupportedException ("Must set per request lifestyle firts");
 		}
 
+		public static void RegisterAuthManager (this IDependencyContainer container, Func<IAuthorizationManager> authManagerFactory)
+		{
+			EnsurePerRequestLifestyleIsSet ();
+			container.AddDependency<IAuthorizationManager> (authManagerFactory, LifeStyles.Singleton);
+		}
+
 		public static void RegisterCrudService<TDto, TServiceInterface, TServiceImplementation> (this IDependencyContainer container)
 			where TDto : IEntity
 			where TServiceInterface : class, ICrudService<TDto>

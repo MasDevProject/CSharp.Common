@@ -2,9 +2,9 @@
 {
 	public interface IAccessTokenConverter
 	{
-		string Serialize (AccessToken token);
+		string Serialize (IAccessToken token);
 
-		AccessToken Deserialize (string serializedToken);
+		IAccessToken Deserialize (string serializedToken);
 	}
 }
 

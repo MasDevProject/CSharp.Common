@@ -4,6 +4,8 @@ namespace MasDev.Services
 {
 	public interface IAppDependencyConfigurator : IDependencyConfigurator
 	{
+		void RegisterAuthManager (IDependencyContainer container);
+
 		void RegisterServices (IDependencyContainer container);
 
 		void RegisterRepositories (IDependencyContainer container);
@@ -20,6 +22,7 @@ namespace MasDev.Services
 		public static void RegisterAppComponents (this IAppDependencyConfigurator configurator, IDependencyContainer container)
 		{
 			configurator.RegisterRepositories (container);
+			configurator.RegisterAuthManager (container);
 			configurator.RegisterConsistencyValidators (container);
 			configurator.RegisterCommunicationMappers (container);
 			configurator.RegisterAccessValidators (container);

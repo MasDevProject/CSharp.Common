@@ -2,10 +2,10 @@
 {
 	public interface IIdentityContext
 	{
-		IIdentity Identity { get; }
+		IIdentity Identity { get; set; }
 
-		int? Scope { get; }
+		int? Scope { get; set; }
 
-		string Language { get; }
+		string Language { get; set; }
 	}
 }

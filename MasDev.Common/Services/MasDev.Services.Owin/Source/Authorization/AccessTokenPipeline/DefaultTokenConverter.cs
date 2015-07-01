@@ -4,12 +4,12 @@ namespace MasDev.Services.Auth
 {
 	public class DefaultAccessTokenConverter : IAccessTokenConverter
 	{
-		public string Serialize (AccessToken token)
+		public string Serialize (IAccessToken token)
 		{
 			return JsonConvert.SerializeObject (token);
 		}
 
-		public AccessToken Deserialize (string serializedToken)
+		public IAccessToken Deserialize (string serializedToken)
 		{
 			return JsonConvert.DeserializeObject<AccessToken> (serializedToken);
 		}

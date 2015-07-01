@@ -12,32 +12,32 @@ namespace MasDev.Services.Owin.WebApi
 		[HttpPost]
 		public virtual async Task<IHttpActionResult> CreateAsync (TDto dto)
 		{
-			dto = await Service.CreateAsync (dto, IdentityContext);
+			dto = await Service.CreateAsync (dto);
 			return Created (dto);
 		}
 
 		[HttpGet]
-		public virtual async Task<IHttpActionResult> ReadAsync (int skip, int take)
+		public virtual async Task<IHttpActionResult> ReadPagedAsync (int skip, int take)
 		{
-			return Ok (await Service.ReadAsync (skip, take, IdentityContext));
+			return Ok (await Service.ReadPagedAsync (skip, take));
 		}
 
 		[HttpGet]
-		public virtual async Task<IHttpActionResult> ReadAsync (int id)
+		public virtual async Task<IHttpActionResult> ReadPagedAsync (int id)
 		{
-			return Ok (await Service.ReadAsync (id, IdentityContext));
+			return Ok (await Service.ReadAsync (id));
 		}
 
 		[HttpPut]
 		public virtual async Task<IHttpActionResult> UpdateAsync (TDto dto)
 		{
-			return Ok (await Service.UpdateAsync (dto, IdentityContext));
+			return Ok (await Service.UpdateAsync (dto));
 		}
 
 		[HttpDelete]
 		public virtual async Task<IHttpActionResult> DeleteAsync (int id)
 		{
-			await Service.DeleteAsync (id, IdentityContext);
+			await Service.DeleteAsync (id);
 			return Ok ();
 		}
 

@@ -134,8 +134,8 @@
     <Compile Include="Source\Injection\RegisterAccessValidators.cs" />
     <Compile Include="Source\Communication\AccessValidators\UserDtoAccessValidator.cs" />
     <Compile Include="Source\Services\AccessValidators\UserAccessValidator.cs" />
-    <Compile Include="Configurations\AuthorizationRules.cs" />
     <Compile Include="Configurations\RedirectRules.cs" />
+    <Compile Include="Source\Injection\RegisterAuthManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

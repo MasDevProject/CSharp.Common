@@ -1,15 +1,28 @@
 ﻿using System;
 using MasDev.Services.Modeling;
+using MasDev.Patterns.Injection;
+using MasDev.Common;
+using System.Threading.Tasks;
 
 namespace MasDev.Services.Auth
 {
-	public class AuthorizationManager
+	public interface IAuthorizationManager
+	{
+		string GenerateAccessToken (int id, int roles, DateTime expirationUtc, int? scope = null);
+
+		string ProcessAccessToken (IAccessToken token);
+
+		IAccessToken UnprocessAccessToken (string processedToken);
+
+		Task AuthorizeAsync (int? minimumRequiredRoles = null);
+	}
+
+	public class AuthorizationManager : IAuthorizationManager
 	{
 		public static AuthorizationManager Current { get; private set; }
 
 		readonly AccessTokenPipeline _pipeline;
-
-		public Func<IAccessTokenStore> StoreFactory { get; private set; }
+		readonly Func<IAccessTokenStore> _storeFactory;
 
 		public AuthorizationManager (AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
 		{
@@ -17,7 +30,7 @@ namespace MasDev.Services.Auth
 				throw new ArgumentNullException ("pipeline");
 			Current = this;
 			_pipeline = pipeline;
-			StoreFactory = storeFactory;
+			_storeFactory = storeFactory;
 		}
 
 		public string GenerateAccessToken (int id, int roles, DateTime expirationUtc, int? scope = null)
@@ -37,7 +50,7 @@ namespace MasDev.Services.Auth
 			return ProcessAccessToken (token);
 		}
 
-		public string ProcessAccessToken (AccessToken token)
+		public string ProcessAccessToken (IAccessToken token)
 		{
 			var serialized = _pipeline.Converter.Serialize (token);
 			var cypher = _pipeline.Protector.Protect (serialized);
@@ -45,7 +58,7 @@ namespace MasDev.Services.Auth
 			return Convert.ToBase64String (compressed);
 		}
 
-		public AccessToken UnprocessAccessToken (string processedToken)
+		public IAccessToken UnprocessAccessToken (string processedToken)
 		{
 			var bytes = Convert.FromBase64String (processedToken);
 			var decompressed = _pipeline.Compressor.Decompress (bytes);
@@ -53,7 +66,24 @@ namespace MasDev.Services.Auth
 			return _pipeline.Converter.Deserialize (serialized);
 		}
 
-		public bool IsAccessTokenValid (int? minimumRequiredRoles, DateTime lastInvalidationUtc, AccessToken token)
+		public async Task AuthorizeAsync (int? minimumRequiredRoles = null)
+		{
+			var identityContext = Injector.Resolve<IIdentityContext> ();
+			var accessToken = Injector.Resolve<IAccessToken> ();
+
+			if (identityContext == null)
+				throw new UnauthorizedException ();
+
+			var identity = identityContext.Identity;
+			if (identity == null)
+				throw new UnauthorizedException ();
+			
+			var lastInvalidationTimeUtc = await _storeFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
+			if (lastInvalidationTimeUtc == null || !IsAccessTokenValid (minimumRequiredRoles, lastInvalidationTimeUtc.Value, accessToken))
+				throw new UnauthorizedException ();
+		}
+
+		static bool IsAccessTokenValid (int? minimumRequiredRoles, DateTime lastInvalidationUtc, IAccessToken token)
 		{
 			if (token.ExpirationUtc < DateTime.UtcNow)
 				return false;

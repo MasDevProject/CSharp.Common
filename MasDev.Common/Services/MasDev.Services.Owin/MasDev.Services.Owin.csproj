@@ -81,7 +81,6 @@
     <Compile Include="Source\PathMapping\PathMappingRules.cs" />
     <Compile Include="Source\PathMapping\RedirectMiddleware.cs" />
     <Compile Include="Source\PathMapping\UrlRewriteMiddleware.cs" />
-    <Compile Include="Source\Authorization\BaseAuthorizationRules.cs" />
     <Compile Include="Source\ErrorPage\BaseErrorPageRules.cs" />
     <Compile Include="Source\UnitOfWorkHandler\UnitOfWorkHandlerMiddleware.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\DefaultAccessTokenCompressor.cs" />

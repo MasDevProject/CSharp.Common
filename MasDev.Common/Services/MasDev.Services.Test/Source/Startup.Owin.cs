@@ -19,6 +19,7 @@ namespace MasDev.Services
 
 			var container = new SimpleInjectorContainer ();
 			Injector.InitializeWith (container, new TestDependencyConfigurator ());
+			AuthorizationMiddleware.RegisterDependencies (container, App.PerRequestLifestyle);
 
 			var dbSession = Injector.Resolve<ISessionFactoryProvider> ();
 			dbSession.Connect ();
@@ -31,7 +32,7 @@ namespace MasDev.Services
 			builder.UseUrlRewriteMiddleware (App.ConfigFile ("urlRewrites.json"));
 			builder.UseRedirectMiddleware (new RedirectRules ());
 			builder.UseStageMarker (PipelineStage.MapHandler);
-			builder.UseAuthorizationMiddleware (new AuthorizationRules (), new DefaultAccessTokenPipeline ("pwd"), Injector.Resolve<IAccessTokenStore>);
+			builder.UseAuthorizationMiddleware ();
 			builder.UseStageMarker (PipelineStage.Authenticate);
 			// STATIC FILES HERE
 			builder.UseUnitOfWorkHandlerMiddleware ();

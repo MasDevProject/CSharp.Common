@@ -18,15 +18,15 @@ namespace MasDev.Services.Test
 		}
 
 		[Route (UserEndpoints.Base)]
-		public override async Task<IHttpActionResult> ReadAsync (int skip, int take)
+		public override async Task<IHttpActionResult> ReadPagedAsync (int skip, int take)
 		{
-			return await base.ReadAsync (skip, take);
+			return await base.ReadPagedAsync (skip, take);
 		}
 
 		[Route (UserEndpoints.Resource)]
-		public override async Task<IHttpActionResult> ReadAsync (int id)
+		public override async Task<IHttpActionResult> ReadPagedAsync (int id)
 		{
-			return await base.ReadAsync (id);
+			return await base.ReadPagedAsync (id);
 		}
 
 		[Route (UserEndpoints.Resource)]
@@ -47,7 +47,7 @@ namespace MasDev.Services.Test
 		[Route (UserEndpoints.Login)]
 		public async Task<LoginResult<UserDto>> LoginAsync (LoginRequest request)
 		{			
-			return await Service.LoginAsync (request.Username, request.Password, IdentityContext);
+			return await Service.LoginAsync (request.Username, request.Password);
 		}
 	}
 }

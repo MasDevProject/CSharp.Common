@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using MasDev.Common;
 
 
 namespace MasDev.Services.Owin.WebApi
@@ -17,7 +18,7 @@ namespace MasDev.Services.Owin.WebApi
 			try {
 				return JsonConvert.DeserializeObject<T> (json);
 			} catch {
-				throw new BadRequestException (int.MaxValue);
+				throw new InputException (int.MaxValue);
 			}
 		}
 

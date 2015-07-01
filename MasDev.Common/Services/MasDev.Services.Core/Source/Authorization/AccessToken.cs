@@ -4,7 +4,18 @@ using MasDev.Services.Modeling;
 
 namespace MasDev.Services.Auth
 {
-	public class AccessToken
+	public interface IAccessToken
+	{
+		Identity Identity { get; set; }
+
+		DateTime CreationUtc { get; set; }
+
+		DateTime ExpirationUtc { get; set; }
+
+		int? Scope { get; set; }
+	}
+
+	public sealed class AccessToken : IAccessToken
 	{
 		public Identity Identity { get; set; }
 
