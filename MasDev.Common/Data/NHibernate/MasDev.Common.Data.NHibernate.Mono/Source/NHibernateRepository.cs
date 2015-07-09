@@ -395,12 +395,12 @@ namespace MasDev.Data
 	}
 
 
-	public abstract class NHibernateBaseRepository<TVersionedModel, TModelVersioning> : NHibernateRepository<TVersionedModel>,  IRepository<TVersionedModel, TModelVersioning>
+	public abstract class NHibernateRepository<TVersionedModel, TModelVersioning> : NHibernateRepository<TVersionedModel>,  IRepository<TVersionedModel, TModelVersioning>
 		where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
 		where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 	{
 
-		protected NHibernateBaseRepository (IUnitOfWork uow) : base (uow)
+		protected NHibernateRepository (IUnitOfWork uow) : base (uow)
 		{
 		}
 
@@ -529,7 +529,7 @@ namespace MasDev.Data
 
 	static class NHibernateBaseRepositoryExtensions
 	{
-		public static bool ShouldVersion<TVersionedModel, TModelVersioning> (this NHibernateBaseRepository<TVersionedModel, TModelVersioning> repo, TVersionedModel storedModel, TVersionedModel newModel)
+		public static bool ShouldVersion<TVersionedModel, TModelVersioning> (this NHibernateRepository<TVersionedModel, TModelVersioning> repo, TVersionedModel storedModel, TVersionedModel newModel)
 			where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
 			where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 		{

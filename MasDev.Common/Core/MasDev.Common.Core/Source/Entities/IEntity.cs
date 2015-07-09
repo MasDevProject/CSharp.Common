@@ -5,13 +5,8 @@
 		int Id { get; set; }
 	}
 
-	public interface IChildEntity : IEntity
+	public interface IChildEntity<TParent> : IEntity where TParent : IEntity
 	{
-		IEntity Parent { get ; set; }
-	}
-
-	public interface IChildEntity<TParent> : IChildEntity where TParent : IEntity
-	{
-		new TParent Parent { get ; set; }
+		TParent Parent { get ; set; }
 	}
 }
