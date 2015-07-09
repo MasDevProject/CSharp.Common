@@ -35,7 +35,7 @@ namespace MasDev.Services
 		public virtual async Task<TDto> CreateAsync (TDto dto)
 		{
 			await ValidateConsistencyAsync (dto);
-			await ValidateDtoAccessAsync (dto, AccessType.Create);
+			await ValidateAccessAsync (dto, AccessType.Create);
 			var model = await MapAsync (dto);
 			await Repository.CreateAsync (model);
 			return await MapAsync (model);
@@ -52,7 +52,7 @@ namespace MasDev.Services
 				var authorizedModels = new List<TModel> ();
 				foreach (var model in models) {
 					try {
-						await ValidateModelAccessAsync (model, AccessType.Read);
+						await ValidateAccessAsync (model, AccessType.Read);
 					} catch {
 						authorizedModels.Add (model);
 					}
@@ -74,20 +74,20 @@ namespace MasDev.Services
 			if (model == null)
 				throw new NotFoundException (id);
 
-			await ValidateModelAccessAsync (model, AccessType.Read);
+			await ValidateAccessAsync (model, AccessType.Read);
 			return await MapAsync<TDto, TModel> (model);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto)
 		{
 			await ValidateConsistencyAsync (dto);
-			await ValidateDtoAccessAsync (dto, AccessType.Update);
+			await ValidateAccessAsync (dto, AccessType.Update);
 
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
 				throw new NotFoundException (dto.Id);
 
-			await ValidateModelAccessAsync (model, AccessType.Update);
+			await ValidateAccessAsync (model, AccessType.Update);
 
 			if (CommunicationMapper.IsAsync)
 				await CommunicationMapper.MapForUpdateAsync (dto, model, CallingContext);

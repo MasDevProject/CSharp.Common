@@ -92,25 +92,16 @@ namespace MasDev.Services
 				consistencyValidator.Validate (dto, CallingContext);
 		}
 
-		protected virtual async Task ValidateDtoAccessAsync <TDto> (TDto dto, AccessType accessType)
-			where TDto: class, IEntity
+		protected virtual async Task ValidateAccessAsync <TEntity> (TEntity entity, AccessType accessType)
+			where TEntity: class, IEntity
 		{
-			var accessValidator = GetDtoAccessValidator<TDto> ();
+			var accessValidator = GetDtoAccessValidator<TEntity> ();
 			if (accessValidator == null)
 				return;
 
-			await accessValidator.EnsureCanAccessAsync (dto, CallingContext, accessType);
+			await accessValidator.EnsureCanAccessAsync (entity, CallingContext, accessType);
 		}
 
-		protected virtual async Task ValidateModelAccessAsync<TModel> (TModel model, AccessType accessType)
-			where TModel : class, IModel, new()
-		{
-			var accessValidator = GetModelAccessValidator<TModel> ();
-			if (accessValidator == null)
-				return;
-
-			await accessValidator.EnsureCanAccessAsync (model, CallingContext, accessType);
-		}
 	}
 }
 
