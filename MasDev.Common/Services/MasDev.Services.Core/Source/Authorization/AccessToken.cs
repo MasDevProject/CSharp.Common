@@ -13,6 +13,8 @@ namespace MasDev.Services.Auth
 		DateTime ExpirationUtc { get; set; }
 
 		int? Scope { get; set; }
+
+		int? Extra { get; set; }
 	}
 
 	public sealed class AccessToken : IAccessToken
@@ -24,6 +26,8 @@ namespace MasDev.Services.Auth
 		public DateTime ExpirationUtc { get; set; }
 
 		public int? Scope { get; set; }
+
+		public int? Extra { get; set; }
 	}
 }
 
