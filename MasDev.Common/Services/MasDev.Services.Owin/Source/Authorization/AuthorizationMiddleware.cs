@@ -19,7 +19,7 @@ namespace MasDev.Services.Middlewares
 
 		public override async Task Invoke (IOwinContext context)
 		{
-			var identityContext = Injector.Resolve<IIdentityContext> ();
+			var identityContext = Injector.Resolve<ICallingContext> ();
 		
 			var accessToken = GetAccessTokenFromAuthorizationHeader (context.Request);
 			if (accessToken == null)
@@ -75,7 +75,7 @@ namespace MasDev.Services.Middlewares
 
 		public static void RegisterDependencies (IDependencyContainer container, object perRequestLifeStyle)
 		{
-			container.AddDependency<IIdentityContext, IdentityContext> (perRequestLifeStyle);
+			container.AddDependency<ICallingContext, IdentityContext> (perRequestLifeStyle);
 			container.AddDependency<IAccessToken, AccessToken> (perRequestLifeStyle);
 		}
 	}

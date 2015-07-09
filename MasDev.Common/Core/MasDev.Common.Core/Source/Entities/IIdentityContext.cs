@@ -1,6 +1,6 @@
 ﻿namespace MasDev.Common
 {
-	public interface IIdentityContext
+	public interface ICallingContext
 	{
 		IIdentity Identity { get; set; }
 

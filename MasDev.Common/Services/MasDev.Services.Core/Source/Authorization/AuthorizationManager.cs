@@ -19,18 +19,15 @@ namespace MasDev.Services.Auth
 
 	public class AuthorizationManager : IAuthorizationManager
 	{
-		public static AuthorizationManager Current { get; private set; }
-
 		readonly AccessTokenPipeline _pipeline;
-		readonly Func<ICredentialsRepository> _storeFactory;
+		readonly Func<ICredentialsRepository> _credentialsRepositoryFactory;
 
 		public AuthorizationManager (AccessTokenPipeline pipeline, Func<ICredentialsRepository> storeFactory)
 		{
 			if (pipeline == null)
 				throw new ArgumentNullException ("pipeline");
-			Current = this;
 			_pipeline = pipeline;
-			_storeFactory = storeFactory;
+			_credentialsRepositoryFactory = storeFactory;
 		}
 
 		public string GenerateAccessToken (int id, int roles, DateTime expirationUtc, int? scope = null)
@@ -68,17 +65,17 @@ namespace MasDev.Services.Auth
 
 		public async Task AuthorizeAsync (int? minimumRequiredRoles = null)
 		{
-			var identityContext = Injector.Resolve<IIdentityContext> ();
+			var callingContext = Injector.Resolve<ICallingContext> ();
 			var accessToken = Injector.Resolve<IAccessToken> ();
 
-			if (identityContext == null)
+			if (callingContext == null)
 				throw new UnauthorizedException ();
 
-			var identity = identityContext.Identity;
+			var identity = callingContext.Identity;
 			if (identity == null)
 				throw new UnauthorizedException ();
 			
-			var lastInvalidationTimeUtc = await _storeFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
+			var lastInvalidationTimeUtc = await _credentialsRepositoryFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
 			if (lastInvalidationTimeUtc == null || !IsAccessTokenValid (minimumRequiredRoles, lastInvalidationTimeUtc.Value, accessToken))
 				throw new UnauthorizedException ();
 		}

@@ -6,18 +6,18 @@ namespace MasDev.Common
 {
 	public interface IConsistencyValidator<TEntity> where TEntity : IEntity
 	{
-		void Validate (TEntity dto, IIdentityContext context);
+		void Validate (TEntity dto, ICallingContext context);
 
-		Task ValidateAsync (TEntity dto, IIdentityContext context);
+		Task ValidateAsync (TEntity dto, ICallingContext context);
 
 		bool IsAsync { get; }
 	}
 
 	public abstract class ConsistencyValidator<TEntity> : IConsistencyValidator<TEntity> where TEntity : class, IEntity
 	{
-		protected abstract void Validate (TEntity dto, IIdentityContext context);
+		protected abstract void Validate (TEntity dto, ICallingContext context);
 
-		void IConsistencyValidator<TEntity>.Validate (TEntity dto, IIdentityContext context)
+		void IConsistencyValidator<TEntity>.Validate (TEntity dto, ICallingContext context)
 		{
 			if (dto == null)
 				throw new InputException ();
@@ -25,7 +25,7 @@ namespace MasDev.Common
 			(this as ConsistencyValidator<TEntity>).Validate (dto, context);
 		}
 
-		public Task ValidateAsync (TEntity dto, IIdentityContext context)
+		public Task ValidateAsync (TEntity dto, ICallingContext context)
 		{
 			throw new NotSupportedException ("Asyncronous validation not supported");
 		}
@@ -35,14 +35,14 @@ namespace MasDev.Common
 
 	public abstract class AsyncConsistencyValidator<TEntity> : IConsistencyValidator<TEntity> where TEntity : class, IEntity
 	{
-		protected abstract Task ValidateAsync (TEntity dto, IIdentityContext context);
+		protected abstract Task ValidateAsync (TEntity dto, ICallingContext context);
 
-		public void Validate (TEntity dto, IIdentityContext context)
+		public void Validate (TEntity dto, ICallingContext context)
 		{
 			throw new NotSupportedException ("Syncronous validation not supported");
 		}
 
-		async Task IConsistencyValidator<TEntity>.ValidateAsync (TEntity dto, IIdentityContext context)
+		async Task IConsistencyValidator<TEntity>.ValidateAsync (TEntity dto, ICallingContext context)
 		{
 			if (dto == null)
 				throw new InputException ();

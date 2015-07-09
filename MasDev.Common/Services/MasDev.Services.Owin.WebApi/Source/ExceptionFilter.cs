@@ -33,7 +33,7 @@ namespace MasDev.Services.Owin.WebApi
 				statusCode = HttpStatusCode.NotFound;
 			else if (e is InputException)
 				statusCode = HttpStatusCode.BadRequest;
-			else if (e is SecurityException)
+			else if (e is ForbiddenException)
 				statusCode = HttpStatusCode.Forbidden;
 			else if (e is UnauthorizedException)
 				statusCode = HttpStatusCode.Unauthorized;

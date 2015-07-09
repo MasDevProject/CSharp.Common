@@ -3,7 +3,7 @@
 
 namespace MasDev.Services
 {
-	public sealed class IdentityContext : IIdentityContext
+	public sealed class IdentityContext : ICallingContext
 	{
 		public IIdentity Identity { get; set; }
 

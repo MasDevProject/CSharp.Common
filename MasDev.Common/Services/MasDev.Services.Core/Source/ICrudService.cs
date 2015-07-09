@@ -8,7 +8,7 @@ namespace MasDev.Services
 	{
 		Task AuthorizeAsync (int? minimumRoles = null);
 
-		IIdentityContext IdentityContext { get; }
+		ICallingContext CallingContext { get; }
 	}
 
 	public interface ICrudService<TDto> : IService where TDto : IEntity

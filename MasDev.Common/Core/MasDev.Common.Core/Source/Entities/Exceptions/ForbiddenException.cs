@@ -1,8 +1,8 @@
 ﻿namespace MasDev.Common
 {
-	public class SecurityException : ServiceException
+	public class ForbiddenException : ServiceException
 	{
-		public SecurityException (object content = null) : base (content)
+		public ForbiddenException (object content = null) : base (content)
 		{
 		}
 	}
