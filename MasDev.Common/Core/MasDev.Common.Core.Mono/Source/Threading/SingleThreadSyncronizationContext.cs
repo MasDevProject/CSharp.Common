@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,9 +7,9 @@ namespace MasDev.Threading
 {
 	public sealed class SingleThreadSynchronizationContext : SynchronizationContext
 	{
-		private int threadId;
+		int threadId;
 
-		private struct Job
+		struct Job
 		{
 			public Job (SendOrPostCallback action, object state, TaskCompletionSource<bool> onCompleted)
 			{
@@ -280,7 +277,7 @@ namespace MasDev.Threading
 			}
 		}
 
-		private volatile bool aborted;
+		volatile bool aborted;
 
 		public enum LateArrivalBehavior
 		{

@@ -14,7 +14,6 @@ namespace MasDev.Services
 			_container = container;
 		}
 
-
 		public override async Task Invoke (IOwinContext context)
 		{
 			using (_container.BeginExecutionContextScope ()) {
