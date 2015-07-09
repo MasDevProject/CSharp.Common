@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MasDev.Threading;
 
-namespace MasDev.Services
+namespace MasDev.Mono
 {
 	public abstract class ScheduledTask
 	{
@@ -19,9 +20,22 @@ namespace MasDev.Services
 
 		async Task RunInternal ()
 		{
-			using (var scope = _executionScopeProvider ()) {
-				await DoJobAsync ();
+			try {
+				using (var scope = _executionScopeProvider ()) {
+					try {
+						await DoJobAsync ();
+					} catch (Exception e) {
+						OnException (e);
+					}
+				}
+			} catch (Exception ex) {
+				OnException (ex);
 			}
+		}
+
+		protected virtual void OnException (Exception ex)
+		{
+			throw ex;
 		}
 
 		protected abstract Task DoJobAsync ();
