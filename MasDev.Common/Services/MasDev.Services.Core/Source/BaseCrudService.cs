@@ -5,36 +5,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using MasDev.Common;
-using MasDev.Services.Auth;
 
 namespace MasDev.Services
 {
-	public class BaseService : IService
-	{
-		public IAuthorizationManager AuthorizationManager { get { return Injector.Resolve<IAuthorizationManager> (); } }
-
-		public async Task AuthorizeAsync (int? minimumRoles = null)
-		{
-			await AuthorizationManager.AuthorizeAsync (minimumRoles);
-		}
-
-		public ICallingContext CallingContext { get { return Injector.Resolve<ICallingContext> (); } }
-
-
-		public IIdentity CurrentIdentity {
-			get {
-				var context = CallingContext;
-				return context == null ? null : context.Identity;
-			}
-		}
-
-		protected void ThrowIfNotFound (object obj)
-		{
-			if (obj == null)
-				throw new NotFoundException ();
-		}
-	}
-
 	public class BaseCrudService<TDto, TModel, TRepository> : BaseService, ICrudService<TDto>
 		where TDto: class, IEntity
 		where TModel : class, IModel, new()
@@ -44,13 +17,13 @@ namespace MasDev.Services
 
 		protected TRepository Repository { get { return Injector.Resolve<TRepository> (); } }
 
-		protected ICommunicationMapper<TDto, TModel> CommunicationMapper { get { return Injector.Resolve <ICommunicationMapper<TDto, TModel>> (); } }
+		protected ICommunicationMapper<TDto, TModel> CommunicationMapper { get { return GetMapper<TDto, TModel> (); } }
 
-		protected IConsistencyValidator<TDto> ConsistencyValidator { get { return Injector.Resolve<IConsistencyValidator<TDto>> (); } }
+		protected IConsistencyValidator<TDto> ConsistencyValidator { get { return GetConsistencyValidator<TDto> (); } }
 
-		protected IEntityAccessValidator<TDto> DtoAccessValidator { get { return Injector.Resolve<IEntityAccessValidator<TDto>> (); } }
+		protected IEntityAccessValidator<TDto> DtoAccessValidator { get { return GetDtoAccessValidator<TDto> (); } }
 
-		protected IEntityAccessValidator<TModel> ModelAccessValidator { get { return Injector.Resolve<IEntityAccessValidator<TModel>> (); } }
+		protected IEntityAccessValidator<TModel> ModelAccessValidator { get { return GetModelAccessValidator<TModel> (); } }
 
 		#endregion
 
@@ -62,7 +35,7 @@ namespace MasDev.Services
 		public virtual async Task<TDto> CreateAsync (TDto dto)
 		{
 			await ValidateConsistencyAsync (dto);
-			await ValidateAccessAsync (dto, AccessType.Create);
+			await ValidateDtoAccessAsync (dto, AccessType.Create);
 			var model = await MapAsync (dto);
 			await Repository.CreateAsync (model);
 			return await MapAsync (model);
@@ -79,7 +52,7 @@ namespace MasDev.Services
 				var authorizedModels = new List<TModel> ();
 				foreach (var model in models) {
 					try {
-						await ValidateAccessAsync (model, AccessType.Read);
+						await ValidateModelAccessAsync (model, AccessType.Read);
 					} catch {
 						authorizedModels.Add (model);
 					}
@@ -87,7 +60,7 @@ namespace MasDev.Services
 				models = authorizedModels;
 			}
 
-			var conversionTasks = models.Select (MapAsync).ToList ();
+			var conversionTasks = models.Select (m => MapAsync<TDto, TModel> (m)).ToList ();
 			await Task.WhenAll (conversionTasks);
 
 			return conversionTasks.Select (t => t.Result).ToList ();
@@ -101,20 +74,20 @@ namespace MasDev.Services
 			if (model == null)
 				throw new NotFoundException (id);
 
-			await ValidateAccessAsync (model, AccessType.Read);
-			return await MapAsync (model);
+			await ValidateModelAccessAsync (model, AccessType.Read);
+			return await MapAsync<TDto, TModel> (model);
 		}
 
 		public virtual async Task<TDto> UpdateAsync (TDto dto)
 		{
 			await ValidateConsistencyAsync (dto);
-			await ValidateAccessAsync (dto, AccessType.Update);
+			await ValidateDtoAccessAsync (dto, AccessType.Update);
 
 			var model = await Repository.ReadAsync (dto.Id);
 			if (model == null)
 				throw new NotFoundException (dto.Id);
 
-			await ValidateAccessAsync (model, AccessType.Update);
+			await ValidateModelAccessAsync (model, AccessType.Update);
 
 			if (CommunicationMapper.IsAsync)
 				await CommunicationMapper.MapForUpdateAsync (dto, model, CallingContext);
@@ -122,7 +95,7 @@ namespace MasDev.Services
 				CommunicationMapper.MapForUpdate (dto, model, CallingContext);
 			
 			await Repository.UpdateAsync (model);
-			return await MapAsync (model);
+			return await MapAsync<TDto, TModel> (model);
 		}
 
 		public virtual async Task DeleteAsync (int id)
@@ -136,52 +109,14 @@ namespace MasDev.Services
 			await Repository.DeleteAsync (model);
 		}
 
-		#region Protected methods
+		protected virtual async Task<TModel> MapAsync (TDto dto)
+		{
+			return await MapAsync<TDto, TModel> (dto);
+		}
 
 		protected virtual async Task<TDto> MapAsync (TModel model)
 		{
-			return CommunicationMapper.IsAsync ? 
-				await CommunicationMapper.MapAsync (model, CallingContext) : 
-				CommunicationMapper.Map (model, CallingContext);
-		}
-
-		protected virtual async Task<TModel> MapAsync (TDto dto)
-		{
-			if (ConsistencyValidator.IsAsync)
-				await ConsistencyValidator.ValidateAsync (dto, CallingContext);
-			else
-				ConsistencyValidator.Validate (dto, CallingContext);
-
-			return CommunicationMapper.IsAsync ? 
-				await CommunicationMapper.MapAsync (dto, CallingContext) : 
-				CommunicationMapper.Map (dto, CallingContext);
-		}
-
-		protected virtual async Task ValidateConsistencyAsync (TDto dto)
-		{
-			if (ConsistencyValidator == null)
-				return;
-
-			if (ConsistencyValidator.IsAsync)
-				await ConsistencyValidator.ValidateAsync (dto, CallingContext);
-			else
-				ConsistencyValidator.Validate (dto, CallingContext);
-		}
-
-		protected virtual async Task ValidateAccessAsync (TDto dto, AccessType accessType)
-		{
-			if (DtoAccessValidator == null)
-				return;
-
-			await DtoAccessValidator.EnsureCanAccessAsync (dto, CallingContext, accessType);
-		}
-
-		protected virtual async Task ValidateAccessAsync (TModel model, AccessType accessType)
-		{
-			if (ModelAccessValidator == null)
-				return;
-
-			await ModelAccessValidator.EnsureCanAccessAsync (model, CallingContext, accessType);
+			return await MapAsync<TDto, TModel> (model);
 		}
 
 		protected virtual async Task ValidateAccessAsync (int id, AccessType accessType)
@@ -191,8 +126,6 @@ namespace MasDev.Services
 			if (ModelAccessValidator != null)
 				await ModelAccessValidator.EnsureCanAccessAsync (id, CallingContext, accessType);
 		}
-
-		#endregion
 	}
 }
 
