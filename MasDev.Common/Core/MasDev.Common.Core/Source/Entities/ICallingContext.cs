@@ -7,5 +7,7 @@
 		int? Scope { get; set; }
 
 		string Language { get; set; }
+
+		string RequestPath { get; set; }
 	}
 }

@@ -19,7 +19,7 @@ namespace MasDev.Services.Middlewares
 
 		public override async Task Invoke (IOwinContext context)
 		{
-			var identityContext = Injector.Resolve<ICallingContext> ();
+			var callingContext = Injector.Resolve<ICallingContext> ();
 		
 			var accessToken = GetAccessTokenFromAuthorizationHeader (context.Request);
 			if (accessToken == null)
@@ -28,9 +28,10 @@ namespace MasDev.Services.Middlewares
 			var injectedToken = Injector.Resolve<IAccessToken> ();
 			Mapper.DynamicMap<IAccessToken, IAccessToken> (accessToken, injectedToken);
 
-			identityContext.Language = "en-us"; // TODO
-			identityContext.Scope = accessToken.Scope;
-			identityContext.Identity = accessToken.Identity;
+			callingContext.Language = "en-us"; // TODO
+			callingContext.Scope = accessToken.Scope;
+			callingContext.Identity = accessToken.Identity;
+			callingContext.RequestPath = context.Request.Uri.AbsoluteUri;
 
 			try {
 				await Next.Invoke (context);
@@ -75,7 +76,7 @@ namespace MasDev.Services.Middlewares
 
 		public static void RegisterDependencies (IDependencyContainer container, object perRequestLifeStyle)
 		{
-			container.AddDependency<ICallingContext, IdentityContext> (perRequestLifeStyle);
+			container.AddDependency<ICallingContext, CallingContext> (perRequestLifeStyle);
 			container.AddDependency<IAccessToken, AccessToken> (perRequestLifeStyle);
 		}
 	}
