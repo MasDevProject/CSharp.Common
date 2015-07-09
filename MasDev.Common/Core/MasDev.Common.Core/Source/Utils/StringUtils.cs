@@ -41,7 +41,9 @@ namespace MasDev.Utils
 			if (values.Any (v => v == value))
 				return;
 
-			s = s + value + ",";
+			s = string.IsNullOrEmpty (s) ? 
+				value : 
+				string.Join (",", s, value);
 		}
 
 		public static int Length (string s)
