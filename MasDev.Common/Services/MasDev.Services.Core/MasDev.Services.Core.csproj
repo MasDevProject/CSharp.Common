@@ -39,7 +39,6 @@
     <Compile Include="Source\Modeling\LoginRequest.cs" />
     <Compile Include="Source\Authorization\AuthorizationManager.cs" />
     <Compile Include="Source\Authorization\AccessToken.cs" />
-    <Compile Include="Source\Authorization\IAccessTokenStore.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenCompressor.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\AccessTokenPipeline.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\IAccessTokenConverter.cs" />
@@ -49,6 +48,7 @@
     <Compile Include="Source\ModelAccessValidator.cs" />
     <Compile Include="Source\Injection\App.cs" />
     <Compile Include="Source\BaseCrudService.cs" />
+    <Compile Include="Source\Authorization\ICredentialsRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

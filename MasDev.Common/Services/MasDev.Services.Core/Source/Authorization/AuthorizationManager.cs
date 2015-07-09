@@ -22,9 +22,9 @@ namespace MasDev.Services.Auth
 		public static AuthorizationManager Current { get; private set; }
 
 		readonly AccessTokenPipeline _pipeline;
-		readonly Func<IAccessTokenStore> _storeFactory;
+		readonly Func<ICredentialsRepository> _storeFactory;
 
-		public AuthorizationManager (AccessTokenPipeline pipeline, Func<IAccessTokenStore> storeFactory)
+		public AuthorizationManager (AccessTokenPipeline pipeline, Func<ICredentialsRepository> storeFactory)
 		{
 			if (pipeline == null)
 				throw new ArgumentNullException ("pipeline");

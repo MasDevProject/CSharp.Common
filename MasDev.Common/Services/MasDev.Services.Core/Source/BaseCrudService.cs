@@ -24,6 +24,13 @@ namespace MasDev.Services
 			}
 		}
 
+		public IIdentity CurrentIdentity {
+			get {
+				var context = IdentityContext;
+				return context == null ? null : context.Identity;
+			}
+		}
+
 		protected void ThrowIfNotFound (object obj)
 		{
 			if (obj == null)

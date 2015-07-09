@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MasDev.Services.Auth
 {
-	public interface IAccessTokenStore
+	public interface ICredentialsRepository
 	{
 		Task<DateTime?> GetlastInvalidationUtcAsync (int id, int flag);
 

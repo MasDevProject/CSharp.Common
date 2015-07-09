@@ -51,10 +51,10 @@ namespace MasDev.Services
 		}
 
 		public static void RegisterAccessTokenStore<TAccessTokenStore> (this IDependencyContainer container)
-			where TAccessTokenStore : class, IAccessTokenStore, new()
+			where TAccessTokenStore : class, ICredentialsRepository, new()
 		{
 			EnsurePerRequestLifestyleIsSet ();
-			container.AddDependency<IAccessTokenStore, TAccessTokenStore> (PerRequestLifestyle);
+			container.AddDependency<ICredentialsRepository, TAccessTokenStore> (PerRequestLifestyle);
 		}
 
 		public static void RegisterRepository<TModel, TRepositoryInterface, TRepositoryImplementation> (this IDependencyContainer container)
