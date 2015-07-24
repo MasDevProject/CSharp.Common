@@ -60,11 +60,8 @@ namespace MasDev.Common.Push.Wrappers
             if (!string.IsNullOrWhiteSpace(data.Sound))
                 notification.WithSound(data.Sound);
 
-			if (data.Payload != null) {
-				var applePayload = new AppleNotificationPayload ();
-				applePayload.CustomItems.Add ("payload", new [] { JsonConvert.SerializeObject (data.Payload) });
-				notification.WithPayload (applePayload);
-			}
+			if (data.Payload != null)
+				notification.Payload.AddCustom ("payload", new [] { JsonConvert.SerializeObject (data.Payload) });
 
             broker.QueueNotification(notification);
             broker.StopAllServices();
