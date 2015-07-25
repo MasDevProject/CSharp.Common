@@ -19,10 +19,13 @@ namespace MasDev.Services.Auth
 		Task AuthorizeAsync (int? minimumRequiredRoles = null);
 
 		Task<DateTime> RenewIssueTimeAsync (Identity identity);
+
+		void InvalidateCache ();
 	}
 
 	public class AuthorizationManager : IAuthorizationManager
 	{
+		// TODO caching
 		const string _tokenType = "bearer";
 		readonly AccessTokenPipeline _pipeline;
 		readonly Func<ICredentialsRepository> _credentialsRepositoryFactory;
@@ -86,6 +89,11 @@ namespace MasDev.Services.Auth
 			var now = DateTime.UtcNow;
 			await _credentialsRepositoryFactory ().SetInvalidationTime (identity.Id, identity.Flag, now);
 			return now;
+		}
+
+		public void InvalidateCache ()
+		{
+			// TODO
 		}
 
 		static bool IsAccessTokenValid (int? minimumRequiredRoles, DateTime lastInvalidationUtc, IAccessToken token)
