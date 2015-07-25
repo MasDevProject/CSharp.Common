@@ -18,7 +18,7 @@ namespace MasDev.Services.Auth
 
 		Task AuthorizeAsync (int? minimumRequiredRoles = null);
 
-		Task<DateTime> RenewIssueTime (Identity identity);
+		Task<DateTime> RenewIssueTimeAsync (Identity identity);
 	}
 
 	public class AuthorizationManager : IAuthorizationManager
@@ -81,7 +81,7 @@ namespace MasDev.Services.Auth
 				throw new UnauthorizedException ();
 		}
 
-		public async Task<DateTime> RenewIssueTime (Identity identity)
+		public async Task<DateTime> RenewIssueTimeAsync (Identity identity)
 		{
 			var now = DateTime.UtcNow;
 			await _credentialsRepositoryFactory ().SetInvalidationTime (identity.Id, identity.Flag, now);
