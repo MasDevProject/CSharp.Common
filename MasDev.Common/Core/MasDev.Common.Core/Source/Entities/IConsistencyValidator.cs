@@ -20,7 +20,7 @@ namespace MasDev.Common
 		void IConsistencyValidator<TEntity>.Validate (TEntity dto, ICallingContext context)
 		{
 			if (dto == null)
-				throw new InputException ();
+				throw new BadRequestException ();
 
 			(this as ConsistencyValidator<TEntity>).Validate (dto, context);
 		}
@@ -45,7 +45,7 @@ namespace MasDev.Common
 		async Task IConsistencyValidator<TEntity>.ValidateAsync (TEntity dto, ICallingContext context)
 		{
 			if (dto == null)
-				throw new InputException ();
+				throw new BadRequestException ();
 			
 			await (this as AsyncConsistencyValidator<TEntity>).ValidateAsync (dto, context);
 		}

@@ -1,13 +1,13 @@
 ﻿namespace MasDev.Common
 {
-	public class InputException : ServiceException
+	public class BadRequestException : ServiceException
 	{
-		public InputException ()
+		public BadRequestException ()
 		{
 			
 		}
 
-		public InputException (int additionalInformation, object content = null) : base (additionalInformation, content)
+		public BadRequestException (int additionalInformation, object content = null) : base (additionalInformation, content)
 		{
 		}
 	}

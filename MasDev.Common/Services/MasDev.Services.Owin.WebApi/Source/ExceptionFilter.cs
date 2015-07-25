@@ -31,7 +31,7 @@ namespace MasDev.Services.Owin.WebApi
 			var statusCode = HttpStatusCode.InternalServerError;
 			if (e is NotFoundException)
 				statusCode = HttpStatusCode.NotFound;
-			else if (e is InputException)
+			else if (e is BadRequestException)
 				statusCode = HttpStatusCode.BadRequest;
 			else if (e is ForbiddenException)
 				statusCode = HttpStatusCode.Forbidden;

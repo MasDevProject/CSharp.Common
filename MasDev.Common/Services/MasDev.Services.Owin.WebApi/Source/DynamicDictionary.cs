@@ -18,7 +18,7 @@ namespace MasDev.Services.Owin.WebApi
 			try {
 				return JsonConvert.DeserializeObject<T> (json);
 			} catch {
-				throw new InputException (int.MaxValue);
+				throw new BadRequestException (int.MaxValue);
 			}
 		}
 

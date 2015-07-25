@@ -9,5 +9,7 @@
 		string Language { get; set; }
 
 		string RequestPath { get; set; }
+
+		string RequestIp { get; set; }
 	}
 }

@@ -18,7 +18,6 @@ namespace MasDev.Services
 
 		public ICallingContext CallingContext { get { return Injector.Resolve<ICallingContext> (); } }
 
-
 		public IIdentity CurrentIdentity {
 			get {
 				var context = CallingContext;

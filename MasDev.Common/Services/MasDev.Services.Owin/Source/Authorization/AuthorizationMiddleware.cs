@@ -28,10 +28,12 @@ namespace MasDev.Services.Middlewares
 			var injectedToken = Injector.Resolve<IAccessToken> ();
 			Mapper.DynamicMap<IAccessToken, IAccessToken> (accessToken, injectedToken);
 
+			// TODO muoverlo in un nuovo middleware
 			callingContext.Language = "en-us"; // TODO
 			callingContext.Scope = accessToken.Scope;
 			callingContext.Identity = accessToken.Identity;
 			callingContext.RequestPath = context.Request.Uri.AbsoluteUri;
+			callingContext.RequestIp = context.Request.RemoteIpAddress;
 
 			try {
 				await Next.Invoke (context);
