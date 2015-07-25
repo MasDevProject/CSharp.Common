@@ -70,7 +70,6 @@
     <Compile Include="Source\OwinMiddlewareRules.cs" />
     <Compile Include="Source\PathUtils.cs" />
     <Compile Include="Source\RuledMiddleware.cs" />
-    <Compile Include="Source\Authorization\AccessTokenStore.cs" />
     <Compile Include="Source\Authorization\AuthorizationMiddleware.cs" />
     <Compile Include="Source\Compression\CompressionMiddleware.cs" />
     <Compile Include="Source\ErrorPage\ErrorPageMiddleware.cs" />
@@ -89,6 +88,7 @@
     <Compile Include="Source\Authorization\AccessTokenPipeline\DefaultAccessTokenPipeline.cs" />
     <Compile Include="Source\Diagnostic\DiagnosticMiddleware.cs" />
     <Compile Include="Source\CallingContext\CallingContextMiddleware.cs" />
+    <Compile Include="Source\Authorization\CachedAccessTokenStore.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

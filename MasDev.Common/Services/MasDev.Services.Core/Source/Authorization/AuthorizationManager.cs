@@ -93,7 +93,9 @@ namespace MasDev.Services.Auth
 
 		public void InvalidateCache ()
 		{
-			// TODO
+			var store = _credentialsRepositoryFactory () as ICachedCredentialsRepository;
+			if (store != null)
+				store.ClearCache ();
 		}
 
 		static bool IsAccessTokenValid (int? minimumRequiredRoles, DateTime lastInvalidationUtc, IAccessToken token)

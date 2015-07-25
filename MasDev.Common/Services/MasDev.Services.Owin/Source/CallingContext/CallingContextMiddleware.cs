@@ -35,7 +35,7 @@ namespace MasDev.Services
 			}
 
 			callingContext.Language = language;
-			await Next.Invoke ();
+			await Next.Invoke (context);
 		}
 	}
 }

@@ -9,5 +9,10 @@ namespace MasDev.Services.Auth
 
 		Task SetInvalidationTime (int id, int flag, DateTime invalidationTimeUtc);
 	}
+
+	public interface ICachedCredentialsRepository : ICredentialsRepository
+	{
+		void ClearCache ();
+	}
 }
 
