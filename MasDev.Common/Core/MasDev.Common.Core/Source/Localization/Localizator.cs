@@ -9,9 +9,13 @@ namespace MasDev.Localization
 	{
 		static readonly Dictionary<Type, dynamic> _localizations = new Dictionary<Type, dynamic> ();
 
+		public static Func<string> LocaleFactory { get; set; }
+
 		public static TLocalizationInterface Get<TLocalizationInterface> (string locale = null) where TLocalizationInterface : ILocalization
 		{
-
+			if (locale == null && LocaleFactory != null)
+				locale = LocaleFactory.Invoke ();
+			
 			var localizationInterface = typeof(TLocalizationInterface);
 			if (!_localizations.ContainsKey (localizationInterface))
 				throw new InvalidOperationException (localizationInterface + " localization interface is not subscribed");
@@ -32,7 +36,6 @@ namespace MasDev.Localization
 
 			return instance.Localization;
 		}
-
 
 		public static void Subscribe<TLocalizationInterface, TLocalizationInstance> (bool isDefault)
 			where TLocalizationInterface : ILocalization 
@@ -59,8 +62,7 @@ namespace MasDev.Localization
 				_localizations.Add (localizationInterface, collection);
 		}
 
-
-		private static bool AreSameLanguage (string locale1, string locale2)
+		static bool AreSameLanguage (string locale1, string locale2)
 		{
 			locale1 = locale1.Trim ().ToLowerInvariant ();
 			locale2 = locale2.Trim ().ToLowerInvariant ();
@@ -74,11 +76,9 @@ namespace MasDev.Localization
 
 			return lang1 == lang2;
 		}
-
-
 	}
 
-	internal class LocalizationWrapper<TLocalization> where TLocalization : ILocalization
+	class LocalizationWrapper<TLocalization> where TLocalization : ILocalization
 	{
 		public TLocalization Localization { get; private set; }
 
