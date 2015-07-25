@@ -4,14 +4,14 @@ using System.Collections.Concurrent;
 
 namespace MasDev.Services.Auth
 {
-	public class CachedAccessTokenStore : ICachedCredentialsRepository
+	public class CachedCredentialsRepository : ICachedCredentialsRepository
 	{
 		const string _cacheKeyFormat = "{0},{1}";
 
 		readonly ConcurrentDictionary<string, DateTime?> _cache;
 		readonly Func<ICredentialsRepository> _persistentStoreFactory;
 
-		public CachedAccessTokenStore (Func<ICredentialsRepository> persistentStoreFactory)
+		public CachedCredentialsRepository (Func<ICredentialsRepository> persistentStoreFactory)
 		{
 			_persistentStoreFactory = persistentStoreFactory;
 			_cache = new ConcurrentDictionary<string, DateTime?> ();
