@@ -49,6 +49,11 @@ namespace MasDev.Services.Middlewares
 			builder.Use<DiagnosticMiddleware> ();
 		}
 
+		public static void UseCallingContextMiddleware (this IAppBuilder builder, string fallbackLanguage)
+		{
+			builder.Use<CallingContextMiddleware> (fallbackLanguage);
+		}
+
 		public static void ThrowIfNull (this object obj, string name)
 		{
 			if (obj == null)

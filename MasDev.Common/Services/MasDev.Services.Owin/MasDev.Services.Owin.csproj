@@ -88,6 +88,7 @@
     <Compile Include="Source\Authorization\AccessTokenPipeline\DefaultAccessTokenProtector.cs" />
     <Compile Include="Source\Authorization\AccessTokenPipeline\DefaultAccessTokenPipeline.cs" />
     <Compile Include="Source\Diagnostic\DiagnosticMiddleware.cs" />
+    <Compile Include="Source\CallingContext\CallingContextMiddleware.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -95,6 +96,7 @@
     <Folder Include="Source\" />
     <Folder Include="Source\UnitOfWorkHandler\" />
     <Folder Include="Source\Diagnostic\" />
+    <Folder Include="Source\CallingContext\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Services.Core\MasDev.Services.Core.csproj">
