@@ -13,7 +13,7 @@ namespace MasDev.Droid.Utils
 		const string PROPERTY_APP_VERSION = "appVersion";
 		const string SHARED_PREFERENCES_NAME = "pqowwo";
 
-		public static async Task<string> PerformRegistration (Activity ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
+		public static async Task<string> PerformRegistration (Activity ctx, string senderId, Func<string, System.Threading.Tasks.Task> onRegistrationIdRetrived)
 		{
 			var regId = GetRegistrationId(ctx);
 			if (string.IsNullOrEmpty (regId))
@@ -41,9 +41,9 @@ namespace MasDev.Droid.Utils
 			return registeredVersion != currentVersion ? string.Empty : registrationId;
 		}
 
-		static async Task<string> RegisterInBackground (Context ctx, string senderId, Func<string, Task> onRegistrationIdRetrived)
+		static async Task<string> RegisterInBackground (Context ctx, string senderId, Func<string, System.Threading.Tasks.Task> onRegistrationIdRetrived)
 		{
-			var regid = await Task.Run (() =>  { return GoogleCloudMessaging.GetInstance(ctx).Register(senderId); });
+			var regid = await System.Threading.Tasks.Task.Run (() =>  { return GoogleCloudMessaging.GetInstance(ctx).Register(senderId); });
 			await onRegistrationIdRetrived(regid);
 			StoreRegistrationId(ctx, regid);
 			return regid;
