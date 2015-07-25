@@ -1,8 +1,10 @@
-﻿namespace MasDev.Common
+﻿using MasDev.Services.Modeling;
+
+namespace MasDev.Common
 {
 	public interface ICallingContext
 	{
-		IIdentity Identity { get; set; }
+		Identity Identity { get; set; }
 
 		int? Scope { get; set; }
 
@@ -11,5 +13,7 @@
 		string RequestPath { get; set; }
 
 		string RequestIp { get; set; }
+
+		string RequestHost { get; set; }
 	}
 }

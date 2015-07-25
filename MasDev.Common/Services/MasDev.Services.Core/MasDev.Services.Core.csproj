@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Modeling\Identity.cs" />
     <Compile Include="Source\ICrudService.cs" />
     <Compile Include="Source\Modeling\ICommunicationMapper.cs" />
     <Compile Include="Source\Modeling\LoginResult.cs" />

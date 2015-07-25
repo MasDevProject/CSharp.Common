@@ -8,17 +8,22 @@ namespace MasDev.Services.Auth
 {
 	public interface IAuthorizationManager
 	{
-		string GenerateAccessToken (int id, int roles, DateTime expirationUtc, int? scope = null);
+		string TokenScheme { get; }
+
+		string GenerateAccessToken (Identity identity, DateTime issuedUtc, TimeSpan duration, int? extra = null, int? scope = null);
 
 		string ProcessAccessToken (IAccessToken token);
 
 		IAccessToken UnprocessAccessToken (string processedToken);
 
 		Task AuthorizeAsync (int? minimumRequiredRoles = null);
+
+		Task<DateTime> RenewIssueTime (Identity identity);
 	}
 
 	public class AuthorizationManager : IAuthorizationManager
 	{
+		const string _tokenType = "bearer";
 		readonly AccessTokenPipeline _pipeline;
 		readonly Func<ICredentialsRepository> _credentialsRepositoryFactory;
 
@@ -30,20 +35,16 @@ namespace MasDev.Services.Auth
 			_credentialsRepositoryFactory = storeFactory;
 		}
 
-		public string GenerateAccessToken (int id, int roles, DateTime expirationUtc, int? scope = null)
-		{
-			if (expirationUtc < DateTime.UtcNow)
-				throw new ArgumentException ("Expiration must be a future DateTime");
-			
-			var identity = new Identity ();
-			identity.Id = id;
-			identity.Roles = roles;
+		public string TokenScheme { get { return _tokenType; } }
 
+		public string GenerateAccessToken (Identity identity, DateTime issuedUtc, TimeSpan duration, int? extra = null, int? scope = null)
+		{
 			var token = new AccessToken ();
-			token.CreationUtc = DateTime.UtcNow;
+			token.CreationUtc = issuedUtc;
 			token.Identity = identity;
-			token.ExpirationUtc = expirationUtc;
+			token.ExpirationUtc = issuedUtc + duration;
 			token.Scope = scope;
+			token.Extra = extra;
 			return ProcessAccessToken (token);
 		}
 
@@ -78,6 +79,13 @@ namespace MasDev.Services.Auth
 			var lastInvalidationTimeUtc = await _credentialsRepositoryFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
 			if (lastInvalidationTimeUtc == null || !IsAccessTokenValid (minimumRequiredRoles, lastInvalidationTimeUtc.Value, accessToken))
 				throw new UnauthorizedException ();
+		}
+
+		public async Task<DateTime> RenewIssueTime (Identity identity)
+		{
+			var now = DateTime.UtcNow;
+			await _credentialsRepositoryFactory ().SetInvalidationTime (identity.Id, identity.Flag, now);
+			return now;
 		}
 
 		static bool IsAccessTokenValid (int? minimumRequiredRoles, DateTime lastInvalidationUtc, IAccessToken token)

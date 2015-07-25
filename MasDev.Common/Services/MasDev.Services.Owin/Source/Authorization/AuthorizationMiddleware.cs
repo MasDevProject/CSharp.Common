@@ -10,7 +10,6 @@ namespace MasDev.Services.Middlewares
 {
 	public class AuthorizationMiddleware : OwinMiddleware
 	{
-		const string _accessTokenScheme = "bearer ";
 		const string _authorizationHeaderName = "Authorization";
 
 		public AuthorizationMiddleware (OwinMiddleware next) : base (next)
@@ -21,7 +20,8 @@ namespace MasDev.Services.Middlewares
 		{
 			var callingContext = Injector.Resolve<ICallingContext> ();
 		
-			var accessToken = GetAccessTokenFromAuthorizationHeader (context.Request);
+			var manager = Injector.Resolve<IAuthorizationManager> ();
+			var accessToken = GetAccessTokenFromAuthorizationHeader (context.Request, manager.TokenScheme);
 			if (accessToken == null)
 				return;
 
@@ -34,6 +34,7 @@ namespace MasDev.Services.Middlewares
 			callingContext.Identity = accessToken.Identity;
 			callingContext.RequestPath = context.Request.Uri.AbsoluteUri;
 			callingContext.RequestIp = context.Request.RemoteIpAddress;
+			callingContext.RequestHost = context.Request.Host.Value;
 
 			try {
 				await Next.Invoke (context);
@@ -45,7 +46,7 @@ namespace MasDev.Services.Middlewares
 			}
 		}
 
-		static IAccessToken GetAccessTokenFromAuthorizationHeader (IOwinRequest request)
+		static IAccessToken GetAccessTokenFromAuthorizationHeader (IOwinRequest request, string tokenScheme)
 		{
 			var headers = request.Headers;
 			if (!headers.ContainsKey (_authorizationHeaderName))
@@ -55,11 +56,11 @@ namespace MasDev.Services.Middlewares
 			if (string.IsNullOrWhiteSpace (schemedAccessToken))
 				return null;
 
-			var schemeIndex = schemedAccessToken.IndexOf (_accessTokenScheme, StringComparison.OrdinalIgnoreCase);
+			var schemeIndex = schemedAccessToken.IndexOf (tokenScheme, StringComparison.OrdinalIgnoreCase);
 			if (schemeIndex < 0)
 				return null;
 
-			var headerAccessToken = schemedAccessToken.Substring (_accessTokenScheme.Length - 1);
+			var headerAccessToken = schemedAccessToken.Substring (tokenScheme.Length - 1);
 
 			try {
 				var manager = Injector.Resolve<IAuthorizationManager> ();
