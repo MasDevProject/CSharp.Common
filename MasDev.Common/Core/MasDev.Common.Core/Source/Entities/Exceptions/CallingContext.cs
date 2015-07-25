@@ -1,8 +1,9 @@
 ﻿using MasDev.Common;
 using MasDev.Services.Modeling;
+using MasDev.Patterns.Injection;
 
 
-namespace MasDev.Services
+namespace MasDev.Common
 {
 	public sealed class CallingContext : ICallingContext
 	{
@@ -17,5 +18,11 @@ namespace MasDev.Services
 		public string RequestIp { get; set; }
 
 		public string RequestHost { get; set; }
+
+		public MultiValueDictionary<string, string> RequestHeaders { get; set; }
+
+		public MultiValueDictionary<string, string> ResponseHeaders { get; set; }
+
+		public static ICallingContext Current { get { return Injector.Resolve<ICallingContext> (); } }
 	}
 }

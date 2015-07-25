@@ -135,6 +135,8 @@
     <Compile Include="Source\Entities\Exceptions\UnauthorizedException.cs" />
     <Compile Include="Source\Entities\ICallingContext.cs" />
     <Compile Include="Source\Entities\Identity.cs" />
+    <Compile Include="Source\Entities\Exceptions\NotModifiedException.cs" />
+    <Compile Include="Source\Entities\Exceptions\CallingContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

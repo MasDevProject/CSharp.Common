@@ -37,6 +37,8 @@ namespace MasDev.Services.Owin.WebApi
 				statusCode = HttpStatusCode.Forbidden;
 			else if (e is UnauthorizedException)
 				statusCode = HttpStatusCode.Unauthorized;
+			else if (e is NotModifiedException)
+				statusCode = HttpStatusCode.NotModified;
 
 			var exContent = serviceException != null ? 
 				serviceException.Content : 

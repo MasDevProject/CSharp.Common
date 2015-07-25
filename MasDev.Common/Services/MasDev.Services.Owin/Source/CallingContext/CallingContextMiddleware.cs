@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 using MasDev.Patterns.Injection;
 using MasDev.Common;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MasDev.Services
 {
@@ -23,6 +26,10 @@ namespace MasDev.Services
 			callingContext.RequestPath = context.Request.Uri.AbsoluteUri;
 			callingContext.RequestIp = context.Request.RemoteIpAddress;
 			callingContext.RequestHost = context.Request.Host.Value;
+			callingContext.RequestHeaders = new MultiValueDictionary<string, string> ();
+
+			foreach (var key in context.Request.Headers.Keys)
+				callingContext.RequestHeaders.AddValues (context.Request.Headers [key]);
 
 			var language = _fallbackLanguage;
 			var headers = context.Request.Headers;
@@ -36,6 +43,18 @@ namespace MasDev.Services
 
 			callingContext.Language = language;
 			await Next.Invoke (context);
+
+			var responseHeders = callingContext.ResponseHeaders;
+			if (!responseHeders.Any ())
+				return;
+
+			var owinResponsHeaders = context.Response.Headers;
+			foreach (var key in responseHeders.Keys) {
+				if (!owinResponsHeaders.ContainsKey (key))
+					owinResponsHeaders.Add (key, new string[0]);
+
+				owinResponsHeaders.AppendCommaSeparatedValues (key, responseHeders [key].ToArray ());
+			}
 		}
 	}
 }
