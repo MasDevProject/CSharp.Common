@@ -52,13 +52,16 @@ namespace MasDev.Common.Push.Wrappers
             var notification = new AppleNotification().ForDeviceToken(data.DeviceToken);
 
             if (!string.IsNullOrWhiteSpace(data.Alert))
-                notification = notification.WithAlert(data.Alert);
+				notification.WithAlert(data.Alert);
 
             if (data.Badge != null)
                 notification.WithBadge(data.Badge.Value);
 
             if (!string.IsNullOrWhiteSpace(data.Sound))
                 notification.WithSound(data.Sound);
+
+			if (data.Payload != null)
+				notification.Payload.AddCustom ("payload", new [] { JsonConvert.SerializeObject (data.Payload) });
 
             broker.QueueNotification(notification);
             broker.StopAllServices();

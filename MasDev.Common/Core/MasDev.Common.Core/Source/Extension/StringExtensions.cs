@@ -86,21 +86,9 @@ namespace MasDev.Extensions
 
 		public static IEnumerable<string> ReadAsCommaSeparatedValues (this string s)
 		{
-			if (string.IsNullOrEmpty (s))
-				yield break;
-
-			var builder = new StringBuilder ();
-			for (int i = 0; i < s.Length; i++) {
-				var current = s [i];
-
-				if (current != ',') {
-					builder.Append (current);
-					continue;
-				}
-
-				yield return builder.ToString ();
-				builder = new StringBuilder ();
-			}
+            if (s == null)
+                return Enumerable.Empty<string>();
+            return s.Split(',').Where(r => !string.IsNullOrWhiteSpace(r));
 		}
 
 		public static string Before (this string s, char c)
