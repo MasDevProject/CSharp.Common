@@ -10,7 +10,23 @@ namespace MasDev.Services
 {
 	public static class App
 	{
-		public static string ConfigFolder { get; set; }
+		public static string ConfigFolder { get; private set; }
+
+		public static object PerRequestLifestyle { get; private set; }
+
+		static Func<IDisposable> _executionContextFacotry;
+
+		public static IDisposable NewExecutionContextScope ()
+		{
+			return _executionContextFacotry ();
+		}
+
+		public static void Configure (string configFolder, object perRequestLifeStyle, Func<IDisposable> executionContextFactory)
+		{
+			ConfigFolder = configFolder;
+			PerRequestLifestyle = perRequestLifeStyle;
+			_executionContextFacotry = executionContextFactory;
+		}
 
 		public static string ConfigFile (string relativePath)
 		{
@@ -20,17 +36,15 @@ namespace MasDev.Services
 			return Path.Combine (ConfigFolder, relativePath);
 		}
 
-		public static object PerRequestLifestyle { get; set; }
-
-		static void EnsurePerRequestLifestyleIsSet ()
+		static void EnsureIsSetup ()
 		{
 			if (PerRequestLifestyle == null)
-				throw new NotSupportedException ("Must set per request lifestyle firts");
+				throw new NotSupportedException ("Must setup first");
 		}
 
 		public static void RegisterAuthManager (this IDependencyContainer container, Func<IAuthorizationManager> authManagerFactory)
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<IAuthorizationManager> (authManagerFactory, LifeStyles.Singleton);
 		}
 
@@ -39,21 +53,21 @@ namespace MasDev.Services
 			where TServiceInterface : class, ICrudService<TDto>
 			where TServiceImplementation : class, TServiceInterface, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<TServiceInterface, TServiceImplementation> (LifeStyles.Singleton);
 		}
 
 		public static void RegisterUnitOfWork<TUnitOfWork> (this IDependencyContainer container)
 			where TUnitOfWork : class, IUnitOfWork, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<IUnitOfWork, TUnitOfWork> (PerRequestLifestyle);
 		}
 
 		public static void RegisterAccessTokenStore<TAccessTokenStore> (this IDependencyContainer container)
 			where TAccessTokenStore : class, ICredentialsRepository, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<ICredentialsRepository, TAccessTokenStore> (PerRequestLifestyle);
 		}
 
@@ -62,7 +76,7 @@ namespace MasDev.Services
 			where TRepositoryInterface : class, IRepository<TModel>
 			where TRepositoryImplementation : class, TRepositoryInterface, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<TRepositoryInterface, TRepositoryImplementation> (PerRequestLifestyle);
 		}
 
@@ -71,7 +85,7 @@ namespace MasDev.Services
 			where TModel : class, IModel, new()
 			where TCommunicationMapper : class, ICommunicationMapper<TDto, TModel>, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<ICommunicationMapper<TDto, TModel>, TCommunicationMapper> (LifeStyles.Singleton);
 		}
 
@@ -79,7 +93,7 @@ namespace MasDev.Services
 			where TDto : class, IEntity
 			where TConsistencyValidator : class, IConsistencyValidator<TDto>, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<IConsistencyValidator<TDto>, TConsistencyValidator> (LifeStyles.Singleton);
 		}
 
@@ -87,7 +101,7 @@ namespace MasDev.Services
 			where TEntity : class, IEntity
 			where TDataAccessValidator : class, IEntityAccessValidator<TEntity>, new()
 		{
-			EnsurePerRequestLifestyleIsSet ();
+			EnsureIsSetup ();
 			container.AddDependency<IEntityAccessValidator<TEntity>, TDataAccessValidator> (LifeStyles.Singleton);
 		}
 	}
