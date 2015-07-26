@@ -96,7 +96,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
+    <ProjectReference Include="..\MasDev.Common.Rest.Mono\MasDev.Common.Rest.Mono.csproj">
+      <Project>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</Project>
+      <Name>MasDev.Common.Rest.Mono</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
       <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
       <Name>MasDev.Common.Core</Name>
@@ -105,10 +110,5 @@
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Common.Core.Mono</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MasDev.Common.Rest.Mono\MasDev.Common.Rest.Mono.csproj">
-      <Project>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</Project>
-      <Name>MasDev.Common.Rest.Mono</Name>
-    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

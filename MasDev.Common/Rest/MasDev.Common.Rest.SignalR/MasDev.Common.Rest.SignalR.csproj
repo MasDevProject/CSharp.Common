@@ -85,21 +85,17 @@
   <Import Project="..\..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
-      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core.Mono\MasDev.Common.Core.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Common.Core.Mono</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\MasDev.Common.Data.Core\MasDev.Common.Data.Core.csproj">
-      <Project>{5097969B-9FB8-4A79-92BE-43F41051C7F9}</Project>
-      <Name>MasDev.Common.Data.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MasDev.Common.Rest.Mono\MasDev.Common.Rest.Mono.csproj">
       <Project>{EC561B45-F896-4D19-BBF0-4B3CE9A2E190}</Project>
       <Name>MasDev.Common.Rest.Mono</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
+      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
+      <Name>MasDev.Common.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

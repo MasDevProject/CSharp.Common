@@ -115,17 +115,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
-      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Core</Name>
+    <ProjectReference Include="..\..\Core\MasDev.Common.Core.Mono\MasDev.Common.Core.Mono.csproj">
+      <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
+      <Name>MasDev.Common.Core.Mono</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\MasDev.Common.Data.Core\MasDev.Common.Data.Core.csproj">
       <Project>{5097969B-9FB8-4A79-92BE-43F41051C7F9}</Project>
       <Name>MasDev.Common.Data.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\MasDev.Common.Core.Mono\MasDev.Common.Core.Mono.csproj">
-      <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
-      <Name>MasDev.Common.Core.Mono</Name>
+    <ProjectReference Include="..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
+      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
+      <Name>MasDev.Common.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

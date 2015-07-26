@@ -90,17 +90,9 @@
     <Folder Include="Source\ContractResolvers\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
-      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
-      <Name>MasDev.Common.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\MasDev.Common.Core.Mono\MasDev.Common.Core.Mono.csproj">
       <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Common.Core.Mono</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MasDev.Common.Data.Core\MasDev.Common.Data.Core.csproj">
-      <Project>{5097969B-9FB8-4A79-92BE-43F41051C7F9}</Project>
-      <Name>MasDev.Common.Data.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MasDev.Common.Data.Mono\MasDev.Common.Data.Mono.csproj">
       <Project>{23EF5F04-D278-4D8F-9EAA-E0080469D1FE}</Project>
@@ -109,6 +101,14 @@
     <ProjectReference Include="..\MasDev.Common.Data.NHibernate.Core\MasDev.Common.Data.NHibernate.Core.csproj">
       <Project>{802F388E-91DE-4147-B7FE-CE3334F37758}</Project>
       <Name>MasDev.Common.Data.NHibernate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\MasDev.Common.Core\MasDev.Common.Core.csproj">
+      <Project>{91E5D594-A734-48AB-B0DA-CF63AC2BBBA8}</Project>
+      <Name>MasDev.Common.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MasDev.Common.Data.Core\MasDev.Common.Data.Core.csproj">
+      <Project>{5097969B-9FB8-4A79-92BE-43F41051C7F9}</Project>
+      <Name>MasDev.Common.Data.Core</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
