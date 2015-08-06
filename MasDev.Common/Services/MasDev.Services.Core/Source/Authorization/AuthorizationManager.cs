@@ -28,12 +28,13 @@ namespace MasDev.Services.Auth
 		// TODO caching
 		const string _tokenType = "bearer";
 		readonly AccessTokenPipeline _pipeline;
-		readonly Func<ICredentialsRepository> _credentialsRepositoryFactory;
+		readonly Func<IIdentityRepository> _credentialsRepositoryFactory;
 
-		public AuthorizationManager (AccessTokenPipeline pipeline, Func<ICredentialsRepository> storeFactory)
+		public AuthorizationManager (AccessTokenPipeline pipeline, Func<IIdentityRepository> storeFactory)
 		{
 			if (pipeline == null)
-				throw new ArgumentNullException ("pipeline");
+				throw new ArgumentNullException (nameof(pipeline));
+
 			_pipeline = pipeline;
 			_credentialsRepositoryFactory = storeFactory;
 		}
@@ -93,7 +94,7 @@ namespace MasDev.Services.Auth
 
 		public void InvalidateCache ()
 		{
-			var store = _credentialsRepositoryFactory () as ICachedCredentialsRepository;
+			var store = _credentialsRepositoryFactory () as ICachedIdentityRepository;
 			if (store != null)
 				store.ClearCache ();
 		}
