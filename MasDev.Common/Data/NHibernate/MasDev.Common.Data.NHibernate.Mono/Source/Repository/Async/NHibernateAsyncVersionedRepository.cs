@@ -13,7 +13,7 @@ namespace MasDev.Data
 
         public override IQueryable<TVersionedModel> Query { get { return base.Query.Where(model => !model.IsDeleted); } }
 
-        public NHibernateAsyncVersionedRepository(IUnitOfWork uow) : base(uow)
+        protected NHibernateAsyncVersionedRepository(IUnitOfWork uow) : base(uow)
         {
         }
 
