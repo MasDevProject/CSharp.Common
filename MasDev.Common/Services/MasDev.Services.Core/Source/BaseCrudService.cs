@@ -11,7 +11,7 @@ namespace MasDev.Services
 	public class BaseCrudService<TDto, TModel, TRepository> : BaseService, ICrudService<TDto>
 		where TDto: class, IEntity
 		where TModel : class, IModel, new()
-		where TRepository : class, IRepository<TModel>
+		where TRepository : class, IAsyncRepository<TModel>
 	{
 		#region Properties
 

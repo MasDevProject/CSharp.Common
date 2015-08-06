@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
-using MasDev.Data;
 using System.Linq.Expressions;
 using System.Linq;
 using MasDev.Utils;
@@ -20,21 +19,16 @@ namespace MasDev.Data
 			return parent;
 		}
 
-
-
 		public static IEnumerable<T> RequireParents<T> (IEnumerable<IModelVersioning<T>> models) where T : class, IVersionedModel
 		{
 			return models == null ? null : RequireParentsInt (models);
 		}
-
-
 
 		static IEnumerable<T> RequireParentsInt<T> (IEnumerable<IModelVersioning<T>> models) where T : class, IVersionedModel
 		{
 			foreach (var model in models)
 				yield return RequireParent (model);
 		}
-
 
 
 		public static T RequireCurrentVersion<T> (IVersionedModel<T> model) where T : class, IModelVersioning
@@ -45,20 +39,14 @@ namespace MasDev.Data
 			return currentVersion;
 		}
 
-
-
-		public static IQueryable<TModelVersioning> RequireCurrentVersions<TVersionedModel, TModelVersioning> (IModelQueryFactory factory, IEnumerable<TVersionedModel> models)
+		public static IQueryable<TModelVersioning> RequireCurrentVersions<TVersionedModel, TModelVersioning> (IRepository<TVersionedModel, TModelVersioning> repo, IEnumerable<TVersionedModel> models)
 			where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
 			where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 		{
 			var ids = models.Select (m => m.CurrentVersion.Id).ToArray ();
 			var lambda = ExpressionBuilder.OrId<TModelVersioning> (ids);
-			return factory.UnfilteredQueryForModel<TModelVersioning> ().Where (lambda);
+			return repo.QueryFor<TModelVersioning> ().Where (lambda);
 		}
-
-
-
-
 
 
 		static IEnumerable<T> RequireCurrentVersionsInt<T> (IEnumerable<IVersionedModel<T>> models) where T : class, IModelVersioning
@@ -66,8 +54,6 @@ namespace MasDev.Data
 			foreach (var model in models)
 				yield return RequireCurrentVersion (model);
 		}
-
-
 
 		public static TModelVersioning CreateObviousMapping<TModelVersioning> (IVersionedModel<TModelVersioning> model)
 			where TModelVersioning : IModelVersioning
@@ -78,14 +64,12 @@ namespace MasDev.Data
 			return version;
 		}
 
-
-
-		public static  IQueryable<TModelVersioning> RequireCurrentVersions<TVersionedModel, TModelVersioning> (IRepository<TVersionedModel> repository, Expression<Func<TVersionedModel, bool>> selector) 
+		public static  IQueryable<TModelVersioning> RequireCurrentVersions<TVersionedModel, TModelVersioning> (IRepository<TVersionedModel, TModelVersioning> repository, Expression<Func<TVersionedModel, bool>> selector) 
 			where TVersionedModel : class, IVersionedModel<TModelVersioning>, new()
 			where TModelVersioning : class, IModelVersioning<TVersionedModel>, new()
 		{
 			var modelQuery = repository.Query.Where (selector);
-			var versionQuery = repository.UnfilteredQueryForModel<TModelVersioning> ();
+			var versionQuery = repository.QueryFor<TModelVersioning> ();
 
 			return (
 			    from model in modelQuery
@@ -93,7 +77,6 @@ namespace MasDev.Data
 			    select version
 			);
 		}
-
 
 		public static TKey VersionedAssign<TModel, TKey> (TModel source, TModel destination, Func<TModel, TKey> property, ref bool shouldDoVersioning)
 		{
