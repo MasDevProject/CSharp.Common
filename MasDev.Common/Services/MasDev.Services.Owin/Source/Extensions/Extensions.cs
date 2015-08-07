@@ -16,13 +16,17 @@ namespace MasDev.Services.Middlewares
 			builder.Use<RedirectMiddleware> (rules);
 		}
 
-		public static void UseRedirectMiddleware (this IAppBuilder builder, string configFilePath)
-		{
-			builder.Use<RedirectMiddleware> (configFilePath);
-		}
+        public static void UseRedirectMiddleware(this IAppBuilder builder, string configFilePath)
+        {
+            builder.Use<RedirectMiddleware>(configFilePath);
+        }
 
+        public static void UseErrorPageMiddleware(this IAppBuilder builder, BaseErrorPageRules rules)
+        {
+            builder.Use<ErrorPageMiddleware>(rules);
+        }
 
-		public static void UseUrlRewriteMiddleware (this IAppBuilder builder, BasePathMappingRules rules)
+        public static void UseUrlRewriteMiddleware (this IAppBuilder builder, BasePathMappingRules rules)
 		{
 			builder.Use<UrlRewriteMiddleware> (rules);
 		}
