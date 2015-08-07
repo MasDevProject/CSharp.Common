@@ -24,7 +24,6 @@ namespace MasDev.Services.Middlewares
 				return;
 				
 			await context.Response.SendFileAsync (matchingRule.ErrorPagePath);
-			context.Response.StatusCode = 404;
 		}
 	}
 }
