@@ -58,7 +58,7 @@ namespace MasDev.Services.Middlewares
             if (schemeIndex < 0)
                 return null;
 
-            var headerAccessToken = schemedAccessToken.Substring(tokenScheme.Length - 1);
+            var headerAccessToken = schemedAccessToken.Substring(tokenScheme.Length + 1);
 
             try
             {

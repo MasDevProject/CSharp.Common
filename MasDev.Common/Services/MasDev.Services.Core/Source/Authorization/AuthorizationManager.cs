@@ -71,16 +71,19 @@ namespace MasDev.Services.Auth
 		public async Task AuthorizeAsync (int? minimumRequiredRoles = null)
 		{
 			var callingContext = Injector.Resolve<ICallingContext> ();
-			var accessToken = Injector.Resolve<IAccessToken> ();
+            var accessToken = Injector.Resolve<IAccessToken>();
 
-			if (callingContext == null)
+			if (callingContext == null || accessToken == null)
 				throw new UnauthorizedException ();
 
 			var identity = callingContext.Identity;
-			if (identity == null)
+			if (identity == null || accessToken.Identity == null)
 				throw new UnauthorizedException ();
-			
-			var lastInvalidationTimeUtc = await _credentialsRepositoryFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
+
+            if(!(identity.Id == accessToken.Identity.Id && identity.Flag == accessToken.Identity.Flag))
+                throw new UnauthorizedException();
+
+            var lastInvalidationTimeUtc = await _credentialsRepositoryFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
 			if (lastInvalidationTimeUtc == null || !IsAccessTokenValid (minimumRequiredRoles, lastInvalidationTimeUtc.Value, accessToken))
 				throw new UnauthorizedException ();
 		}
