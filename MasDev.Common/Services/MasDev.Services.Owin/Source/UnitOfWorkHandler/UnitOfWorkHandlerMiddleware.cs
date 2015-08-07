@@ -4,6 +4,8 @@ using MasDev.Patterns.Injection;
 using MasDev.Data;
 using System.Linq;
 using System.Diagnostics;
+using System;
+using SimpleInjector;
 
 namespace MasDev.Services.Middlewares
 {
@@ -37,16 +39,20 @@ namespace MasDev.Services.Middlewares
 
 		void HandleUow (IOwinContext context, bool rollback)
 		{
-			var uow = Injector.Resolve<IUnitOfWork> ();
-			if (uow == null || !uow.IsStarted)
-				return;
+			try {
+				var uow = Injector.Resolve<IUnitOfWork> ();
+				if (uow == null || !uow.IsStarted)
+					return;
 			
-			if (rollback || _committableStatusCodes.All (c => context.Response.StatusCode != c)) {
-				uow.Rollback (false);
-				Debug.WriteLine (RolledBack);
-			} else {
-				uow.Commit (false);
-				Debug.WriteLine (Committed);
+				if (rollback || _committableStatusCodes.All (c => context.Response.StatusCode != c)) {
+					uow.Rollback (false);
+					Debug.WriteLine (RolledBack);
+				} else {
+					uow.Commit (false);
+					Debug.WriteLine (Committed);
+				}
+			} catch (ActivationException) {
+				Debug.WriteLine ("Unit of work already disposed");
 			}
 				
 		}
