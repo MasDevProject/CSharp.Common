@@ -34,7 +34,7 @@ namespace MasDev.Data.NHibernate.Providers
 		public void Connect ()
 		{
             var model = NHibernateUtils.CreateMappings<TMappingProvider>(_modelsNamespace);
-            var factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(_host, _database, _schema, _username, _password, model, _context, _buildSchema);
+            _factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(_host, _database, _schema, _username, _password, model, _context, _buildSchema);
         }
 	}
 }

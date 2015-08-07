@@ -34,7 +34,7 @@ namespace MasDev.Services
 			var language = _fallbackLanguage;
 			var headers = context.Request.Headers;
 			if (headers.ContainsKey (AcceptLanguageHeaderName)) {
-				var languages = headers ["Accept-Language"];
+				var languages = headers [AcceptLanguageHeaderName];
 				if (languages != null)
 					language = languages.Split (',') [0].Trim ().ToLowerInvariant ();
 				if (string.IsNullOrWhiteSpace (language))
@@ -45,7 +45,7 @@ namespace MasDev.Services
 			await Next.Invoke (context);
 
 			var responseHeders = callingContext.ResponseHeaders;
-			if (!responseHeders.Any ())
+			if (responseHeders == null || !responseHeders.Any ())
 				return;
 
 			var owinResponsHeaders = context.Response.Headers;
