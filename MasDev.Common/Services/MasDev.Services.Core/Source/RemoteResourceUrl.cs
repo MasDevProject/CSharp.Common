@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Which type of redirect
 	/// </summary>
-	public enum RemoteResourceType
+	public enum RedirectType
 	{
 		/// <summary>
 		/// HTTP 301 - All future requests should be to this URL
@@ -19,13 +19,13 @@
 		SeeOther
 	}
 
-	public sealed class RemoteResourceUrl
+	public sealed class Redirect
 	{
 		public string To { get; private set; }
 
-		public RemoteResourceType ResourceType { get; private set; }
+		public RedirectType ResourceType { get; private set; }
 
-		public RemoteResourceUrl (string resourceUrl, RemoteResourceType redirectType)
+		public Redirect (string resourceUrl, RedirectType redirectType)
 		{
 			To = resourceUrl;
 			ResourceType = redirectType;

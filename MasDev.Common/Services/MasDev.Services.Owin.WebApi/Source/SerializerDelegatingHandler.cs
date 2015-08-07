@@ -25,7 +25,7 @@ namespace MasDev.Services.Owin.WebApi
 
 			var value = objectContent.Value;
 				
-			var redirect = value as RemoteResourceUrl;
+			var redirect = value as Redirect;
 			if (redirect != null) {
 				result = new HttpResponseMessage (HttpStatusCode.Redirect);
 				result.Headers.Location = new Uri (redirect.To);

@@ -82,9 +82,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\ControllerUtils.cs" />
     <Compile Include="Source\Controller\CrudApiController.cs" />
     <Compile Include="Source\Controller\ServiceApiController.cs" />
     <Compile Include="Source\ExceptionFilter.cs" />
+    <Compile Include="Source\Multipart.cs" />
+    <Compile Include="Source\MultipartParser\BinaryStreamStack.cs" />
+    <Compile Include="Source\MultipartParser\FilePart.cs" />
+    <Compile Include="Source\MultipartParser\MultipartFormDataParser.cs" />
+    <Compile Include="Source\MultipartParser\MultipartParseException.cs" />
+    <Compile Include="Source\MultipartParser\ParameterPart.cs" />
+    <Compile Include="Source\MultipartParser\RebufferableBinaryReader.cs" />
+    <Compile Include="Source\MultipartParser\SubsequenceFinder.cs" />
     <Compile Include="Source\SerializerDelegatingHandler.cs" />
     <Compile Include="Source\HttpUtils.cs" />
     <Compile Include="Source\FileResult.cs" />
