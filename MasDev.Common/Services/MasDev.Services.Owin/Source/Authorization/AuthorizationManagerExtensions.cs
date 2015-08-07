@@ -24,7 +24,7 @@ namespace MasDev.Services.Auth
             }
         }
 
-        public static async bool IsAuthorized(this IAuthorizationManager authManager, int? minimumRoles = null)
+        public static bool IsAuthorized(this IAuthorizationManager authManager, int? minimumRoles = null)
         {
             try
             {
