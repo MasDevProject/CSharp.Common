@@ -8,58 +8,37 @@ namespace MasDev.Services
 	public class DiagnosticMiddleware : OwinMiddleware
 	{
 		const string Divider = "\n================================================================================";
-		const string ResponseFormat = "Response {0} in {1} ms";
+		const string RequestFormat = "REQUEST: {0} @ {1}";
+		const string ResponseFormat = "RESULT : {0} in {1} ms";
+		ConsoleColor? _consoleColor;
 
 		public DiagnosticMiddleware (OwinMiddleware next) : base (next)
 		{
 		}
 
-
 		public override async Task Invoke (IOwinContext context)
 		{
+			if (!_consoleColor.HasValue)
+				_consoleColor = Console.ForegroundColor;
+			
+			Exception e = null;
+			var stopwatch = Stopwatch.StartNew ();
 			try {
-				Debug.WriteLine (Divider);
-				WriteMarker ();
-				Debug.Write (context.Request.Method);
-				Debug.Write (' ');
-				Debug.WriteLine (context.Request.Path);
-				WriteHeaders (context.Request.Headers);
-				Debug.WriteLine ('\n');
-
-				var stopwatch = Stopwatch.StartNew ();
 				await Next.Invoke (context);
-				stopwatch.Stop ();
-
-				Debug.WriteLine ('\n');
-				WriteMarker ();
-				Debug.WriteLine (string.Format (ResponseFormat, context.Response.StatusCode, stopwatch.ElapsedMilliseconds));
-				WriteHeaders (context.Response.Headers);
-			} catch (Exception e) {
+			} catch (Exception ex) {
+				e = ex;
+			}
+			stopwatch.Stop ();
+		
+			Console.ForegroundColor = e == null ? _consoleColor.Value : ConsoleColor.Red;
+			Console.WriteLine (Divider);
+			Console.WriteLine (string.Format (RequestFormat, context.Request.Method, context.Request.Path));
+			Console.WriteLine (string.Format (ResponseFormat, context.Response.StatusCode, stopwatch.ElapsedMilliseconds));
+			if (e != null)
 				Console.WriteLine (e);
-			}
+			Console.WriteLine ();
 		}
 
-		static void WriteHeaders (IHeaderDictionary headers)
-		{
-			if (headers == null)
-				return;
-			foreach (var header in headers) {
-				WriteMarker ();
-				Debug.Write (header.Key);
-				Debug.Write (": ");
-				foreach (var headerValue in header.Value) {
-					Debug.Write (headerValue);
-					Debug.Write (", ");
-				}
-				Debug.WriteLine (string.Empty);
-			}
-		}
-
-		static void WriteMarker ()
-		{
-			Debug.Write ('#');
-			Debug.Write (" ");
-		}
 	}
 }
 

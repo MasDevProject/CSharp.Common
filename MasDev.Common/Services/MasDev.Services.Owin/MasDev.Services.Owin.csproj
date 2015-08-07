@@ -96,7 +96,7 @@
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MasDev.Common.Core.Mono\MasDev.Common.Core.Mono.csproj">
-      <Project>{56e12270-52fa-4c5e-b4c5-8c05596a283d}</Project>
+      <Project>{56E12270-52FA-4C5E-B4C5-8C05596A283D}</Project>
       <Name>MasDev.Common.Core.Mono</Name>
     </ProjectReference>
     <ProjectReference Include="..\MasDev.Services.Core\MasDev.Services.Core.csproj">
