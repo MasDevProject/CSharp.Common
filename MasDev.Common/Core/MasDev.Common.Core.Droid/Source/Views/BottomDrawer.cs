@@ -6,6 +6,7 @@ using Android.Animation;
 using Android.Content;
 using Android.Util;
 using MasDev.Extensions;
+using Android.OS;
 
 
 namespace MasDev.Droid.Views
@@ -263,7 +264,13 @@ namespace MasDev.Droid.Views
 
 		public void OnGlobalLayout ()
 		{
-			_view.ViewTreeObserver.RemoveOnGlobalLayoutListener (this);
+			if (Build.VERSION.SdkInt < BuildVersionCodes.JellyBean) {
+				#pragma warning disable 618
+				_view.ViewTreeObserver.RemoveGlobalOnLayoutListener(this);
+				#pragma warning restore 618
+			} else {
+				_view.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+			}
 			OnViewTreeObserverFinished.Invoke (_view.Height);
 			_view = null;
 			OnViewTreeObserverFinished = null;
