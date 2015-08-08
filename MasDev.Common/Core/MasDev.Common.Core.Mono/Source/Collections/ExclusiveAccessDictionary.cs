@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MasDev.Utils;
 
 namespace MasDev.Common
 {
@@ -19,7 +18,7 @@ namespace MasDev.Common
 
         public abstract IIdentifier GetIdentifier(TKey key);
 
-        private class DummyDisposable : IDisposable
+        class DummyDisposable : IDisposable
         {
             public void Dispose()
             {

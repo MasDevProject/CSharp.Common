@@ -11,6 +11,11 @@ namespace MasDev.Extensions
 			if (model.IsDeleted)
 				throw new SecurityException ("Model no longer enabled");
 		}
+
+		public static bool IsPersisted (this IModel model)
+		{
+			return model != null && model.Id > 0;
+		}
 	}
 }
 

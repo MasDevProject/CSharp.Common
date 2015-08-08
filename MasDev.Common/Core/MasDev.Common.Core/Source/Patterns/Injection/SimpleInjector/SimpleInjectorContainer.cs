@@ -12,16 +12,12 @@ namespace MasDev.Patterns.Injection.SimpleInjector
 			return GetInstance<TInterface> ();
 		}
 
-
-
 		public void AddDependency<TInterface, TImplementation> ()
             where TInterface : class
             where TImplementation : class, TInterface, new()
 		{
 			Register<TInterface, TImplementation> ();
 		}
-
-
 
 		public void AddDependency<TInterface, TImplementation> (object lifeStyle)
             where TInterface : class
@@ -30,21 +26,15 @@ namespace MasDev.Patterns.Injection.SimpleInjector
 			Register<TInterface, TImplementation> (EnsureIsSimpleInjector (lifeStyle));
 		}
 
-
-
 		public void AddDependency<TInterface> (Func<TInterface> instantiator) where TInterface : class
 		{
 			Register<TInterface> (instantiator);
 		}
 
-
-
 		public void AddDependency<TInterface> (Func<TInterface> instantiator, object lifeStyle) where TInterface : class
 		{
 			Register<TInterface> (instantiator, EnsureIsSimpleInjector (lifeStyle));
 		}
-
-
 
 		static Lifestyle EnsureIsSimpleInjector (object lifeStyle)
 		{

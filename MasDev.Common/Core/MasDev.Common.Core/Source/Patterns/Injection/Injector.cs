@@ -7,8 +7,6 @@ namespace MasDev.Patterns.Injection
 	{
 		static IDependencyContainer _container;
 
-
-
 		public static void InitializeWith (IDependencyContainer container, params IDependencyConfigurator[] configurators)
 		{
 			_container = container;

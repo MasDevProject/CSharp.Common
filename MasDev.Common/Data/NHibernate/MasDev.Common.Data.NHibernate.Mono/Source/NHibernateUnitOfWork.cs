@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using System.Data;
 using System;
+using System.Diagnostics;
 
 
 namespace MasDev.Data
@@ -12,12 +13,13 @@ namespace MasDev.Data
 		readonly Lazy<ISession> _parallelSession;
 
 		ITransaction _transaction;
-		volatile int _consumers = 0;
 
 		public NHibernateUnitOfWork (ISessionFactory factory)
 		{
 			if (factory == null)
 				throw new ArgumentNullException ();
+			
+			Debug.WriteLine ("Uow constructed");
 
 			_session = GetDefaultSessionLazy (factory);
 			_parallelSession = GetDefaultSessionLazy (factory);
@@ -43,11 +45,6 @@ namespace MasDev.Data
 		public ISession ReadonlySession { get { return _readonlySession.Value; } }
 
 		public ISession ParallelSession { get { return _parallelSession.Value; } }
-
-		public void Consume ()
-		{
-			_consumers++;
-		}
 
 		public void Start ()
 		{
@@ -97,8 +94,7 @@ namespace MasDev.Data
 
 		public void Dispose ()
 		{
-			if (--_consumers != 0)
-				return;
+			Debug.WriteLine ("Uow disposed");
 
 			if (_transaction != null)
 				_transaction.Dispose ();

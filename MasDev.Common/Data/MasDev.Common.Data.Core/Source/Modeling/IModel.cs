@@ -1,10 +1,13 @@
-﻿
+﻿using MasDev.Common;
 
 namespace MasDev.Data
 {
-	public interface IModel
+	public interface IModel : IEntity
 	{
-		int Id { get; set; }
+	}
+
+	public interface IChildModel<TParentModel> :IModel, IChildEntity<TParentModel> where TParentModel : IModel
+	{
 	}
 }
 

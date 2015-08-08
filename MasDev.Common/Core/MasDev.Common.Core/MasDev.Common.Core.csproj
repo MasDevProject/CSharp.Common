@@ -10,8 +10,6 @@
     <AssemblyName>MasDev.Common.Core</AssemblyName>
     <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\PizzaUp\MasDev.PizzApp\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,7 +125,18 @@
     <Compile Include="Source\Http\Headers\IfModifiedSinceHeader.cs" />
     <Compile Include="Source\Exceptions\TypedException.cs" />
     <Compile Include="Source\Utils\Enumerables.cs" />
-    <Compile Include="Source\Http\RestClient.cs" />
+    <Compile Include="Source\Entities\IEntity.cs" />
+    <Compile Include="Source\Entities\IEntityAccessValidator.cs" />
+    <Compile Include="Source\Entities\IConsistencyValidator.cs" />
+    <Compile Include="Source\Entities\Exceptions\ForbiddenException.cs" />
+    <Compile Include="Source\Entities\Exceptions\InputException.cs" />
+    <Compile Include="Source\Entities\Exceptions\NotFoundException.cs" />
+    <Compile Include="Source\Entities\Exceptions\ServiceException.cs" />
+    <Compile Include="Source\Entities\Exceptions\UnauthorizedException.cs" />
+    <Compile Include="Source\Entities\ICallingContext.cs" />
+    <Compile Include="Source\Entities\Identity.cs" />
+    <Compile Include="Source\Entities\Exceptions\NotModifiedException.cs" />
+    <Compile Include="Source\Entities\Exceptions\CallingContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -151,9 +160,8 @@
     <Reference Include="SimpleInjector">
       <HintPath>..\..\packages\SimpleInjector.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
     </Reference>
-    <Reference Include="ModernHttpClient">
-      <HintPath>..\..\..\..\..\PizzApp\MasDev.PizzApp\packages\modernhttpclient.2.4.1\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
-    </Reference>
   </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <Folder Include="Source\Entities\" />
+  </ItemGroup>
 </Project>

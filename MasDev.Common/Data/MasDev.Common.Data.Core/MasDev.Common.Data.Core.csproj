@@ -42,10 +42,15 @@
     <Compile Include="Source\Modeling\Model.cs" />
     <Compile Include="Source\Modeling\ModelMapper.cs" />
     <Compile Include="Source\Modeling\PersistenceMapper.cs" />
-    <Compile Include="Source\IModelQueryFactory.cs" />
-    <Compile Include="Source\IRepository.cs" />
+    <Compile Include="Source\Repository\Async\IAsyncRepository.cs" />
+    <Compile Include="Source\Repository\Async\IAsyncTypedRepository.cs" />
+    <Compile Include="Source\Repository\Async\IAsyncVersionedRepository.cs" />
     <Compile Include="Source\IUnitOfWork.cs" />
     <Compile Include="Source\ModelEqualityComparer.cs" />
+    <Compile Include="Source\Repository\LockMode.cs" />
+    <Compile Include="Source\Repository\Sync\IRepository.cs" />
+    <Compile Include="Source\Repository\Sync\ITypedRepository.cs" />
+    <Compile Include="Source\Repository\Sync\IVersionedRepository.cs" />
     <Compile Include="Source\VersioningHelper.cs" />
     <Compile Include="Source\Extensions\ModelExtensions.cs" />
     <Compile Include="Source\Expressions\IQueryableExtensions.cs" />
