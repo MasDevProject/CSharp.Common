@@ -5,7 +5,6 @@ using MasDev.Droid.ExtensionMethods;
 using Android.App;
 using MasDev.Droid.Utils;
 
-
 namespace MasDev.Droid.App
 {
 	public enum UiState

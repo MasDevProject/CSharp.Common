@@ -81,6 +81,9 @@
     <Reference Include="Xamarin.GooglePlayServices.Gcm">
       <HintPath>..\..\packages\Xamarin.GooglePlayServices.Gcm.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Gcm.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Plus">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Plus.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Plus.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="Source\Extensions\JavaObjectExtensions.cs" />
     <Compile Include="Source\Extensions\TextViewExtensions.cs" />
     <Compile Include="Source\Utils\PlayServicesUtils.cs" />
+    <Compile Include="Source\App\GoogleLoginActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
