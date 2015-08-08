@@ -29,7 +29,7 @@ namespace MasDev.Services.Owin.WebApi
 		public FileResult (IfModifiedSinceHeader ifModifiedSince, string filePath, string contentType = null)
 		{
 			if (filePath == null)
-				throw new ArgumentNullException ("filePath");
+				throw new ArgumentNullException (nameof(filePath));
 
 			_filePath = filePath;
 			_contentType = contentType;

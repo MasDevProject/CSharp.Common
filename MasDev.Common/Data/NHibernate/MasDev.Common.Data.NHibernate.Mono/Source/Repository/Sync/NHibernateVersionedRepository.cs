@@ -33,22 +33,22 @@ namespace MasDev.Data
             return model.Id;
         }
 
-        public override void Create(IEnumerable<TVersionedModel> m)
+        public override void Create(IEnumerable<TVersionedModel> models)
         {
-            var models = m.ToArray();
-            var versions = new TModelVersioning[models.Length];
+            var mods = models.ToArray();
+            var versions = new TModelVersioning[mods.Length];
 
-            for (var i = 0; i < models.Length; i++)
+            for (var i = 0; i < mods.Length; i++)
             {
-                var model = models[i];
+                var model = mods[i];
                 model.IsDeleted = false;
                 var version = CreateVersion(model);
                 CreateOrUpdate(version);
                 versions[i] = version;
             }
-            for (var i = 0; i < models.Length; i++)
+            for (var i = 0; i < mods.Length; i++)
             {
-                var model = models[i];
+                var model = mods[i];
                 var version = versions[i];
                 model.CurrentVersion = version;
                 CreateOrUpdate(model);
@@ -78,13 +78,13 @@ namespace MasDev.Data
             return ShouldDoVersioning(storedModel, newModel);
         }
 
-        public virtual int RawUpdate<TModel>(TModel model) where TModel : IModel
+        public virtual int RawUpdate<TModel>(TModel model) where TModel : class, IModel, new()
         {
             Session.Update(model);
             return model.Id;
         }
 
-        public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             foreach (var m in models)
             {
@@ -92,7 +92,7 @@ namespace MasDev.Data
             }
         }
 
-        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : IModel
+        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
         {
             var model = Session.Get<TModel>(id);
             if (model == null)
@@ -103,13 +103,13 @@ namespace MasDev.Data
             return model;
         }
 
-        public virtual int RawDelete<TModel>(TModel model) where TModel : IModel
+        public virtual int RawDelete<TModel>(TModel model) where TModel : class, IModel, new()
         {
             Session.Delete(model);
             return model.Id;
         }
 
-        public virtual void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        public virtual void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             foreach (var m in models)
             {

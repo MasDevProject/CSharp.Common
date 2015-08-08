@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MasDev.Common.Azure")]
+[assembly: AssemblyTitle("MasDev.Common.Core.Azure")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MasDev.Common.Azure")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyProduct("MasDev.Common.Core.Azure")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4830b50f-27d4-4b46-a190-5c1f0e2ca052")]
+[assembly: Guid("ee0585dc-751f-4f42-b338-23bc56dc71c7")]
 
 // Version information for an assembly consists of the following four values:
 //

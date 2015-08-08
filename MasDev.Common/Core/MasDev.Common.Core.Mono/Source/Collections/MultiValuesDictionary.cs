@@ -12,7 +12,7 @@ namespace MasDev.Common
 			else {
 				var collection = new TCollection ();
 				collection.Add (value);
-				base.Add (key, collection);
+				Add (key, collection);
 			}
 		}
 
