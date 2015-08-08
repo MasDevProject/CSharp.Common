@@ -12,11 +12,12 @@ namespace MasDev.Common
 
 		public static bool CheckPlayServices (Activity activity) 
 		{
-			int resultCode = GooglePlayServicesUtil.IsGooglePlayServicesAvailable(activity);
+			var googleAvailability = GoogleApiAvailability.Instance;
+			int resultCode = googleAvailability.IsGooglePlayServicesAvailable(activity);
 			if (resultCode != ConnectionResult.Success) 
 			{
-				if (GooglePlayServicesUtil.IsUserRecoverableError (resultCode)) {
-					GooglePlayServicesUtil.GetErrorDialog(resultCode, activity, PLAY_SERVICES_RESOLUTION_REQUEST).Show();
+				if (googleAvailability.IsUserResolvableError (resultCode)) {
+					googleAvailability.GetErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST).Show();
 				} else {
 					var logger = Injector.Resolve<ILogger> ();
 					if (logger != null)
