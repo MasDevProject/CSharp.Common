@@ -88,7 +88,7 @@ namespace HttpMultipartParser
         /// <summary>
         /// The default buffer size.
         /// </summary>
-        private const int DefaultBufferSize = 4096;
+        const int DefaultBufferSize = 4096;
 
         #endregion
 
@@ -97,30 +97,30 @@ namespace HttpMultipartParser
         /// <summary>
         ///     The boundary of the multipart message  as a string.
         /// </summary>
-        private readonly string boundary;
+         readonly string boundary;
 
         /// <summary>
         ///     The boundary of the multipart message as a byte string
         ///     encoded with CurrentEncoding
         /// </summary>
-        private readonly byte[] boundaryBinary;
+         readonly byte[] boundaryBinary;
 
         /// <summary>
         ///     The end boundary of the multipart message as a string.
         /// </summary>
-        private readonly string endBoundary;
+        readonly string endBoundary;
 
         /// <summary>
         ///     The end boundary of the multipart message as a byte string
         ///     encoded with CurrentEncoding
         /// </summary>
-        private readonly byte[] endBoundaryBinary;
+         readonly byte[] endBoundaryBinary;
 
         /// <summary>
         ///     Determines if we have consumed the end boundary binary and determines
         ///     if we are done parsing.
         /// </summary>
-        private bool readEndBoundary;
+         bool readEndBoundary;
 
         #endregion
 
@@ -307,7 +307,7 @@ namespace HttpMultipartParser
         /// <returns>
         /// The boundary string
         /// </returns>
-        private static string DetectBoundary(RebufferableBinaryReader reader)
+         static string DetectBoundary(RebufferableBinaryReader reader)
         {
             // Presumably the boundary is --|||||||||||||| where -- is the stuff added on to
             // the front as per the protocol and ||||||||||||| is the part we care about.
@@ -323,7 +323,7 @@ namespace HttpMultipartParser
         /// <param name="offset">The offset to start searching at</param>
         /// <param name="maxBytes">The maximum number of bytes (starting from offset) to search.</param>
         /// <returns>The offset of the next newline</returns>
-        private int FindNextNewline(ref byte[] data, int offset, int maxBytes)
+         int FindNextNewline(ref byte[] data, int offset, int maxBytes)
         {
             byte[][] newlinePatterns = { this.Encoding.GetBytes("\r\n"), this.Encoding.GetBytes("\n") };
             Array.Sort(newlinePatterns, (first, second) => second.Length.CompareTo(first.Length));
@@ -359,7 +359,7 @@ namespace HttpMultipartParser
         /// <returns>
         /// The length in bytes of the newline sequence
         /// </returns>
-        private int CalculateNewlineLength(ref byte[] data, int offset)
+         int CalculateNewlineLength(ref byte[] data, int offset)
         {
             byte[][] newlinePatterns = { this.Encoding.GetBytes("\r\n"), this.Encoding.GetBytes("\n") };
 
@@ -396,7 +396,7 @@ namespace HttpMultipartParser
         /// <exception cref="MultipartParseException">
         /// thrown on finding unexpected data such as a boundary before we are ready for one.
         /// </exception>
-        private void Parse(RebufferableBinaryReader reader)
+         void Parse(RebufferableBinaryReader reader)
         {
             // Parsing references include:
             // RFC1341 section 7: http://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
@@ -406,7 +406,7 @@ namespace HttpMultipartParser
             while (true)
             {
                 string line = reader.ReadLine();
-                if (line == this.boundary)
+                if (line == boundary)
                 {
                     break;
                 }
@@ -419,11 +419,11 @@ namespace HttpMultipartParser
 
             // Now that we've found the initial boundary we know where to start. 
             // We need parse each individual section
-            while (!this.readEndBoundary)
+            while (!readEndBoundary)
             {
                 // ParseSection will parse up to and including
                 // the next boundary.
-                this.ParseSection(reader);
+                ParseSection(reader);
             }
         }
 
@@ -439,7 +439,7 @@ namespace HttpMultipartParser
         /// <returns>
         /// The <see cref="FilePart"/> containing the parsed data (name, filename, stream containing file).
         /// </returns>
-        private FilePart ParseFilePart(Dictionary<string, string> parameters, RebufferableBinaryReader reader)
+        FilePart ParseFilePart(Dictionary<string, string> parameters, RebufferableBinaryReader reader)
         {
             // We want to create a stream and fill it with the data from the
             // file.
@@ -456,17 +456,17 @@ namespace HttpMultipartParser
 
                 // Combine both buffers into the fullBuffer
                 // See: http://stackoverflow.com/questions/415291/best-way-to-combine-two-or-more-byte-arrays-in-c-sharp
-                var fullBuffer = new byte[this.BinaryBufferSize * 2];
+                var fullBuffer = new byte[BinaryBufferSize * 2];
                 Buffer.BlockCopy(prevBuffer, 0, fullBuffer, 0, prevLength);
                 Buffer.BlockCopy(curBuffer, 0, fullBuffer, prevLength, curLength);
 
                 // Now we want to check for a substring within the current buffer.
                 // We need to find the closest substring greedily. That is find the
                 // closest boundary and don't miss the end --'s if it's an end boundary.
-                int endBoundaryPos = SubsequenceFinder.Search(fullBuffer, this.endBoundaryBinary);
-                int endBoundaryLength = this.endBoundaryBinary.Length;
-                int boundaryPos = SubsequenceFinder.Search(fullBuffer, this.boundaryBinary);
-                int boundaryLength = this.boundaryBinary.Length;
+                int endBoundaryPos = SubsequenceFinder.Search(fullBuffer, endBoundaryBinary);
+                int endBoundaryLength = endBoundaryBinary.Length;
+                int boundaryPos = SubsequenceFinder.Search(fullBuffer, boundaryBinary);
+                int boundaryLength = boundaryBinary.Length;
 
                 // We need to select the appropriate position and length
                 // based on the smallest non-negative position.
@@ -486,7 +486,7 @@ namespace HttpMultipartParser
                         // Select end boundary
                         endPos = endBoundaryPos;
                         endPosLength = endBoundaryLength;
-                        this.readEndBoundary = true;
+                        readEndBoundary = true;
                     }
                 }
                 else if (boundaryPos >= 0 && endBoundaryPos < 0)
@@ -508,14 +508,14 @@ namespace HttpMultipartParser
                     // Now we need to check if the endPos is followed by \r\n or just \n. HTTP
                     // specifies \r\n but some clients might encode with \n. Or we might get 0 if
                     // we are at the end of the file.
-                    int boundaryNewlineOffset = this.CalculateNewlineLength(ref fullBuffer, endPos + endPosLength);
+                    int boundaryNewlineOffset = CalculateNewlineLength(ref fullBuffer, endPos + endPosLength);
 
                     // We also need to check if the last n characters of the buffer to write
                     // are a newline and if they are ignore them.
                     var maxNewlineBytes = Encoding.GetMaxByteCount(2);
-                    int bufferNewlineOffset = this.FindNextNewline(
+                    int bufferNewlineOffset = FindNextNewline(
                         ref fullBuffer, Math.Max(0, endPos - maxNewlineBytes), maxNewlineBytes);
-                    int bufferNewlineLength = this.CalculateNewlineLength(ref fullBuffer, bufferNewlineOffset);
+                    int bufferNewlineLength = CalculateNewlineLength(ref fullBuffer, bufferNewlineOffset);
 
                     // We've found an end. We need to consume all the binary up to it 
                     // and then write the remainder back to the original stream. Then we
@@ -526,8 +526,8 @@ namespace HttpMultipartParser
                     // and encoding
                     data.Write(fullBuffer, 0, endPos - bufferNewlineLength);
 
-                    int writeBackOffset = endPos + endPosLength + boundaryNewlineOffset;
-                    int writeBackAmount = (prevLength + curLength) - writeBackOffset;
+                    var writeBackOffset = endPos + endPosLength + boundaryNewlineOffset;
+                    var writeBackAmount = (prevLength + curLength) - writeBackOffset;
                     var writeBackBuffer = new byte[writeBackAmount];
                     Buffer.BlockCopy(fullBuffer, writeBackOffset, writeBackBuffer, 0, writeBackAmount);
                     reader.Buffer(writeBackBuffer);
@@ -547,7 +547,7 @@ namespace HttpMultipartParser
                 // Now we want to swap the two buffers, we don't care
                 // what happens to the data from prevBuffer so we set
                 // curBuffer to it so it gets overwrited.
-                byte[] tempBuffer = curBuffer;
+                var tempBuffer = curBuffer;
                 curBuffer = prevBuffer;
                 prevBuffer = tempBuffer;
 
@@ -580,7 +580,7 @@ namespace HttpMultipartParser
         /// <exception cref="MultipartParseException">
         /// thrown if unexpected data is found such as running out of stream before hitting the boundary.
         /// </exception>
-        private ParameterPart ParseParameterPart(Dictionary<string, string> parameters, RebufferableBinaryReader reader)
+        ParameterPart ParseParameterPart(Dictionary<string, string> parameters, RebufferableBinaryReader reader)
         {
             // Our job is to get the actual "data" part of the parameter and construct
             // an actual ParameterPart object with it. All we need to do is read data into a string
@@ -588,7 +588,7 @@ namespace HttpMultipartParser
             var data = new StringBuilder();
             bool firstTime = true;
             string line = reader.ReadLine();
-            while (line != this.boundary && line != this.endBoundary)
+            while (line != boundary && line != endBoundary)
             {
                 if (line == null)
                 {
@@ -608,9 +608,9 @@ namespace HttpMultipartParser
                 line = reader.ReadLine();
             }
 
-            if (line == this.endBoundary)
+            if (line == endBoundary)
             {
-                this.readEndBoundary = true;
+                readEndBoundary = true;
             }
 
             // If we're here we've hit the boundary and have the data!
@@ -629,7 +629,7 @@ namespace HttpMultipartParser
         /// <exception cref="MultipartParseException">
         /// thrown if unexpected data is hit such as end of stream.
         /// </exception>
-        private void ParseSection(RebufferableBinaryReader reader)
+        void ParseSection(RebufferableBinaryReader reader)
         {
             // Our first job is to determine what type of section this is: form data or file.
             // This is a bit tricky because files can still be encoded with Content-Disposition: form-data
@@ -709,7 +709,7 @@ namespace HttpMultipartParser
         /// </summary>
         /// <param name="line">The line to split</param>
         /// <returns>The split strings</returns>
-        private IEnumerable<string> SplitBySemicolonIgnoringSemicolonsInQuotes(string line)
+        IEnumerable<string> SplitBySemicolonIgnoringSemicolonsInQuotes(string line)
         {
             // Loop over the line looking for a semicolon. Keep track of if we're currently inside quotes
             // and if we are don't treat a semicolon as a splitting character.

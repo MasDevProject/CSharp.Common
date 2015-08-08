@@ -29,7 +29,7 @@ namespace HttpMultipartParser
     ///     Provides methods to find a subsequence within a
     ///     sequence.
     /// </summary>
-    internal class SubsequenceFinder
+    class SubsequenceFinder
     {
         #region Public Methods and Operators
 
@@ -108,7 +108,7 @@ namespace HttpMultipartParser
         /// The generated search table
         /// </returns>
         /// <see cref="Search"/>
-        private static int[] GenerateTable(byte[] needle)
+        static int[] GenerateTable(byte[] needle)
         {
             var table = new int[needle.Length];
             int pos = 2;

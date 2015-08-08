@@ -35,29 +35,29 @@ namespace HttpMultipartParser
     ///     data similar to a <see cref="BinaryReader" /> and provides the ability to push
     ///     data onto the front of the stream.
     /// </summary>
-    internal class RebufferableBinaryReader : IDisposable
+    class RebufferableBinaryReader : IDisposable
     {
         #region Fields
 
         /// <summary>
         ///     The size of the buffer to use when reading new data.
         /// </summary>
-        private readonly int bufferSize;
+        readonly int bufferSize;
 
         /// <summary>
         ///     The encoding to use for character based operations
         /// </summary>
-        private readonly Encoding encoding;
+        readonly Encoding encoding;
 
         /// <summary>
         ///     The stream to read raw data from.
         /// </summary>
-        private readonly Stream stream;
+        readonly Stream stream;
 
         /// <summary>
         ///     The stream stack to store buffered data.
         /// </summary>
-        private readonly BinaryStreamStack streamStack;
+        readonly BinaryStreamStack streamStack;
 
         #endregion
 
@@ -301,7 +301,7 @@ namespace HttpMultipartParser
         /// <returns>
         /// The <see cref="int"/> representing the length of the byte order marking.
         /// </returns>
-        private int GetBomOffset(byte[] buffer)
+        int GetBomOffset(byte[] buffer)
         {
             byte[] bom = this.encoding.GetPreamble();
             bool usesBom = true;
@@ -322,7 +322,7 @@ namespace HttpMultipartParser
         /// <returns>
         ///     The number of bytes read into the stream stack as an <see cref="int" />
         /// </returns>
-        private int StreamData()
+        int StreamData()
         {
             var buffer = new byte[this.bufferSize];
             int amountRead = this.stream.Read(buffer, 0, buffer.Length);

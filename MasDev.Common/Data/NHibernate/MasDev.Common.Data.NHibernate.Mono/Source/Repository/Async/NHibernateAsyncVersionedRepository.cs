@@ -34,21 +34,21 @@ namespace MasDev.Data
             return model.Id;
         }
 
-        public override async Task CreateAsync(IEnumerable<TVersionedModel> m)
+        public override async Task CreateAsync(IEnumerable<TVersionedModel> models)
         {
-            var models = m.ToArray();
-            var versions = new TModelVersioning[models.Length];
-            for (var i = 0; i < models.Length; i++)
+            var m = models.ToArray();
+            var versions = new TModelVersioning[m.Length];
+            for (var i = 0; i < m.Length; i++)
             {
-                var model = models[i];
+                var model = m[i];
                 model.IsDeleted = false;
                 var version = CreateVersion(model);
                 await CreateOrUpdateAsync(version);
                 versions[i] = version;
             }
-            for (var i = 0; i < models.Length; i++)
+            for (var i = 0; i < m.Length; i++)
             {
-                var model = models[i];
+                var model = m[i];
                 var version = versions[i];
                 model.CurrentVersion = version;
                 await CreateOrUpdateAsync(model);
@@ -86,22 +86,22 @@ namespace MasDev.Data
             return model.Id;
         }
 
-        public override void Create(IEnumerable<TVersionedModel> m)
+        public override void Create(IEnumerable<TVersionedModel> models)
         {
-            var models = m.ToArray();
-            var versions = new TModelVersioning[models.Length];
+            var mod = models.ToArray();
+            var versions = new TModelVersioning[mod.Length];
 
-            for (var i = 0; i < models.Length; i++)
+            for (var i = 0; i < mod.Length; i++)
             {
-                var model = models[i];
+                var model = mod[i];
                 model.IsDeleted = false;
                 var version = CreateVersion(model);
                 CreateOrUpdate(version);
                 versions[i] = version;
             }
-            for (var i = 0; i < models.Length; i++)
+            for (var i = 0; i < mod.Length; i++)
             {
-                var model = models[i];
+                var model = mod[i];
                 var version = versions[i];
                 model.CurrentVersion = version;
                 CreateOrUpdate(model);
@@ -131,13 +131,13 @@ namespace MasDev.Data
             return ShouldDoVersioning(storedModel, newModel);
         }
 
-        public virtual int RawUpdate<TModel>(TModel model) where TModel : IModel
+        public virtual int RawUpdate<TModel>(TModel model) where TModel : class, IModel, new()
         {
             Session.Update(model);
             return model.Id;
         }
 
-        public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             foreach (var m in models)
             {
@@ -145,7 +145,7 @@ namespace MasDev.Data
             }
         }
 
-        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : IModel
+        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
         {
             var model = Session.Get<TModel>(id);
             if (model == null)
@@ -156,13 +156,13 @@ namespace MasDev.Data
             return model;
         }
 
-        public virtual int RawDelete<TModel>(TModel model) where TModel : IModel
+        public virtual int RawDelete<TModel>(TModel model) where TModel : class, IModel, new()
         {
             Session.Delete(model);
             return model.Id;
         }
 
-        public virtual void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        public virtual void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             foreach (var m in models)
             {
@@ -170,27 +170,27 @@ namespace MasDev.Data
             }
         }
 
-        public virtual async Task<int> RawDeleteAsync<TModel>(TModel model) where TModel : IModel
+        public virtual async Task<int> RawDeleteAsync<TModel>(TModel model) where TModel : class, IModel, new()
         {
             return await Task.Factory.StartNew(() => RawDelete(model));
         }
 
-        public virtual async Task RawDeleteAsync<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        public virtual async Task RawDeleteAsync<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             await Task.Factory.StartNew(() => RawDelete(models));
         }
 
-        public virtual async Task<int> RawUpdateAsync<TModel>(TModel model) where TModel : IModel
+        public virtual async Task<int> RawUpdateAsync<TModel>(TModel model) where TModel : class, IModel, new()
         {
             return await Task.Factory.StartNew(() => RawUpdate(model));
         }
 
-        public virtual async Task RawUpdateAsync<TModel>(IEnumerable<TModel> models) where TModel : IModel
+        public virtual async Task RawUpdateAsync<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             await Task.Factory.StartNew(() => RawUpdate(models));
         }
 
-        public async Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : IModel
+        public async Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
         {
             var model = Session.Get<TModel>(id);
             if (model == null)

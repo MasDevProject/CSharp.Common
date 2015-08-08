@@ -42,7 +42,7 @@ namespace MasDev.Data.NHibernate
 
 
 
-		private static void BuildSchema (Configuration config, bool buildSchema)
+		static void BuildSchema (Configuration config, bool buildSchema)
 		{
 			#region DEBUG
 			//config.SetInterceptor (new SqlStatementInterceptor ());

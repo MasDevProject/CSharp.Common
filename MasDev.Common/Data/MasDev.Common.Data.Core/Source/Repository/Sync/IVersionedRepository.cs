@@ -14,14 +14,14 @@ namespace MasDev.Data
 
         bool ShouldDoVersioning(TVersionedModel storedModel, TVersionedModel newModel);
 
-        int RawUpdate<TModel>(TModel model) where TModel : IModel;
+        int RawUpdate<TModel>(TModel model) where TModel : class, IModel, new();
 
-        TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : IModel;
+        TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new();
 
-        void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : IModel;
+        void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new();
 
-        int RawDelete<TModel>(TModel model) where TModel : IModel;
+        int RawDelete<TModel>(TModel model) where TModel : class, IModel, new();
 
-        void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : IModel;
+        void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new();
     }
 }

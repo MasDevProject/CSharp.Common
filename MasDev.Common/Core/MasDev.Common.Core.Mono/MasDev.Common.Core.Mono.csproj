@@ -96,7 +96,6 @@
   <Import Project="..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
-    <Folder Include="..\MasDev.Common.Droid\Source\ParallaxScroll\" />
     <Folder Include="Source\Threading\" />
     <Folder Include="Source\GoogleServices\" />
     <Folder Include="Source\Net\" />

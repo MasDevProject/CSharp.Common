@@ -104,10 +104,10 @@ namespace MasDev.Security
 		void SetDimensions (int width, int height)
 		{
 			if (width <= 0)
-				throw new ArgumentOutOfRangeException ("width", width, 
+				throw new ArgumentOutOfRangeException (nameof(width), width, 
 					"Argument out of range, must be greater than zero.");
 			if (height <= 0)
-				throw new ArgumentOutOfRangeException ("height", height, 
+				throw new ArgumentOutOfRangeException (nameof(height), height, 
 					"Argument out of range, must be greater than zero.");
 			_width = width;
 			_height = height;

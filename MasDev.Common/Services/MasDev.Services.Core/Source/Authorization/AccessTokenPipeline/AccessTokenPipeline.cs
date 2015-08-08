@@ -13,11 +13,11 @@ namespace MasDev.Services.Auth
 		public AccessTokenPipeline (IAccessTokenConverter converter, IAccessTokenProtector protector, IAccessTokenCompressor compressor)
 		{
 			if (converter == null)
-				throw new ArgumentNullException ("converter");
+				throw new ArgumentNullException (nameof(converter));
 			if (protector == null)
-				throw new ArgumentNullException ("protector");
+				throw new ArgumentNullException (nameof(protector));
 			if (compressor == null)
-				throw new ArgumentNullException ("compressor");
+				throw new ArgumentNullException (nameof(compressor));
 			
 			Converter = converter;
 			Protector = protector;

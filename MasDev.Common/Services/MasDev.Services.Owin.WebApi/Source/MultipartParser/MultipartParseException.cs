@@ -30,7 +30,7 @@ namespace HttpMultipartParser
     ///     Represents a parsing problem occurring within the MultipartFormDataParser
     /// </summary>
     [Serializable]
-    internal class MultipartParseException : Exception
+    class MultipartParseException : Exception
     {
         #region Constructors and Destructors
 

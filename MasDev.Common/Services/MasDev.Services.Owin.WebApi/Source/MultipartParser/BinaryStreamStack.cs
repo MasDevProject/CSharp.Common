@@ -25,7 +25,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace HttpMultipartParser
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -35,7 +34,7 @@ namespace HttpMultipartParser
     ///     Provides character based and byte based stream-like read operations over multiple
     ///     streams and provides methods to add data to the front of the buffer.
     /// </summary>
-    internal class BinaryStreamStack
+    class BinaryStreamStack
     {
         #region Fields
 
@@ -43,7 +42,7 @@ namespace HttpMultipartParser
         ///     Holds the streams to read from, the stream on the top of the
         ///     stack will be read first.
         /// </summary>
-        private readonly Stack<BinaryReader> streams = new Stack<BinaryReader>();
+        readonly Stack<BinaryReader> streams = new Stack<BinaryReader>();
 
         #endregion
 
@@ -391,7 +390,7 @@ namespace HttpMultipartParser
         /// <returns>
         ///     The next <see cref="BinaryReader">reader</see>.
         /// </returns>
-        private BinaryReader NextStream()
+        BinaryReader NextStream()
         {
             BinaryReader top = this.streams.Pop();
             top.Dispose();

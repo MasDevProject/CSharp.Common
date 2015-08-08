@@ -46,42 +46,42 @@ namespace MasDev.Common.Push.Services
             broker.StopAllServices();
         }
 
-        private void ChannelDestroyed(object sender)
+        void ChannelDestroyed(object sender)
         {
             // TODO handle?
         }
 
-        private void ChannelCreated(object sender, IPushChannel pushchannel)
+        void ChannelCreated(object sender, IPushChannel pushchannel)
         {
             // TODO handle?
         }
 
-        private void DeviceSubscriptionChanged(object sender, string oldsubscriptionid, string newsubscriptionid, INotification notification)
+        void DeviceSubscriptionChanged(object sender, string oldsubscriptionid, string newsubscriptionid, INotification notification)
         {
             Completion.SetException(new DeviceIdChangedException(oldsubscriptionid, newsubscriptionid));
         }
 
-        private void DeviceSubscriptionExpired(object sender, string expiredsubscriptionid, DateTime expirationdateutc, INotification notification)
+        void DeviceSubscriptionExpired(object sender, string expiredsubscriptionid, DateTime expirationdateutc, INotification notification)
         {
             Completion.SetException(new DeviceSubscriptionExpiredException(expiredsubscriptionid, expirationdateutc));
         }
 
-        private void NotificationFailed(object sender, INotification notification, Exception error)
+        void NotificationFailed(object sender, INotification notification, Exception error)
         {
             Completion.SetException(new PushFailedException(error));
         }
 
-        private void ServiceException(object sender, Exception error)
+        void ServiceException(object sender, Exception error)
         {
             Completion.SetException(error);
         }
 
-        private void ChannelException(object sender, IPushChannel pushchannel, Exception error)
+        void ChannelException(object sender, IPushChannel pushchannel, Exception error)
         {
             Completion.SetException(error);
         }
 
-        private void NotificationSent(object sender, INotification notification)
+        void NotificationSent(object sender, INotification notification)
         {
             Completion.SetResult(notification);
         }
