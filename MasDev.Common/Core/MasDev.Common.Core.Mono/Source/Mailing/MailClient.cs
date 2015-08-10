@@ -5,7 +5,7 @@ namespace MasDev.Mono
 {
 	public static class MailClient
 	{
-		public static void SendViaGmail (string to, string subject, string body, string username, string password, string senderEmail, string senderAlias, bool htmlBody)
+		public static void SendViaGmail (string subject, string body, string username, string password, string senderEmail, string senderAlias, bool htmlBody, params string[] to)
 		{
 			Send ("smtp.gmail.com", 587, subject, body, username, password, senderEmail, senderAlias, htmlBody, to);
 		}
