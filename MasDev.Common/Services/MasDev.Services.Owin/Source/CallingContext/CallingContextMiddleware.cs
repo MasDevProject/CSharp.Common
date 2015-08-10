@@ -29,7 +29,7 @@ namespace MasDev.Services
 			callingContext.RequestHeaders = new MultiValueDictionary<string, string> ();
 
 			foreach (var key in context.Request.Headers.Keys)
-				callingContext.RequestHeaders.AddValues (context.Request.Headers [key]);
+				callingContext.RequestHeaders.AddValues (key, context.Request.Headers[key]);
 
 			var language = _fallbackLanguage;
 			var headers = context.Request.Headers;
