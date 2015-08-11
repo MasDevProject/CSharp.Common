@@ -25,7 +25,6 @@ namespace MasDev.Services.Auth
 
 	public class AuthorizationManager : IAuthorizationManager
 	{
-		// TODO caching
 		const string _tokenType = "bearer";
 		readonly AccessTokenPipeline _pipeline;
 		readonly Func<IIdentityRepository> _credentialsRepositoryFactory;
@@ -33,7 +32,7 @@ namespace MasDev.Services.Auth
 		public AuthorizationManager (AccessTokenPipeline pipeline, Func<IIdentityRepository> storeFactory)
 		{
 			if (pipeline == null)
-				throw new ArgumentNullException (nameof(pipeline));
+				throw new ArgumentNullException (nameof (pipeline));
 
 			_pipeline = pipeline;
 			_credentialsRepositoryFactory = storeFactory;
@@ -68,10 +67,10 @@ namespace MasDev.Services.Auth
 			return _pipeline.Converter.Deserialize (serialized);
 		}
 
-		public async Task AuthorizeAsync (int? minimumRequiredRoles = null)
+		public async Task AuthorizeAsync (int? requiredRole = null)
 		{
 			var callingContext = Injector.Resolve<ICallingContext> ();
-            var accessToken = Injector.Resolve<IAccessToken>();
+			var accessToken = Injector.Resolve<IAccessToken> ();
 
 			if (callingContext == null || accessToken == null)
 				throw new UnauthorizedException ();
@@ -80,11 +79,12 @@ namespace MasDev.Services.Auth
 			if (identity == null || accessToken.Identity == null)
 				throw new UnauthorizedException ();
 
-            if(!(identity.Id == accessToken.Identity.Id && identity.Flag == accessToken.Identity.Flag))
-                throw new UnauthorizedException();
+			if (!(identity.Id == accessToken.Identity.Id && identity.Flag == accessToken.Identity.Flag))
+				throw new UnauthorizedException ();
 
-            var lastInvalidationTimeUtc = await _credentialsRepositoryFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
-			if (lastInvalidationTimeUtc == null || !IsAccessTokenValid (minimumRequiredRoles, lastInvalidationTimeUtc.Value, accessToken))
+			var lastInvalidationTimeUtc = await _credentialsRepositoryFactory ().GetlastInvalidationUtcAsync (identity.Id, identity.Flag);
+
+			if (lastInvalidationTimeUtc == null || !IsAccessTokenValid (requiredRole, lastInvalidationTimeUtc.Value, accessToken))
 				throw new UnauthorizedException ();
 		}
 
@@ -102,7 +102,7 @@ namespace MasDev.Services.Auth
 				store.ClearCache ();
 		}
 
-		static bool IsAccessTokenValid (int? minimumRequiredRoles, DateTime lastInvalidationUtc, IAccessToken token)
+		static bool IsAccessTokenValid (int? requiredRole, DateTime lastInvalidationUtc, IAccessToken token)
 		{
 			if (token.ExpirationUtc < DateTime.UtcNow)
 				return false;
@@ -110,11 +110,13 @@ namespace MasDev.Services.Auth
 			if (token.CreationUtc < lastInvalidationUtc)
 				return false;
 
-			if (minimumRequiredRoles == null)
+			if (requiredRole == null)
 				return true;
 
-			return (token.Identity.Roles & minimumRequiredRoles) >= minimumRequiredRoles;
+			var isValid = (token.Identity.Roles & requiredRole) == requiredRole;
+			return isValid;
 		}
 	}
+
 }
 
