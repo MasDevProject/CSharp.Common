@@ -8,7 +8,8 @@ namespace MasDev.Data
 {
 	public class NHibernateUnitOfWork : IUnitOfWork
 	{
-		readonly Lazy<ISession> _session;
+        readonly ISessionFactory _factory;
+		readonly ISession _session;
 		readonly Lazy<ISession> _readonlySession;
 		readonly Lazy<ISession> _parallelSession;
 
@@ -21,26 +22,20 @@ namespace MasDev.Data
 			
 			Debug.WriteLine ("Uow constructed");
 
-			_session = GetDefaultSessionLazy (factory);
-			_parallelSession = GetDefaultSessionLazy (factory);
-
-			_readonlySession = new Lazy<ISession> (() => {
-				var session = factory.OpenSession ();
-				session.FlushMode = FlushMode.Never;
-				return session;
-			}, true);
+            _factory = factory;
+			_session = GetSession (factory, FlushMode.Commit);
+            _parallelSession = new Lazy<ISession>(() => GetSession(_factory, FlushMode.Commit));
+            _readonlySession = new Lazy<ISession>(() => GetSession(_factory, FlushMode.Never));
 		}
 
-		static Lazy<ISession> GetDefaultSessionLazy (ISessionFactory factory)
-		{
-			return new Lazy<ISession> (() => {
-				var session = factory.OpenSession ();
-				session.FlushMode = FlushMode.Commit;
-				return session;
-			});
-		}
+        static ISession GetSession(ISessionFactory factory, FlushMode flushMode)
+        {
+            var session = factory.OpenSession();
+            session.FlushMode = flushMode;
+            return session;
+        }
 
-		public ISession Session { get { return _session.Value; } }
+		public ISession Session { get { return _session; } }
 
 		public ISession ReadonlySession { get { return _readonlySession.Value; } }
 
@@ -48,7 +43,7 @@ namespace MasDev.Data
 
 		public void Start ()
 		{
-			_transaction = _session.Value.BeginTransaction (IsolationLevel.ReadCommitted);
+			_transaction = _session.BeginTransaction (IsolationLevel.ReadCommitted);
 		}
 
 		public bool IsStarted { get { return _transaction != null; } }
@@ -92,18 +87,16 @@ namespace MasDev.Data
 				Start ();
 		}
 
-		public void Dispose ()
+		public void Close ()
 		{
-			Debug.WriteLine ("Uow disposed");
+			Debug.WriteLine ("Uow closed");
 
 			if (_transaction != null)
 				_transaction.Dispose ();
 
-			if (_readonlySession.IsValueCreated)
-				_readonlySession.Value.Dispose ();
-
-			DisposeSession (_parallelSession);
-			DisposeSession (_session);
+            _session.Dispose();
+            DisposeSession(_parallelSession);
+            DisposeSession(_readonlySession);
 		}
 
 		static void DisposeSession (Lazy<ISession> session)

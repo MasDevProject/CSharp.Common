@@ -3,25 +3,19 @@
 
 namespace MasDev.Data
 {
-	public interface IUnitOfWork : IDisposable
-	{
-		void Commit ();
+    public interface IUnitOfWork
+    {
+        void Commit();
 
+        void Commit(bool startNew);
 
+        void Rollback();
 
-		void Commit (bool startNew);
+        void Rollback(bool startNew);
 
+        bool IsStarted { get; }
 
-
-		void Rollback ();
-
-
-
-		void Rollback (bool startNew);
-
-
-
-		bool IsStarted { get; }
-	}
+        void Close();
+    }
 }
 
