@@ -41,27 +41,18 @@ namespace MasDev.Services.Middlewares
         void HandleUow(IOwinContext context, bool rollback)
         {
             var uow = Injector.Resolve<IUnitOfWork>();
-            if (uow == null)
+            if (uow == null || !uow.IsStarted)
                 return;
 
-            try {
-                if (uow.IsStarted)
-                {
-                    if (rollback || _committableStatusCodes.All(c => context.Response.StatusCode != c))
-                    {
-                        uow.Rollback(false);
-                        Debug.WriteLine(RolledBack);
-                    }
-                    else
-                    {
-                        uow.Commit(false);
-                        Debug.WriteLine(Committed);
-                    }
-                }
-            }
-            finally
+            if (rollback || _committableStatusCodes.All(c => context.Response.StatusCode != c))
             {
-                uow.Close();
+                uow.Rollback(false);
+                Debug.WriteLine(RolledBack);
+            }
+            else
+            {
+                uow.Commit(false);
+                Debug.WriteLine(Committed);
             }
         }
     }

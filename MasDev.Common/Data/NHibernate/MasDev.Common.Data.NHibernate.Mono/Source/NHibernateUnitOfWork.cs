@@ -87,7 +87,7 @@ namespace MasDev.Data
 				Start ();
 		}
 
-		public void Close ()
+		public void Dispose ()
 		{
 			Debug.WriteLine ("Uow closed");
 

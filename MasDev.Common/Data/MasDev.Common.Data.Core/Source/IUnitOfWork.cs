@@ -3,7 +3,7 @@
 
 namespace MasDev.Data
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         void Commit();
 
@@ -14,8 +14,6 @@ namespace MasDev.Data
         void Rollback(bool startNew);
 
         bool IsStarted { get; }
-
-        void Close();
     }
 }
 
