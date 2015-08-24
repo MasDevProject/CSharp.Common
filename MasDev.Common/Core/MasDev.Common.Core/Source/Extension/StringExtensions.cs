@@ -55,9 +55,9 @@ namespace MasDev.Extensions
 
 		public static string BetweenExclusive (this string s, string lowerBound, string upperBound)
 		{
-			var startIndex = s.IndexOf (lowerBound);
+			var startIndex = s.IndexOf (lowerBound, StringComparison.Ordinal);
 			var actualStart = startIndex + lowerBound.Length;
-			var endIndex = s.LastIndexOf (upperBound);
+			var endIndex = s.LastIndexOf (upperBound, StringComparison.Ordinal);
 
 			if (startIndex == endIndex)
 				return string.Empty;
@@ -70,25 +70,18 @@ namespace MasDev.Extensions
 
 		public static string AfterExclusive (this string s, string what)
 		{
-			var index = s.IndexOf (what);
+			var index = s.IndexOf (what, StringComparison.Ordinal);
 			return index < 0 ? null : s.Substring (index + what.Length);
 		}
 
 		public static int Occurrences (this string s, string value)
 		{                  
-			int count = 0, minIndex = s.IndexOf (value, 0);
+			int count = 0, minIndex = s.IndexOf (value, 0, StringComparison.Ordinal);
 			while (minIndex != -1) {
-				minIndex = s.IndexOf (value, minIndex + value.Length);
+				minIndex = s.IndexOf (value, minIndex + value.Length, StringComparison.Ordinal);
 				count++;
 			}
 			return count;
-		}
-
-		public static IEnumerable<string> ReadAsCommaSeparatedValues (this string s)
-		{
-            if (s == null)
-                return Enumerable.Empty<string>();
-            return s.Split(',').Where(r => !string.IsNullOrWhiteSpace(r));
 		}
 
 		public static string Before (this string s, char c)

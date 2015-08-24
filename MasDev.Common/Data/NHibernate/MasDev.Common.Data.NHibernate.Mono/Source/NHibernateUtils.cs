@@ -18,112 +18,129 @@ using System.Diagnostics;
 
 namespace MasDev.Data.NHibernate
 {
-	public static class NHibernateUtils
-	{
-		public static AutoPersistenceModel CreateMappings<TPersistenceMapper> (string modelsNamespace) where TPersistenceMapper : PersistenceMapper, new()
-		{
-			var assemblies = GetAllAssembliesInWithCurrentNamespace (typeof(TPersistenceMapper), modelsNamespace);
-			var model = AutoMap.Assemblies (new PersistenceMapperAutoMapConfiguration<TPersistenceMapper> (modelsNamespace), assemblies);
-			return model;
-		}
+    public static class NHibernateUtils
+    {
+        public static AutoPersistenceModel CreateMappings<TPersistenceMapper>(string modelsNamespace) where TPersistenceMapper : PersistenceMapper, new()
+        {
+            var assemblies = GetAllAssembliesInWithCurrentNamespace(typeof(TPersistenceMapper), modelsNamespace);
+            var model = AutoMap.Assemblies(new PersistenceMapperAutoMapConfiguration<TPersistenceMapper>(modelsNamespace), assemblies);
+            return model;
+        }
+
+        static Assembly[] GetAllAssembliesInWithCurrentNamespace(Type t, string modelsNamespace)
+        {
+            var typeAssembly = t.Assembly;
+            var assemblies = new HashSet<Assembly> { typeAssembly };
+            typeAssembly
+                .LoadRefrencedAssemblies()
+                .Where(a => a.ContainsNamespace(modelsNamespace, false))
+                .ForEach(a => assemblies.Add(a));
+            return assemblies.Distinct().ToArray();
+        }
+
+        static void BuildSchema(Configuration config, bool buildSchema)
+        {
+            #region DEBUG
+            //config.SetInterceptor (new SqlStatementInterceptor ());
+            //var update = new SchemaUpdate (config);
+            //update.Execute (true, true);
+            #endregion
+
+            config.Properties.Add("use_proxy_validator", "false");
+            if (!buildSchema)
+                return;
+            var update = new SchemaUpdate(config);
+            update.Execute(false, true);
+
+        }
+
+        public static ISessionFactory BuildMySqlSessionFactory<TPersistenceMapper>(AutoPersistenceModel model, SessionFactoryCreationOptions opts) where TPersistenceMapper : PersistenceMapper, new()
+        {
+            var dbConfig = Fluently.Configure();
+
+            if (opts.CacheConfig != null)
+                dbConfig = dbConfig.Cache(opts.CacheConfig);
+
+            return dbConfig.Database(MySQLConfiguration.Standard
+                    .Dialect<MySQL5Dialect>()
+                    .ConnectionString(c => c
+                       .Server(opts.Host)
+                       .Database(opts.Database)
+                       .Username(opts.Username)
+                       .Password(opts.Password)))
+            .CurrentSessionContext(opts.Context)
+            .Mappings(config => config.AutoMappings.Add(model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>>()))
+            .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
+            .BuildSessionFactory();
+        }
+
+        public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper>(AutoPersistenceModel model, SessionFactoryCreationOptions<MsSqlConfiguration> opts) where TPersistenceMapper : PersistenceMapper, new()
+        {
+            var dbConfig = Fluently.Configure();
+
+            if (opts.CacheConfig != null)
+                dbConfig = dbConfig.Cache(opts.CacheConfig);
+
+            return dbConfig.Database(opts.AdvancedOptions ?? MsSqlConfiguration.MsSql2008
+                            .ConnectionString(c => c
+                           .Server(opts.Host)
+                           .Database(opts.Database)
+                           .Username(opts.Username)
+                           .Password(opts.Password))
+                        .DefaultSchema(opts.Schema))
+                .CurrentSessionContext(opts.Context)
+                .Mappings(config => config.AutoMappings.Add(model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>>()))
+                .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
+                .BuildSessionFactory();
+        }
+
+        public static bool PropertyInDinamicExpressionMatchesMemberName(dynamic expr, string memberName)
+        {
+            return ExtractPropertyNameFromProxiedExpression(expr) == memberName;
+        }
+
+        public static string ExtractPropertyNameFromProxiedExpression(dynamic expr)
+        {
+            LambdaExpression e = expr;
+            var body = e.Body as UnaryExpression;
+            var operand = body != null ? (body.Operand as MemberExpression) : (e.Body as MemberExpression);
+            return ExpressionsParser.DynamicParsePropertyName(operand);
+        }
+    }
+
+    public class SessionFactoryCreationOptions
+    {
+        public string Host;
+        public string Database;
+        public string Username;
+        public string Password;
+        public string Schema;
+        public string Context;
+        public bool BuildSchema;
+        public Action<CacheSettingsBuilder> CacheConfig;
 
 
+        public SessionFactoryCreationOptions()
+        {
+            BuildSchema = false;
+            Context = "web";
+        }
+    }
 
-		static Assembly[] GetAllAssembliesInWithCurrentNamespace (Type t, string modelsNamespace)
-		{
-			var typeAssembly = t.Assembly;
-			var assemblies = new HashSet<Assembly> { typeAssembly };
-			typeAssembly
-                .LoadRefrencedAssemblies ()
-                .Where (a => a.ContainsNamespace (modelsNamespace, false))
-                .ForEach (a => assemblies.Add (a));
-			return assemblies.Distinct ().ToArray ();
-		}
+    public class SessionFactoryCreationOptions<T> : SessionFactoryCreationOptions
+    {
+        public T AdvancedOptions;
+    }
 
+    class SqlStatementInterceptor : EmptyInterceptor
+    {
+        public override SqlString OnPrepareStatement(SqlString sql)
+        {
+            Debug.WriteLine(sql.ToString());
+            return sql;
+        }
+    }
 
-
-		static void BuildSchema (Configuration config, bool buildSchema)
-		{
-			#region DEBUG
-			//config.SetInterceptor (new SqlStatementInterceptor ());
-			//var update = new SchemaUpdate (config);
-			//update.Execute (true, true);
-			#endregion
-
-			config.Properties.Add ("use_proxy_validator", "false");
-			if (!buildSchema)
-				return;
-			var update = new SchemaUpdate (config);
-			update.Execute (false, true);
-
-		}
-
-
-
-		public static ISessionFactory BuildMySqlSessionFactory<TPersistenceMapper> (string host, string database, string username, string password, AutoPersistenceModel model, string context, bool buildSchema = false) where TPersistenceMapper : PersistenceMapper, new()
-		{
-			return Fluently.Configure ()
-                .Database (MySQLConfiguration.Standard
-                        .Dialect<MySQL5Dialect> ()
-                        .ConnectionString (c => c
-                            .Server (host)
-                            .Database (database)
-                            .Username (username)
-                            .Password (password)))
-                .CurrentSessionContext (context)
-                .Mappings (config => config.AutoMappings.Add (model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>> ()))
-                .ExposeConfiguration (config => BuildSchema (config, buildSchema))
-                .BuildSessionFactory ();
-		}
-
-
-
-		public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper> (string host, string database, string schema, string username, string password, AutoPersistenceModel model, string context, bool buildSchema = false) where TPersistenceMapper : PersistenceMapper, new()
-		{
-			return Fluently.Configure ()
-                .Database (MsSqlConfiguration.MsSql2008
-                            .ConnectionString (c => c
-                            .Server (host)
-                            .Database (database)
-                            .Username (username)
-                            .Password (password))
-                        .DefaultSchema (schema))
-                .CurrentSessionContext (context)
-                .Mappings (config => config.AutoMappings.Add (model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>> ()))
-                .ExposeConfiguration (config => BuildSchema (config, buildSchema))
-                .BuildSessionFactory ();
-		}
-
-
-
-
-		public static bool PropertyInDinamicExpressionMatchesMemberName (dynamic expr, string memberName)
-		{
-			return ExtractPropertyNameFromProxiedExpression (expr) == memberName;
-		}
-
-
-
-		public static string ExtractPropertyNameFromProxiedExpression (dynamic expr)
-		{
-			LambdaExpression e = expr;
-			var body = e.Body as UnaryExpression;
-			var operand = body != null ? (body.Operand as MemberExpression) : (e.Body as MemberExpression);
-			return ExpressionsParser.DynamicParsePropertyName (operand);
-		}
-	}
-
-
-
-
-	class SqlStatementInterceptor : EmptyInterceptor
-	{
-		public override SqlString OnPrepareStatement (SqlString sql)
-		{
-			Debug.WriteLine (sql.ToString ());
-			return sql;
-		}
-	}
 
 }
 

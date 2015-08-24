@@ -1,5 +1,5 @@
-﻿using NHibernate;
-using System;
+﻿using FluentNHibernate.Cfg.Db;
+using NHibernate;
 
 
 namespace MasDev.Data.NHibernate.Providers
@@ -9,24 +9,13 @@ namespace MasDev.Data.NHibernate.Providers
 	{
         ISessionFactory _factory;
         readonly string _modelsNamespace;
-        readonly string _host;
-        readonly string _database;
-        readonly string _schema;
-        readonly string _username;
-        readonly string _password;
-        readonly string _context;
-        readonly bool _buildSchema;
+        readonly SessionFactoryCreationOptions<MsSqlConfiguration> _opts;
 
-        public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, string host, string database, string schema, string username, string password, string context, bool buildSchema = false)
+
+        public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, SessionFactoryCreationOptions<MsSqlConfiguration> opts)
 		{
             _modelsNamespace = modelsNamespace;
-            _host = host;
-            _database = database;
-            _schema = schema;
-            _username = username;
-            _password = password;
-            _context = context;
-            _buildSchema = buildSchema;
+            _opts = opts;
 		}
 
 		public virtual ISessionFactory Factory { get { return _factory; } }
@@ -34,7 +23,7 @@ namespace MasDev.Data.NHibernate.Providers
 		public void Connect ()
 		{
             var model = NHibernateUtils.CreateMappings<TMappingProvider>(_modelsNamespace);
-            _factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(_host, _database, _schema, _username, _password, model, _context, _buildSchema);
+            _factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(model, _opts);
         }
 	}
 }

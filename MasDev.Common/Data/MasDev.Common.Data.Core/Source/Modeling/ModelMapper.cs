@@ -88,8 +88,6 @@ namespace MasDev.Data
 		readonly ISet<UniqueProperty> _uniques;
 		readonly ISet<NotLazyProperty> _notLazies;
 
-
-
 		public PropertyMapper (string propertyName)
 		{
 			_propertyName = propertyName;

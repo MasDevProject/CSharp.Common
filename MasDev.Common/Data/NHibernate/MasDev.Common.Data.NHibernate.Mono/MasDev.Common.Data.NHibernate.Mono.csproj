@@ -75,7 +75,6 @@
     <Compile Include="Source\NHibernateUtils.cs" />
     <Compile Include="Source\PersistenceMapperAutoMapConfiguration.cs" />
     <Compile Include="Source\PersistenceMapperConvention.cs" />
-    <Compile Include="Source\Providers\SessionFactoryWrapper.cs" />
     <Compile Include="Source\Repository\Async\NHibernateAsyncRepository.cs" />
     <Compile Include="Source\Repository\Async\NHibernateAsyncTypedRepository.cs" />
     <Compile Include="Source\Repository\Async\NHibernateAsyncVersionedRepository.cs" />

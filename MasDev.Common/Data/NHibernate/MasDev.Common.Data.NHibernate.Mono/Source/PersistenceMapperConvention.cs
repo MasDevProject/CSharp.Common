@@ -3,7 +3,6 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using FluentNHibernate.Conventions.Inspections;
 using FluentNHibernate.Conventions.Instances;
 using System.Collections.Generic;
-using MasDev.Data;
 using System;
 using System.Linq;
 using MasDev.Exceptions;
