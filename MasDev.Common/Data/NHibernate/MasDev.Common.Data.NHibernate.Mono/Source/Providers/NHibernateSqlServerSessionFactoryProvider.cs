@@ -9,10 +9,10 @@ namespace MasDev.Data.NHibernate.Providers
 	{
         ISessionFactory _factory;
         readonly string _modelsNamespace;
-        readonly SessionFactoryCreationOptions<MsSqlConfiguration> _opts;
+        readonly SessionFactoryCreationOptions _opts;
 
 
-        public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, SessionFactoryCreationOptions<MsSqlConfiguration> opts)
+        public NHibernateSqlServerSessionFactoryProvider (string modelsNamespace, SessionFactoryCreationOptions opts)
 		{
             _modelsNamespace = modelsNamespace;
             _opts = opts;

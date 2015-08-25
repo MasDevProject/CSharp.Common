@@ -28,12 +28,7 @@ namespace MasDev.Utils
             return builder.ToString();
         }
 
-        public static string AsCsv(IEnumerable<object> strings)
-        {
-            return AsCsv(strings.Select(o => o.ToString()));
-        }
-
-        public static string AsCsv<T>(IEnumerable<T> strings, Func<T, string> toString)
+        public static string AsCsv<T>(this IEnumerable<T> strings, Func<T, string> toString)
         {
             return AsCsv(strings.Select(o => toString(o)));
         }
@@ -53,15 +48,18 @@ namespace MasDev.Utils
 
         public static IEnumerable<string> ReadCsv(this string s)
         {
+            if (string.IsNullOrWhiteSpace(s))
+                return Enumerable.Empty<string>();
+
+            var records = new List<string>();
             using (var reader = new CsvReader(new StringReader(s)))
             {
                 reader.Configuration.HasHeaderRecord = false;
-                reader.Configuration.Delimiter = Comma;
-                while (reader.Read())
-                {
-                    yield return reader.GetRecord<string>();
-                }
+                reader.Configuration.Delimiter = StringUtils.Comma;
+                if (reader.Read())
+                    records.AddRange(reader.GetRecords<string>());
             }
+            return records;
         }
 
         public static int Length(string s)

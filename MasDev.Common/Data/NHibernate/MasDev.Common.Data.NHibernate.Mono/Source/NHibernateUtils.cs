@@ -74,21 +74,21 @@ namespace MasDev.Data.NHibernate
             .BuildSessionFactory();
         }
 
-        public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper>(AutoPersistenceModel model, SessionFactoryCreationOptions<MsSqlConfiguration> opts) where TPersistenceMapper : PersistenceMapper, new()
+        public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper>(AutoPersistenceModel model, SessionFactoryCreationOptions opts) where TPersistenceMapper : PersistenceMapper, new()
         {
-            var dbConfig = Fluently.Configure();
-
-            if (opts.CacheConfig != null)
-                dbConfig = dbConfig.Cache(opts.CacheConfig);
-
-            return dbConfig.Database(opts.AdvancedOptions ?? MsSqlConfiguration.MsSql2008
+            var factory = Fluently.Configure()
+                .Database(MsSqlConfiguration.MsSql2008
                             .ConnectionString(c => c
                            .Server(opts.Host)
                            .Database(opts.Database)
                            .Username(opts.Username)
                            .Password(opts.Password))
-                        .DefaultSchema(opts.Schema))
-                .CurrentSessionContext(opts.Context)
+                        .DefaultSchema(opts.Schema));
+
+            if (opts.CacheConfig != null)
+                factory.Cache(opts.CacheConfig);
+
+            return factory.CurrentSessionContext(opts.Context)
                 .Mappings(config => config.AutoMappings.Add(model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>>()))
                 .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
                 .BuildSessionFactory();
