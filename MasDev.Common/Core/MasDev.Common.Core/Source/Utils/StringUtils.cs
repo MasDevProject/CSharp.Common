@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using MasDev.Extensions;
 using System.Linq;
-using CsvHelper;
-using System.IO;
 
 namespace MasDev.Utils
 {
     public static class StringUtils
     {
         public const string Space = " ";
-        public const string Comma = ",";
+        public const char Comma = ',';
 
         public static string AsCsv(this IEnumerable<string> strings)
         {
-            var builder = new StringBuilder();
-            using (var writer = new StringWriter(builder))
-            {
-                using (var csv = new CsvWriter(writer))
-                {
-                    csv.Configuration.HasHeaderRecord = false;
-                    csv.Configuration.Delimiter = ",";
-                    csv.WriteRecords(strings);
-                }
-            }
-            return builder.ToString();
+            return string.Join(Comma.ToString(), strings);
         }
 
         public static string AsCsv<T>(this IEnumerable<T> strings, Func<T, string> toString)
@@ -51,15 +38,7 @@ namespace MasDev.Utils
             if (string.IsNullOrWhiteSpace(s))
                 return Enumerable.Empty<string>();
 
-            var records = new List<string>();
-            using (var reader = new CsvReader(new StringReader(s)))
-            {
-                reader.Configuration.HasHeaderRecord = false;
-                reader.Configuration.Delimiter = StringUtils.Comma;
-                if (reader.Read())
-                    records.AddRange(reader.GetRecords<string>());
-            }
-            return records;
+            return s.TrimEnd(Comma).Split(Comma);
         }
 
         public static int Length(string s)
