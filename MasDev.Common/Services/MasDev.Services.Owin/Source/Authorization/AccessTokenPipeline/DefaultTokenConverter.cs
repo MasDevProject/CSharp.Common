@@ -23,7 +23,7 @@ namespace MasDev.Services.Auth
 
     public class CompactAccessTokenConverter : IAccessTokenConverter
     {
-        enum Stage { IdentityFlag, IdentityId, IdentityRoles, CreationUtc, ExpirationUtc, Scope, Extra }
+        enum Stage { IdentityFlag, IdentityId, IdentityRoles, CreationUtc, ExpirationUtc, Extra, Scope }
 
         static readonly Stage[] _stages = Enum.GetValues(typeof(Stage)).OfType<Stage>().ToArray();
 
