@@ -9,6 +9,9 @@ namespace MasDev.Data
 {
     public class NHibernateRepository : IRepository
     {
+        public event RepositoryActionHandler BeforeAction;
+        public event RepositoryActionHandler AfterAction;
+
         #region constructor
 
         internal NHibernateUnitOfWork Uow;
@@ -29,13 +32,13 @@ namespace MasDev.Data
 
         public virtual int Create<T>(T model) where T : class, IModel, new()
         {
-            BeforeAction(RepositoryAction.Create, model);
+            InvokeBeforeAction(RepositoryAction.Create, model);
             var undeletable = model as IUndeletableModel;
             if (undeletable != null)
                 undeletable.IsDeleted = false;
 
             Session.Save(model);
-            AfterAction(RepositoryAction.Create, model);
+            InvokeAfterAction(RepositoryAction.Create, model);
             return model.Id;
         }
 
@@ -43,12 +46,12 @@ namespace MasDev.Data
         {
             foreach (var model in models)
             {
-                BeforeAction(RepositoryAction.Create, model);
+                InvokeBeforeAction(RepositoryAction.Create, model);
                 var undeletable = model as IUndeletableModel;
                 if (undeletable != null)
                     undeletable.IsDeleted = false;
                 Session.Save(model);
-                AfterAction(RepositoryAction.Create, model);
+                InvokeAfterAction(RepositoryAction.Create, model);
             }
         }
 
@@ -80,9 +83,9 @@ namespace MasDev.Data
 
         public virtual int Update<T>(T model) where T : class, IModel, new()
         {
-            BeforeAction(RepositoryAction.Update, model);
+            InvokeBeforeAction(RepositoryAction.Update, model);
             Session.Update(model);
-            AfterAction(RepositoryAction.Update, model);
+            InvokeAfterAction(RepositoryAction.Update, model);
             return model.Id;
         }
 
@@ -105,7 +108,7 @@ namespace MasDev.Data
 
         public virtual int Delete<T>(T model) where T : class, IModel, new()
         {
-            BeforeAction(RepositoryAction.Delete, model);
+            InvokeBeforeAction(RepositoryAction.Delete, model);
             var undeletable = model as IUndeletableModel;
             if (undeletable == null)
                 Session.Delete(model);
@@ -115,7 +118,7 @@ namespace MasDev.Data
                 Session.Update(undeletable);
             }
 
-            AfterAction(RepositoryAction.Delete, model);
+            InvokeAfterAction(RepositoryAction.Delete, model);
             return model.Id;
         }
 
@@ -127,19 +130,19 @@ namespace MasDev.Data
 
         public virtual void Clear<T>() where T : class, IModel, new()
         {
-            BeforeAction<T>(RepositoryAction.Clear, null);
+            InvokeBeforeAction<T>(RepositoryAction.Clear, null);
             var metadata = Session.SessionFactory.GetClassMetadata(typeof(T)) as AbstractEntityPersister;
             string table = metadata.TableName;
             string deleteAll = string.Format("DELETE FROM \"{0}\"", table);
             Session.Delete(deleteAll);
-            AfterAction<T>(RepositoryAction.Clear, null);
+            InvokeAfterAction<T>(RepositoryAction.Clear, null);
         }
 
         public virtual int CreateOrUpdate<T>(T model) where T : class, IModel, new()
         {
-            BeforeAction(RepositoryAction.Create | RepositoryAction.Update, model);
+            InvokeBeforeAction(RepositoryAction.Create | RepositoryAction.Update, model);
             Session.SaveOrUpdate(model);
-            BeforeAction(RepositoryAction.Create | RepositoryAction.Update, model);
+            InvokeAfterAction(RepositoryAction.Create | RepositoryAction.Update, model);
             return model.Id;
         }
 
@@ -208,12 +211,16 @@ namespace MasDev.Data
             return Uow.Session.Query<TModel>();
         }
 
-        public virtual void BeforeAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new()
+        protected void InvokeBeforeAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new()
         {
+            if (BeforeAction != null)
+                BeforeAction(typeof(TModel), action, model);
         }
 
-        public virtual void AfterAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new()
+        protected void InvokeAfterAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new()
         {
+            if (AfterAction != null)
+                AfterAction(typeof(TModel), action, model);
         }
     }
 }

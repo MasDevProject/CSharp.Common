@@ -4,8 +4,19 @@ using System.Linq;
 
 namespace MasDev.Data
 {
+    [Flags]
+    public enum RepositoryAction
+    {
+        Create = 0x0000, Update = 0x0001, Delete = 0x0010, Clear = 0x0100
+    }
+
+    public delegate void RepositoryActionHandler(Type entityType, RepositoryAction action, IModel entity);
+
     public interface IRepository
     {
+        event RepositoryActionHandler BeforeAction;
+        event RepositoryActionHandler AfterAction;
+
         int Create<TModel>(TModel model) where TModel : class, IModel, new();
 
         void Create<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new();
@@ -49,15 +60,5 @@ namespace MasDev.Data
         IUnitOfWork UnitOfWork { get; }
 
         #endregion
-
-        void BeforeAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new();
-        void AfterAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new();
-
-    }
-
-    [Flags]
-    public enum RepositoryAction
-    {
-        Create = 0x0000, Update = 0x0001, Delete = 0x0010, Clear = 0x0100
     }
 }

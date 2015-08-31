@@ -80,9 +80,9 @@ namespace MasDev.Data
 
         public virtual int RawUpdate<TModel>(TModel model) where TModel : class, IModel, new()
         {
-            BeforeAction(RepositoryAction.Update, model);
+            InvokeBeforeAction(RepositoryAction.Update, model);
             Session.Update(model);
-            AfterAction(RepositoryAction.Update, model);
+            InvokeAfterAction(RepositoryAction.Update, model);
             return model.Id;
         }
 
@@ -105,9 +105,9 @@ namespace MasDev.Data
 
         public virtual int RawDelete<TModel>(TModel model) where TModel : class, IModel, new()
         {
-            BeforeAction(RepositoryAction.Delete, model);
+            InvokeBeforeAction(RepositoryAction.Delete, model);
             Session.Delete(model);
-            AfterAction(RepositoryAction.Delete, model);
+            InvokeAfterAction(RepositoryAction.Delete, model);
             return model.Id;
         }
 
