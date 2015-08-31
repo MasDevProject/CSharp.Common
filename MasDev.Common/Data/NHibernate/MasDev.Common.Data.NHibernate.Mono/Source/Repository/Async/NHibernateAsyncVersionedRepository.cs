@@ -145,7 +145,7 @@ namespace MasDev.Data
             }
         }
 
-        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
+        public virtual TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
         {
             var model = Session.Get<TModel>(id);
             if (model == null)
@@ -190,7 +190,7 @@ namespace MasDev.Data
             await Task.Factory.StartNew(() => RawUpdate(models));
         }
 
-        public async Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
+        public virtual async Task<TModel> RawUpdateAsync<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
         {
             var model = Session.Get<TModel>(id);
             if (model == null)

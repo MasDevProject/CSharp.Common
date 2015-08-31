@@ -50,5 +50,14 @@ namespace MasDev.Data
 
         #endregion
 
+        void BeforeAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new();
+        void AfterAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new();
+
+    }
+
+    [Flags]
+    public enum RepositoryAction
+    {
+        Create = 0x0000, Update = 0x0001, Delete = 0x0010, Clear = 0x0100
     }
 }

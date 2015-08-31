@@ -80,19 +80,19 @@ namespace MasDev.Data
 
         public virtual int RawUpdate<TModel>(TModel model) where TModel : class, IModel, new()
         {
+            BeforeAction(RepositoryAction.Update, model);
             Session.Update(model);
+            AfterAction(RepositoryAction.Update, model);
             return model.Id;
         }
 
         public virtual void RawUpdate<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             foreach (var m in models)
-            {
                 RawUpdate(m);
-            }
         }
 
-        public TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
+        public virtual TModel RawUpdate<TModel>(int id, Action<TModel> updater) where TModel : class, IModel, new()
         {
             var model = Session.Get<TModel>(id);
             if (model == null)
@@ -105,16 +105,16 @@ namespace MasDev.Data
 
         public virtual int RawDelete<TModel>(TModel model) where TModel : class, IModel, new()
         {
+            BeforeAction(RepositoryAction.Delete, model);
             Session.Delete(model);
+            AfterAction(RepositoryAction.Delete, model);
             return model.Id;
         }
 
         public virtual void RawDelete<TModel>(IEnumerable<TModel> models) where TModel : class, IModel, new()
         {
             foreach (var m in models)
-            {
                 RawDelete(m);
-            }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace MasDev.Data
             await Task.Factory.StartNew(() => Update(models));
         }
 
-        public async Task<T> UpdateAsync<T>(int id, Action<T> updater) where T : class, IModel, new()
+        public virtual async Task<T> UpdateAsync<T>(int id, Action<T> updater) where T : class, IModel, new()
         {
             var model = await ReadAsync<T>(id);
             if (model == null)
