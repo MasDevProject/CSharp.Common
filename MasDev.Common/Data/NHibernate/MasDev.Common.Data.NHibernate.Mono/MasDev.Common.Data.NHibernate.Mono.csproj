@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\IDatabaseMapper.cs" />
     <Compile Include="Source\NHibernateUnitOfWork.cs" />
     <Compile Include="Source\NHibernatePropertyNameResolver.cs" />
     <Compile Include="Source\ContractResolvers\NHibernateIngoreNullValueContractResolver.cs" />
@@ -75,8 +76,6 @@
     <Compile Include="Source\Providers\NHibernateSqlServerSessionFactoryProvider.cs" />
     <Compile Include="Source\ISessionFactoryProvider.cs" />
     <Compile Include="Source\NHibernateUtils.cs" />
-    <Compile Include="Source\PersistenceMapperAutoMapConfiguration.cs" />
-    <Compile Include="Source\PersistenceMapperConvention.cs" />
     <Compile Include="Source\Repository\Async\NHibernateAsyncRepository.cs" />
     <Compile Include="Source\Repository\Async\NHibernateAsyncTypedRepository.cs" />
     <Compile Include="Source\Repository\Async\NHibernateAsyncVersionedRepository.cs" />

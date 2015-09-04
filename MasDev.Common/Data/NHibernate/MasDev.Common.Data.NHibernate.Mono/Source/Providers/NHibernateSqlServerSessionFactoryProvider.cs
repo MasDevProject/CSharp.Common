@@ -1,11 +1,9 @@
-﻿using FluentNHibernate.Cfg.Db;
-using NHibernate;
+﻿using NHibernate;
 
 
 namespace MasDev.Data.NHibernate.Providers
 {
-	public class NHibernateSqlServerSessionFactoryProvider<TMappingProvider> : ISessionFactoryProvider 
-        where TMappingProvider : PersistenceMapper, new()
+	public class NHibernateSqlServerSessionFactoryProvider : ISessionFactoryProvider 
 	{
         ISessionFactory _factory;
         readonly string _modelsNamespace;
@@ -22,8 +20,7 @@ namespace MasDev.Data.NHibernate.Providers
 
 		public void Connect ()
 		{
-            var model = NHibernateUtils.CreateMappings<TMappingProvider>(_modelsNamespace);
-            _factory = NHibernateUtils.BuildSqlServerFactory<TMappingProvider>(model, _opts);
+            _factory = NHibernateUtils.BuildSqlServerFactory(_opts);
         }
 	}
 }
