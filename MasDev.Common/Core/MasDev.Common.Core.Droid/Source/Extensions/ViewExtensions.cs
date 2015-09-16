@@ -39,6 +39,16 @@ namespace MasDev.Droid.ExtensionMethods
 			return anim;
 		}
 
+		public static RotateAnimation Rotate (this View v, int fromAngle, int toAngle, int durationInMillis = 400)
+		{
+			var rotate = new RotateAnimation(fromAngle, toAngle, Dimension.RelativeToSelf, 0.5f, Dimension.RelativeToSelf, 0.5f);
+			rotate.Duration = durationInMillis;
+			rotate.FillAfter = true;
+			rotate.FillEnabled = true;
+			v.StartAnimation(rotate);
+			return rotate;
+		}
+
 		public static IEnumerable<View> Children (this ViewGroup v)
 		{
 			for (var i = 0; i < v.ChildCount; i++)

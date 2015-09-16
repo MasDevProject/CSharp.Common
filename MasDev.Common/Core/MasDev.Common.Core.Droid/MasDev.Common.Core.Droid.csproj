@@ -142,6 +142,8 @@
     <Compile Include="Source\Extensions\TextViewExtensions.cs" />
     <Compile Include="Source\Utils\PlayServicesUtils.cs" />
     <Compile Include="Source\App\GoogleLoginActivity.cs" />
+    <Compile Include="Source\Views\FlowLayout.cs" />
+    <Compile Include="Source\Extensions\BundleExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -30,9 +30,9 @@ namespace MasDev.Droid.ExtensionMethods
 			return Convert.ToBase64String (await bitmap.AsByteArray (Bitmap.CompressFormat.Png));
 		}
 
-		/// <summary>
-		/// Returns a blurred bitmap. Usually radius value is between 5 and 25
-		/// </summary>
+//		/// <summary>
+//		/// Returns a blurred bitmap. Usually radius value is between 5 and 25
+//		/// </summary>
 //		public static Bitmap AsBlurImage (this Bitmap input, Context context, int radius)
 //		{
 //			var rsScript = RenderScript.Create (context);
