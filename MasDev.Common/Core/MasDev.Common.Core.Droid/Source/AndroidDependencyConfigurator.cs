@@ -1,6 +1,4 @@
-﻿using SQLite.Net.Interop;
-using SQLite.Net.Platform.XamarinAndroid;
-using MasDev.Security;
+﻿using MasDev.Security;
 using MasDev.IO;
 using Android.Content;
 using MasDev.Patterns.Injection;
@@ -21,7 +19,6 @@ namespace MasDev.Droid
 
 		public void ConfigureDependencies (IDependencyContainer container)
 		{
-			container.AddDependency<ISQLitePlatform, SQLitePlatformAndroid> (LifeStyles.Singleton);
 			container.AddDependency<ISymmetricCrypto, Aes> (LifeStyles.Singleton);
 			container.AddDependency<IFileIO, FileIO> (LifeStyles.Singleton);
 			container.AddDependency<IRegistryProvider> (() => new RegistryProvider (_context), LifeStyles.Singleton);
