@@ -103,7 +103,6 @@
     <Compile Include="Source\Views\BottomDrawer.cs" />
     <Compile Include="Source\Utils\GeoUtils.cs" />
     <Compile Include="Source\Views\ToolbarSearchView.cs" />
-    <Compile Include="Source\Utils\NavigationOnClickListener.cs" />
     <Compile Include="Source\Utils\PocoWrapper.cs" />
     <Compile Include="Source\Views\ParallaxScroll\ParallaxedView.cs" />
     <Compile Include="Source\Views\ParallaxScroll\ParallaxScrollView.cs" />

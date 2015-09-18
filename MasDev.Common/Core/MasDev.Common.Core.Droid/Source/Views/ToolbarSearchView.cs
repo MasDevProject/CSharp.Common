@@ -42,7 +42,7 @@ namespace MasDev.Droid.Views
 
 		void Init ()
 		{
-			SetNavigationOnClickListener (new NavigationOnClickListener (() => CloseSearchView ()));
+			NavigationClick += (sender, e) => CloseSearchView ();
 
 			_pb = new ProgressBar (Context);
 			_pb.Indeterminate = true;
