@@ -2,7 +2,6 @@
 using MasDev.Threading.Tasks;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using Foundation;
 
@@ -73,10 +72,7 @@ namespace MasDev.IO
 
 		public void Clear ()
 		{
-			var keys = Keys;
-			foreach (var key in keys)
-				Remove (key);
-			Commit ();
+			Manager.RemovePersistentDomain(NSBundle.MainBundle.BundleIdentifier);
 		}
 
 		public RegistryConfiguration Configuration {

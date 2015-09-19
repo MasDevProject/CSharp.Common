@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\iOSDependencyConfigurator.cs" />
-    <Compile Include="Source\Utils\ApplicationUtils.cs" />
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Utils\TimeZoneConverter.cs">
       <Link>Source\Utils\TimeZoneConverter.cs</Link>
     </Compile>
@@ -77,6 +76,27 @@
       <Link>Source\IO\FileIO.cs</Link>
     </Compile>
     <Compile Include="Source\Extensions\DateExtensions.cs" />
+    <Compile Include="Source\Extensions\MKMapViewExtensions.cs" />
+    <Compile Include="Source\Extensions\StringExtensions.cs" />
+    <Compile Include="Source\Extensions\UIButtonExtensions.cs" />
+    <Compile Include="Source\Extensions\UIImageExtensions.cs" />
+    <Compile Include="Source\Extensions\UIImageViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UILabelExtensions.cs" />
+    <Compile Include="Source\Extensions\UIScrollViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UISegmentedControlExtensions.cs" />
+    <Compile Include="Source\Extensions\UIViewExtensions.cs" />
+    <Compile Include="Source\Utils\CLGeocoderUtils.cs" />
+    <Compile Include="Source\Utils\IDialogManager.cs" />
+    <Compile Include="Source\Utils\MKMapViewUtils.cs" />
+    <Compile Include="Source\Utils\NSBundleUtils.cs" />
+    <Compile Include="Source\Utils\NSUrlUtils.cs" />
+    <Compile Include="Source\Utils\SystemSoundUtils.cs" />
+    <Compile Include="Source\Utils\UIApplicationUtils.cs" />
+    <Compile Include="Source\Utils\UIColorUtils.cs" />
+    <Compile Include="Source\Utils\UIImagePickerUtils.cs" />
+    <Compile Include="Source\Utils\UIImageUtils.cs" />
+    <Compile Include="Source\Utils\UIStoryboardUtils.cs" />
+    <Compile Include="Source\Utils\UITextFieldUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
