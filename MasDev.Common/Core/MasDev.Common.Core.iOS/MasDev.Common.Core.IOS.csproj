@@ -44,6 +44,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +92,31 @@
     <Compile Include="Source\Utils\UIImageUtils.cs" />
     <Compile Include="Source\Utils\UIStoryboardUtils.cs" />
     <Compile Include="Source\Utils\UITextFieldUtils.cs" />
+    <Compile Include="Source\Views\Elements\CenteredViewElement.cs" />
+    <Compile Include="Source\Views\Elements\CustomStringElement.cs" />
+    <Compile Include="Source\Views\Elements\ExpandableDatePickerElement.cs" />
+    <Compile Include="Source\Views\Elements\MultilineEntryElement.cs" />
+    <Compile Include="Source\Views\Elements\MultilineStringElement.cs" />
+    <Compile Include="Source\Views\Elements\RatingElement.cs" />
+    <Compile Include="Source\Views\Elements\SegmentedControlElement.cs" />
+    <Compile Include="Source\Views\Elements\StepperElement.cs" />
+    <Compile Include="Source\Views\Elements\StyleableStringElement.cs" />
+    <Compile Include="Source\Views\Fragments\IFragmentView.cs" />
+    <Compile Include="Source\Views\States\BaseEmptyStateView.cs" />
+    <Compile Include="Source\Views\States\BaseErrorStateView.cs" />
+    <Compile Include="Source\Views\States\BaseLoadingStateView.cs" />
+    <Compile Include="Source\Views\HorizontalPageView.cs" />
+    <Compile Include="Source\Views\PagedScrollView.cs" />
+    <Compile Include="Source\Views\PickerView.cs" />
+    <Compile Include="Source\Views\PlaceholderUITextView.cs" />
+    <Compile Include="Source\Views\RatingView.cs" />
+    <Compile Include="Source\Views\SlidingTabBarView.cs" />
+    <Compile Include="Source\Views\States\BaseStateView.cs" />
+    <Compile Include="Source\App\ViewControllers\ScrollableViewController.cs" />
+    <Compile Include="Source\App\ViewControllers\StateAwareViewController.cs" />
+    <Compile Include="Source\Views\EmptyTableSourceView.cs" />
+    <Compile Include="Source\App\Sources\BaseTableViewSource.cs" />
+    <Compile Include="Source\App\Sources\PagedTableViewSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -102,6 +128,8 @@
     <Folder Include="Source\Security\Encryption\" />
     <Folder Include="Source\Net\Http\" />
     <Folder Include="Source\Extensions\" />
+    <Folder Include="Source\App\" />
+    <Folder Include="Source\Views\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">
