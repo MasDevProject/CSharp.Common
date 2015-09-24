@@ -137,6 +137,7 @@
     <Compile Include="Source\App\GoogleLoginActivity.cs" />
     <Compile Include="Source\Views\FlowLayout.cs" />
     <Compile Include="Source\Extensions\BundleExtensions.cs" />
+    <Compile Include="Source\Utils\FileChooserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
