@@ -4,6 +4,7 @@ using Android.Content;
 using Android.OS;
 using Android.Provider;
 using Android.Database;
+using MasDev.Utils;
 
 namespace MasDev.Droid.Utils
 {
@@ -19,14 +20,14 @@ namespace MasDev.Droid.Utils
 				activity.StartActivityForResult (Intent.CreateChooser(intent, activity.GetString (fileChooserTitleId)), requestCode);
 			} 
 			catch {
-				DialogUtils.ShowDialog (activity, fileManagerNotFoundMessageId, fileManagerNotFoundTitleid, false, filemanagerNotFoundPositiveButtonid, filemanagerNotFoundNegativeButtonid, () => {
+				DialogUtils.ShowDialog (activity, fileManagerNotFoundMessageId, fileManagerNotFoundTitleid, true, filemanagerNotFoundPositiveButtonid, filemanagerNotFoundNegativeButtonid, () => {
 					const string query = "file manager";
 					try {
 						activity.StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("market://search?q=" + query)));
 					} catch {
 						activity.StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/search?q=" + query)));
 					}
-				});
+				}, DelegateUtils.Void);
 			}
 		}
 
