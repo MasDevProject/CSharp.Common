@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using Android.Graphics;
 using MasDev.Droid.Utils;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MasDev.Droid.Utils
 {
 	public static class DialogUtils
 	{
-		public static void ShowDialog(Context ctx, string message, string title, bool isCancellable, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
+		public static void ShowDialog (Context ctx, string message, string title, bool isCancellable, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
 			var builder = new Android.App.AlertDialog.Builder (ctx);
 			if (message != null) builder.SetMessage (message);
@@ -24,7 +25,7 @@ namespace MasDev.Droid.Utils
 			alert.Show ();
 		}
 
-		public static Task<bool> ShowDialogAsync(Context ctx, string message, string title, bool isCancellable, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
+		public static Task<bool> ShowDialogAsync (Context ctx, string message, string title, bool isCancellable, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
 			var tcs = new TaskCompletionSource<bool> ();
 
@@ -42,7 +43,7 @@ namespace MasDev.Droid.Utils
 			return tcs.Task;
 		}
 
-		public static Task<bool> ShowDialogAsync(Context ctx, string message, string title, bool isCancellable, string positiveButtonTextRes, string negativeButtonTextRes, Func<Task> onPositiveButtonListener, Func<Task> onNegativeButtonListener)
+		public static Task<bool> ShowDialogAsync (Context ctx, string message, string title, bool isCancellable, string positiveButtonTextRes, string negativeButtonTextRes, Func<Task> onPositiveButtonListener, Func<Task> onNegativeButtonListener)
 		{
 			var tcs = new TaskCompletionSource<bool> ();
 
@@ -60,7 +61,7 @@ namespace MasDev.Droid.Utils
 			return tcs.Task;
 		}
 
-		public static Task<bool> ShowDialogAsync(Context ctx, int? messageResourceId, int? titleRourceId, bool isCancellable, int? positiveButtonTextResId, int? negativeButtonTextResId, Action onPositiveButtonListener, Action onNegativeButtonListener)
+		public static Task<bool> ShowDialogAsync (Context ctx, int? messageResourceId, int? titleRourceId, bool isCancellable, int? positiveButtonTextResId, int? negativeButtonTextResId, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
 			var tcs = new TaskCompletionSource<bool> ();
 
@@ -78,7 +79,7 @@ namespace MasDev.Droid.Utils
 			return tcs.Task;
 		}
 
-		public static void ShowDialog(Context ctx, int? messageResourceId, int? titleRourceId, bool isCancellable, int? positiveButtonTextResId, int? negativeButtonTextResId, Action onPositiveButtonListener, Action onNegativeButtonListener)
+		public static void ShowDialog (Context ctx, int? messageResourceId, int? titleRourceId, bool isCancellable, int? positiveButtonTextResId, int? negativeButtonTextResId, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
 			var title = titleRourceId == null ? null : ctx.GetString (titleRourceId.Value);
 			var message = messageResourceId == null ? null : ctx.GetString (messageResourceId.Value);
@@ -88,7 +89,7 @@ namespace MasDev.Droid.Utils
 			ShowDialog (ctx, message, title, isCancellable, pos, neg, onPositiveButtonListener, onNegativeButtonListener);
 		}
 
-		public static Android.App.ProgressDialog ShowProgressDialog(Context context, string message, bool cancellable = true)
+		public static Android.App.ProgressDialog ShowProgressDialog (Context context, string message, bool cancellable = true)
 		{	
 			var pd = new Android.App.ProgressDialog (context);
 			pd.SetMessage (message);
@@ -97,22 +98,22 @@ namespace MasDev.Droid.Utils
 			return pd;
 		}
 
-		public static Android.App.ProgressDialog ShowProgressDialog(Context context, int stringResId, bool isCancellable = true)
+		public static Android.App.ProgressDialog ShowProgressDialog (Context context, int stringResId, bool isCancellable = true)
 		{	
 			return ShowProgressDialog (context, context.GetString (stringResId), isCancellable);
 		}
 
-		public static void ShowToast(Context ctx, string what, ToastLength lenght = ToastLength.Short)
+		public static void ShowToast (Context ctx, string what, ToastLength lenght = ToastLength.Short)
 		{
 			Toast.MakeText (ctx, what, lenght).Show ();
 		}
 
-		public static void ShowToast(Context ctx, int stringId, ToastLength lenght = ToastLength.Short)
+		public static void ShowToast (Context ctx, int stringId, ToastLength lenght = ToastLength.Short)
 		{
 			Toast.MakeText (ctx, stringId, lenght).Show ();
 		}
 
-		public static PopupMenu ShowPopupMenu(Context ctx, View anchor, ICollection<string> content, Action<string> onItemClick)
+		public static PopupMenu ShowPopupMenu (Context ctx, View anchor, ICollection<string> content, Action<string> onItemClick)
 		{
 			var popUpMenu = new PopupMenu (ctx, anchor);
 			foreach(var item in content)
@@ -127,7 +128,7 @@ namespace MasDev.Droid.Utils
 			return popUpMenu;
 		}
 
-		public static PopupMenu ShowPopupMenu(Context ctx, View anchor, ICollection<string> content, Action<int> onItemClick)
+		public static PopupMenu ShowPopupMenu (Context ctx, View anchor, ICollection<string> content, Action<int> onItemClick)
 		{
 			var popUpMenu = new PopupMenu (ctx, anchor);
 			int i = 0;
@@ -168,8 +169,41 @@ namespace MasDev.Droid.Utils
 				_alertDialog.Show ();
 			}
 		}
-			
-		public static void ShowAcceptLicenceTerms(Context ctx, string linkToTerms, string linkText, string message, string title, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
+
+		public sealed class ContextualMenu<T> : Java.Lang.Object, IDialogInterfaceOnClickListener 
+		{
+			readonly IList<T> _items;
+			readonly Action<T> _onItemClick;
+			readonly Android.Support.V7.App.AlertDialog _alertDialog;
+
+			public ContextualMenu (Context ctx, string title, IList<T> items, Func<T, string> toString, bool isModal, Action<T> onItemClick)
+			{
+				_onItemClick = onItemClick;
+				_items = items;
+
+				var builder = new Android.Support.V7.App.AlertDialog.Builder (ctx);
+				var itemsStrings = items.Select (i => toString(i)).ToList ();
+				builder.SetAdapter (new ArrayAdapter<string> (ctx, Android.Resource.Layout.SimpleListItem1, itemsStrings), this);
+
+				_alertDialog = builder.Create ();
+				_alertDialog.SetCancelable (!isModal);
+
+				if (title != null)
+					_alertDialog.SetTitle (title);
+			}
+
+			public void OnClick (IDialogInterface dialog, int which)
+			{
+				_onItemClick.Invoke (_items[which]);
+			}
+
+			public void Show()
+			{
+				_alertDialog.Show ();
+			}
+		} 
+
+		public static void ShowAcceptLicenceTerms (Context ctx, string linkToTerms, string linkText, string message, string title, string positiveButtonTextRes, string negativeButtonTextRes, Action onPositiveButtonListener, Action onNegativeButtonListener)
 		{
 			var builder = new Android.App.AlertDialog.Builder (ctx);
 			if (title != null) builder.SetTitle (title);
