@@ -32,7 +32,7 @@ namespace MasDev.iOS.Views.Elements
 			}
 		}
 
-		public CustomStringElement(string caption, string value, string imagePath = null) : base(string.Empty)
+		public CustomStringElement(string caption, string value, string imagePath = null) : base()
 		{
 			_caption = caption;
 			_value = value;
@@ -102,7 +102,13 @@ namespace MasDev.iOS.Views.Elements
 
 		protected string IdentifierFromStyle()
 		{
-			return Identifier + _cellStyle.ToString ();
+			return Identifier + _cellStyle;
+		}
+
+		public override bool Matches (string text)
+		{
+			return (_value != null && _value.IndexOf (text, StringComparison.CurrentCultureIgnoreCase) != -1) ||
+			(_caption != null && _caption.IndexOf (text, StringComparison.CurrentCultureIgnoreCase) != -1);
 		}
 	}
 }
