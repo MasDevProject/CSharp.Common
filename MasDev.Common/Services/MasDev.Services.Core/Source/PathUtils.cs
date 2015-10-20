@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using Microsoft.Owin;
 
 
 namespace MasDev.Services
@@ -20,11 +19,6 @@ namespace MasDev.Services
 
 			var isTemplateMatched = Regex.IsMatch (path.NormalizePath (), urlTemplate);
 			return isTemplateMatched;
-		}
-
-		public static string NormalizePath (this PathString path)
-		{
-			return Regex.Replace (path.ToString (), _normalizeSlashesRegexPattern, _normalizeSlashesRegexReplacement).TrimEnd (_trimEndCharacters);
 		}
 
 		public static string NormalizePath (this string path)
