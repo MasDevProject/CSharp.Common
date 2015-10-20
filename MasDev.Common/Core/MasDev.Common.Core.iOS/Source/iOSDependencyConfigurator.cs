@@ -1,5 +1,3 @@
-using SQLite.Net.Interop;
-using SQLite.Net.Platform.XamarinIOS;
 using MasDev.Patterns.Injection;
 using MasDev.Utils;
 using MasDev.Common;
@@ -12,7 +10,6 @@ namespace MasDev.iOS
 	{
 		public void ConfigureDependencies (IDependencyContainer container)
 		{
-			container.AddDependency<ISQLitePlatform, SQLitePlatformIOS> (LifeStyles.Singleton);
 			container.AddDependency<ISymmetricCrypto, Aes> (LifeStyles.Singleton);
 			container.AddDependency<IFileIO, FileIO> (LifeStyles.Singleton);
 			container.AddDependency<IRegistryProvider, RegistryProvider> (LifeStyles.Singleton);

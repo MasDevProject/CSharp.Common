@@ -2,8 +2,7 @@
 
 namespace MasDev.Data.NHibernate.Providers
 {
-	public class NHibernateMySqlSessionFactoryProvider<TMappingProvider> : ISessionFactoryProvider 
-        where TMappingProvider : PersistenceMapper, new()
+	public class NHibernateMySqlSessionFactoryProvider: ISessionFactoryProvider 
 	{
 
 		ISessionFactory _factory;
@@ -20,8 +19,7 @@ namespace MasDev.Data.NHibernate.Providers
 
 		public virtual void Connect ()
 		{
-			var model = NHibernateUtils.CreateMappings<TMappingProvider> (_modelsNamespace);
-			_factory = NHibernateUtils.BuildMySqlSessionFactory<TMappingProvider> (model, _opts);
+			_factory = NHibernateUtils.BuildMySqlSessionFactory (_opts);
 		}
 	}
 }

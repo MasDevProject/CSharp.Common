@@ -6,13 +6,9 @@ using NHibernate.Tool.hbm2ddl;
 using NHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using System.Collections.Generic;
-using System.Reflection;
 using System;
-using System.Linq;
 using MasDev.Reflection;
 using System.Linq.Expressions;
-using MasDev.Extensions;
 using System.Diagnostics;
 
 
@@ -20,22 +16,44 @@ namespace MasDev.Data.NHibernate
 {
     public static class NHibernateUtils
     {
-        public static AutoPersistenceModel CreateMappings<TPersistenceMapper>(string modelsNamespace) where TPersistenceMapper : PersistenceMapper, new()
+        public static ISessionFactory BuildMySqlSessionFactory(SessionFactoryCreationOptions opts)
         {
-            var assemblies = GetAllAssembliesInWithCurrentNamespace(typeof(TPersistenceMapper), modelsNamespace);
-            var model = AutoMap.Assemblies(new PersistenceMapperAutoMapConfiguration<TPersistenceMapper>(modelsNamespace), assemblies);
-            return model;
+            var dbConfig = Fluently.Configure();
+
+            if (opts.CacheConfig != null)
+                dbConfig = dbConfig.Cache(opts.CacheConfig);
+
+            return dbConfig.Database(MySQLConfiguration.Standard
+                    .Dialect<MySQL5Dialect>()
+                    .ConnectionString(c => c
+                       .Server(opts.Host)
+                       .Database(opts.Database)
+                       .Username(opts.Username)
+                       .Password(opts.Password)))
+            .CurrentSessionContext(opts.Context)
+            .Mappings(opts.Mapper.ConfigureMappings)
+            .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
+            .BuildSessionFactory();
         }
 
-        static Assembly[] GetAllAssembliesInWithCurrentNamespace(Type t, string modelsNamespace)
+        public static ISessionFactory BuildSqlServerFactory(SessionFactoryCreationOptions opts)
         {
-            var typeAssembly = t.Assembly;
-            var assemblies = new HashSet<Assembly> { typeAssembly };
-            typeAssembly
-                .LoadRefrencedAssemblies()
-                .Where(a => a.ContainsNamespace(modelsNamespace, false))
-                .ForEach(a => assemblies.Add(a));
-            return assemblies.Distinct().ToArray();
+            var factory = Fluently.Configure()
+                .Database(MsSqlConfiguration.MsSql2008
+                            .ConnectionString(c => c
+                           .Server(opts.Host)
+                           .Database(opts.Database)
+                           .Username(opts.Username)
+                           .Password(opts.Password))
+                        .DefaultSchema(opts.Schema));
+
+            if (opts.CacheConfig != null)
+                factory.Cache(opts.CacheConfig);
+
+            return factory.CurrentSessionContext(opts.Context)
+                .Mappings(opts.Mapper.ConfigureMappings)
+                .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
+                .BuildSessionFactory();
         }
 
         static void BuildSchema(Configuration config, bool buildSchema)
@@ -51,47 +69,6 @@ namespace MasDev.Data.NHibernate
                 return;
             var update = new SchemaUpdate(config);
             update.Execute(false, true);
-
-        }
-
-        public static ISessionFactory BuildMySqlSessionFactory<TPersistenceMapper>(AutoPersistenceModel model, SessionFactoryCreationOptions opts) where TPersistenceMapper : PersistenceMapper, new()
-        {
-            var dbConfig = Fluently.Configure();
-
-            if (opts.CacheConfig != null)
-                dbConfig = dbConfig.Cache(opts.CacheConfig);
-
-            return dbConfig.Database(MySQLConfiguration.Standard
-                    .Dialect<MySQL5Dialect>()
-                    .ConnectionString(c => c
-                       .Server(opts.Host)
-                       .Database(opts.Database)
-                       .Username(opts.Username)
-                       .Password(opts.Password)))
-            .CurrentSessionContext(opts.Context)
-            .Mappings(config => config.AutoMappings.Add(model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>>()))
-            .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
-            .BuildSessionFactory();
-        }
-
-        public static ISessionFactory BuildSqlServerFactory<TPersistenceMapper>(AutoPersistenceModel model, SessionFactoryCreationOptions opts) where TPersistenceMapper : PersistenceMapper, new()
-        {
-            var factory = Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2008
-                            .ConnectionString(c => c
-                           .Server(opts.Host)
-                           .Database(opts.Database)
-                           .Username(opts.Username)
-                           .Password(opts.Password))
-                        .DefaultSchema(opts.Schema));
-
-            if (opts.CacheConfig != null)
-                factory.Cache(opts.CacheConfig);
-
-            return factory.CurrentSessionContext(opts.Context)
-                .Mappings(config => config.AutoMappings.Add(model.Conventions.Add<PersistenceMapperConvention<TPersistenceMapper>>()))
-                .ExposeConfiguration(config => BuildSchema(config, opts.BuildSchema))
-                .BuildSessionFactory();
         }
 
         public static bool PropertyInDinamicExpressionMatchesMemberName(dynamic expr, string memberName)
@@ -117,11 +94,13 @@ namespace MasDev.Data.NHibernate
         public string Schema;
         public string Context;
         public bool BuildSchema;
+        public readonly IDatabaseMapper Mapper;
         public Action<CacheSettingsBuilder> CacheConfig;
 
 
-        public SessionFactoryCreationOptions()
+        public SessionFactoryCreationOptions(IDatabaseMapper mapper)
         {
+            Mapper = mapper;
             BuildSchema = false;
             Context = "web";
         }
@@ -130,6 +109,11 @@ namespace MasDev.Data.NHibernate
     public class SessionFactoryCreationOptions<T> : SessionFactoryCreationOptions
     {
         public T AdvancedOptions;
+
+        public SessionFactoryCreationOptions(IDatabaseMapper mapper): base(mapper)
+        {
+
+        }
     }
 
     class SqlStatementInterceptor : EmptyInterceptor
@@ -140,7 +124,5 @@ namespace MasDev.Data.NHibernate
             return sql;
         }
     }
-
-
 }
 

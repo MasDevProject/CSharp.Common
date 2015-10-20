@@ -34,27 +34,21 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="NodaTime">
       <HintPath>..\..\packages\NodaTime.1.3.1\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+XamariniOS1\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\packages\SimpleInjector.2.8.0\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\packages\SimpleInjector.3.0.5\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite.Net">
-      <HintPath>..\..\packages\SQLite.Net-PCL.3.0.5\lib\Xamarin.iOS10\SQLite.Net.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SQLite.Net.Platform.XamarinIOS.Unified">
-      <HintPath>..\..\packages\SQLite.Net-PCL.3.0.5\lib\Xamarin.iOS10\SQLite.Net.Platform.XamarinIOS.Unified.dll</HintPath>
-    </Reference>
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\iOSDependencyConfigurator.cs" />
-    <Compile Include="Source\Utils\ApplicationUtils.cs" />
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Utils\TimeZoneConverter.cs">
       <Link>Source\Utils\TimeZoneConverter.cs</Link>
     </Compile>
@@ -77,6 +71,52 @@
       <Link>Source\IO\FileIO.cs</Link>
     </Compile>
     <Compile Include="Source\Extensions\DateExtensions.cs" />
+    <Compile Include="Source\Extensions\MKMapViewExtensions.cs" />
+    <Compile Include="Source\Extensions\StringExtensions.cs" />
+    <Compile Include="Source\Extensions\UIButtonExtensions.cs" />
+    <Compile Include="Source\Extensions\UIImageExtensions.cs" />
+    <Compile Include="Source\Extensions\UIImageViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UILabelExtensions.cs" />
+    <Compile Include="Source\Extensions\UIScrollViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UISegmentedControlExtensions.cs" />
+    <Compile Include="Source\Extensions\UIViewExtensions.cs" />
+    <Compile Include="Source\Utils\CLGeocoderUtils.cs" />
+    <Compile Include="Source\Utils\IDialogManager.cs" />
+    <Compile Include="Source\Utils\MKMapViewUtils.cs" />
+    <Compile Include="Source\Utils\NSBundleUtils.cs" />
+    <Compile Include="Source\Utils\NSUrlUtils.cs" />
+    <Compile Include="Source\Utils\SystemSoundUtils.cs" />
+    <Compile Include="Source\Utils\UIApplicationUtils.cs" />
+    <Compile Include="Source\Utils\UIColorUtils.cs" />
+    <Compile Include="Source\Utils\UIImagePickerUtils.cs" />
+    <Compile Include="Source\Utils\UIImageUtils.cs" />
+    <Compile Include="Source\Utils\UIStoryboardUtils.cs" />
+    <Compile Include="Source\Utils\UITextFieldUtils.cs" />
+    <Compile Include="Source\Views\Elements\CenteredViewElement.cs" />
+    <Compile Include="Source\Views\Elements\CustomStringElement.cs" />
+    <Compile Include="Source\Views\Elements\ExpandableDatePickerElement.cs" />
+    <Compile Include="Source\Views\Elements\MultilineEntryElement.cs" />
+    <Compile Include="Source\Views\Elements\MultilineStringElement.cs" />
+    <Compile Include="Source\Views\Elements\RatingElement.cs" />
+    <Compile Include="Source\Views\Elements\SegmentedControlElement.cs" />
+    <Compile Include="Source\Views\Elements\StepperElement.cs" />
+    <Compile Include="Source\Views\Elements\StyleableStringElement.cs" />
+    <Compile Include="Source\Views\Fragments\IFragmentView.cs" />
+    <Compile Include="Source\Views\States\BaseEmptyStateView.cs" />
+    <Compile Include="Source\Views\States\BaseErrorStateView.cs" />
+    <Compile Include="Source\Views\States\BaseLoadingStateView.cs" />
+    <Compile Include="Source\Views\HorizontalPageView.cs" />
+    <Compile Include="Source\Views\PagedScrollView.cs" />
+    <Compile Include="Source\Views\PickerView.cs" />
+    <Compile Include="Source\Views\PlaceholderUITextView.cs" />
+    <Compile Include="Source\Views\RatingView.cs" />
+    <Compile Include="Source\Views\SlidingTabBarView.cs" />
+    <Compile Include="Source\Views\States\BaseStateView.cs" />
+    <Compile Include="Source\App\ViewControllers\ScrollableViewController.cs" />
+    <Compile Include="Source\App\ViewControllers\StateAwareViewController.cs" />
+    <Compile Include="Source\Views\EmptyTableSourceView.cs" />
+    <Compile Include="Source\App\Sources\BaseTableViewSource.cs" />
+    <Compile Include="Source\App\Sources\PagedTableViewSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -88,6 +128,8 @@
     <Folder Include="Source\Security\Encryption\" />
     <Folder Include="Source\Net\Http\" />
     <Folder Include="Source\Extensions\" />
+    <Folder Include="Source\App\" />
+    <Folder Include="Source\Views\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">

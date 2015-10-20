@@ -9,6 +9,9 @@ namespace MasDev.Data
 {
     public class NHibernateRepository : IRepository
     {
+        public event RepositoryActionHandler BeforeAction;
+        public event RepositoryActionHandler AfterAction;
+
         #region constructor
 
         internal NHibernateUnitOfWork Uow;
@@ -29,22 +32,26 @@ namespace MasDev.Data
 
         public virtual int Create<T>(T model) where T : class, IModel, new()
         {
+            InvokeBeforeAction(RepositoryAction.Create, model);
             var undeletable = model as IUndeletableModel;
             if (undeletable != null)
                 undeletable.IsDeleted = false;
 
             Session.Save(model);
+            InvokeAfterAction(RepositoryAction.Create, model);
             return model.Id;
         }
 
         public virtual void Create<T>(IEnumerable<T> models) where T : class, IModel, new()
         {
-            foreach (var t in models)
+            foreach (var model in models)
             {
-                var undeletable = t as IUndeletableModel;
+                InvokeBeforeAction(RepositoryAction.Create, model);
+                var undeletable = model as IUndeletableModel;
                 if (undeletable != null)
                     undeletable.IsDeleted = false;
-                Session.Save(t);
+                Session.Save(model);
+                InvokeAfterAction(RepositoryAction.Create, model);
             }
         }
 
@@ -68,7 +75,7 @@ namespace MasDev.Data
             return result;
         }
 
-        public T ReadTransient<T>(int id) where T : class, IModel, new()
+        public virtual T ReadTransient<T>(int id) where T : class, IModel, new()
         {
             var obj = Uow.ReadonlySession.Get<T>(id);
             return obj;
@@ -76,19 +83,19 @@ namespace MasDev.Data
 
         public virtual int Update<T>(T model) where T : class, IModel, new()
         {
+            InvokeBeforeAction(RepositoryAction.Update, model);
             Session.Update(model);
+            InvokeAfterAction(RepositoryAction.Update, model);
             return model.Id;
         }
 
         public virtual void Update<T>(IEnumerable<T> models) where T : class, IModel, new()
         {
             foreach (var m in models)
-            {
                 Update(m);
-            }
         }
 
-        public T Update<T>(int id, Action<T> updater) where T : class, IModel, new()
+        public virtual T Update<T>(int id, Action<T> updater) where T : class, IModel, new()
         {
             var model = Read<T>(id);
             if (model == null)
@@ -101,6 +108,7 @@ namespace MasDev.Data
 
         public virtual int Delete<T>(T model) where T : class, IModel, new()
         {
+            InvokeBeforeAction(RepositoryAction.Delete, model);
             var undeletable = model as IUndeletableModel;
             if (undeletable == null)
                 Session.Delete(model);
@@ -109,33 +117,36 @@ namespace MasDev.Data
                 undeletable.IsDeleted = true;
                 Session.Update(undeletable);
             }
+
+            InvokeAfterAction(RepositoryAction.Delete, model);
             return model.Id;
         }
 
         public virtual void Delete<T>(IEnumerable<T> models) where T : class, IModel, new()
         {
             foreach (var m in models)
-            {
                 Delete(m);
-            }
         }
 
-        public void Clear<T>() where T : class, IModel, new()
+        public virtual void Clear<T>() where T : class, IModel, new()
         {
+            InvokeBeforeAction<T>(RepositoryAction.Clear, null);
             var metadata = Session.SessionFactory.GetClassMetadata(typeof(T)) as AbstractEntityPersister;
             string table = metadata.TableName;
             string deleteAll = string.Format("DELETE FROM \"{0}\"", table);
-
             Session.Delete(deleteAll);
+            InvokeAfterAction<T>(RepositoryAction.Clear, null);
         }
 
-        public int CreateOrUpdate<T>(T model) where T : class, IModel, new()
+        public virtual int CreateOrUpdate<T>(T model) where T : class, IModel, new()
         {
+            InvokeBeforeAction(RepositoryAction.Create | RepositoryAction.Update, model);
             Session.SaveOrUpdate(model);
+            InvokeAfterAction(RepositoryAction.Create | RepositoryAction.Update, model);
             return model.Id;
         }
 
-        public IEnumerable<int> CreateOrUpdate<T>(IEnumerable<T> models) where T : class, IModel, new()
+        public virtual IEnumerable<int> CreateOrUpdate<T>(IEnumerable<T> models) where T : class, IModel, new()
         {
             var ids = new List<int>();
             foreach (var model in models)
@@ -168,7 +179,7 @@ namespace MasDev.Data
 
         public bool IsInTransaction { get { return Uow.IsStarted; } }
 
-        public void Lock<T>(T model, LockMode lockMode) where T : class, IModel, new()
+        public virtual void Lock<T>(T model, LockMode lockMode) where T : class, IModel, new()
         {
             if (!Uow.IsStarted)
                 throw new Exception("Cannot lock an unstarted job");
@@ -195,9 +206,21 @@ namespace MasDev.Data
             }
         }
 
-        public IQueryable<TModel> QueryFor<TModel>() where TModel : class, IModel, new()
+        public virtual IQueryable<TModel> QueryFor<TModel>() where TModel : class, IModel, new()
         {
             return Uow.Session.Query<TModel>();
+        }
+
+        protected void InvokeBeforeAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new()
+        {
+            if (BeforeAction != null)
+                BeforeAction(typeof(TModel), action, model);
+        }
+
+        protected void InvokeAfterAction<TModel>(RepositoryAction action, TModel model) where TModel : class, IModel, new()
+        {
+            if (AfterAction != null)
+                AfterAction(typeof(TModel), action, model);
         }
     }
 }

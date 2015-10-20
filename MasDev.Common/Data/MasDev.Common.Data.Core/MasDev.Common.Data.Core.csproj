@@ -36,12 +36,11 @@
     <Compile Include="Source\Expressions\AtomicExpression.cs" />
     <Compile Include="Source\Expressions\ExpressionBuilder.cs" />
     <Compile Include="Source\Expressions\BaseExpressions.cs" />
+    <Compile Include="Source\IPropertyNameResolver.cs" />
     <Compile Include="Source\Modeling\IModel.cs" />
     <Compile Include="Source\Modeling\IUndeletableModel.cs" />
     <Compile Include="Source\Modeling\IVersionedModel.cs" />
     <Compile Include="Source\Modeling\Model.cs" />
-    <Compile Include="Source\Modeling\ModelMapper.cs" />
-    <Compile Include="Source\Modeling\PersistenceMapper.cs" />
     <Compile Include="Source\Repository\Async\IAsyncRepository.cs" />
     <Compile Include="Source\Repository\Async\IAsyncTypedRepository.cs" />
     <Compile Include="Source\Repository\Async\IAsyncVersionedRepository.cs" />

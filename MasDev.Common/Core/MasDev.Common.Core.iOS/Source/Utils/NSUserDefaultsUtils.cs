@@ -1,6 +1,5 @@
 ﻿using Foundation;
 
-
 namespace MasDev.iOS.Utils
 {
 	public static class NSUserDefaultsUtils

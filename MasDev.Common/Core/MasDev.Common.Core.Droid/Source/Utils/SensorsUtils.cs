@@ -8,7 +8,7 @@ namespace MasDev.Droid.Utils
 {
 	public static class SensorsUtils
 	{
-		public static bool LocalizationEnabled (Context ctx, LocationManager manager = null)
+		public static bool IsLocalizationEnabled (Context ctx, LocationManager manager = null)
 		{
 			bool gpsEnabled = false;
 			bool networkEnabled = false;
@@ -42,7 +42,7 @@ namespace MasDev.Droid.Utils
 		{
 			if (manager == null)
 				manager = (LocationManager)ctx.GetSystemService (Context.LocationService);
-			if (!LocalizationEnabled (ctx, manager)) {
+			if (!IsLocalizationEnabled (ctx, manager)) {
 				onLocalizationDisabled.Invoke ();
 				return;
 			}
