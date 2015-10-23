@@ -80,7 +80,7 @@ namespace MasDev.iOS.Views.Elements
 			return RowHeight;
 		}
 
-		protected void RemoveTag (UITableViewCell cell, int tag)
+		protected new void RemoveTag (UITableViewCell cell, int tag)
 		{
 			var viewToRemove = cell.ContentView.ViewWithTag (tag);
 			if (viewToRemove != null)

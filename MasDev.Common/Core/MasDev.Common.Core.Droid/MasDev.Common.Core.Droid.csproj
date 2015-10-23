@@ -138,6 +138,7 @@
     <Compile Include="Source\Views\FlowLayout.cs" />
     <Compile Include="Source\Extensions\BundleExtensions.cs" />
     <Compile Include="Source\Utils\FileChooserUtils.cs" />
+    <Compile Include="Source\Utils\TextToSpeechService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

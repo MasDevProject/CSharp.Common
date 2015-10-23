@@ -32,7 +32,7 @@ namespace MasDev.iOS.Views.Elements
 			}
 		}
 
-		public CustomStringElement(string caption, string value, string imagePath = null) : base()
+		public CustomStringElement(string caption, string value, string imagePath = null) : base(caption)
 		{
 			_caption = caption;
 			_value = value;
