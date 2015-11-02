@@ -51,32 +51,35 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v7.AppCompat.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.Design">
-      <HintPath>..\..\packages\Xamarin.Android.Support.Design.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Base">
-      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Base.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Maps">
-      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Maps.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Location">
-      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Location.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Location.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Gcm">
-      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Gcm.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Gcm.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.GooglePlayServices.Plus">
-      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Plus.25.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Plus.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Basement.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Base.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Plus">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Plus.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Plus.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Maps">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Maps.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Location">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Location.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Location.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Gcm">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Gcm.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Gcm.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>..\..\packages\Xamarin.Android.Support.Design.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

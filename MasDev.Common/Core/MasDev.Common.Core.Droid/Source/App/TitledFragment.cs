@@ -2,7 +2,6 @@
 using System;
 using Android.Animation;
 using MasDev.Droid.ExtensionMethods;
-using Android.App;
 using MasDev.Droid.Utils;
 
 namespace MasDev.Droid.App
@@ -168,9 +167,9 @@ namespace MasDev.Droid.App
 	{
 		protected TParent Parent { get; set; }
 
-		public override void OnAttach (Activity activity)
+		public override void OnCreate (Android.OS.Bundle savedInstanceState)
 		{
-			base.OnAttach (activity);
+			base.OnCreate (savedInstanceState);
 			if (Parent == null)
 				Parent = FragmentUtils.EnsureImplements<TParent> (this);
 		}

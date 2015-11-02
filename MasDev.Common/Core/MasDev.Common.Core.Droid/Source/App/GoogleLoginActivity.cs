@@ -11,15 +11,14 @@ using Android.Accounts;
 
 namespace MasDev.Droid.App
 {
-	public class GoogleLoginActivity : Activity, IGoogleApiClientConnectionCallbacks, IGoogleApiClientOnConnectionFailedListener
+	public class GoogleLoginActivity : Activity, GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
 	{
 		bool _intentInProgress;
 		bool _signInClicked;
-		IGoogleApiClient _apiClient;
+		GoogleApiClient _apiClient;
 		ConnectionResult _connectionResult;
 
 		const int RC_SIGN_IN = 0;
-		const int PROFILE_PIC_SIZE = 400;
 
 		public const string BundleKey = "0";
 		public const string FirstNameKey = "a";
@@ -64,7 +63,7 @@ namespace MasDev.Droid.App
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
-			_apiClient = new GoogleApiClientBuilder (this)
+			_apiClient = new GoogleApiClient.Builder (this)
 				.AddConnectionCallbacks (this)
 				.AddOnConnectionFailedListener (this)
 				.AddApi (PlusClass.API)
