@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace MasDev.Extensions
 {
@@ -8,23 +9,16 @@ namespace MasDev.Extensions
 		{
 			return t.Year == dt.Year && t.Month == dt.Month && t.Day == dt.Day;
 		}
-
-		public static string TimeToString (this DateTime dt)
-		{
-			return dt.ToString ("HH:mm");
-		}
-
-		public static string DateToString (this DateTime dt)
-		{
-			return dt.ToString ("dd-MMMM-yyyy");
-		}
 			
-		#if !SALTARELLE
-		public static long GetMillisecondsSince1970 (this DateTime dt)
+		/// <summary>
+		/// It uses the current culture to format the time
+		/// </summary>
+		/// <returns>The short time string.</returns>
+		/// <param name="dateTime">Date time.</param>
+		public static string ToShortTimeString (this DateTime dateTime)
 		{
-			return (long)dt.ToUniversalTime ().Subtract (new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+			return dateTime.ToString("t", DateTimeFormatInfo.CurrentInfo);
 		}
-		#endif
 	}
 }
 
