@@ -146,6 +146,7 @@
     <Compile Include="Source\Utils\FileChooserUtils.cs" />
     <Compile Include="Source\Utils\TextToSpeechService.cs" />
     <Compile Include="Source\Utils\ViewHolderWithPositionListener.cs" />
+    <Compile Include="Source\Extensions\FragmentManagerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -155,8 +156,8 @@
     <AndroidResource Include="Resources\drawable\Ic_textview_error.png" />
     <AndroidResource Include="Resources\values\Attrs.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Source\" />
     <Folder Include="Source\Utils\" />
