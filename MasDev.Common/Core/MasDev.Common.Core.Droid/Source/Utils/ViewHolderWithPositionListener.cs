@@ -15,7 +15,7 @@ namespace MasDev.Droid.Utils
 
 		public ViewHolderWithPositionListener (View rootView, Action<int> onItemClick) : this (rootView)
 		{
-			OnItemClick = onItemClick;
+			OnItemClick += onItemClick;
 		}
 
 		public void OnClick (View v)
