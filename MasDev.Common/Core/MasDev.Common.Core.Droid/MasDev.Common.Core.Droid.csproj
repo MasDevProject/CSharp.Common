@@ -147,6 +147,7 @@
     <Compile Include="Source\Utils\TextToSpeechService.cs" />
     <Compile Include="Source\Utils\ViewHolderWithPositionListener.cs" />
     <Compile Include="Source\Extensions\FragmentManagerExtensions.cs" />
+    <Compile Include="Source\Extensions\FragmentTransactionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

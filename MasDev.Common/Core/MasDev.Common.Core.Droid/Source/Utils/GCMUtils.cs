@@ -10,7 +10,7 @@ namespace MasDev.Droid.Utils
 		public static async Task<string> PerformRegistration (Context ctx, string senderId)
 		{
 			return await System.Threading.Tasks.Task.Run (() => {
-				return InstanceID.GetInstance(ctx).GetToken(senderId, GoogleCloudMessaging.InstanceIdScope, null);
+				return InstanceID.GetInstance (ctx).GetToken (senderId, GoogleCloudMessaging.InstanceIdScope, null);
 			});
 		}
 	}

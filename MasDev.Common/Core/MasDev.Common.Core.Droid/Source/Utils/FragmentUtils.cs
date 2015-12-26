@@ -5,7 +5,7 @@ namespace MasDev.Droid.Utils
 {
 	public static class FragmentUtils
 	{
-		public static TInterface EnsureImplements<TInterface>(Fragment fragment) where TInterface : class
+		public static TInterface EnsureImplements<TInterface> (Fragment fragment) where TInterface : class
 		{
 			var parent = GetParent<TInterface> (fragment);
 			if (parent == null)
@@ -14,7 +14,7 @@ namespace MasDev.Droid.Utils
 			return parent;
 		}
 
-		public static TInterface GetParent<TInterface>(Fragment fragment) where TInterface : class
+		public static TInterface GetParent<TInterface> (Fragment fragment) where TInterface : class
 		{
 			var parent = fragment.ParentFragment as TInterface;
 			if (parent != null)

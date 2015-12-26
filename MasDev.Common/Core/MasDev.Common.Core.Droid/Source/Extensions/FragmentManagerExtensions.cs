@@ -1,6 +1,6 @@
 ﻿using Android.Support.V4.App;
 
-namespace MasDev.Common
+namespace MasDev.Droid.ExtensionMethods
 {
 	public static class FragmentManagerExtensions
 	{
