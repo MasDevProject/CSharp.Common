@@ -20,7 +20,7 @@ namespace MasDev.Services.Middlewares
 
 		protected override ErrorPageRule FindMatchInternal (IOwinContext context)
 		{
-			var requestPath = context.Request.Path.NormalizePath ();
+			var requestPath = context.Request.Path.ToString ().NormalizePath ();
 			var statusCode = context.Response.StatusCode;
 
 			return this.FirstOrDefault (rule => rule.StatusCodes.Any (c => c == statusCode) && rule.Predicate (requestPath));

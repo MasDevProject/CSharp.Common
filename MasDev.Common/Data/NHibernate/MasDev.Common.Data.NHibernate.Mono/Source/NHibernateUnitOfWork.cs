@@ -19,6 +19,8 @@ namespace MasDev.Data
 
 	public class NHibernateUnitOfWork : INHibernateUnitOfWork
 	{
+		static long IdSeed;
+		long Id;
 		readonly ISessionFactory _factory;
 		readonly ISession _session;
 		readonly Lazy<ISession> _readonlySession;
@@ -30,8 +32,10 @@ namespace MasDev.Data
 		{
 			if (factory == null)
 				throw new ArgumentNullException ();
-			
-			Debug.WriteLine ("Uow constructed");
+
+			IdSeed = (IdSeed + 1) % 100000000;
+			Id = IdSeed;
+			Debug.WriteLine (string.Format ("Uow {0} constructed", Id));
 
 			_factory = factory;
 			_session = GetSession (factory, FlushMode.Commit);
@@ -100,7 +104,7 @@ namespace MasDev.Data
 
 		public void Dispose ()
 		{
-			Debug.WriteLine ("Uow closed");
+			Debug.WriteLine (string.Format ("Uow {0} closed", Id));
 
 			if (_transaction != null)
 				_transaction.Dispose ();
