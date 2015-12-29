@@ -2,7 +2,7 @@
 
 namespace MasDev.Data.NHibernate.Providers
 {
-	public class NHibernateMySqlSessionFactoryProvider: ISessionFactoryProvider 
+	public class NHibernateMySqlSessionFactoryProvider: ISessionFactoryProvider
 	{
 
 		ISessionFactory _factory;
@@ -11,8 +11,8 @@ namespace MasDev.Data.NHibernate.Providers
 
 		public NHibernateMySqlSessionFactoryProvider (string modelsNamespace, SessionFactoryCreationOptions opts)
 		{
-            _modelsNamespace = modelsNamespace;
-            _opts = opts;
+			_modelsNamespace = modelsNamespace;
+			_opts = opts;
 		}
 
 		public virtual ISessionFactory Factory{ get { return _factory; } }

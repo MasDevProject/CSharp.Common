@@ -6,9 +6,20 @@ using System.Diagnostics;
 
 namespace MasDev.Data
 {
-	public class NHibernateUnitOfWork : IUnitOfWork
+	public interface INHibernateUnitOfWork : IUnitOfWork
 	{
-        readonly ISessionFactory _factory;
+		ISession Session { get ; }
+
+		ISession ReadonlySession { get; }
+
+		ISession ParallelSession { get; }
+
+		void Start ();
+	}
+
+	public class NHibernateUnitOfWork : INHibernateUnitOfWork
+	{
+		readonly ISessionFactory _factory;
 		readonly ISession _session;
 		readonly Lazy<ISession> _readonlySession;
 		readonly Lazy<ISession> _parallelSession;
@@ -22,18 +33,18 @@ namespace MasDev.Data
 			
 			Debug.WriteLine ("Uow constructed");
 
-            _factory = factory;
+			_factory = factory;
 			_session = GetSession (factory, FlushMode.Commit);
-            _parallelSession = new Lazy<ISession>(() => GetSession(_factory, FlushMode.Commit));
-            _readonlySession = new Lazy<ISession>(() => GetSession(_factory, FlushMode.Never));
+			_parallelSession = new Lazy<ISession> (() => GetSession (_factory, FlushMode.Commit));
+			_readonlySession = new Lazy<ISession> (() => GetSession (_factory, FlushMode.Never));
 		}
 
-        static ISession GetSession(ISessionFactory factory, FlushMode flushMode)
-        {
-            var session = factory.OpenSession();
-            session.FlushMode = flushMode;
-            return session;
-        }
+		static ISession GetSession (ISessionFactory factory, FlushMode flushMode)
+		{
+			var session = factory.OpenSession ();
+			session.FlushMode = flushMode;
+			return session;
+		}
 
 		public ISession Session { get { return _session; } }
 
@@ -94,9 +105,9 @@ namespace MasDev.Data
 			if (_transaction != null)
 				_transaction.Dispose ();
 
-            _session.Dispose();
-            DisposeSession(_parallelSession);
-            DisposeSession(_readonlySession);
+			_session.Dispose ();
+			DisposeSession (_parallelSession);
+			DisposeSession (_readonlySession);
 		}
 
 		static void DisposeSession (Lazy<ISession> session)
