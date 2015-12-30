@@ -138,6 +138,7 @@
     <Compile Include="Source\Entities\Exceptions\NotModifiedException.cs" />
     <Compile Include="Source\Entities\Exceptions\CallingContext.cs" />
     <Compile Include="Source\Utils\ITextToSpeechService.cs" />
+    <Compile Include="Source\Http\JsonContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
