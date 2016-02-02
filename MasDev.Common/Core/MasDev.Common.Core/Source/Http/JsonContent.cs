@@ -13,6 +13,11 @@ namespace MasDev.IO.Http
 		{
 			Content = obj;
 		}
+
+		public JsonContent (T obj, string contentType) : base (JsonConvert.SerializeObject (obj), Encoding.UTF8, contentType)
+		{
+			Content = obj;
+		}
 	}
 
 	public static class JsonContent 
