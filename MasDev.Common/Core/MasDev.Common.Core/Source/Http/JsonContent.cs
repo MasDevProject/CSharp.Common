@@ -14,5 +14,13 @@ namespace MasDev.IO.Http
 			Content = obj;
 		}
 	}
+
+	public static class JsonContent 
+	{
+		public static T Deserialize<T> (string content)
+		{
+			return JsonConvert.DeserializeObject<T> (content);
+		}
+	}
 }
 
