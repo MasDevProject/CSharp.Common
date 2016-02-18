@@ -9,7 +9,13 @@ namespace MasDev.Common
 	/// </summary>
 	public class Zipper
 	{
-		public void Unzip (string zipFilePath, bool ingoreHiddenFilesAndDirectories = true)
+		/// <summary>
+		/// Unzip the specified zipFilePath, destinationPath and ingoreHiddenFilesAndDirectories.
+		/// </summary>
+		/// <param name="zipFilePath">Zip file path.</param>
+		/// <param name="destinationPath">Destination path. If null files will be extracted in the same folder of zipFile</param>
+		/// <param name="ingoreHiddenFilesAndDirectories">If set to <c>true</c> ingore hidden files and directories.</param>
+		public void Unzip (string zipFilePath, string destinationPath = null, bool ingoreHiddenFilesAndDirectories = true)
 		{
 			using (var s = new ZipInputStream (File.OpenRead (zipFilePath))) 
 			{
@@ -27,7 +33,10 @@ namespace MasDev.Common
 
 					if (fileName != String.Empty) 
 					{
-						using (var streamWriter = File.Create (zipFilePath.Substring (0, zipFilePath.LastIndexOf('/') + 1) + theEntry.Name)) 
+						var unzippedFileDestination = Path.Combine (
+							destinationPath ?? zipFilePath.Replace (Path.GetFileName (zipFilePath), string.Empty), theEntry.Name
+						);
+						using (var streamWriter = File.Create (unzippedFileDestination)) 
 						{
 							int size;
 							var data = new byte [2048];
