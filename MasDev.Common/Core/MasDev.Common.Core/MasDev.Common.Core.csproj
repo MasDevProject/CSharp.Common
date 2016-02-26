@@ -36,8 +36,6 @@
   <ItemGroup />
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Source\AutoMapper\AutoMapperConfiguration.cs" />
-    <Compile Include="Source\AutoMapper\IAutoMapperConfigurator.cs" />
     <Compile Include="Source\Collections\BasePagedEnumerable.cs" />
     <Compile Include="Source\Collections\ConcurrentHashSet.cs" />
     <Compile Include="Source\Collections\IPagedEnumerable.cs" />
@@ -162,9 +160,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\packages\AutoMapper.4.1.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\AutoMapper.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

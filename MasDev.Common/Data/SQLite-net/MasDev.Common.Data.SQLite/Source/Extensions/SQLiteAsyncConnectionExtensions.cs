@@ -33,10 +33,10 @@ namespace MasDev.Common.Data.SQLite
 		/// <param name="connection">Connection.</param>
 		/// <param name="connectionFactory">Connection factory.</param>
 		/// <param name="action">Action.</param>
-		public static async Task RunInTransactionAsync (this SQLiteAsyncConnection connection, Func<SQLiteConnection> connectionFactory, Func<SQLiteConnection, Task> action)
+		public static Task RunInTransactionAsync (this SQLiteAsyncConnection connection, Func<SQLiteConnection> connectionFactory, Func<SQLiteConnection, Task> action)
 		{
-			await Task.Run (async () =>
-				{
+			return Task.Run (async () =>
+				{ 
 					using (var conn = connectionFactory.Invoke ()) 
 					{
 						try
@@ -47,7 +47,8 @@ namespace MasDev.Common.Data.SQLite
 
 							conn.Commit ();
 
-						} catch (Exception e)
+						} 
+						catch
 						{
 							if (conn.IsInTransaction)
 								conn.Rollback ();

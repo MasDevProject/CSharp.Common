@@ -1,6 +1,5 @@
 ﻿using System;
-using AutoMapper;
-
+using Newtonsoft.Json;
 
 namespace MasDev.Extensions
 {
@@ -32,7 +31,7 @@ namespace MasDev.Extensions
 
 		public static T CloneObject<T> (this T obj)
 		{
-			return Mapper.DynamicMap<T> (obj);
+			return JsonConvert.DeserializeObject<T> (JsonConvert.SerializeObject (obj));
 		}
 	}
 }
