@@ -154,6 +154,7 @@
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Utils\Zipper.cs">
       <Link>Source\Utils\Zipper.cs</Link>
     </Compile>
+    <Compile Include="Source\Utils\ScreenShotUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
