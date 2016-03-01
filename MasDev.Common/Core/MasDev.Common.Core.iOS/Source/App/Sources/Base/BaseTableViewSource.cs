@@ -14,7 +14,7 @@ namespace MasDev.iOS.App.Sources
 		public bool HandleEmptyState { get; set; }
 
 		protected List<T> Items;
-		protected EmptyTableSourceView EmptyView;
+		protected EmptyStateSourceView EmptyView;
 
 		protected bool FirstTime;
 		protected UITableViewCellSeparatorStyle DefaultSeparatorStyle;
@@ -81,10 +81,10 @@ namespace MasDev.iOS.App.Sources
 				return;
 
 			if (isEmpty) {
-				EmptyView = new EmptyTableSourceView (tableView.Bounds);
+				EmptyView = new EmptyStateSourceView (tableView.Bounds);
 
 				EmptyView.ImagePath = EmptyViewImagePath;
-				EmptyView.MessageText = EmptyViewMessageText;
+				EmptyView.Message = EmptyViewMessageText;
 
 				tableView.BackgroundView = EmptyView;
 

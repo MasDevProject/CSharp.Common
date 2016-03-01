@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using UIKit;
 using Foundation;
-using System.Linq;
 using MasDev.Collections;
+using MasDev.Utils;
 
 namespace MasDev.iOS.App.Sources
 {
 	public abstract class PagedTableViewSource<T> : BaseTableViewSource<T>
 	{
+		public event Action<T> OnDataLoaded;
+
 		protected bool HasMorePage;
 
 		UITableViewCell loadMoreTableViewCell;
 
-		protected IPagedEnumerable<T> PagedEnumerable;
+		protected BasePagedEnumerable<T> PagedEnumerable;
 
-		protected PagedTableViewSource(IPagedEnumerable<T> pagedEnumerable)
+		protected PagedTableViewSource(BasePagedEnumerable<T> pagedEnumerable) : base(pagedEnumerable.Items)
 		{
 			PagedEnumerable = pagedEnumerable;
 
@@ -43,8 +44,6 @@ namespace MasDev.iOS.App.Sources
 						DefaultSeparatorStyle = tableView.SeparatorStyle;
 						FirstTime = false;
 					}
-
-					tableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 				}
 
 				LoadNextPage (tableView);
@@ -70,38 +69,35 @@ namespace MasDev.iOS.App.Sources
 		{
 			if (!HasMorePage || PagedEnumerable == null)
 				return;
+
 			try
 			{
-				var newItems = await PagedEnumerable.GetNextPageAsync ();
-				if (newItems != null)
-					Items.AddRange (newItems);
+				var firstPage = PagedEnumerable.CurrentPage == 0;
+
+				await PagedEnumerable.GetNextPageAsync ();
+
+				if(OnDataLoaded != null && firstPage && !CollectionUtils.IsNullOrEmpty(PagedEnumerable.Items))
+					OnDataLoaded.Invoke(PagedEnumerable.Items[0]);
 
 				HasMorePage = PagedEnumerable.HasMorePages;	
 			}
 			catch
 			{
 				HasMorePage = false;
-				//TODO: manage network error
 			}
-
-			if (Items.Any ())
-				tableView.SeparatorStyle = DefaultSeparatorStyle;
 
 			tableView.ReloadData ();
 		}
 
-		public void Reset()
+		public virtual void Reset()
 		{
 			if (PagedEnumerable != null)
 				PagedEnumerable.Reset ();
 
-			if (Items != null)
-				Items.Clear ();
-
 			HasMorePage = PagedEnumerable.HasMorePages;
 		}
 
-		protected bool RequestNextPage(NSIndexPath indexPath)
+		protected virtual bool RequestNextPage(NSIndexPath indexPath)
 		{
 			return indexPath.Row == Items.Count && HasMorePage;
 		}

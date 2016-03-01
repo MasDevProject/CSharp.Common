@@ -75,7 +75,6 @@
     </Compile>
     <Compile Include="Source\Extensions\DateExtensions.cs" />
     <Compile Include="Source\Extensions\MKMapViewExtensions.cs" />
-    <Compile Include="Source\Extensions\StringExtensions.cs" />
     <Compile Include="Source\Extensions\UIButtonExtensions.cs" />
     <Compile Include="Source\Extensions\UIImageExtensions.cs" />
     <Compile Include="Source\Extensions\UIImageViewExtensions.cs" />
@@ -118,12 +117,27 @@
     <Compile Include="Source\App\ViewControllers\ScrollableViewController.cs" />
     <Compile Include="Source\App\ViewControllers\StateAwareViewController.cs" />
     <Compile Include="Source\Views\EmptyTableSourceView.cs" />
-    <Compile Include="Source\App\Sources\BaseTableViewSource.cs" />
     <Compile Include="Source\App\Sources\PagedTableViewSource.cs" />
     <Compile Include="Source\Utils\TextToSpeechService.cs" />
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Utils\Zipper.cs">
       <Link>Source\Utils\Zipper.cs</Link>
     </Compile>
+    <Compile Include="Source\Extensions\NSDictionaryExtensions.cs" />
+    <Compile Include="Source\Extensions\NSStringExtensions.cs" />
+    <Compile Include="Source\Extensions\UIWebViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UITableViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UITextViewExtensions.cs" />
+    <Compile Include="Source\App\ViewControllers\Base\BaseViewController.cs" />
+    <Compile Include="Source\App\ViewControllers\Base\BaseModalViewController.cs" />
+    <Compile Include="Source\App\Delegates\BaseNSUrlSessionManager.cs" />
+    <Compile Include="Source\App\Delegates\BaseUIWebViewDelegate.cs" />
+    <Compile Include="Source\App\Delegates\BaseUISearchBarDelegate.cs" />
+    <Compile Include="Source\Extensions\UICollectionViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UIViewControllerExtensions.cs" />
+    <Compile Include="Source\App\Sources\Base\BaseCollectionViewSource.cs" />
+    <Compile Include="Source\App\Sources\Base\BaseTableViewSource.cs" />
+    <Compile Include="Source\App\Sources\PagedCollectionViewSource.cs" />
+    <Compile Include="Source\Utils\UIAlertControllerUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -137,6 +151,9 @@
     <Folder Include="Source\Extensions\" />
     <Folder Include="Source\App\" />
     <Folder Include="Source\Views\" />
+    <Folder Include="Source\App\Delegates\" />
+    <Folder Include="Source\App\ViewControllers\Base\" />
+    <Folder Include="Source\App\Sources\Base\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">

@@ -2,7 +2,7 @@
 
 namespace MasDev.iOS.Extensions
 {
-	public static class StringExtensions
+	public static class NSStringExtensions
 	{
 		public static NSString ToNSString(this string value)
 		{

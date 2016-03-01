@@ -5,6 +5,12 @@ namespace MasDev.iOS.Extensions
 {
 	public static class UIImageViewExtensions
 	{
+		public static void SetImageColor(this UIImageView imageView, UIColor color)
+		{
+			imageView.TintColor = color;
+			imageView.Image = imageView.Image.ImageWithRenderingMode (UIImageRenderingMode.AlwaysTemplate);
+		}
+
 		public static void RoundImageView(this UIImageView imageView, nfloat radius)
 		{
 			imageView.Layer.CornerRadius = radius;
@@ -31,6 +37,19 @@ namespace MasDev.iOS.Extensions
 					imageView.Image = image;
 				},
 				null);
+		}
+
+		public static void FadeInImage(this UIImageView imageView, UIImage image, double duration)
+		{
+			if (imageView == null || image == null)
+				return;
+
+			imageView.Alpha = 0;
+			imageView.Image = image;
+
+			UIView.Animate (duration, () => {
+				imageView.Alpha = 1;
+			});
 		}
 	}
 }

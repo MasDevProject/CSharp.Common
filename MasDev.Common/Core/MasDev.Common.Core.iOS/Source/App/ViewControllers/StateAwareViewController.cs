@@ -1,6 +1,7 @@
 ﻿using System;
 using UIKit;
 using MasDev.iOS.Views.States;
+using Foundation;
 
 namespace MasDev.iOS.App.ViewControllers
 {
@@ -32,6 +33,10 @@ namespace MasDev.iOS.App.ViewControllers
 		}
 
 		protected StateAwareViewController (IntPtr handle) : base(handle)
+		{
+		}
+
+		protected StateAwareViewController (string nibName, NSBundle bundle) : base(nibName, bundle)
 		{
 		}
 

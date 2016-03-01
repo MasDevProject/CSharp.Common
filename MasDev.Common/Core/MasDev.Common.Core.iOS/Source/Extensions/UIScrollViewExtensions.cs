@@ -6,6 +6,16 @@ namespace MasDev.iOS.Extensions
 {
 	public static class UIScrollViewExtensions
 	{
+		public static void ScrollToTop(this UITableView tableView)
+		{
+			tableView.ContentOffset = new CGPoint (0, 0 - tableView.ContentInset.Top);
+		}
+
+		public static int GetPageIndex(this UIScrollView scrollView)
+		{
+			return (int)Math.Floor ((scrollView.ContentOffset.X - scrollView.Frame.Width / 2) / scrollView.Frame.Width) + 1;
+		}
+
 		public static void MoveToPage(this UIScrollView scrollView, int page, bool animated)
 		{
 			scrollView.SetContentOffset(new CGPoint((scrollView.Bounds.Width * page), 0), animated);

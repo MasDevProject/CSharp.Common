@@ -1,11 +1,39 @@
 ﻿using System;
 using UIKit;
 using Foundation;
+using CoreGraphics;
 
 namespace MasDev.iOS.Extensions
 {
 	public static class UIViewExtensions
 	{
+		public static void InvertYAxis(this UIView view)
+		{
+			if (view == null)
+				return;
+
+			view.Transform = CGAffineTransform.MakeScale (1, -1);
+		}
+
+		public static void InvertXAxis(this UIView view)
+		{
+			if (view == null)
+				return;
+
+			view.Transform = CGAffineTransform.MakeScale (-1, 1);
+		}
+
+		public static void ToCircleView(this UIView view)
+		{
+			if (view == null)
+				return;
+
+			var maxDimension = (float) Math.Max (view.Bounds.Height, view.Bounds.Width);
+
+			view.Layer.CornerRadius = maxDimension / 2;
+			view.ClipsToBounds = true;
+		}
+
 		public static void HideKeyBoardOnTap(this UIView view)
 		{
 			if (view == null)
@@ -111,6 +139,29 @@ namespace MasDev.iOS.Extensions
 				return group;
 			}
 			return null;
+		}
+
+		public static void FadeIn(this UIView view, double duration)
+		{
+			if (view == null)
+				return;
+
+			view.Alpha = 0;
+
+			UIView.Animate (duration, () => {
+				view.Alpha = 1;
+			});
+		}
+
+		public static void FadeOut(this UIView view, double duration)
+		{
+			if (view == null)
+				return;
+
+			UIView.Animate (duration, () => {
+				view.Alpha = 0;
+				view.RemoveFromSuperview();
+			});
 		}
 	}
 }

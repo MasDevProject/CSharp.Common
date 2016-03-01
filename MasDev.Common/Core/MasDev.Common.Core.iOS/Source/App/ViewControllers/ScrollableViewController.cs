@@ -15,7 +15,7 @@ namespace MasDev.iOS.App.ViewControllers
 		/// Set this field to any view inside the textfield to center this view instead of the current responder
 		/// </summary>
 		protected UIView ViewToCenterOnKeyboardShown;
-		protected virtual UIScrollView ScrollToCenterOnKeyboardShown { get; }
+		protected virtual UIScrollView ScrollToCenterOnKeyboardShown { get { return null; } }
 
 		/// <summary>
 		/// Override point for subclasses, return true if you want to handle keyboard notifications
@@ -32,6 +32,10 @@ namespace MasDev.iOS.App.ViewControllers
 		protected virtual UIView KeyboardGetActiveView { get { return View.FindFirstResponder(); } }
 
 		public ScrollableViewController (IntPtr handle) : base (handle)
+		{
+		}
+
+		protected ScrollableViewController (string nibName, NSBundle bundle) : base(nibName, bundle)
 		{
 		}
 

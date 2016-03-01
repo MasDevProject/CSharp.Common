@@ -7,13 +7,14 @@ namespace MasDev.Collections
 	{
 		int CurrentPage { get; set; }
 
-		int PageSize { get; set; }
+		int PageSize { get; }
 
 		bool HasMorePages { get; }
+
+		List<T> Items { get; }
 
 		Task<IEnumerable<T>> GetNextPageAsync ();
 
 		void Reset ();
 	}
 }
-
