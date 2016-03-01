@@ -1,6 +1,7 @@
 ﻿using System;
 using UIKit;
 using Foundation;
+using MasDev.Patterns.Injection;
 
 namespace MasDev.Common
 {
@@ -17,6 +18,10 @@ namespace MasDev.Common
 		}
 
 		protected BaseModalViewController (IntPtr handle) : base (handle)
+		{
+		}
+
+		protected BaseModalViewController (string nibName) : base (nibName, null)
 		{
 		}
 
@@ -96,6 +101,30 @@ namespace MasDev.Common
 		{
 			if (button != null)
 				button.Enabled = enabled;
+		}
+	}
+
+	public class BaseModalViewController<TViewModel> : BaseModalViewController where TViewModel : class, IViewModel
+	{
+		protected virtual TViewModel ViewModel { get; }
+
+		protected BaseModalViewController (string nibName) : base(nibName)
+		{
+			ViewModel = Injector.Resolve<TViewModel> ();
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+
+			ViewModel.SubscribeEvents ();
+		}
+
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			ViewModel.UnsubscribeEvents ();
 		}
 	}
 }
