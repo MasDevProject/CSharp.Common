@@ -97,7 +97,6 @@
     <Compile Include="Source\Utils\AlphabetSectionsIndexer.cs" />
     <Compile Include="Source\Utils\ApplicationUtils.cs" />
     <Compile Include="Source\Utils\DrawerLayoutUtils.cs" />
-    <Compile Include="Source\App\TitledFragment.cs" />
     <Compile Include="Source\Utils\DialogUtils.cs" />
     <Compile Include="Source\Utils\SharedPreferencesUtils.cs" />
     <Compile Include="Source\Views\PagerPositionIndicator.cs" />
@@ -158,6 +157,9 @@
       <Link>Source\Utils\Zipper.cs</Link>
     </Compile>
     <Compile Include="Source\Utils\ScreenShotUtils.cs" />
+    <Compile Include="Source\App\Fragments\ViewModelFragment.cs" />
+    <Compile Include="Source\App\Fragments\BaseFragmentWithParent.cs" />
+    <Compile Include="Source\App\Fragments\BaseFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -181,6 +183,7 @@
     <Folder Include="Source\Net\" />
     <Folder Include="Source\Net\Http\" />
     <Folder Include="Source\Extensions\" />
+    <Folder Include="Source\App\Fragments\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">

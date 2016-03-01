@@ -2,7 +2,6 @@
 using System;
 using Android.Animation;
 using MasDev.Droid.ExtensionMethods;
-using MasDev.Droid.Utils;
 
 namespace MasDev.Droid.App
 {
@@ -14,9 +13,8 @@ namespace MasDev.Droid.App
 		NoResults
 	}
 
-	public abstract class TitledFragment : Android.Support.V4.App.DialogFragment, View.IOnTouchListener
+	public abstract class BaseFragment : Android.Support.V4.App.DialogFragment, View.IOnTouchListener
 	{
-		public string Title { get; set; }
 		public bool IsRootFragment { get; set; }
 
 		public virtual bool OnKeyUp (Keycode keyCode, KeyEvent e)
@@ -161,18 +159,6 @@ namespace MasDev.Droid.App
 		}
 
 		#endregion
-	}
-		
-	public abstract class TitledFragment<TParent> : TitledFragment where TParent : class
-	{
-		protected TParent Parent { get; set; }
-
-		public override void OnCreate (Android.OS.Bundle savedInstanceState)
-		{
-			base.OnCreate (savedInstanceState);
-			if (Parent == null)
-				Parent = FragmentUtils.EnsureImplements<TParent> (this);
-		}
 	}
 }
 

@@ -138,6 +138,9 @@
     <Compile Include="Source\Utils\ITextToSpeechService.cs" />
     <Compile Include="Source\Http\JsonContent.cs" />
     <Compile Include="Source\Utils\IZipper.cs" />
+    <Compile Include="Source\ViewModel\IViewModel.cs" />
+    <Compile Include="Source\ViewModel\IViewModelConfigurator.cs" />
+    <Compile Include="Source\ViewModel\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -163,4 +166,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\ViewModel\" />
+  </ItemGroup>
 </Project>
