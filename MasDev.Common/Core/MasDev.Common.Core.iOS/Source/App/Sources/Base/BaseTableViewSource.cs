@@ -11,7 +11,7 @@ namespace MasDev.iOS.App.Sources
 	{
 		public event Action<T> OnItemSelected = delegate {};
 
-		public bool HandleEmptyState { get; set; }
+		protected virtual bool HandleEmptyState { get { return false; } }
 
 		protected List<T> Items;
 		protected EmptyStateSourceView EmptyView;
@@ -24,8 +24,6 @@ namespace MasDev.iOS.App.Sources
 			Items = new List<T> ();
 
 			FirstTime = true;
-
-			HandleEmptyState = true;
 		}
 
 		protected BaseTableViewSource (List<T> items)
@@ -33,8 +31,6 @@ namespace MasDev.iOS.App.Sources
 			Items = items;
 
 			FirstTime = true;
-
-			HandleEmptyState = true;
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -56,14 +52,24 @@ namespace MasDev.iOS.App.Sources
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-			return GetItemCell (tableView, SelectedItem (indexPath)); 
+			if (tableView.BackgroundView != null)
+				RestoreBackgroundView (tableView);
+
+			return GetItemCell (tableView, indexPath, SelectedItem (indexPath)); 
 		}
 
 		// Abstract methods
 
-		protected abstract UITableViewCell GetItemCell (UITableView tableView, T item);
+		protected abstract UITableViewCell GetItemCell (UITableView tableView, NSIndexPath indexPath, T item);
 
-		// Virtual methods
+		// Method utils
+
+		protected virtual T SelectedItem(NSIndexPath indexPath)
+		{
+			return Items != null && Items.Count > indexPath.Row ? Items.ElementAt (indexPath.Row) : default(T);
+		}
+
+		// Empty state management
 
 		protected virtual string EmptyViewImagePath { get { return null; } }
 
@@ -86,20 +92,23 @@ namespace MasDev.iOS.App.Sources
 				EmptyView.ImagePath = EmptyViewImagePath;
 				EmptyView.Message = EmptyViewMessageText;
 
+				ConfigureEmptyView (EmptyView);
+
 				tableView.BackgroundView = EmptyView;
 
 				tableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
-			} else {
-				tableView.BackgroundView = null;
-				tableView.SeparatorStyle = DefaultSeparatorStyle;
-			}
+			} else
+				RestoreBackgroundView (tableView);
 		}
 
-		// Method utils
-
-		protected T SelectedItem(NSIndexPath indexPath)
+		void RestoreBackgroundView(UITableView tableView)
 		{
-			return Items != null && Items.Count > indexPath.Row ? Items.ElementAt (indexPath.Row) : default(T);
+			tableView.BackgroundView = null;
+			tableView.SeparatorStyle = DefaultSeparatorStyle;
+		}
+
+		protected virtual void ConfigureEmptyView(UIView emptyView)
+		{
 		}
 	}
 }
