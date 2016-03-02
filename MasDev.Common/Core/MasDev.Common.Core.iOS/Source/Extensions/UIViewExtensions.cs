@@ -158,10 +158,10 @@ namespace MasDev.iOS.Extensions
 			if (view == null)
 				return;
 
-			UIView.Animate (duration, () => {
-				view.Alpha = 0;
-				view.RemoveFromSuperview();
-			});
+			UIView.Animate (
+				duration,
+				() => { view.Alpha = 0; },
+				() => { view.RemoveFromSuperview(); view.Alpha = 1; });
 		}
 	}
 }
