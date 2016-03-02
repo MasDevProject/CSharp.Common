@@ -8,18 +8,20 @@ namespace MasDev.Common
 	{
 		Action GetBackgroundSessionCompletionHandler();
 
+		void HandleDownloadCompleted (string url, string destinationPath);
+
+		void HandleDownloadProgress (string url, float progress);
+
 		void HandleDownloadsFinished();
 	}
 
 	public class BaseSessionDownloadDelegate : NSUrlSessionDownloadDelegate
 	{
 		readonly IDownloadDelegateConfigurator _configurator;
-		Action<string, string> _onFileDownloadComplete;
 
-		public BaseSessionDownloadDelegate(IDownloadDelegateConfigurator configurator, Action<string, string> onFileDownloadComplete)
+		public BaseSessionDownloadDelegate(IDownloadDelegateConfigurator configurator)
 		{
 			_configurator = configurator;
-			_onFileDownloadComplete = onFileDownloadComplete;
 		}
 
 		public override void DidFinishDownloading (NSUrlSession session, NSUrlSessionDownloadTask downloadTask, NSUrl location)
@@ -51,8 +53,7 @@ namespace MasDev.Common
 
 			#endif
 
-			if (_onFileDownloadComplete != null)
-				_onFileDownloadComplete.Invoke (downloadUrl, destinationPath);
+			_configurator.HandleDownloadCompleted (downloadUrl, destinationPath);
 		}
 
 		public override void DidFinishEventsForBackgroundSession (NSUrlSession session)
@@ -65,14 +66,17 @@ namespace MasDev.Common
 				_configurator.HandleDownloadsFinished ();
 
 				handler.Invoke ();
+				handler = null;
 			}
 		}
 
 		public override void DidWriteData (NSUrlSession session, NSUrlSessionDownloadTask downloadTask, long bytesWritten, long totalBytesWritten, long totalBytesExpectedToWrite)
 		{
 			#if DEBUG
-			Console.WriteLine("["+ downloadTask.TaskIdentifier +"] download: " + Math.Round(((float) totalBytesWritten / totalBytesExpectedToWrite) * 100, 2) + "%");
+				Console.WriteLine("["+ downloadTask.TaskIdentifier +"] download: " + Math.Round(((float) totalBytesWritten / totalBytesExpectedToWrite) * 100, 2) + "%");
 			#endif
+
+			_configurator.HandleDownloadProgress (downloadTask.Response.Url.ToString(), (float) Math.Round (((float)totalBytesWritten / totalBytesExpectedToWrite) * 100, 2));
 		}
 	}
 }

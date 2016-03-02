@@ -48,11 +48,13 @@ namespace MasDev.Common
 
 		public abstract void HandleDownloadCompleted (string url, string destinationPath);
 
+		public abstract void HandleDownloadProgress (string url, float progress);
+
 		public abstract void HandleDownloadsFinished ();
 
 		protected virtual NSUrlSessionDelegate CreateSessionDelegate()
 		{
-			return new BaseSessionDownloadDelegate (this, HandleDownloadCompleted);
+			return new BaseSessionDownloadDelegate (this);
 		}
 
 		// Public methods
