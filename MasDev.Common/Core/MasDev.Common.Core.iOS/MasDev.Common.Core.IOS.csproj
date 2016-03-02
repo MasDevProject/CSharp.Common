@@ -129,7 +129,6 @@
     <Compile Include="Source\Extensions\UITextViewExtensions.cs" />
     <Compile Include="Source\App\ViewControllers\Base\BaseViewController.cs" />
     <Compile Include="Source\App\ViewControllers\Base\BaseModalViewController.cs" />
-    <Compile Include="Source\App\Delegates\BaseNSUrlSessionManager.cs" />
     <Compile Include="Source\App\Delegates\BaseUIWebViewDelegate.cs" />
     <Compile Include="Source\App\Delegates\BaseUISearchBarDelegate.cs" />
     <Compile Include="Source\Extensions\UICollectionViewExtensions.cs" />
@@ -138,6 +137,8 @@
     <Compile Include="Source\App\Sources\Base\BaseTableViewSource.cs" />
     <Compile Include="Source\App\Sources\PagedCollectionViewSource.cs" />
     <Compile Include="Source\Utils\UIAlertControllerUtils.cs" />
+    <Compile Include="Source\App\Delegates\BaseSessionDownloadManager.cs" />
+    <Compile Include="Source\Utils\BaseDownloadService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
