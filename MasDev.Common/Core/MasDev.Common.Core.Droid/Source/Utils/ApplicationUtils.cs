@@ -11,7 +11,7 @@ using Android.Content.PM;
 
 namespace MasDev.Droid.Utils
 {
-	public delegate void IntentStartFailedDelegate(Context ctx, Exception e);
+	public delegate void IntentStartFailedDelegate (Context ctx, Exception e);
 
 	public static class ApplicationUtils
 	{
