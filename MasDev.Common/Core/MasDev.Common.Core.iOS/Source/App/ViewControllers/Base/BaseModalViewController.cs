@@ -106,11 +106,21 @@ namespace MasDev.Common
 
 	public class BaseModalViewController<TViewModel> : BaseModalViewController where TViewModel : class, IViewModel
 	{
-		protected virtual TViewModel ViewModel { get; }
+		protected virtual TViewModel ViewModel { get; private set; }
 
 		protected BaseModalViewController (string nibName) : base(nibName)
 		{
-			ViewModel = Injector.Resolve<TViewModel> ();
+			Initialize ();
+		}
+
+		protected BaseModalViewController (string nibName, NSBundle bundle) : base (nibName, bundle)
+		{
+			Initialize ();
+		}
+
+		protected BaseModalViewController (IntPtr handle) : base (handle)
+		{
+			Initialize ();
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -125,6 +135,13 @@ namespace MasDev.Common
 			base.ViewWillDisappear (animated);
 
 			ViewModel.UnsubscribeEvents ();
+		}
+
+		// Utils
+
+		protected void Initialize()
+		{
+			ViewModel = Injector.Resolve<TViewModel> ();
 		}
 	}
 }

@@ -139,6 +139,7 @@
     <Compile Include="Source\Utils\UIAlertControllerUtils.cs" />
     <Compile Include="Source\App\Delegates\BaseSessionDownloadManager.cs" />
     <Compile Include="Source\Utils\BaseDownloadService.cs" />
+    <Compile Include="Source\Utils\UIDocumentControllerUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
