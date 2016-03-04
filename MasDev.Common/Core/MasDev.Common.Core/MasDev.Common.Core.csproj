@@ -155,9 +155,6 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="ModernHttpClient, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\modernhttpclient.2.4.2\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
-    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\..\packages\SimpleInjector.3.1.2\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
     </Reference>
