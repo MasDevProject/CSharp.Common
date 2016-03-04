@@ -1,5 +1,7 @@
 ﻿using System;
 using UIKit;
+using System.Threading.Tasks;
+using Foundation;
 
 namespace MasDev.iOS.Extensions
 {
@@ -50,6 +52,22 @@ namespace MasDev.iOS.Extensions
 			UIView.Animate (duration, () => {
 				imageView.Alpha = 1;
 			});
+		}
+
+		public static void SetImageFromUrl(this UIImageView imageView, string url, double duration, UIViewAnimationOptions transition = UIViewAnimationOptions.TransitionCrossDissolve)
+		{
+			Task.Run (() =>
+				{
+					var data = NSData.FromUrl(NSUrl.FromString(url));
+					if(data == null)
+						return;
+
+					var image = UIImage.LoadFromData(data);
+					if(image == null)
+						return;
+
+					imageView.InvokeOnMainThread(() => imageView.SetImageWithTransition(image, duration, transition));
+				});
 		}
 	}
 }
