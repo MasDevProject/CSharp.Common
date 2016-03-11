@@ -10,9 +10,9 @@ namespace MasDev.Common
 			Configurator = configurator;
 		}
 
-		public abstract void SubscribeEvents ();
+		public virtual void SubscribeEvents () {}
 
-		public abstract void UnsubscribeEvents ();
+		public virtual void UnsubscribeEvents () {}
 	}
 }
 
