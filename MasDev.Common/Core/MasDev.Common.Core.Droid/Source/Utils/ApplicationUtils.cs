@@ -257,6 +257,75 @@ namespace MasDev.Droid.Utils
 					ctx.StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + name)));
 				}
 			}
+		
+			public static void StartGalleryIntent (Activity activity, int requestCode, int choosePictureExplorerStringId, IntentStartFailedDelegate onError)
+			{
+				try {
+					var intent = new Intent ();
+					intent.SetType ("image/*");
+					intent.SetAction (Intent.ActionGetContent);
+					activity.StartActivityForResult (Intent.CreateChooser (intent, activity.GetString (choosePictureExplorerStringId)), requestCode);
+				}
+				catch (Exception e) {
+					onError.Invoke (activity, e);
+				}
+			}
+
+			public static string HandleGalleryActivityResult (int expectedResultCode, Context ctx, int requestCode, Result resultCode, Intent data)
+			{
+				if (resultCode == Result.Ok && requestCode == expectedResultCode)
+					return FileChooserUtils.OnActivityResult (ctx, expectedResultCode, requestCode, (int)resultCode, data);
+
+				return null;
+			}
+
+			/// <summary>
+			/// Lanchs the camera intent. Throws exception (e.g. cant create the file)
+			/// Example of usage:
+			/// 
+			/// string _filePath;
+			/// void LanchIntent ()
+			/// {
+			/// 	_filePath = ApplicationUtils.Intents.LanchCameraIntent (this, 12, "/sdcard/", "myphoto.jpg");
+			/// }
+			/// 
+			/// override OnActivityResult (...)
+			/// {
+			/// 	if (resultCode == Result.Ok && requestCode == 12 && !string.IsNullOrEmpty (_filePath))
+			/// 		DoWhatIWantWithThePath (_filePath);
+			/// }
+			/// 
+			/// </summary>
+			/// <returns>The complete file path of the created file (the picture)</returns>
+			/// <param name="activity">Activity.</param>
+			/// <param name="requestCode">Request code.</param>
+			/// <param name="outputDirectoryPath">Output directory path.</param>
+			/// <param name="fileName">File name.</param>
+			public static string StartCameraIntent (Activity activity, int requestCode, string outputDirectoryPath, string fileName, IntentStartFailedDelegate onError)
+			{
+				try {
+					var newdir = new Java.IO.File (outputDirectoryPath);
+					newdir.Mkdirs();
+
+					var completeFilePath = System.IO.Path.Combine (outputDirectoryPath, fileName);
+					var newfile = new Java.IO.File (completeFilePath);
+
+					newfile.CreateNewFile();
+
+					var outputFileUri = Android.Net.Uri.FromFile (newfile);
+
+					var cameraIntent = new Intent (MediaStore.ActionImageCapture);
+					cameraIntent.PutExtra (MediaStore.ExtraOutput, outputFileUri);
+
+					activity.StartActivityForResult(cameraIntent, requestCode);
+
+					return completeFilePath;
+				}
+				catch (Exception e) {
+					onError.Invoke (activity, e);
+					return null;
+				}
+			}
 		}
 	}
 }
