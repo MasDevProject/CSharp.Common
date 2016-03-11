@@ -133,6 +133,14 @@ namespace MasDev.Droid.Utils
 		{
 			public static readonly IntentStartFailedDelegate VoidDelegate = (_, __) => {}; 
 
+			public static void OpenFile (Context ctx, string filePath, string mimeType, IntentStartFailedDelegate onError)
+			{
+				var intent = new Intent ();
+				intent.SetAction (Intent.ActionView);
+				intent.SetDataAndType (Android.Net.Uri.Parse("file://" + filePath), mimeType);
+				ctx.StartActivity (intent);
+			}
+
 			public static void AddCloseAllActivitiesFlag (Intent intent)
 			{
 				intent.AddFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);
