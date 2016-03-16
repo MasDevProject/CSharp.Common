@@ -10,17 +10,15 @@ namespace MasDev.iOS.App.Sources
 	{
 		public event Action<T> OnDataLoaded;
 
-		protected bool HasMorePage;
+		protected BasePagedEnumerable<T> PagedEnumerable;
+
+		protected bool HasMorePage { get { return PagedEnumerable == null || PagedEnumerable.HasMorePages; } }
 
 		UITableViewCell loadMoreTableViewCell;
-
-		protected BasePagedEnumerable<T> PagedEnumerable;
 
 		protected PagedTableViewSource(BasePagedEnumerable<T> pagedEnumerable) : base(pagedEnumerable.Items)
 		{
 			PagedEnumerable = pagedEnumerable;
-
-			HasMorePage = true;
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -78,13 +76,8 @@ namespace MasDev.iOS.App.Sources
 
 				if(OnDataLoaded != null && firstPage && !CollectionUtils.IsNullOrEmpty(PagedEnumerable.Items))
 					OnDataLoaded.Invoke(PagedEnumerable.Items[0]);
-
-				HasMorePage = PagedEnumerable.HasMorePages;	
 			}
-			catch
-			{
-				HasMorePage = false;
-			}
+			catch { }
 
 			tableView.ReloadData ();
 		}
@@ -93,8 +86,6 @@ namespace MasDev.iOS.App.Sources
 		{
 			if (PagedEnumerable != null)
 				PagedEnumerable.Reset ();
-
-			HasMorePage = PagedEnumerable.HasMorePages;
 		}
 
 		protected virtual bool RequestNextPage(NSIndexPath indexPath)

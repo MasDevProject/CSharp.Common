@@ -11,15 +11,13 @@ namespace MasDev.Common
 	{
 		public event Action<T> OnDataLoaded;
 
-		protected bool HasMorePage;
-
 		protected IPagedEnumerable<T> PagedEnumerable;
+
+		protected bool HasMorePage { get { return PagedEnumerable == null || PagedEnumerable.HasMorePages; } }
 
 		protected PagedCollectionViewSource(IPagedEnumerable<T> pagedEnumerable) : base(pagedEnumerable.Items)
 		{
 			PagedEnumerable = pagedEnumerable;
-
-			HasMorePage = true;
 		}
 
 		public override UICollectionViewCell GetCell (UICollectionView collectionView, NSIndexPath indexPath)
@@ -50,13 +48,8 @@ namespace MasDev.Common
 
 				if(OnDataLoaded != null && firstPage && !CollectionUtils.IsNullOrEmpty(PagedEnumerable.Items))
 					OnDataLoaded.Invoke(PagedEnumerable.Items[0]);
-
-				HasMorePage = PagedEnumerable.HasMorePages;	
 			}
-			catch
-			{
-				HasMorePage = false;
-			}
+			catch { }
 
 			if (count == 0) 
 			{
@@ -76,8 +69,6 @@ namespace MasDev.Common
 		{
 			if (PagedEnumerable != null)
 				PagedEnumerable.Reset ();
-
-			HasMorePage = PagedEnumerable.HasMorePages;
 		}
 
 		protected virtual bool RequestNextPage(NSIndexPath indexPath)
