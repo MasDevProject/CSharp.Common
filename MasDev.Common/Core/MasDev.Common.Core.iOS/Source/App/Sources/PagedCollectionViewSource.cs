@@ -36,7 +36,6 @@ namespace MasDev.Common
 				return;
 
 			var startIndex = Items.Count;
-			var endIndex = 0;
 			var count = 0;
 			try
 			{
@@ -44,7 +43,6 @@ namespace MasDev.Common
 
 				var elements = await PagedEnumerable.GetNextPageAsync ();
 				count = elements.Count();
-				endIndex = startIndex + count - 1;
 
 				if(OnDataLoaded != null && firstPage && !CollectionUtils.IsNullOrEmpty(PagedEnumerable.Items))
 					OnDataLoaded.Invoke(PagedEnumerable.Items[0]);

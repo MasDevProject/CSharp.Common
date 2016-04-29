@@ -7,6 +7,15 @@ namespace MasDev.iOS.Extensions
 {
 	public static class UIViewExtensions
 	{
+		// Use this method to improve performance on views that will be displayed often
+		// and to avoid layout recalculations (for example UITableViewCell or UICollectionViewCell)
+		// more usefull if the view doesn't change it's content
+		public static void Rasterize(this UIView view)
+		{
+			view.Layer.ShouldRasterize = true;
+			view.Layer.RasterizationScale = UIScreen.MainScreen.Scale;
+		}
+
 		public static void InvertYAxis(this UIView view)
 		{
 			if (view == null)
