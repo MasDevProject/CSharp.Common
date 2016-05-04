@@ -4,14 +4,23 @@ namespace MasDev.Common
 {
 	public static class UIViewControllerExtensions
 	{
-		public static void AddChildViewController(this UIViewController container, UIView containerView, UIViewController target)
+		public static void AddChildViewController(this UIViewController parent, UIView containerView, UIViewController child)
 		{
-			container.AddChildViewController (target);
+			parent.AddChildViewController (child);
 
-			target.View.Frame = containerView.Bounds;
-			target.View.AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
+			child.View.Frame = containerView.Bounds;
+			child.View.AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
 
-			containerView.AddSubview (target.View);
+			containerView.AddSubview (child.View);
+
+			child.DidMoveToParentViewController (parent);
+		}
+
+		public static void RemoveChildViewController(this UIViewController child)
+		{
+			child.WillMoveToParentViewController (null);
+			child.View.RemoveFromSuperview ();
+			child.RemoveFromParentViewController ();
 		}
 	}
 }
