@@ -2,6 +2,7 @@
 using UIKit;
 using Foundation;
 using CoreGraphics;
+using CoreAnimation;
 
 namespace MasDev.iOS.Extensions
 {
@@ -171,6 +172,16 @@ namespace MasDev.iOS.Extensions
 				duration,
 				() => { view.Alpha = 0; },
 				() => { view.RemoveFromSuperview(); view.Alpha = 1; });
+		}
+
+		public static void RoundCorners(this UIView view, UIRectCorner corners, nfloat cornerRadius)
+		{
+			var rounded = UIBezierPath.FromRoundedRect (view.Bounds, corners, new CGSize (cornerRadius, cornerRadius));
+			var shape = new CAShapeLayer ();
+			shape.Frame = view.Bounds;
+			shape.Path = rounded.CGPath;
+
+			view.Layer.Mask = shape;
 		}
 	}
 }
