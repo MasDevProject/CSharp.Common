@@ -140,6 +140,7 @@
     <Compile Include="Source\App\Delegates\BaseSessionDownloadManager.cs" />
     <Compile Include="Source\Utils\BaseDownloadService.cs" />
     <Compile Include="Source\Utils\UIDocumentControllerUtils.cs" />
+    <Compile Include="Source\Tasks\SimpleBackgroundTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -156,6 +157,7 @@
     <Folder Include="Source\App\Delegates\" />
     <Folder Include="Source\App\ViewControllers\Base\" />
     <Folder Include="Source\App\Sources\Base\" />
+    <Folder Include="Source\Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">
