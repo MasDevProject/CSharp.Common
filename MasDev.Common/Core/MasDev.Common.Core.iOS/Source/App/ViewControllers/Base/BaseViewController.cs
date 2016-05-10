@@ -15,11 +15,25 @@ namespace MasDev.Common
 		Empty,
 	}
 
+	public interface IParent { }
+
 	public class BaseViewController : ScrollableViewController
 	{
 		protected virtual string ViewTitle { get { return string.Empty; } }
 
 		protected bool IsTablet { get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad; } }
+
+		protected bool IsLandscape
+		{
+			get 
+			{
+				var interfaceOrientation = UIApplication.SharedApplication.StatusBarOrientation;
+				var interfaceIsLandscape = interfaceOrientation == UIInterfaceOrientation.LandscapeLeft ||
+					interfaceOrientation == UIInterfaceOrientation.LandscapeRight;
+
+				return UIDevice.CurrentDevice.Orientation.IsLandscape () || interfaceIsLandscape;
+			}
+		}
 
 		protected BaseViewController (IntPtr handle) : base (handle)
 		{
@@ -33,12 +47,39 @@ namespace MasDev.Common
 		{
 		}
 
+		// Lifecycle
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
 			if(NavigationItem != null && !string.IsNullOrWhiteSpace(ViewTitle))
 				NavigationItem.Title = ViewTitle;
+
+			OnCreate ();
+		}
+
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			if (IsMovingFromParentViewController || IsBeingDismissed)
+				OnDestroy ();
+		}
+
+		public override void RemoveFromParentViewController ()
+		{
+			base.RemoveFromParentViewController ();
+
+			OnDestroy ();
+		}
+
+		protected virtual void OnCreate()
+		{
+		}
+
+		protected virtual void OnDestroy()
+		{
 		}
 
 		// Utils
@@ -47,8 +88,6 @@ namespace MasDev.Common
 		{
 			PerformSegue (segue, this);
 		}
-
-		// Utils
 
 		protected virtual void ChangeState(ViewModelState state)
 		{
@@ -111,6 +150,54 @@ namespace MasDev.Common
 		protected void Initialize()
 		{
 			ViewModel = Injector.Resolve<TViewModel> ();
+		}
+	}
+
+	public class BaseViewControllerWithParent<TParent> : BaseViewController where TParent : class, IParent
+	{
+		protected TParent Parent;
+
+		protected BaseViewControllerWithParent (string nibName) : base(nibName)
+		{
+		}
+
+		protected BaseViewControllerWithParent (IntPtr handle) : base (handle)
+		{
+		}
+
+		protected BaseViewControllerWithParent (string nibName, NSBundle bundle) : base (nibName, bundle)
+		{
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			Parent = this.GetParent<TParent> ();
+		}
+	}
+
+	public class BaseViewController<TViewModel, TParent> : BaseViewController<TViewModel> where TViewModel : class, IViewModel where TParent : class, IParent
+	{
+		protected TParent Parent;
+
+		protected BaseViewController (string nibName) : base(nibName)
+		{
+		}
+
+		protected BaseViewController (IntPtr handle) : base (handle)
+		{
+		}
+
+		protected BaseViewController (string nibName, NSBundle bundle) : base (nibName, bundle)
+		{
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			Parent = this.GetParent<TParent> ();
 		}
 	}
 }

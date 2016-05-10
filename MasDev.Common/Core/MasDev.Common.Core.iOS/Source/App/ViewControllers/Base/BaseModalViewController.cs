@@ -144,4 +144,52 @@ namespace MasDev.Common
 			ViewModel = Injector.Resolve<TViewModel> ();
 		}
 	}
+
+	public class BaseModalViewControllerWithParent<TParent> : BaseModalViewController where TParent : class, IParent
+	{
+		protected TParent Parent;
+
+		protected BaseModalViewControllerWithParent (string nibName) : base(nibName)
+		{
+		}
+
+		protected BaseModalViewControllerWithParent (IntPtr handle) : base (handle)
+		{
+		}
+
+		protected BaseModalViewControllerWithParent (string nibName, NSBundle bundle) : base (nibName, bundle)
+		{
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			Parent = this.GetParent<TParent> ();
+		}
+	}
+
+	public class BaseModalViewController<TViewModel, TParent> : BaseModalViewController<TViewModel> where TViewModel : class, IViewModel where TParent : class, IParent
+	{
+		protected TParent Parent;
+
+		protected BaseModalViewController (string nibName) : base(nibName)
+		{
+		}
+
+		protected BaseModalViewController (IntPtr handle) : base (handle)
+		{
+		}
+
+		protected BaseModalViewController (string nibName, NSBundle bundle) : base (nibName, bundle)
+		{
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			Parent = this.GetParent<TParent> ();
+		}
+	}
 }

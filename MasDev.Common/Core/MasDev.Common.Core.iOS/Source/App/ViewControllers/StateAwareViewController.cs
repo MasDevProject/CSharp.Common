@@ -7,11 +7,11 @@ namespace MasDev.iOS.App.ViewControllers
 {
 	public class StateAwareViewController : UIViewController
 	{
-		private UIViewState _viewState;
+		UIViewState _viewState;
 
-		protected UIView loadingStateView;
-		protected UIView errorStateView;
-		protected UIView emptyStateView;
+		protected UIView LoadingStateView;
+		protected UIView ErrorStateView;
+		protected UIView EmptyStateView;
 
 		public UIViewState State
 		{
@@ -49,16 +49,16 @@ namespace MasDev.iOS.App.ViewControllers
 
 		protected virtual void InitializeViewStates()
 		{
-			loadingStateView = new BaseLoadingStateView (View.Bounds);
-			errorStateView = new BaseErrorStateView (View.Bounds, null, string.Empty);
-			emptyStateView = new BaseEmptyStateView (View.Bounds, string.Empty);
+			LoadingStateView = new BaseLoadingStateView (View.Bounds);
+			ErrorStateView = new BaseErrorStateView (View.Bounds, null, string.Empty);
+			EmptyStateView = new BaseEmptyStateView (View.Bounds, string.Empty);
 		}
 
 		protected virtual void RefreshViewState()
 		{
-			HandleState (UIViewState.Empty, emptyStateView);
-			HandleState (UIViewState.Error, errorStateView);
-			HandleState (UIViewState.Loading, loadingStateView);
+			HandleState (UIViewState.Empty, EmptyStateView);
+			HandleState (UIViewState.Error, ErrorStateView);
+			HandleState (UIViewState.Loading, LoadingStateView);
 		}
 
 		void HandleState(UIViewState state, UIView stateView)
