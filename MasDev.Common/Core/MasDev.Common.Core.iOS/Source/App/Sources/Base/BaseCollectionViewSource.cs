@@ -24,7 +24,7 @@ namespace MasDev.Common
 
 		public override nint GetItemsCount (UICollectionView collectionView, nint section)
 		{
-			return Items.Count;
+			return Items != null ? Items.Count : 0;
 		}
 
 		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath)

@@ -35,7 +35,7 @@ namespace MasDev.iOS.App.Sources
 
 		public override nint RowsInSection (UITableView tableview, nint section)
 		{
-			var rows = Items.Count;
+			var rows = Items != null ? Items.Count : 0;
 
 			ManageEmptyTableView (tableview, rows == 0);
 
