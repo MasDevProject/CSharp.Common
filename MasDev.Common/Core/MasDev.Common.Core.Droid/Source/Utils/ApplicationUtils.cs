@@ -8,6 +8,7 @@ using Android.Provider;
 using Android.Graphics;
 using Android.Views;
 using Android.Content.PM;
+using Android.Media;
 
 namespace MasDev.Droid.Utils
 {
@@ -73,6 +74,11 @@ namespace MasDev.Droid.Utils
 				double y = Math.Pow (dm.HeightPixels / density, 2);
 				return (decimal)Math.Sqrt (x + y);
 			}
+		}
+
+		public static void IndexFile (Context ctx, string filePath, string mimeType, MediaScannerConnection.IOnScanCompletedListener callback = null)
+		{
+			MediaScannerConnection.ScanFile (ctx, new [] { filePath }, new [] { mimeType }, callback);
 		}
 
 		public static void HideKeyboard (Activity context)
