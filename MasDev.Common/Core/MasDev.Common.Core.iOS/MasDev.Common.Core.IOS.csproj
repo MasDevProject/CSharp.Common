@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MasDev.Common</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>MasDev.Common.IOS</AssemblyName>
+    <AssemblyName>MasDev.Common.Core.IOS</AssemblyName>
     <TargetFrameworkIdentifier>Xamarin.iOS</TargetFrameworkIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -22,7 +22,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
