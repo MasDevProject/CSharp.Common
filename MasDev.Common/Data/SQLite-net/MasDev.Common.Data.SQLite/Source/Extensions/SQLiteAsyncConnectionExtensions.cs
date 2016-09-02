@@ -46,7 +46,6 @@ namespace MasDev.Common.Data.SQLite
 							await action.Invoke (conn);
 
 							conn.Commit ();
-
 						} 
 						catch
 						{

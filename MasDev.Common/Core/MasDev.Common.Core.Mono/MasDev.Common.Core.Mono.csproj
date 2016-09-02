@@ -42,20 +42,21 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="NodaTime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1">
-      <HintPath>..\..\packages\NodaTime.2.0.0-alpha20150728\lib\net4-Client\NodaTime.dll</HintPath>
+    <Reference Include="mscorlib" />
+    <Reference Include="ICSharpCode.SharpZipLib" />
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SimpleInjector">
-      <HintPath>..\..\packages\SimpleInjector.3.1.2\lib\net45\SimpleInjector.dll</HintPath>
+      <HintPath>..\..\packages\SimpleInjector.3.2.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\packages\AutoMapper.4.2.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="NodaTime">
+      <HintPath>..\..\packages\NodaTime.2.0.0-alpha20160729\lib\net45\NodaTime.dll</HintPath>
     </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Source\Extensions\AssemblyExtensions.cs" />
     <Compile Include="Source\Utils\IpLookup.cs" />
     <Compile Include="Source\Utils\TimeZoneConverter.cs" />
-    <Compile Include="Source\JsonContractResolvers\IgnoreEmptyContractResolver.cs" />
     <Compile Include="Source\Threading\SingleThreadSyncronizationContext.cs" />
     <Compile Include="Source\Threading\SingleThreadSyncronizationContextExtensions.cs" />
     <Compile Include="Source\GoogleServices\CloudMessaging\CloudMessagingService.cs" />
@@ -95,6 +95,7 @@
   <Import Project="..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\..\PizzaUp\MasDev.PizzApp\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\NodaTime.2.0.0-alpha20160729\build\NodaTime.targets" Condition="Exists('..\..\packages\NodaTime.2.0.0-alpha20160729\build\NodaTime.targets')" />
   <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
