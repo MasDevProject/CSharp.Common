@@ -7,7 +7,7 @@ namespace MasDev.Common.Data.SQLite
 {
 	public static class SQLiteAsyncConnectionExtensions
 	{
-		/// <summary>
+		/// <summary> 
 		/// This method is required when you need to run async methods inside the transaction block (in the example below it is needed to call the client.getCarsAsync() inside the transaction block)
 		/// If you dont need to run async methods inside the trasaction block, you can use the library's method: asyncConnection.RunInTransactionAsync (Action<SQLiteConnection> conn))
 		/// 
