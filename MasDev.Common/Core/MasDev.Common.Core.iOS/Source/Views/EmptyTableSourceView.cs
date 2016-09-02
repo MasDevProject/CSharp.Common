@@ -1,88 +1,42 @@
 ﻿using UIKit;
 using CoreGraphics;
+using MasDev.iOS.Views.States;
 
 namespace MasDev.iOS.Views
 {
-	public class EmptyTableSourceView : UIView
+	public class EmptyStateSourceView : BaseStateView
 	{
+		readonly UILabel _lblEmptyMessage;
+
 		private const float Padding = 16;
 
-		private string imagePath;
-		private string message;
+		public string ImagePath { get; set; }
 
-		public string ImagePath
+		public string Message { get; set; }
+
+		public EmptyStateSourceView (CGRect frame) : base(frame)
 		{
-			get
-			{
-				return imagePath;
-			}
-			set
-			{
-				imagePath = value;
-				Initialize ();
-			}
+			_lblEmptyMessage = new UILabel (new CGRect(0, 0, Frame.Width - (Padding * 2), 0));
+			_lblEmptyMessage.Lines = 0;
+			_lblEmptyMessage.LineBreakMode = UILineBreakMode.WordWrap;
+			_lblEmptyMessage.TextAlignment = UITextAlignment.Center;
+
+			_lblEmptyMessage.TextColor = UIColor.LightGray;
 		}
 
-		public string MessageText
+		public override void LayoutSubviews ()
 		{
-			get { return message; }
-			set
+			base.LayoutSubviews ();
+
+			if (_lblEmptyMessage != null) 
 			{
-				message = value;
-				Initialize ();
+				_lblEmptyMessage.Text = Message;
+				_lblEmptyMessage.SizeToFit ();
+
+				_lblEmptyMessage.Center = new CGPoint(Center.X, Bounds.Height / 2);
+
+				AddSubview (_lblEmptyMessage);
 			}
-		}
-
-		public EmptyTableSourceView (CGRect frame) : base(frame)
-		{
-		}
-
-		private void Initialize()
-		{
-			UIImage image = null;
-			if (!string.IsNullOrWhiteSpace (imagePath))
-				image = UIImage.FromFile (imagePath);
-
-			// Init ImageView
-
-			UIImageView imageView = null;
-			if (image != null)
-			{
-				imageView = new UIImageView (image);
-
-				var imgFrame = imageView.Frame;
-				imgFrame.Location = new CGPoint(Center.X - (imgFrame.Width / 2), Center.Y - (imgFrame.Height / 2));
-				imageView.Frame = imgFrame;
-			}
-
-			// Init Label
-
-			UILabel lblMessage = null;
-
-			if(!string.IsNullOrEmpty(message))
-				lblMessage = new UILabel (new CGRect(0, 0, Frame.Width - (Padding * 2), 44f));
-
-			if (lblMessage != null) {
-				lblMessage.Lines = 0;
-				lblMessage.LineBreakMode = UILineBreakMode.WordWrap;
-				lblMessage.TextAlignment = UITextAlignment.Center;
-
-				lblMessage.Text = message;
-				lblMessage.TextColor = UIColor.LightGray;
-				lblMessage.SizeToFit ();
-
-				lblMessage.Center = Center;
-				if (imageView != null) {
-					var lblFrame = lblMessage.Frame;
-					lblFrame.Location = new CGPoint (lblMessage.Frame.X, imageView.Frame.Y + imageView.Frame.Height + Padding);
-					lblMessage.Frame = lblFrame;
-				}
-			}
-
-			if (imageView != null)
-				AddSubview (imageView);
-			if (lblMessage != null)
-				AddSubview (lblMessage);
 		}
 	}
 }

@@ -8,26 +8,15 @@ using Android.Provider;
 using Android.Graphics;
 using Android.Views;
 using Android.Content.PM;
+using Android.Media;
 
 namespace MasDev.Droid.Utils
 {
-	public delegate void IntentStartFailedDelegate(Context ctx, Exception e);
+	public delegate void IntentStartFailedDelegate (Context ctx, Exception e);
 
 	public static class ApplicationUtils
 	{
-		static Context _context;
-
-		public static Context Context {
-			get {
-				if (_context == null)
-					throw new NullReferenceException ("You must initialize the context first");
-				return _context;
-			}
-
-			set {
-				_context = value;
-			}
-		}
+		public static Context Context { get { return Application.Context; }}
 
 		public static Point ScreenSize (Activity activity)
 		{
@@ -75,6 +64,11 @@ namespace MasDev.Droid.Utils
 			}
 		}
 
+		public static void IndexFile (Context ctx, string filePath, string mimeType, MediaScannerConnection.IOnScanCompletedListener callback = null)
+		{
+			MediaScannerConnection.ScanFile (ctx, new [] { filePath }, new [] { mimeType }, callback);
+		}
+
 		public static void HideKeyboard (Activity context)
 		{
 			try {
@@ -104,26 +98,6 @@ namespace MasDev.Droid.Utils
 			clipboard.PrimaryClip = clip;
 		}
 
-		public static string GetImagePathOnActivityResult (Context ctx, Intent data)
-		{
-			var selectedImage = data.Data;
-			String[] filePathColumn = { MediaStore.MediaColumns.Data };
-			var cursor = ctx.ContentResolver.Query (selectedImage, filePathColumn, null, null, null);
-			string imageFilePath = null;
-			if (cursor.MoveToFirst ()) {
-				var columnIndex = cursor.GetColumnIndex (filePathColumn [0]);
-				imageFilePath = cursor.GetString (columnIndex);
-			}
-			cursor.Close ();
-			return imageFilePath;
-		}
-
-		public static Bitmap GetBitmapAfterCropping (Intent data)
-		{
-			var extras = data.Extras;  
-			return extras != null ? (Bitmap)extras.GetParcelable ("data") : null;
-		}
-
 		public static int ConvertDpToPixel (Context ctx, float dp)
 		{
 			return (int)TypedValue.ApplyDimension (ComplexUnitType.Dip, dp, ctx.Resources.DisplayMetrics);
@@ -131,7 +105,17 @@ namespace MasDev.Droid.Utils
 			
 		public static class Intents
 		{
-			public static readonly IntentStartFailedDelegate VoidDelegate = (_, __) => {}; 
+			public static void OpenFile (Context ctx, string filePath, string mimeType, IntentStartFailedDelegate onError = null)
+			{
+				try {
+					var intent = new Intent ();
+					intent.SetAction (Intent.ActionView);
+					intent.SetDataAndType (Android.Net.Uri.Parse("file://" + filePath), mimeType);
+					ctx.StartActivity (intent);
+				} catch (Exception e) {
+					onError?.Invoke (ctx, e);
+				}
+			}
 
 			public static void AddCloseAllActivitiesFlag (Intent intent)
 			{
@@ -143,18 +127,18 @@ namespace MasDev.Droid.Utils
 				ctx.StartActivityForResult (new Intent (Settings.ActionSettings), 0);
 			}
 
-			public static void StartBrowserActivity (Context ctx, string url, IntentStartFailedDelegate onError)
+			public static void StartBrowserActivity (Context ctx, string url, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					var i = new Intent (Intent.ActionView);
 					i.SetData (Android.Net.Uri.Parse (url));
 					ctx.StartActivity (i);
 				} catch (Exception e) {
-					onError.Invoke (ctx, e);
+					onError?.Invoke (ctx, e);
 				}
 			}
 
-			public static void StartEmailClientActivity (Context ctx, string email, int chooseEmailClientStringId, IntentStartFailedDelegate onError)
+			public static void StartEmailClientActivity (Context ctx, string email, int chooseEmailClientStringId, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					var intent = new Intent (Intent.ActionSend);
@@ -162,7 +146,7 @@ namespace MasDev.Droid.Utils
 					intent.SetType ("message/rfc822");
 					ctx.StartActivity (Intent.CreateChooser (intent, ctx.GetString (chooseEmailClientStringId)));
 				} catch (Exception e) {
-					onError.Invoke (ctx, e);
+					onError?.Invoke (ctx, e);
 				}
 			}
 
@@ -182,36 +166,36 @@ namespace MasDev.Droid.Utils
 			/// <param name="ctx">Context.</param>
 			/// <param name="requestCode">Request code.</param>
 			/// <param name = "onError"></param>
-			public static void StartImageFromGalleryChooser (Android.Support.V4.App.Fragment ctx, int requestCode, IntentStartFailedDelegate onError)
+			public static void StartImageFromGalleryChooser (Android.Support.V4.App.Fragment ctx, int requestCode, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					var intent = new Intent (Intent.ActionPick);
 					intent.SetType ("image/*");
 					ctx.StartActivityForResult (intent, requestCode);
 				} catch (Exception e) {
-					onError.Invoke (ctx.Activity, e);
+					onError?.Invoke (ctx.Activity, e);
 				}
 			}
 				
-			public static void StartGoogleMapActivity (Context ctx, string address, IntentStartFailedDelegate onError)
+			public static void StartGoogleMapActivity (Context ctx, string address, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					ctx.StartActivity (new Intent (Intent.ActionView, Android.Net.Uri.Parse ("geo:?q=" + address)));
 				} catch (Exception e) {
-					onError.Invoke (ctx, e);
+					onError?.Invoke (ctx, e);
 				}
 			}
 
-			public static void StartDialerActivity (Context ctx, string number, IntentStartFailedDelegate onError)
+			public static void StartDialerActivity (Context ctx, string number, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					ctx.StartActivity (new Intent (Intent.ActionDial, Android.Net.Uri.Parse ("tel:" + number)));
 				} catch (Exception e) {
-					onError.Invoke (ctx, e);
+					onError?.Invoke (ctx, e);
 				}
 			}
 
-			public static void StartSkypeCallActivity (Context ctx, string contact, IntentStartFailedDelegate onError)
+			public static void StartSkypeCallActivity (Context ctx, string contact, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					var intent = new Intent (Intent.ActionView);
@@ -220,16 +204,16 @@ namespace MasDev.Droid.Utils
 					intent.SetFlags (ActivityFlags.NewTask);
 					ctx.StartActivity (intent);
 				} catch (Exception e) {
-					onError.Invoke (ctx, e);
+					onError?.Invoke (ctx, e);
 				}
 			}
 
-			public static void StartFacebookPageOnBrowser (Context ctx, string facebookProfileId, IntentStartFailedDelegate onError)
+			public static void StartFacebookPageOnBrowser (Context ctx, string facebookProfileId, IntentStartFailedDelegate onError = null)
 			{
 				try {
 					StartBrowserActivity (ctx, "https://www.facebook.com/" + facebookProfileId, onError);
 				} catch (Exception e) {
-					onError.Invoke (ctx, e);
+					onError?.Invoke (ctx, e);
 				}
 			}
 
@@ -247,6 +231,95 @@ namespace MasDev.Droid.Utils
 				catch 
 				{
 					ctx.StartActivity(new Intent(Intent.ActionView, Android.Net.Uri.Parse("https://play.google.com/store/apps/details?id=" + name)));
+				}
+			}
+		
+			public static void StartGalleryIntent (Activity activity, int requestCode, int choosePictureExplorerStringId, IntentStartFailedDelegate onError = null)
+			{
+				try {
+					var intent = new Intent ();
+					intent.SetType ("image/*");
+					intent.SetAction (Intent.ActionGetContent);
+					activity.StartActivityForResult (Intent.CreateChooser (intent, activity.GetString (choosePictureExplorerStringId)), requestCode);
+				}
+				catch (Exception e) {
+					onError?.Invoke (activity, e);
+				}
+			}
+
+			public static string GetImagePathOnActivityResult (Context ctx, Intent data)
+			{
+				var selectedImage = data.Data;
+				String[] filePathColumn = { MediaStore.MediaColumns.Data };
+				var cursor = ctx.ContentResolver.Query (selectedImage, filePathColumn, null, null, null);
+				string imageFilePath = null;
+				if (cursor.MoveToFirst ()) {
+					var columnIndex = cursor.GetColumnIndex (filePathColumn [0]);
+					imageFilePath = cursor.GetString (columnIndex);
+				}
+				cursor.Close ();
+				return imageFilePath;
+			}
+
+			public static Bitmap GetBitmapAfterCropping (Intent data)
+			{
+				var extras = data.Extras;  
+				return extras != null ? (Bitmap)extras.GetParcelable ("data") : null;
+			}
+
+			public static string HandleGalleryActivityResult (int expectedResultCode, Context ctx, int requestCode, Result resultCode, Intent data)
+			{
+				if (resultCode == Result.Ok && requestCode == expectedResultCode)
+					return FileChooserUtils.OnActivityResult (ctx, expectedResultCode, requestCode, (int)resultCode, data);
+
+				return null;
+			}
+
+			/// <summary>
+			/// Lanchs the camera intent. Throws exception (e.g. cant create the file)
+			/// Example of usage:
+			/// 
+			/// string _filePath;
+			/// void LanchIntent ()
+			/// {
+			/// 	_filePath = ApplicationUtils.Intents.LanchCameraIntent (this, 12, "/sdcard/", "myphoto.jpg");
+			/// }
+			/// 
+			/// override OnActivityResult (...)
+			/// {
+			/// 	if (resultCode == Result.Ok && requestCode == 12 && !string.IsNullOrEmpty (_filePath))
+			/// 		DoWhatIWantWithThePath (_filePath);
+			/// }
+			/// 
+			/// </summary>
+			/// <returns>The complete file path of the created file (the picture)</returns>
+			/// <param name="activity">Activity.</param>
+			/// <param name="requestCode">Request code.</param>
+			/// <param name="outputDirectoryPath">Output directory path.</param>
+			/// <param name="fileName">File name.</param>
+			public static string StartCameraIntent (Activity activity, int requestCode, string outputDirectoryPath, string fileName, IntentStartFailedDelegate onError = null)
+			{
+				try {
+					var newdir = new Java.IO.File (outputDirectoryPath);
+					newdir.Mkdirs();
+
+					var completeFilePath = System.IO.Path.Combine (outputDirectoryPath, fileName);
+					var newfile = new Java.IO.File (completeFilePath);
+
+					newfile.CreateNewFile();
+
+					var outputFileUri = Android.Net.Uri.FromFile (newfile);
+
+					var cameraIntent = new Intent (MediaStore.ActionImageCapture);
+					cameraIntent.PutExtra (MediaStore.ExtraOutput, outputFileUri);
+
+					activity.StartActivityForResult(cameraIntent, requestCode);
+
+					return completeFilePath;
+				}
+				catch (Exception e) {
+					onError?.Invoke (activity, e);
+					return null;
 				}
 			}
 		}

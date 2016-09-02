@@ -224,7 +224,7 @@ namespace MasDev.Droid.Utils
 			textView.PaintFlags = textView.PaintFlags | PaintFlags.UnderlineText;
 			textView.SetTextColor (Color.Blue);
 			textView.Gravity = GravityFlags.Center;
-			textView.Click += (sender, e) => ApplicationUtils.Intents.StartBrowserActivity (ctx, linkToTerms, ApplicationUtils.Intents.VoidDelegate);
+			textView.Click += (sender, e) => ApplicationUtils.Intents.StartBrowserActivity (ctx, linkToTerms);
 			ll.AddView (textView);
 
 			builder.SetView (ll);

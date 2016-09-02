@@ -8,7 +8,7 @@ namespace MasDev.iOS.Extensions
 	public static class UIImageExtensions
 	{
 		// resize the image to be contained within a maximum width and height, keeping aspect ratio
-		public static UIImage ScaleImage(this UIImage sourceImage, float maxWidth, float maxHeight)
+		public static UIImage ScaleImage(this UIImage sourceImage, float maxWidth, float maxHeight, nfloat scale)
 		{
 			var sourceSize = sourceImage.Size;
 			var maxResizeFactor = Math.Min(maxWidth / sourceSize.Width, maxHeight / sourceSize.Height);
@@ -16,13 +16,19 @@ namespace MasDev.iOS.Extensions
 			var width = (float) (maxResizeFactor * sourceSize.Width);
 			var height = (float) (maxResizeFactor * sourceSize.Height);
 
-			UIGraphics.BeginImageContextWithOptions(new CGSize(width, height), false, 2.0f);
+			UIGraphics.BeginImageContextWithOptions(new CGSize(width, height), false, scale);
 
 			sourceImage.Draw(new CGRect(0, 0, width, height));
 			var resultImage = UIGraphics.GetImageFromCurrentImageContext();
 
 			UIGraphics.EndImageContext();
+
 			return resultImage;
+		}
+
+		public static UIImage ScaleImage(this UIImage sourceImage, float maxWidth, float maxHeight)
+		{
+			return ScaleImage (sourceImage, maxWidth, maxHeight, 2.0f);
 		}
 
 		public static UIImage Blur(this UIImage image, float blurRadius = 25f)

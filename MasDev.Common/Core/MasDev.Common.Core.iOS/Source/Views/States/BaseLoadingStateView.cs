@@ -5,7 +5,7 @@ namespace MasDev.iOS.Views.States
 {
 	public class BaseLoadingStateView : BaseStateView
 	{
-		UIActivityIndicatorView _activityIndicator;
+		readonly UIActivityIndicatorView _activityIndicator;
 
 		public BaseLoadingStateView (CGRect frame) : base(frame)
 		{

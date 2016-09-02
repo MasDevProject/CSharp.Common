@@ -1,11 +1,49 @@
 ﻿using System;
 using UIKit;
 using Foundation;
+using CoreGraphics;
+using CoreAnimation;
 
 namespace MasDev.iOS.Extensions
 {
 	public static class UIViewExtensions
 	{
+		// Use this method to improve performance on views that will be displayed often
+		// and to avoid layout recalculations (for example UITableViewCell or UICollectionViewCell)
+		// more usefull if the view doesn't change it's content
+		public static void Rasterize(this UIView view)
+		{
+			view.Layer.ShouldRasterize = true;
+			view.Layer.RasterizationScale = UIScreen.MainScreen.Scale;
+		}
+
+		public static void InvertYAxis(this UIView view)
+		{
+			if (view == null)
+				return;
+
+			view.Transform = CGAffineTransform.MakeScale (1, -1);
+		}
+
+		public static void InvertXAxis(this UIView view)
+		{
+			if (view == null)
+				return;
+
+			view.Transform = CGAffineTransform.MakeScale (-1, 1);
+		}
+
+		public static void ToCircleView(this UIView view)
+		{
+			if (view == null)
+				return;
+
+			var maxDimension = (float) Math.Max (view.Bounds.Height, view.Bounds.Width);
+
+			view.Layer.CornerRadius = maxDimension / 2;
+			view.ClipsToBounds = true;
+		}
+
 		public static void HideKeyBoardOnTap(this UIView view)
 		{
 			if (view == null)
@@ -111,6 +149,39 @@ namespace MasDev.iOS.Extensions
 				return group;
 			}
 			return null;
+		}
+
+		public static void FadeIn(this UIView view, double duration)
+		{
+			if (view == null)
+				return;
+
+			view.Alpha = 0;
+
+			UIView.Animate (duration, () => {
+				view.Alpha = 1;
+			});
+		}
+
+		public static void FadeOut(this UIView view, double duration)
+		{
+			if (view == null)
+				return;
+
+			UIView.Animate (
+				duration,
+				() => { view.Alpha = 0; },
+				() => { view.RemoveFromSuperview(); view.Alpha = 1; });
+		}
+
+		public static void RoundCorners(this UIView view, UIRectCorner corners, nfloat cornerRadius)
+		{
+			var rounded = UIBezierPath.FromRoundedRect (view.Bounds, corners, new CGSize (cornerRadius, cornerRadius));
+			var shape = new CAShapeLayer ();
+			shape.Frame = view.Bounds;
+			shape.Path = rounded.CGPath;
+
+			view.Layer.Mask = shape;
 		}
 	}
 }

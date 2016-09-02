@@ -36,16 +36,24 @@ namespace MasDev.Collections
 
 		public int CurrentPage { get; set; }
 
-		public void Reset ()
-		{
-			CurrentPage = 0;
-			_finished = false;
-		}
+		public bool HasMorePages { get { return !_finished; } }
+
+		public List<T> Items { get; set; }
 
 		protected BasePagedEnumerable (int pageSize)
 		{
 			CurrentPage = 0;
 			PageSize = pageSize;
+
+			Items = new List<T> ();
+		}
+
+		public virtual void Reset ()
+		{
+			CurrentPage = 0;
+			_finished = false;
+
+			Items.Clear ();
 		}
 
 		public abstract Task<IEnumerable<T>> RetrivePageAsync (int currentPage);
@@ -57,7 +65,14 @@ namespace MasDev.Collections
 
 			try {
 				var page = await RetrivePageAsync (CurrentPage++);
-				_finished |= CollectionUtils.IsNullOrEmpty<T> (page);
+
+				var hasPageItems = !CollectionUtils.IsNullOrEmpty(page);
+
+				_finished |= page == null || !hasPageItems;
+
+				if(page != null && hasPageItems)
+					AddPage(page);
+
 				return page;
 			} catch (Exception) {
 				CurrentPage--;
@@ -65,7 +80,22 @@ namespace MasDev.Collections
 			}
 		}
 
-		public bool HasMorePages { get { return !_finished; } }
+		protected virtual void AddPage (IEnumerable<T> page)
+		{
+			Items.AddRange (page);
+		}
+
+		public virtual bool RemoveItem (T item)
+		{
+			return Items.Remove (item);
+		}
+
+		public virtual void AddItem (T item, bool addOnTop)
+		{
+			if (addOnTop)
+				Items.Insert (0, item);
+			else 
+				Items.Add (item);
+		}
 	}
 }
-

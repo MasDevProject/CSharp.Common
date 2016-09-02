@@ -35,18 +35,16 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="NodaTime">
-      <HintPath>..\..\packages\NodaTime.1.3.1\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+XamariniOS1\NodaTime.dll</HintPath>
-    </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
-    <Reference Include="SimpleInjector">
-      <HintPath>..\..\packages\SimpleInjector.3.1.2\lib\portable-net4+sl4+wp8+win8+wpa81\SimpleInjector.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib.Portable">
       <HintPath>..\..\packages\SharpZipLib.Portable.0.86.0.0003\lib\portable-net45+netcore45+wp8+win8+wpa81+MonoTouch+MonoAndroid+Xamarin.iOS10\ICSharpCode.SharpZipLib.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="NodaTime">
+      <HintPath>..\..\packages\NodaTime.1.3.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+XamariniOS1\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +73,6 @@
     </Compile>
     <Compile Include="Source\Extensions\DateExtensions.cs" />
     <Compile Include="Source\Extensions\MKMapViewExtensions.cs" />
-    <Compile Include="Source\Extensions\StringExtensions.cs" />
     <Compile Include="Source\Extensions\UIButtonExtensions.cs" />
     <Compile Include="Source\Extensions\UIImageExtensions.cs" />
     <Compile Include="Source\Extensions\UIImageViewExtensions.cs" />
@@ -118,12 +115,30 @@
     <Compile Include="Source\App\ViewControllers\ScrollableViewController.cs" />
     <Compile Include="Source\App\ViewControllers\StateAwareViewController.cs" />
     <Compile Include="Source\Views\EmptyTableSourceView.cs" />
-    <Compile Include="Source\App\Sources\BaseTableViewSource.cs" />
     <Compile Include="Source\App\Sources\PagedTableViewSource.cs" />
     <Compile Include="Source\Utils\TextToSpeechService.cs" />
     <Compile Include="..\MasDev.Common.Core.Mono\Source\Utils\Zipper.cs">
       <Link>Source\Utils\Zipper.cs</Link>
     </Compile>
+    <Compile Include="Source\Extensions\NSDictionaryExtensions.cs" />
+    <Compile Include="Source\Extensions\NSStringExtensions.cs" />
+    <Compile Include="Source\Extensions\UIWebViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UITableViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UITextViewExtensions.cs" />
+    <Compile Include="Source\App\ViewControllers\Base\BaseViewController.cs" />
+    <Compile Include="Source\App\ViewControllers\Base\BaseModalViewController.cs" />
+    <Compile Include="Source\App\Delegates\BaseUIWebViewDelegate.cs" />
+    <Compile Include="Source\App\Delegates\BaseUISearchBarDelegate.cs" />
+    <Compile Include="Source\Extensions\UICollectionViewExtensions.cs" />
+    <Compile Include="Source\Extensions\UIViewControllerExtensions.cs" />
+    <Compile Include="Source\App\Sources\Base\BaseCollectionViewSource.cs" />
+    <Compile Include="Source\App\Sources\Base\BaseTableViewSource.cs" />
+    <Compile Include="Source\App\Sources\PagedCollectionViewSource.cs" />
+    <Compile Include="Source\Utils\UIAlertControllerUtils.cs" />
+    <Compile Include="Source\App\Delegates\BaseSessionDownloadManager.cs" />
+    <Compile Include="Source\Utils\BaseDownloadService.cs" />
+    <Compile Include="Source\Utils\UIDocumentControllerUtils.cs" />
+    <Compile Include="Source\Tasks\SimpleBackgroundTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -137,6 +152,10 @@
     <Folder Include="Source\Extensions\" />
     <Folder Include="Source\App\" />
     <Folder Include="Source\Views\" />
+    <Folder Include="Source\App\Delegates\" />
+    <Folder Include="Source\App\ViewControllers\Base\" />
+    <Folder Include="Source\App\Sources\Base\" />
+    <Folder Include="Source\Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasDev.Common.Core\MasDev.Common.Core.csproj">

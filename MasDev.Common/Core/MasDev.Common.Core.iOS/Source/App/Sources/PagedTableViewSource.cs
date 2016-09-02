@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using UIKit;
 using Foundation;
-using System.Linq;
 using MasDev.Collections;
+using MasDev.Utils;
 
 namespace MasDev.iOS.App.Sources
 {
 	public abstract class PagedTableViewSource<T> : BaseTableViewSource<T>
 	{
-		protected bool HasMorePage;
+		public event Action<T> OnDataLoaded;
+
+		protected BasePagedEnumerable<T> PagedEnumerable;
+
+		protected bool HasMorePage { get { return PagedEnumerable == null || PagedEnumerable.HasMorePages; } }
 
 		UITableViewCell loadMoreTableViewCell;
 
-		protected IPagedEnumerable<T> PagedEnumerable;
-
-		protected PagedTableViewSource(IPagedEnumerable<T> pagedEnumerable)
+		protected PagedTableViewSource(BasePagedEnumerable<T> pagedEnumerable) : base(pagedEnumerable.Items)
 		{
 			PagedEnumerable = pagedEnumerable;
-
-			HasMorePage = true;
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)
@@ -43,8 +42,6 @@ namespace MasDev.iOS.App.Sources
 						DefaultSeparatorStyle = tableView.SeparatorStyle;
 						FirstTime = false;
 					}
-
-					tableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 				}
 
 				LoadNextPage (tableView);
@@ -70,38 +67,28 @@ namespace MasDev.iOS.App.Sources
 		{
 			if (!HasMorePage || PagedEnumerable == null)
 				return;
+
 			try
 			{
-				var newItems = await PagedEnumerable.GetNextPageAsync ();
-				if (newItems != null)
-					Items.AddRange (newItems);
+				var firstPage = PagedEnumerable.CurrentPage == 0;
 
-				HasMorePage = PagedEnumerable.HasMorePages;	
-			}
-			catch
-			{
-				HasMorePage = false;
-				//TODO: manage network error
-			}
+				await PagedEnumerable.GetNextPageAsync ();
 
-			if (Items.Any ())
-				tableView.SeparatorStyle = DefaultSeparatorStyle;
+				if(OnDataLoaded != null && firstPage && !CollectionUtils.IsNullOrEmpty(PagedEnumerable.Items))
+					OnDataLoaded.Invoke(PagedEnumerable.Items[0]);
+			}
+			catch { }
 
 			tableView.ReloadData ();
 		}
 
-		public void Reset()
+		public virtual void Reset()
 		{
 			if (PagedEnumerable != null)
 				PagedEnumerable.Reset ();
-
-			if (Items != null)
-				Items.Clear ();
-
-			HasMorePage = PagedEnumerable.HasMorePages;
 		}
 
-		protected bool RequestNextPage(NSIndexPath indexPath)
+		protected virtual bool RequestNextPage(NSIndexPath indexPath)
 		{
 			return indexPath.Row == Items.Count && HasMorePage;
 		}
